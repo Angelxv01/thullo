@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"./**/*.{ts,tsx}\"",
-    "dev": "ts-node-dev index.ts",
-    "build": "webpack --mode=production",
-    "start": "webpack serve --mode=development --open"
+    "lint": "cross-env eslint \"./**/*.{ts,tsx}\"",
+    "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
+    "start:frontend": "cross-env webpack serve --mode=development --open",
+    "build": "cross-env webpack --mode=production"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -20,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
     "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -43,5 +44,8 @@
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
-  }
+  },
+  "files": [
+    "./public/index.html"
+  ]
 }

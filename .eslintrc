@@ -1,10 +1,10 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:react/recommended",
+    "plugin:node/recommended",
     "prettier"
   ],
   "plugins": ["@typescript-eslint", "react", "prettier", "node"],
@@ -17,7 +17,7 @@
     "eol-last": "error",
     "prefer-arrow-callback": "error",
     "no-trailing-spaces": "error",
-    "quotes": ["warn", "single", { "avoidEscape": true }],
+    "quotes": ["warn", "single", {"avoidEscape": true}],
     "no-restricted-properties": [
       "error",
       {
