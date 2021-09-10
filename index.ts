@@ -1,9 +1,16 @@
 import express from 'express';
-import config from './config';
+import {connect} from 'mongoose';
+
+import config from './utils/config';
 import Logger from './utils/Logger';
 
 const app = express();
 
+connect(config.MONGODB || '')
+  .then(() => Logger.info('connected to MongoDB'))
+  .catch(err => Logger.error(err));
+
+// general endpoints
 app.use(express.static('build'));
 app.get('/health', (_req, res) => {
   res.send('ok');
