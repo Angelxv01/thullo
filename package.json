@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "cross-env eslint \"./**/*.{ts,tsx}\"",
-    "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev server/index.ts",
     "start:frontend": "cross-env webpack serve --mode=development --open",
     "build": "cross-env webpack --mode=production"
   },
@@ -40,6 +40,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@graphql-tools/merge": "^8.1.2",
+    "@graphql-tools/schema": "^8.2.0",
     "apollo-server": "^3.3.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
