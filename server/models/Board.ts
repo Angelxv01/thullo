@@ -3,7 +3,7 @@ import {MongoDBReturnObject} from '../../types/MongoDB';
 
 const schema = new mongoose.Schema({
   title: String,
-  access: {
+  visibility: {
     type: String,
     enum: ['PUBLIC', 'PRIVATE'],
     default: 'PUBLIC',
@@ -25,4 +25,4 @@ schema.set('toJSON', {
   },
 });
 
-export default mongoose.model('List', schema);
+export default mongoose.model('Board', schema);

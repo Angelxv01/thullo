@@ -7,7 +7,7 @@ const typeDefs = gql`
     visibility: Visibility!
     description: String!
     lists: [List!]!
-    coverId: String!
+    coverId: String
   }
 `;
 

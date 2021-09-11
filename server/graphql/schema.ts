@@ -13,7 +13,7 @@ import Visibility from './enums/Visibility';
 
 // QUERIES
 import CardQuery from './queries/Card';
-import ListQuery from './queries/List';
+import BoardQuery from './queries/Board';
 
 const rootTypeDefs = gql`
   type Query {
@@ -33,7 +33,7 @@ const typeDefs = [
   Color.typeDefs,
   Visibility.typeDefs,
   CardQuery.typeDefs,
-  ListQuery.typeDefs,
+  BoardQuery.typeDefs,
 ];
 
 const resolvers = mergeResolvers([
@@ -43,7 +43,7 @@ const resolvers = mergeResolvers([
   Color.resolvers,
   Visibility.resolvers,
   CardQuery.resolvers,
-  ListQuery.resolvers,
+  BoardQuery.resolvers,
 ]);
 
 const schema = makeExecutableSchema({typeDefs, resolvers});
