@@ -8,6 +8,8 @@ const typeDefs = gql`
     description: String!
     lists: [List!]!
     coverId: String
+    owner: User!
+    collaborators: [User!]!
   }
 `;
 
