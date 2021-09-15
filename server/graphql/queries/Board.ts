@@ -4,7 +4,6 @@ import Board from '../../models/Board';
 
 const typeDefs = gql`
   extend type Query {
-    boardCount: Int!
     allBoards: [Board!]!
     board(id: ID!): Board!
   }

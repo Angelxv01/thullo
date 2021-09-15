@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 import {MongoDBReturnObject} from '../../types/MongoDB';
 
+export interface IList extends mongoose.Document {
+  name: string;
+  cards: mongoose.Schema.Types.ObjectId[];
+}
+
 const schema = new mongoose.Schema({
   name: String,
   cards: [
