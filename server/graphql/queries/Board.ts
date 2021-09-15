@@ -12,15 +12,21 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     allBoards: async () =>
-      await Board.find().populate({
-        path: 'lists',
-        populate: {path: 'cards'},
-      }),
+      await Board.find()
+        .populate({
+          path: 'lists',
+          populate: {path: 'cards'},
+        })
+        .populate('owner')
+        .populate('collaborators'),
     board: async (_root: never, args: {id: String}) =>
-      await Board.findById(args.id).populate({
-        path: 'lists',
-        populate: {path: 'cards'},
-      }),
+      await Board.findById(args.id)
+        .populate({
+          path: 'lists',
+          populate: {path: 'cards'},
+        })
+        .populate('owner')
+        .populate('collaborators'),
   },
 };
 
