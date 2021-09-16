@@ -1,4 +1,5 @@
 import {gql} from 'apollo-server';
+import DataLoader from 'dataloader';
 
 const typeDefs = gql`
   type User {
@@ -14,6 +15,16 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers = {};
+const resolvers = {
+  User: {
+    boards: async (
+      {boards}: {boards: string[]},
+      _args: never,
+      {
+        dataLoader: {BoardLoader},
+      }: {dataLoader: {BoardLoader: DataLoader<unknown, unknown, unknown>}}
+    ) => BoardLoader.loadMany(boards),
+  },
+};
 
 export default {typeDefs, resolvers};

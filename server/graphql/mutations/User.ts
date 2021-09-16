@@ -25,7 +25,8 @@ const resolvers = {
       }
 
       const token = {username: user.username, id: user.id};
-      return {value: jwt.sign(token, config.SECRET, {expiresIn: 60 * 60})};
+      // add this only after development {expiresIn: 60 * 60}
+      return {value: jwt.sign(token, config.SECRET)};
     },
     createUser: async (
       _root: never,

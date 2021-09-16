@@ -10,15 +10,10 @@ import Logger from '../../utils/Logger';
 
 const dataLoader = (Model: mongoose.Model<any, any, any>) =>
   new DataLoader(
-    async (ids: unknown[] | unknown) => {
-      const res = isArray(ids)
+    async (ids: unknown[] | unknown) =>
+      isArray(ids)
         ? await Model.find({_id: {$in: ids}})
-        : await Model.findById(ids);
-      Logger.info(res);
-      Logger.info(res.length);
-
-      return res;
-    },
+        : await Model.findById(ids),
     {cacheKeyFn: val => val}
   );
 

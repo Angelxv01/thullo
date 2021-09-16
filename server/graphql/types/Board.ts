@@ -1,6 +1,5 @@
 import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import Logger from '../../../utils/Logger';
 
 const typeDefs = gql`
   type Board {
@@ -25,9 +24,7 @@ const resolvers = {
       {
         dataLoader: {ListLoader},
       }: {dataLoader: {ListLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => {
-      return ListLoader.loadMany(lists);
-    },
+    ) => ListLoader.loadMany(lists),
     owner: async (
       {owner}: {owner: string},
       _args: never,

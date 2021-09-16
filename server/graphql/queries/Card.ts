@@ -1,16 +1,21 @@
 import {gql} from 'apollo-server';
-import Card from '../../models/Card';
+import DataLoader from 'dataloader';
 
 const typeDefs = gql`
   extend type Query {
-    card(id: ID!): Card!
+    card(id: ID!): Card
   }
 `;
 
 const resolvers = {
   Query: {
-    card: async (_root: never, args: {id: String}) =>
-      await Card.findById(args.id),
+    card: (
+      _root: never,
+      args: {id: string},
+      {
+        dataLoader: {CardLoader},
+      }: {dataLoader: {CardLoader: DataLoader<unknown, unknown, unknown>}}
+    ) => CardLoader.load(args.id),
   },
 };
 
