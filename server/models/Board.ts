@@ -1,32 +1,35 @@
 import mongoose from 'mongoose';
 import {MongoDBReturnObject} from '../../types/MongoDB';
 
-const schema = new mongoose.Schema({
-  title: String,
-  visibility: {
-    type: String,
-    enum: ['PUBLIC', 'PRIVATE'],
-    default: 'PUBLIC',
-  },
-  description: String,
-  lists: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'List',
+const schema = new mongoose.Schema(
+  {
+    title: String,
+    visibility: {
+      type: String,
+      enum: ['PUBLIC', 'PRIVATE'],
+      default: 'PUBLIC',
     },
-  ],
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  collaborators: [
-    {
+    description: String,
+    lists: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'List',
+      },
+    ],
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
-  ],
-});
+    collaborators: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+  },
+  {timestamps: true}
+);
 
 schema.set('toJSON', {
   transform: (_doc, ret: MongoDBReturnObject) => {

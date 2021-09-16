@@ -5,6 +5,8 @@ const typeDefs = gql`
     id: ID!
     username: String!
     boards: [Board!]
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 
   type Token {

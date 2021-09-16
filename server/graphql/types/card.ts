@@ -23,6 +23,8 @@ const typeDefs = gql`
     id: ID!
     title: String!
     description: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
     # labels: [Label!]!
     # attachments: [Attachment!]!
     # coverId: String

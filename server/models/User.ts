@@ -15,20 +15,23 @@ export interface IUser extends mongoose.Document {
   comparePasswords: (password: string) => Promise<boolean>;
 }
 
-const schema = new mongoose.Schema<IUser>({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  passwordHash: String,
-  boards: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Board',
+const schema = new mongoose.Schema<IUser>(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
     },
-  ],
-});
+    passwordHash: String,
+    boards: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Board',
+      },
+    ],
+  },
+  {timestamps: true}
+);
 
 schema.pre(
   'save',
