@@ -17,12 +17,13 @@ const typeDefs = gql`
     created: String!
     edited: String
     text: String
-    # User: User!
+    user: User!
   }
   type Card {
     id: ID!
-    title: String!
-    description: String!
+    title: String
+    description: String
+    assignedTo: [User!]!
     createdAt: DateTime!
     updatedAt: DateTime!
     # labels: [Label!]!
