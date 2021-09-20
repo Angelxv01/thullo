@@ -16,13 +16,6 @@ const typeDefs = gql`
     value: String!
     color: Color!
   }
-  type Comment {
-    id: ID!
-    text: String
-    user: User!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-  }
   type Card {
     id: ID!
     title: String
@@ -31,9 +24,9 @@ const typeDefs = gql`
     coverId: String
     createdAt: DateTime!
     updatedAt: DateTime!
+    comments: [Comment!]!
     # labels: [Label!]!
     # attachments: [Attachment!]!
-    # comments: [Comment!]!
   }
 `;
 

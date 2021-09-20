@@ -8,6 +8,7 @@ import Card from './types/Card';
 import Board from './types/Board';
 import List from './types/List';
 import User from './types/User';
+import Comment from './types/Comment';
 
 // ENUMS
 import Color from './enums/Color';
@@ -41,6 +42,7 @@ const typeDefs = [
   List.typeDefs,
   Board.typeDefs,
   User.typeDefs,
+  Comment.typeDefs,
   Color.typeDefs,
   Visibility.typeDefs,
   CardQuery.typeDefs,
@@ -58,6 +60,7 @@ const resolvers = mergeResolvers([
   List.resolvers,
   Board.resolvers,
   User.resolvers,
+  Comment.resolvers,
   Color.resolvers,
   Visibility.resolvers,
   CardQuery.resolvers,

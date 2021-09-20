@@ -18,21 +18,21 @@ const typeDefs = gql`
 
 const resolvers = {
   Board: {
-    lists: async (
+    lists: (
       {lists}: {lists: string[]},
       _args: never,
       {
         dataLoader: {ListLoader},
       }: {dataLoader: {ListLoader: DataLoader<unknown, unknown, unknown>}}
     ) => ListLoader.loadMany(lists),
-    owner: async (
+    owner: (
       {owner}: {owner: string},
       _args: never,
       {
         dataLoader: {UserLoader},
       }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
     ) => UserLoader.load(owner),
-    collaborators: async (
+    collaborators: (
       {collaborators}: {collaborators: string[]},
       _args: never,
       {
