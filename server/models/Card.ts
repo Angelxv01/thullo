@@ -1,10 +1,19 @@
 import mongoose from 'mongoose';
 import {MongoDBReturnObject} from '../../types/MongoDB';
 
+export interface ICard extends mongoose.Document {
+  title: string;
+  description: string;
+  assignedTo: mongoose.ObjectId[];
+  createdAt: mongoose.Date;
+  updatedAt: mongoose.Date;
+}
+
 const schema = new mongoose.Schema(
   {
     title: String,
     description: String,
+    assignedTo: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   },
   {timestamps: true}
 );
