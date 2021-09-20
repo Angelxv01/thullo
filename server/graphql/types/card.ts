@@ -39,6 +39,13 @@ const resolvers = {
         dataLoader,
       }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
     ) => dataLoader.UserLoader.loadMany(assignedTo),
+    comments: async (
+      {comments}: {comments: string[]},
+      _args: never,
+      {
+        dataLoader,
+      }: {dataLoader: {CommentLoader: DataLoader<unknown, unknown, unknown>}}
+    ) => dataLoader.CommentLoader.loadMany(comments),
   },
 };
 

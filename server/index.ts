@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import Logger from '../utils/Logger';
 import config from '../utils/config';
 import schema from './graphql/schema';
-import User from './models/User';
+import User, {IUser} from './models/User';
 import createDataLoader from './utils/createDataLoaders';
 
 connect(config.MONGODB || '')
@@ -19,7 +19,7 @@ const server = new ApolloServer({
     const dataLoader = createDataLoader();
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
       const decoded = jwt.verify(auth.substr(7), config.SECRET) as {id: string};
-      const currentUser = await User.findById(decoded.id);
+      const currentUser: IUser = (await User.findById(decoded.id)) as IUser;
       return {currentUser, dataLoader};
     }
     return {dataLoader};

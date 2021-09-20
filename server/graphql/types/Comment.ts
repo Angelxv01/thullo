@@ -6,7 +6,6 @@ const typeDefs = gql`
     id: ID!
     text: String
     user: User!
-    parentId: ID
     replies: [Comment!]!
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -15,7 +14,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Comment: {
-    replies: (
+    replies: async (
       {id}: {id: string},
       _args: never,
       {
@@ -23,7 +22,17 @@ const resolvers = {
       }: {
         dataLoader: {LoadReplies: DataLoader<unknown, unknown, unknown>};
       }
-    ) => id && dataLoader.LoadReplies.load(id),
+    ) => {
+      const res = await dataLoader.LoadReplies.load(id);
+      return res;
+    },
+    user: (
+      {user}: {user: string},
+      _args: never,
+      {
+        dataLoader: {UserLoader},
+      }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
+    ) => UserLoader.load(user),
   },
 };
 export default {typeDefs, resolvers};

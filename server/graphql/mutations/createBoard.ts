@@ -55,7 +55,7 @@ const resolvers = {
       }
 
       const newBoard = new Board({
-        owner: currentUser.id,
+        owner: currentUser.id as string,
         title: board.title,
         visibility: board.visibility,
         description: board.description,
@@ -77,7 +77,7 @@ const resolvers = {
           },
           []
         );
-        Promise.all(collaboratorsPromise);
+        void Promise.all(collaboratorsPromise);
       } catch (error) {
         Logger.error(error);
         throw new ApolloError('Cannot save the board');

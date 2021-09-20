@@ -6,6 +6,7 @@ export interface ICard extends mongoose.Document {
   description: string;
   assignedTo: mongoose.ObjectId[];
   coverId: string;
+  comments: mongoose.ObjectId[];
   createdAt: mongoose.Date;
   updatedAt: mongoose.Date;
 }
