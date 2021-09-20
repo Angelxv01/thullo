@@ -11,6 +11,7 @@ const typeDefs = gql`
     title: String
     description: String
     listId: ID!
+    coverId: String
   }
   extend type Mutation {
     createCard(card: CreateCardInput): Card
@@ -28,6 +29,7 @@ const resolvers = {
           title: string;
           description: string;
           listId: mongoose.ObjectId;
+          coverId: string;
         };
       },
       {
@@ -57,6 +59,7 @@ const resolvers = {
       const newCard = new Card({
         title: card.title || '',
         description: card.description || '',
+        coverId: card.coverId || '',
       });
       list.cards.push(newCard.id);
 

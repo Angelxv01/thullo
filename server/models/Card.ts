@@ -5,6 +5,7 @@ export interface ICard extends mongoose.Document {
   title: string;
   description: string;
   assignedTo: mongoose.ObjectId[];
+  coverId: string;
   createdAt: mongoose.Date;
   updatedAt: mongoose.Date;
 }
@@ -13,6 +14,7 @@ const schema = new mongoose.Schema(
   {
     title: String,
     description: String,
+    coverId: String,
     assignedTo: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   },
   {timestamps: true}
