@@ -21,6 +21,7 @@ import UserQuery from './queries/User';
 // MUTATIONS
 import UserMutation from './mutations/User';
 import createBoard from './mutations/createBoard';
+import createList from './mutations/createList';
 
 const rootTypeDefs = gql`
   type Query {
@@ -46,6 +47,7 @@ const typeDefs = [
   UserQuery.typeDefs,
   UserMutation.typeDefs,
   createBoard.typeDefs,
+  createList.typeDefs,
 ];
 
 const resolvers = mergeResolvers([
@@ -61,6 +63,7 @@ const resolvers = mergeResolvers([
   UserQuery.resolvers,
   UserMutation.resolvers,
   createBoard.resolvers,
+  createList.resolvers,
 ]);
 
 const schema = makeExecutableSchema({typeDefs, resolvers});

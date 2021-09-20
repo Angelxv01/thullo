@@ -8,10 +8,9 @@ interface UserReturn extends MongoDBReturnObject {
 }
 
 export interface IUser extends mongoose.Document {
-  id: string;
   username: string;
   passwordHash: string;
-  boards: mongoose.Schema.Types.ObjectId[];
+  boards: mongoose.ObjectId[];
   comparePasswords: (password: string) => Promise<boolean>;
 }
 

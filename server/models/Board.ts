@@ -1,6 +1,19 @@
 import mongoose from 'mongoose';
 import {MongoDBReturnObject} from '../../types/MongoDB';
 
+export interface IBoard extends mongoose.Document {
+  id: mongoose.ObjectId;
+  title: string;
+  visibility: string;
+  description: string;
+  lists: mongoose.ObjectId[];
+  coverId: string;
+  owner: mongoose.ObjectId;
+  collaborators: mongoose.ObjectId[];
+  createdAt: mongoose.Date;
+  updatedAt: mongoose.Date;
+}
+
 const schema = new mongoose.Schema(
   {
     title: String,

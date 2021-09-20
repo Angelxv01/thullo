@@ -21,12 +21,21 @@ const resolvers = {
   Mutation: {
     createBoard: async (
       _root: never,
-      {board}: {board: any},
+      {
+        board,
+      }: {
+        board: {
+          collaborators: string[];
+          title: string;
+          visibility: string;
+          description: string;
+        };
+      },
       {
         currentUser,
         dataLoader: {UserLoader, BoardLoader},
       }: {
-        currentUser: any;
+        currentUser: IUser | undefined;
         dataLoader: {
           UserLoader: DataLoader<unknown, unknown, unknown>;
           BoardLoader: DataLoader<unknown, unknown, unknown>;
