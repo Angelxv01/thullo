@@ -21,11 +21,11 @@ import UserQuery from './queries/User';
 
 // MUTATIONS
 import UserMutation from './mutations/User';
-import createBoard from './mutations/Board';
-import createList from './mutations/List';
-import createCard from './mutations/Card';
-import createComment from './mutations/Comment';
-import createLabel from './mutations/Label';
+import BoardMutation from './mutations/Board';
+import ListMutation from './mutations/List';
+import CardMutation from './mutations/Card';
+import CommentMutation from './mutations/Comment';
+import LabelMutation from './mutations/Label';
 
 const rootTypeDefs = gql`
   type Query {
@@ -51,11 +51,11 @@ const typeDefs = [
   BoardQuery.typeDefs,
   UserQuery.typeDefs,
   UserMutation.typeDefs,
-  createBoard.typeDefs,
-  createList.typeDefs,
-  createCard.typeDefs,
-  createComment.typeDefs,
-  createLabel.typeDefs,
+  BoardMutation.typeDefs,
+  ListMutation.typeDefs,
+  CardMutation.typeDefs,
+  CommentMutation.typeDefs,
+  LabelMutation.typeDefs,
 ];
 
 const resolvers = mergeResolvers([
@@ -71,11 +71,11 @@ const resolvers = mergeResolvers([
   BoardQuery.resolvers,
   UserQuery.resolvers,
   UserMutation.resolvers,
-  createBoard.resolvers,
-  createList.resolvers,
-  createCard.resolvers,
-  createComment.resolvers,
-  createLabel.resolvers,
+  BoardMutation.resolvers,
+  ListMutation.resolvers,
+  CardMutation.resolvers,
+  CommentMutation.resolvers,
+  LabelMutation.resolvers,
 ]);
 
 const schema = makeExecutableSchema({typeDefs, resolvers});
