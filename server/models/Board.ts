@@ -10,6 +10,7 @@ export interface IBoard extends mongoose.Document {
   coverId: string;
   owner: mongoose.ObjectId;
   collaborators: mongoose.ObjectId[];
+  labels: mongoose.ObjectId[];
   createdAt: mongoose.Date;
   updatedAt: mongoose.Date;
 }
@@ -40,6 +41,7 @@ const schema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
   },
   {timestamps: true}
 );

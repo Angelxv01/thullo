@@ -11,6 +11,7 @@ const typeDefs = gql`
     coverId: String
     owner: User!
     collaborators: [User!]!
+    labels: [Label!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -39,6 +40,17 @@ const resolvers = {
         dataLoader: {UserLoader},
       }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
     ) => UserLoader.loadMany(collaborators),
+    labels: async (
+      {labels}: {labels: string[]},
+      _args: never,
+      {
+        dataLoader,
+      }: {
+        dataLoader: {
+          LabelLoader: DataLoader<unknown, unknown, unknown>;
+        };
+      }
+    ) => dataLoader.LabelLoader.loadMany(labels),
   },
 };
 

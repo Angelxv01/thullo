@@ -11,6 +11,8 @@ export interface IUser extends mongoose.Document {
   username: string;
   passwordHash: string;
   boards: mongoose.ObjectId[];
+  createdAt: mongoose.Date;
+  updatedAt: mongoose.Date;
   comparePasswords: (password: string) => Promise<boolean>;
 }
 

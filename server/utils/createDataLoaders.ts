@@ -11,6 +11,7 @@ import Board from '../models/Board';
 import List from '../models/List';
 import Card from '../models/Card';
 import Comment, {IComment} from '../models/Comment';
+import Label from '../models/Label';
 
 const dataLoader = (Model: mongoose.Model<any, any, any>) =>
   new DataLoader(
@@ -43,6 +44,9 @@ const LoadReplies = new DataLoader(
   }
 );
 
+// TODO: load child nodes from one parent id
+// mongoose.Model, string => mongoose.find() result[]
+
 export const createDataLoader = () => {
   return {
     UserLoader: dataLoader(User),
@@ -50,6 +54,7 @@ export const createDataLoader = () => {
     ListLoader: dataLoader(List),
     CardLoader: dataLoader(Card),
     CommentLoader: dataLoader(Comment),
+    LabelLoader: dataLoader(Label),
     LoadReplies,
   };
 };

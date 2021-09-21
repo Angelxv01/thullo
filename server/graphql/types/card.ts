@@ -13,7 +13,7 @@ const typeDefs = gql`
   }
   type Label {
     id: ID!
-    value: String!
+    text: String!
     color: Color!
   }
   type Card {
@@ -25,7 +25,7 @@ const typeDefs = gql`
     createdAt: DateTime!
     updatedAt: DateTime!
     comments: [Comment!]!
-    # labels: [Label!]!
+    labels: [Label!]!
     # attachments: [Attachment!]!
   }
 `;
@@ -46,6 +46,17 @@ const resolvers = {
         dataLoader,
       }: {dataLoader: {CommentLoader: DataLoader<unknown, unknown, unknown>}}
     ) => dataLoader.CommentLoader.loadMany(comments),
+    labels: async (
+      {labels}: {labels: string[]},
+      _args: never,
+      {
+        dataLoader,
+      }: {
+        dataLoader: {
+          LabelLoader: DataLoader<unknown, unknown, unknown>;
+        };
+      }
+    ) => dataLoader.LabelLoader.loadMany(labels),
   },
 };
 
