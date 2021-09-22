@@ -22,11 +22,11 @@ const typeDefs = gql`
     description: String
     assignedTo: [User!]!
     coverId: String
-    createdAt: DateTime!
-    updatedAt: DateTime!
     comments: [Comment!]!
     labels: [Label!]!
-    # attachments: [Attachment!]!
+    attachments: [Attachment!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 `;
 

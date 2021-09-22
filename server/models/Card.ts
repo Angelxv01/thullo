@@ -1,6 +1,14 @@
 import mongoose from 'mongoose';
 import {MongoDBReturnObject} from '../../types/MongoDB';
 
+export interface IAttachment extends mongoose.Document {
+  url: string;
+  abbreviation: string;
+  coverId: string;
+  createdAt: mongoose.Date;
+  updatedAt: mongoose.Date;
+}
+
 export interface ICard extends mongoose.Document {
   title: string;
   description: string;
@@ -8,9 +16,21 @@ export interface ICard extends mongoose.Document {
   coverId: string;
   comments: mongoose.ObjectId[];
   labels: mongoose.ObjectId[];
+  attachments: IAttachment[];
   createdAt: mongoose.Date;
   updatedAt: mongoose.Date;
 }
+
+const limit = (obj: unknown[]): boolean => obj.length < 5;
+
+const attachmentSchema = new mongoose.Schema(
+  {
+    url: String,
+    abbreviation: String,
+    coverId: String,
+  },
+  {timestamps: true}
+);
 
 const schema = new mongoose.Schema(
   {
@@ -20,6 +40,12 @@ const schema = new mongoose.Schema(
     assignedTo: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
+    attachments: [
+      {
+        type: attachmentSchema,
+        validate: [limit, '{PATH} exceeds the limit of 5'],
+      },
+    ],
   },
   {timestamps: true}
 );
@@ -32,4 +58,5 @@ schema.set('toJSON', {
   },
 });
 
+export const Attachment = mongoose.model('Attachment', attachmentSchema);
 export default mongoose.model('Card', schema);

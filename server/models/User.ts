@@ -37,7 +37,7 @@ const schema = new mongoose.Schema<IUser>(
 schema.pre(
   'save',
   async function (this: IUser, next: (err?: Error | undefined) => void) {
-    if (this.isNew || !this.isModified('passwordHash')) {
+    if (this.isNew || this.isModified('passwordHash')) {
       this.passwordHash = await bcrypt.hash(
         this.passwordHash,
         Number(config.SALT_ROUND)
