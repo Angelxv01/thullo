@@ -7,7 +7,8 @@
     "lint": "cross-env eslint \"./**/*.{ts,tsx}\"",
     "dev": "cross-env NODE_ENV=development ts-node-dev server/index.ts",
     "start:frontend": "cross-env webpack serve --mode=development --open",
-    "build": "cross-env webpack --mode=production"
+    "build": "cross-env webpack --mode=production",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -25,6 +26,7 @@
     "babel-loader": "^8.2.2",
     "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
+    "cypress": "^8.4.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react": "^1.1.7",
@@ -32,6 +34,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
     "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.2.1",
     "prettier": "^2.3.2",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.2.5",

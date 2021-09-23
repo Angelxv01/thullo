@@ -1,6 +1,5 @@
 import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import Logger from '../../../utils/Logger';
 
 import Board from '../../models/Board';
 
