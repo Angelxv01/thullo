@@ -65,13 +65,11 @@ const resolvers = {
         Logger.error(error);
         throw new ApolloError('Invalid list or board id');
       }
-
+      const id = currentUser.id as string;
       if (
         !(
-          board.owner.toString() === currentUser.id.toString() ||
-          board.collaborators.find(
-            collab => collab.toString() === currentUser.id.toString()
-          )
+          board.owner.toString() === id ||
+          board.collaborators.find(collab => collab.toString() === id)
         )
       ) {
         throw new ApolloError(
