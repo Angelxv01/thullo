@@ -40,6 +40,11 @@ export default createGlobalStyle`
     color: hsl(${({theme}) => theme.color.dark});
   }
 
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: hsl(${({theme}) => theme.color.GRAY4});
+    opacity: 1; /* Firefox */
+  }
+
   img,
   picture {
     max-width: 100%;

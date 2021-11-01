@@ -4,13 +4,13 @@ export default {
   color: {
     dark: '0, 0%, 0%',
     white: '0, 0%, 100%',
-    green: '146, 64%, 36%',
+    green1: '146, 64%, 36%',
     yellow: '45, 86%, 62%',
     orange: '28, 87%, 62%',
     red: '0, 79%, 63%',
-    blue: '214, 84%, 56%',
-    lightBlue: '195, 86%, 64%',
-    lightGreen: '145, 50%, 62%',
+    blue1: '214, 84%, 56%',
+    blue3: '195, 86%, 64%',
+    green3: '145, 50%, 62%',
     gray1: '0, 0%, 20%',
     gray2: '0, 0%, 31%',
     gray3: '0, 0%, 51%',
@@ -23,6 +23,7 @@ export default {
       secondary: 'Noto Sans',
     },
     size: {
+      1: '0.0625rem', // 1px
       200: '0.675rem', // 10px
       300: '0.75rem', // 12px
       400: '0.875rem', // 14px
@@ -39,5 +40,11 @@ export default {
     2: '18px',
     3: '21px',
     4: '27px',
+  },
+  border: {
+    radius: {
+      1: '0.5rem',
+      2: '0.75rem',
+    },
   },
 } as DefaultTheme;
