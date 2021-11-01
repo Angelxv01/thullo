@@ -1,3 +1,5 @@
+import {DefaultTheme} from 'styled-components';
+
 export default {
   color: {
     dark: '0, 0%, 0%',
@@ -38,4 +40,4 @@ export default {
     3: '21px',
     4: '27px',
   },
-};
+} as DefaultTheme;

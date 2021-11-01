@@ -1,5 +1,4 @@
 import {createGlobalStyle} from 'styled-components';
-import Theme from './theme';
 
 export default createGlobalStyle`
   *,
@@ -35,10 +34,10 @@ export default createGlobalStyle`
   body {
     line-height: 1.5;
     min-height: 100vh;
-    font-family: ${Theme.font.family.normal};
-    font-size: ${Theme.font.size[400]};
-    background-color: hsl(${Theme.color.white});
-    color: hsl(${Theme.color.dark});
+    font-family: ${({theme}) => theme.font.family.normal};
+    font-size: ${({theme}) => theme.font.size[400]};
+    background-color: hsl(${({theme}) => theme.color.white});
+    color: hsl(${({theme}) => theme.color.dark});
   }
 
   img,

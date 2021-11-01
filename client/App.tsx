@@ -1,11 +1,15 @@
 import React from 'react';
-import TextArea from './style/components/TextArea';
+import TextArea from './components/TextArea';
+import UseTextArea from './hooks/UseTextArea';
 
-const App = () => (
-  <div>
-    <p>This is styled one</p>
-    <TextArea />
-  </div>
-);
+const App = () => {
+  const textArea = UseTextArea();
+  return (
+    <div>
+      <p>This is styled one</p>
+      <TextArea {...textArea} />
+    </div>
+  );
+};
 
 export default App;
