@@ -24,22 +24,19 @@ export default {
     },
     size: {
       1: '0.0625rem', // 1px
+      100: '0.5rem', // 8px
       200: '0.675rem', // 10px
       300: '0.75rem', // 12px
       400: '0.875rem', // 14px
-      500: '1rem',
+      500: '1rem', // 16px
       600: '1.125rem', // 18px
     },
   },
-  letterSpacing: {
-    normal: '-0.035em',
-  },
   lineHeight: {
-    0: '14px',
-    1: '16px',
-    2: '18px',
-    3: '21px',
-    4: '27px',
+    0: '15px',
+    1: '18px',
+    2: '21px',
+    3: '27px',
   },
   border: {
     radius: {
