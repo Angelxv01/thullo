@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css';
+import {ThemeProvider} from 'styled-components';
+import Global from './style/global';
+import Theme from './style/theme';
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(
+  <ThemeProvider theme={Theme}>
+    <Global />
+    <App />
+  </ThemeProvider>,
+  document.querySelector('#root')
+);
