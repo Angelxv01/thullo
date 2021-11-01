@@ -14,6 +14,7 @@ const Label = styled.div<ILabelStyle>`
   background-color: hsl(
     ${({color, theme}) => theme.color[color || 'BLUE1']} / 0.2
   );
+  cursor: pointer;
 `;
 
 export default Label;
