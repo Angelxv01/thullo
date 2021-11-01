@@ -70,4 +70,13 @@ export default createGlobalStyle`
       scroll-behavior: auto !important;
     }
   }
+
+  .material-icons {
+    font-weight: inherit;
+    font-style: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    display: inline;
+    color: inherit
+  }
 `;

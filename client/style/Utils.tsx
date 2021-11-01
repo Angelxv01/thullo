@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
-interface IFlow {
+interface Spacing {
   space?: string;
 }
 
-export const Flex = styled.div`
+export const Flex = styled.div<Spacing>`
   display: flex;
+  gap: ${({space}) => space || '1rem'};
 `;
-export const Grid = styled.div`
+export const Grid = styled.div<Spacing>`
   display: grid;
+  gap: ${({space}) => space || '1rem'};
 `;
-export const Flow = styled.div<IFlow>`
+export const Flow = styled.div<Spacing>`
   & > *:where(:not(:first-child)) {
     margin-top: ${({space}) => space || '1rem'};
   }
