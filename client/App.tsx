@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import TextArea from './components/TextArea';
-import UseTextArea from './hooks/UseTextArea';
+import Label from './components/common/Label';
+import {Flex} from './style/Utils';
 
 const App = () => {
-  const textArea = UseTextArea();
   return (
-    <div>
+    <Flex>
       <p>This is styled one</p>
-      {/* <TextArea {...textArea} placeholder="Enter a title for this card..." /> */}
-    </div>
+      <Label color="YELLOW">Concept</Label>
+    </Flex>
   );
 };
 

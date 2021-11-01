@@ -1,6 +1,6 @@
 import React, {HtmlHTMLAttributes} from 'react';
 import styled from 'styled-components';
-import {IUseTextArea} from '../hooks/UseTextArea';
+import {IUseTextArea} from '../../hooks/UseTextArea';
 
 // https://codepen.io/chriscoyier/pen/XWKEVLy
 const StyledTextArea = styled.div`

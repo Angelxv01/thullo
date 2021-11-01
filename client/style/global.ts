@@ -32,17 +32,19 @@ export default createGlobalStyle`
   }
 
   body {
-    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.035em;
+    line-height: ${({theme}) => theme.lineHeight[1]};
     min-height: 100vh;
     font-family: ${({theme}) => theme.font.family.normal};
-    font-size: ${({theme}) => theme.font.size[400]};
+    font-size: ${({theme}) => theme.font.size[300]};
     background-color: hsl(${({theme}) => theme.color.white});
     color: hsl(${({theme}) => theme.color.dark});
   }
 
-  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  ::placeholder { 
     color: hsl(${({theme}) => theme.color.GRAY4});
-    opacity: 1; /* Firefox */
+    opacity: 1;
   }
 
   img,
