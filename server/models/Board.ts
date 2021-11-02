@@ -1,9 +1,7 @@
 import mongoose from 'mongoose';
-import {IBoard} from '../../types/IBoard';
-import {ComposeMongooseModel} from '../../types/Utility';
+import {BoardDocument} from '../../types';
 
-type MongoBoard = ComposeMongooseModel<IBoard>;
-const schema = new mongoose.Schema<MongoBoard>(
+const schema = new mongoose.Schema<BoardDocument>(
   {
     title: String,
     visibility: {
@@ -32,7 +30,7 @@ const schema = new mongoose.Schema<MongoBoard>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<MongoBoard>) => {
+  transform: (_doc, ret: Partial<BoardDocument>) => {
     delete ret._id;
   },
 });

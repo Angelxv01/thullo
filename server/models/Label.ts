@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
-import {ILabel} from '../../types/ILabel';
-import {ComposeMongooseModel} from '../../types/Utility';
+import {LabelDocument} from '../../types';
 
-type MongoLabel = ComposeMongooseModel<ILabel>;
-
-const schema = new mongoose.Schema<MongoLabel>(
+const schema = new mongoose.Schema<LabelDocument>(
   {
     text: String,
     color: {
@@ -18,7 +15,7 @@ const schema = new mongoose.Schema<MongoLabel>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<MongoLabel>) => {
+  transform: (_doc, ret: Partial<LabelDocument>) => {
     delete ret._id;
   },
 });

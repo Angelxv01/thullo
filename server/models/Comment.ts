@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
-import {IComment} from '../../types/IComment';
-import {ComposeMongooseModel} from '../../types/Utility';
+import {CommentDocument} from '../../types';
 
-type MongoComment = ComposeMongooseModel<IComment>;
-
-const schema = new mongoose.Schema<MongoComment>(
+const schema = new mongoose.Schema<CommentDocument>(
   {
     text: String,
     user: mongoose.Schema.Types.ObjectId,
@@ -15,7 +12,7 @@ const schema = new mongoose.Schema<MongoComment>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<MongoComment>) => {
+  transform: (_doc, ret: Partial<CommentDocument>) => {
     delete ret._id;
   },
 });

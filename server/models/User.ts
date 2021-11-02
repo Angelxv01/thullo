@@ -1,11 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../utils/config';
-import {IUser} from '../../types/IUser';
-import {ComposeMongooseModel} from '../../types/Utility';
+import {IUser, UserDocument} from '../../types';
 
-type MongoUser = ComposeMongooseModel<IUser>;
-const schema = new mongoose.Schema<MongoUser>(
+const schema = new mongoose.Schema<UserDocument>(
   {
     username: {
       type: String,
@@ -28,7 +26,7 @@ schema.methods.comparePasswords = async function (
 
 schema.pre(
   'save',
-  async function (this: MongoUser, next: (err?: Error | undefined) => void) {
+  async function (this: UserDocument, next: (err?: Error | undefined) => void) {
     if (this.isNew || this.isModified('passwordHash')) {
       this.passwordHash = await bcrypt.hash(
         this.passwordHash,
@@ -41,7 +39,7 @@ schema.pre(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_, ret: Partial<MongoUser>) => {
+  transform: (_, ret: Partial<UserDocument>) => {
     delete ret._id;
     delete ret.passwordHash;
   },

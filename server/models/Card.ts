@@ -1,11 +1,7 @@
 import mongoose from 'mongoose';
-import {IAttachment, ICard} from '../../types/ICard';
-import {ComposeMongooseModel} from '../../types/Utility';
+import {CardDocument, AttachmentDocument} from '../../types';
 
-type MongoCard = ComposeMongooseModel<ICard>;
-type MongoAttachment = ComposeMongooseModel<IAttachment>;
-
-const attachmentSchema = new mongoose.Schema<MongoAttachment>(
+const attachmentSchema = new mongoose.Schema<AttachmentDocument>(
   {
     url: String,
     title: String,
@@ -14,7 +10,7 @@ const attachmentSchema = new mongoose.Schema<MongoAttachment>(
   {timestamps: true}
 );
 
-const schema = new mongoose.Schema<ICard>(
+const schema = new mongoose.Schema<CardDocument>(
   {
     title: String,
     description: String,
@@ -31,7 +27,7 @@ const schema = new mongoose.Schema<ICard>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<MongoCard>) => {
+  transform: (_doc, ret: Partial<CardDocument>) => {
     delete ret._id;
   },
 });
