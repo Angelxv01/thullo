@@ -1,56 +1,39 @@
 import mongoose from 'mongoose';
-import {MongoDBReturnObject} from '../../types/MongoDB';
+import {IBoard} from '../../types/IBoard';
+import {ComposeMongooseModel} from '../../types/Utility';
 
-export interface IBoard extends mongoose.Document {
-  id: mongoose.ObjectId;
-  title: string;
-  visibility: string;
-  description: string;
-  lists: mongoose.ObjectId[];
-  coverId: string;
-  owner: mongoose.ObjectId;
-  collaborators: mongoose.ObjectId[];
-  labels: mongoose.ObjectId[];
-  createdAt: mongoose.Date;
-  updatedAt: mongoose.Date;
-}
-
-const schema = new mongoose.Schema(
+type MongoBoard = ComposeMongooseModel<IBoard>;
+const schema = new mongoose.Schema<MongoBoard>(
   {
     title: String,
     visibility: {
-      type: String,
-      enum: ['PUBLIC', 'PRIVATE'],
-      default: 'PUBLIC',
+      type: Number,
+      enum: [0, 1],
+      default: 0,
     },
     description: String,
-    lists: [
+    coverId: String,
+    members: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'List',
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        role: {
+          type: Number,
+          enum: [0, 1, 2],
+          default: 2,
+        },
       },
     ],
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    collaborators: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-    labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
   },
   {timestamps: true}
 );
 
 schema.set('toJSON', {
-  transform: (_doc, ret: MongoDBReturnObject) => {
-    ret.id = ret._id;
+  versionKey: false,
+  transform: (_doc, ret: Partial<MongoBoard>) => {
     delete ret._id;
-    delete ret.__v;
   },
 });
 
