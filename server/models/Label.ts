@@ -1,49 +1,15 @@
 import mongoose from 'mongoose';
-import {MongoDBReturnObject} from '../../types/MongoDB';
+import {ILabel} from '../../types/ILabel';
+import {ComposeMongooseModel} from '../../types/Utility';
 
-export enum Color {
-  GREEN,
-  YELLOW,
-  ORANGE,
-  RED,
-  BLUE,
-  AQUA,
-  SAGE,
-  GRAY1,
-  GRAY2,
-  GRAY3,
-  GRAY4,
-  GRAY5,
-}
+type MongoLabel = ComposeMongooseModel<ILabel>;
 
-export interface ILabel extends mongoose.Document {
-  text: string;
-  color: Color;
-  boardId: mongoose.ObjectId;
-  createdAt: mongoose.Date;
-  updatedAt: mongoose.Date;
-}
-
-const schema = new mongoose.Schema(
+const schema = new mongoose.Schema<MongoLabel>(
   {
     text: String,
     color: {
-      type: String,
-      enum: [
-        'GREEN',
-        'YELLOW',
-        'ORANGE',
-        'RED',
-        'BLUE',
-        'AQUA',
-        'SAGE',
-        'GRAY1',
-        'GRAY2',
-        'GRAY3',
-        'GRAY4',
-        'GRAY5',
-      ],
-      default: 'GREEN',
+      type: Number,
+      enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     },
     boardId: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
   },
@@ -51,10 +17,9 @@ const schema = new mongoose.Schema(
 );
 
 schema.set('toJSON', {
-  transform: (_doc, ret: MongoDBReturnObject) => {
-    ret.id = ret._id;
+  versionKey: false,
+  transform: (_doc, ret: Partial<MongoLabel>) => {
     delete ret._id;
-    delete ret.__v;
   },
 });
 
