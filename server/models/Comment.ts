@@ -1,15 +1,10 @@
 import mongoose from 'mongoose';
-import {MongoDBReturnObject} from '../../types/MongoDB';
+import {IComment} from '../../types/IComment';
+import {ComposeMongooseModel} from '../../types/Utility';
 
-export interface IComment extends mongoose.Document {
-  text: string;
-  user: mongoose.ObjectId;
-  parentId: mongoose.ObjectId;
-  createdAt: mongoose.Date;
-  updatedAt: mongoose.Date;
-}
+type MongoComment = ComposeMongooseModel<IComment>;
 
-const schema = new mongoose.Schema(
+const schema = new mongoose.Schema<MongoComment>(
   {
     text: String,
     user: mongoose.Schema.Types.ObjectId,
@@ -19,10 +14,9 @@ const schema = new mongoose.Schema(
 );
 
 schema.set('toJSON', {
-  transform: (_doc, ret: MongoDBReturnObject) => {
-    ret.id = ret._id;
+  versionKey: false,
+  transform: (_doc, ret: Partial<MongoComment>) => {
     delete ret._id;
-    delete ret.__v;
   },
 });
 
