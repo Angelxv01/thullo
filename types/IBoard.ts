@@ -17,6 +17,7 @@ export interface Member {
 }
 
 export interface IBoard {
+  id: ObjectId;
   title: string;
   visibility: Visibility;
   description: string;
