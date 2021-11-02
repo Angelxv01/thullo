@@ -30,7 +30,7 @@ const InputGroup = ({
   props,
 }: {
   children?: React.ReactChild;
-  width: Size['width'];
+  width?: Size['width'];
   props: HTMLAttributes<HTMLInputElement>;
 }) => {
   return (
