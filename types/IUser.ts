@@ -1,4 +1,4 @@
-import {ObjectId, Document} from 'mongoose';
+import {ObjectId} from 'mongoose';
 
 export interface IUser {
   username: string;
@@ -9,6 +9,3 @@ export interface IUser {
   updatedAt: Date;
   comparePasswords: (password: string) => Promise<boolean>;
 }
-
-type Compose<T, K> = T & K;
-export type ComposeMongooseModel<T> = Compose<T, Document>;

@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../utils/config';
-import {ComposeMongooseModel, IUser} from '../../types/IUser';
+import {IUser} from '../../types/IUser';
+import {ComposeMongooseModel} from '../../types/Utility';
 
 type MongoUser = ComposeMongooseModel<IUser>;
 const schema = new mongoose.Schema<MongoUser>(
