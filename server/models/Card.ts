@@ -1,60 +1,38 @@
 import mongoose from 'mongoose';
-import {MongoDBReturnObject} from '../../types/MongoDB';
+import {IAttachment, ICard} from '../../types/ICard';
+import {ComposeMongooseModel} from '../../types/Utility';
 
-export interface IAttachment extends mongoose.Document {
-  url: string;
-  abbreviation: string;
-  coverId: string;
-  createdAt: mongoose.Date;
-  updatedAt: mongoose.Date;
-}
+type MongoCard = ComposeMongooseModel<ICard>;
+type MongoAttachment = ComposeMongooseModel<IAttachment>;
 
-export interface ICard extends mongoose.Document {
-  title: string;
-  description: string;
-  assignedTo: mongoose.ObjectId[];
-  coverId: string;
-  comments: mongoose.ObjectId[];
-  labels: mongoose.ObjectId[];
-  attachments: IAttachment[];
-  createdAt: mongoose.Date;
-  updatedAt: mongoose.Date;
-}
-
-const limit = (obj: unknown[]): boolean => obj.length < 5;
-
-const attachmentSchema = new mongoose.Schema(
+const attachmentSchema = new mongoose.Schema<MongoAttachment>(
   {
     url: String,
-    abbreviation: String,
+    title: String,
     coverId: String,
   },
   {timestamps: true}
 );
 
-const schema = new mongoose.Schema(
+const schema = new mongoose.Schema<ICard>(
   {
     title: String,
     description: String,
+    board_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
+    list_id: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
+    members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     coverId: String,
-    assignedTo: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
-    attachments: [
-      {
-        type: attachmentSchema,
-        validate: [limit, '{PATH} exceeds the limit of 5'],
-      },
-    ],
+    attachments: [attachmentSchema],
   },
   {timestamps: true}
 );
 
 schema.set('toJSON', {
-  transform: (_doc, ret: MongoDBReturnObject) => {
-    ret.id = ret._id;
+  versionKey: false,
+  transform: (_doc, ret: Partial<MongoCard>) => {
     delete ret._id;
-    delete ret.__v;
   },
 });
 
