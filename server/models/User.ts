@@ -1,42 +1,33 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../utils/config';
-import {MongoDBReturnObject} from '../../types/MongoDB';
+import {ComposeMongooseModel, IUser} from '../../types/IUser';
 
-interface UserReturn extends MongoDBReturnObject {
-  passwordHash?: String;
-}
-
-export interface IUser extends mongoose.Document {
-  username: string;
-  passwordHash: string;
-  boards: mongoose.ObjectId[];
-  createdAt: mongoose.Date;
-  updatedAt: mongoose.Date;
-  comparePasswords: (password: string) => Promise<boolean>;
-}
-
-const schema = new mongoose.Schema<IUser>(
+type MongoUser = ComposeMongooseModel<IUser>;
+const schema = new mongoose.Schema<MongoUser>(
   {
     username: {
       type: String,
       required: true,
       unique: true,
     },
+    avatar: String,
     passwordHash: String,
-    boards: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Board',
-      },
-    ],
+    friends: [this],
   },
   {timestamps: true}
 );
 
+schema.methods.comparePasswords = async function (
+  this: IUser,
+  password: string
+) {
+  return bcrypt.compare(password, this.passwordHash);
+};
+
 schema.pre(
   'save',
-  async function (this: IUser, next: (err?: Error | undefined) => void) {
+  async function (this: MongoUser, next: (err?: Error | undefined) => void) {
     if (this.isNew || this.isModified('passwordHash')) {
       this.passwordHash = await bcrypt.hash(
         this.passwordHash,
@@ -47,18 +38,10 @@ schema.pre(
   }
 );
 
-schema.methods.comparePasswords = async function (
-  this: IUser,
-  password: string
-) {
-  return bcrypt.compare(password, this.passwordHash);
-};
-
 schema.set('toJSON', {
-  transform: (_doc, ret: UserReturn) => {
-    ret.id = ret._id;
+  versionKey: false,
+  transform: (_, ret: Partial<MongoUser>) => {
     delete ret._id;
-    delete ret.__v;
     delete ret.passwordHash;
   },
 });
