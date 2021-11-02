@@ -1,26 +1,19 @@
 import mongoose from 'mongoose';
-import {MongoDBReturnObject} from '../../types/MongoDB';
+import {ListDocument} from '../../types';
 
-export interface IList extends mongoose.Document {
-  name: string;
-  cards: mongoose.Schema.Types.ObjectId[];
-}
-
-const schema = new mongoose.Schema({
+const schema = new mongoose.Schema<ListDocument>({
   name: String,
-  cards: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Card',
-    },
-  ],
+  board_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Board',
+  },
+  order: Number,
 });
 
 schema.set('toJSON', {
-  transform: (_doc, ret: MongoDBReturnObject) => {
-    ret.id = ret._id;
+  versionKey: false,
+  transform: (_doc, ret: Partial<ListDocument>) => {
     delete ret._id;
-    delete ret.__v;
   },
 });
 
