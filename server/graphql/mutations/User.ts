@@ -1,18 +1,41 @@
 import {gql} from 'apollo-server';
 import {UserInputError} from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
+import * as yup from 'yup';
+import type {Asserts} from 'yup';
 
 import User from '../../models/User';
 import {UserDocument} from '../../../types';
 import config from '../../../utils/config';
-import Logger from '../../../utils/Logger';
+
+const createUserSchema = yup.object().shape({
+  credentials: yup.object().shape({
+    username: yup
+      .string()
+      .trim()
+      .required(),
+    password: yup
+      .string()
+      .trim()
+      .required()
+      .min(8, 'Password should be long at least 8')
+  })
+});
+type CreateUserInput = Asserts<typeof createUserSchema>;
 
 const typeDefs = gql`
+  input CreateUserInput {
+    username: String!
+    password: String!
+  }
+
   extend type Mutation {
     login(username: String!, password: String!): Token
-    createUser(username: String!, password: String!): User
+    createUser(credentials: CreateUserInput): User
   }
 `;
+
+
 
 const resolvers = {
   Mutation: {
@@ -32,20 +55,22 @@ const resolvers = {
       return {value: jwt.sign(token, config.SECRET)};
     },
     createUser: async (
-      _root: never,
-      args: {username: string; password: string}
+      _: never,
+      args: unknown
     ) => {
-      const user = new User({
-        username: args.username,
-        passwordHash: args.password,
+      const {credentials}: CreateUserInput = await createUserSchema.validate(args);
+      const user: UserDocument = new User({
+        username: credentials.username,
+        passwordHash: credentials.password,
       });
 
       try {
-        return await user.save();
-      } catch (e) {
-        Logger.error(e);
-        throw new UserInputError('invalid');
+        await user.save();
+      } catch (err) {
+        throw err;
       }
+
+      return user.toJSON();
     },
   },
 };
