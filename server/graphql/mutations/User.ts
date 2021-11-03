@@ -1,28 +1,29 @@
 import {gql} from 'apollo-server';
-import {UserInputError} from 'apollo-server-express';
+import {ApolloError, UserInputError} from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
-import * as yup from 'yup';
-import type {Asserts} from 'yup';
+import {object, string, Asserts} from 'yup';
 
 import User from '../../models/User';
 import {UserDocument} from '../../../types';
 import config from '../../../utils/config';
 
-const userSchema = yup.object().shape({
-  credentials: yup.object().shape({
-    username: yup
-      .string()
+const userSchema = object().shape({
+  credentials: object().shape({
+    username: string()
       .trim()
       .required(),
-    password: yup
-      .string()
+    password: string()
       .trim()
       .required()
       .min(8, 'Password should be long at least 8')
   })
 });
-
 type UserInput = Asserts<typeof userSchema>;
+
+const addFriendSchema = object().shape(
+  {userId: string().trim().required()}
+);
+type AddFriendInput = Asserts<typeof addFriendSchema>;
 
 const typeDefs = gql`
   input UserInput {
@@ -33,6 +34,7 @@ const typeDefs = gql`
   extend type Mutation {
     login(credentials: UserInput): Token
     createUser(credentials: UserInput): User
+    addFriend(userId: String!): User
   }
 `;
 
@@ -73,6 +75,32 @@ const resolvers = {
 
       return user.toJSON();
     },
+    addFriend: async (
+      _: never, 
+      args: unknown, 
+      {currentUser}:{currentUser: UserDocument}
+    ) => {
+      if (!currentUser) throw new ApolloError("Only logged user can add friends");
+
+      const {userId}: AddFriendInput = await
+        addFriendSchema.validate(args);
+      let user: UserDocument;
+      user = await User.findById(userId);
+      if (!user) return null;
+
+      currentUser.friends.push(user.id);
+      user.friends.push(currentUser.id);
+
+      try {
+        await currentUser.save();
+        await user.save();
+      } catch (err) {
+        throw err;
+      }
+
+      return user.toJSON();
+      
+    }
   },
 };
 

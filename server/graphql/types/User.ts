@@ -6,6 +6,7 @@ const typeDefs = gql`
     id: ID!
     username: String!
     boards: [Board!]
+    friends: [User!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -17,6 +18,12 @@ const typeDefs = gql`
 
 const resolvers = {
   User: {
+    friends: async (
+      {friends}:{friends: string[]},
+      _: never, 
+      {dataLoader}: 
+        {dataLoader: Record<string, DataLoader<unknown, unknown>>}
+    ) => dataLoader.UserLoader.loadMany(friends),
     boards: async (
       {boards}: {boards: string[]},
       _args: never,
