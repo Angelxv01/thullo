@@ -36,7 +36,6 @@ const typeDefs = gql`
 `;
 
 
-
 const resolvers = {
   Mutation: {
     login: async (_root: never, args: {username: string; password: string}) => {
