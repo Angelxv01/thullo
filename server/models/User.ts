@@ -12,7 +12,7 @@ const schema = new mongoose.Schema<IUser>(
     },
     avatar: String,
     passwordHash: String,
-    friends: [this],
+    friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   },
   {timestamps: true}
 );
