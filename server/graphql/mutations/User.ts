@@ -8,7 +8,7 @@ import User from '../../models/User';
 import {UserDocument} from '../../../types';
 import config from '../../../utils/config';
 
-const createUserSchema = yup.object().shape({
+const userSchema = yup.object().shape({
   credentials: yup.object().shape({
     username: yup
       .string()
@@ -21,7 +21,8 @@ const createUserSchema = yup.object().shape({
       .min(8, 'Password should be long at least 8')
   })
 });
-type CreateUserInput = Asserts<typeof createUserSchema>;
+
+type UserInput = Asserts<typeof userSchema>;
 
 const typeDefs = gql`
   input CreateUserInput {
@@ -35,29 +36,30 @@ const typeDefs = gql`
   }
 `;
 
-
 const resolvers = {
   Mutation: {
-    login: async (_root: never, args: {username: string; password: string}) => {
+    login: async (_: never, args: unknown) => {
+      const {credentials}: UserInput = await userSchema.validate(args, {stripUnknown: false});
       const user = (await User.findOne({
-        username: args.username,
+        username: credentials.username,
       })) as UserDocument | null;
-
-      if (!(user && (await user.comparePasswords(args.password)))) {
+      const isPasswordValid = user 
+        ? await user.comparePasswords(credentials.password) 
+        : false;
+      if (!(user && isPasswordValid)) {
         throw new UserInputError('Invalid credentials');
       }
 
       const token = {username: user.username, id: user.id.toString()};
       // add this only after development {expiresIn: 60 * 60}
       // bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFuZ2VsIiwiaWQiOiI2MTQwY2NjYWNiZTAxNWNmYzQzMTU2MTgiLCJpYXQiOjE2MzE4MjUzNTZ9.TgXp8KqXIjxdxxz0fAxzrn3bFCSeZ32-hld3r2B1Xl8
-
       return {value: jwt.sign(token, config.SECRET)};
     },
     createUser: async (
       _: never,
       args: unknown
     ) => {
-      const {credentials}: CreateUserInput = await createUserSchema.validate(args);
+      const {credentials}: UserInput = await userSchema.validate(args, {stripUnknown: false});
       const user: UserDocument = new User({
         username: credentials.username,
         passwordHash: credentials.password,
