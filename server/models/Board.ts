@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import {BoardDocument} from '../../types';
+import {BoardDocument, IBoard} from '../../types';
 
-const schema = new mongoose.Schema<BoardDocument>(
+const schema = new mongoose.Schema<IBoard>(
   {
     title: String,
     visibility: {

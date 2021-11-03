@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import Logger from '../utils/Logger';
 import config from '../utils/config';
 import schema from './graphql/schema';
-// import schema from './gql/schema';
 import User from './models/User';
 import {IUser} from '../types';
 import createDataLoader from './utils/createDataLoaders';
@@ -22,8 +21,8 @@ const server = new ApolloServer({
     const auth = req ? req.headers.authorization : null;
     const dataLoader = createDataLoader();
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
-      const decoded = jwt.verify(auth.substr(7), config.SECRET) as {id: string};
-      const currentUser: IUser = (await User.findById(decoded.id)) as IUser;
+      const {id} = jwt.verify(auth.substr(7), config.SECRET) as Record<string, string>;
+      const currentUser = (await User.findById(id)) as IUser;
       return {currentUser, dataLoader};
     }
     return {dataLoader};

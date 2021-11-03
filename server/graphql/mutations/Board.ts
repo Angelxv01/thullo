@@ -1,35 +1,45 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import {IUser} from '../../../types'
+import {BoardDocument, IBoard, IUser} from '../../../types'
 import Logger from '../../../utils/Logger';
 import Board from '../../models/Board';
+import {object, string, mixed, array, Asserts} from 'yup';
+import { Maybe } from 'yup/lib/types';
+import { Visibility } from '../../../types/IBoard';
+
+const boardSchema = object().shape({
+  boardData: object().shape({
+    id: string().trim().optional(),
+    title: string().trim().optional(),
+    visibility: mixed<Visibility>()
+      .oneOf(Object.values(Visibility) as Maybe<Visibility>[]),
+    description: string().trim().optional(),
+    coverId: string().trim().optional(),
+    members: array().of(string()).optional()
+  })
+});
+type BoardInput = Asserts<typeof boardSchema>;
 
 const typeDefs = gql`
   input CreateBoardInput {
-    title: String!
-    visibility: Visibility!
-    description: String!
+    id: ID
+    title: String
+    visibility: Visibility
+    description: String
     coverId: String
-    collaborators: [String!]!
+    members: [ID!]
   }
+
   extend type Mutation {
-    createBoard(board: CreateBoardInput): Board
+    createBoard(boardData: CreateBoardInput): Board
   }
 `;
+
 const resolvers = {
   Mutation: {
     createBoard: async (
       _root: never,
-      {
-        board,
-      }: {
-        board: {
-          collaborators: string[];
-          title: string;
-          visibility: string;
-          description: string;
-        };
-      },
+      args: unknown,
       {
         currentUser,
         dataLoader: {UserLoader, BoardLoader},
@@ -41,48 +51,30 @@ const resolvers = {
         };
       }
     ) => {
+      const {boardData}: BoardInput = await boardSchema.validate(args);
       if (!currentUser) {
         throw new ApolloError('Only logged user can create a Board');
       }
-      let collaborators: unknown[] = [];
-      if (board.collaborators.length > 0) {
-        collaborators = await UserLoader.loadMany(board.collaborators);
+      let board: BoardDocument | undefined;
+      if (boardData.id) {
+        const {id, otherProps} = boardData; 
+        board = Board.findByIdAndUpdate(id, otherProps, { new: true }) as unknown as BoardDocument;
+      } else {
+        board = new Board(boardData);
       }
 
-      if (!collaborators.every(obj => obj)) {
-        throw new ApolloError('Invalid collaborator id');
+      if (!board) {
+        return null;
       }
-
-      const newBoard = new Board({
-        // owner: currentUser.id as string,
-        title: board.title,
-        visibility: board.visibility,
-        description: board.description,
-        collaborators: board.collaborators,
-      });
 
       try {
-        await newBoard.save();
-        // currentUser.boards.push(newBoard._id);
-        // await currentUser.save();
-
-        const collaboratorsPromise = collaborators.reduce(
-          (acc: Promise<IUser>[], obj) => {
-            const user: IUser = obj as IUser;
-
-            // user.boards.push(newBoard._id);
-            // acc.push(user.save());
-            return acc;
-          },
-          []
-        );
-        void Promise.all(collaboratorsPromise);
+        await board.save();
       } catch (error) {
         Logger.error(error);
-        throw new ApolloError('Cannot save the board');
+        throw new ApolloError('Cannot save or update the board');
       }
 
-      return BoardLoader.load(newBoard.id);
+      return BoardLoader.load(board.id);
     },
   },
 };

@@ -1,4 +1,5 @@
 import {gql} from 'apollo-server';
+import { IUser } from '../../../types';
 import User from '../../models/User';
 
 const typeDefs = gql`
@@ -12,7 +13,7 @@ const resolvers = {
   Query: {
     allUser: async () => User.find(),
     authorizedUser: (
-      _root: never, _args: never, context: {currentUser: String}
+      _root: never, _args: never, context: {currentUser: IUser}
     ) => context.currentUser,
   },
 };

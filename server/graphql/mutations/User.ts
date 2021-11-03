@@ -25,14 +25,14 @@ const userSchema = yup.object().shape({
 type UserInput = Asserts<typeof userSchema>;
 
 const typeDefs = gql`
-  input CreateUserInput {
+  input UserInput {
     username: String!
     password: String!
   }
 
   extend type Mutation {
-    login(username: String!, password: String!): Token
-    createUser(credentials: CreateUserInput): User
+    login(credentials: UserInput): Token
+    createUser(credentials: UserInput): User
   }
 `;
 
