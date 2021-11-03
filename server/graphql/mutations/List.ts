@@ -2,9 +2,10 @@ import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
 import Logger from '../../../utils/Logger';
-import {IBoard} from '../../models/Board';
+import {BoardDocument, IUser} from '../../../types';
+
 import List from '../../models/List';
-import {IUser} from '../../models/User';
+
 
 const typeDefs = gql`
   input CreateListInput {
@@ -43,16 +44,16 @@ const resolvers = {
         throw new ApolloError('Only logged user can create a Board');
       }
 
-      const isOwner = currentUser.boards.includes(list.boardId);
-      if (!isOwner) {
-        throw new ApolloError('Only owner can create Lists');
-      }
+      // const isOwner = currentUser.boards.includes(list.boardId);
+      // if (!isOwner) {
+      //   throw new ApolloError('Only owner can create Lists');
+      // }
 
       const newList = new List({name: list.name});
-      const board: IBoard = (await dataLoader.BoardLoader.load(
+      const board: BoardDocument = (await dataLoader.BoardLoader.load(
         list.boardId
-      )) as IBoard;
-      board.lists.push(newList.id);
+      )) as BoardDocument;
+      // board.lists.push(newList.id);
 
       try {
         await newList.save();

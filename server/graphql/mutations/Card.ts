@@ -2,10 +2,8 @@ import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
 import Logger from '../../../utils/Logger';
-import {IBoard} from '../../models/Board';
-import Card, {Attachment, IAttachment, ICard} from '../../models/Card';
-import {IList} from '../../models/List';
-import {IUser} from '../../models/User';
+import Card, {Attachment} from '../../models/Card';
+import {IBoard, IList, CardDocument, IUser, IAttachment} from '../../../types';
 
 const typeDefs = gql`
   input CreateCardInput {
@@ -65,28 +63,28 @@ const resolvers = {
         Logger.error(error);
         throw new ApolloError('Invalid list or board id');
       }
-      const id = currentUser.id as string;
-      if (
-        !(
-          board.owner.toString() === id ||
-          board.collaborators.find(collab => collab.toString() === id)
-        )
-      ) {
-        throw new ApolloError(
-          'Invalid user: Only owner/collaborators can add a Card'
-        );
-      }
+      // const id = currentUser.id as string;
+      // if (
+      //   !(
+      //     board.owner.toString() === id ||
+      //     board.collaborators.find(collab => collab.toString() === id)
+      //   )
+      // ) {
+      //   throw new ApolloError(
+      //     'Invalid user: Only owner/collaborators can add a Card'
+      //   );
+      // }
 
       const newCard = new Card({
         title: card.title || '',
         description: card.description || '',
         coverId: card.coverId || '',
       });
-      list.cards.push(newCard.id);
+      // list.cards.push(newCard.id);
 
       try {
         await newCard.save();
-        await list.save();
+        // await list.save();
       } catch (error) {
         Logger.error(error);
         throw new ApolloError('Cannot save the Card');
@@ -123,7 +121,7 @@ const resolvers = {
       let card;
 
       try {
-        card = (await dataLoader.CardLoader.load(attachment.cardId)) as ICard;
+        card = (await dataLoader.CardLoader.load(attachment.cardId)) as CardDocument;
       } catch (error) {
         Logger.error(error);
         throw new ApolloError('Invalid Card');

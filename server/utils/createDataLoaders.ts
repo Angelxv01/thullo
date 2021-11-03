@@ -10,8 +10,9 @@ import User from '../models/User';
 import Board from '../models/Board';
 import List from '../models/List';
 import Card from '../models/Card';
-import Comment, {IComment} from '../models/Comment';
+import Comment from '../models/Comment';
 import Label from '../models/Label';
+import {CommentDocument} from '../../types';
 
 const dataLoader = (Model: mongoose.Model<any, any, any>) =>
   new DataLoader(
@@ -30,7 +31,7 @@ const dataLoader = (Model: mongoose.Model<any, any, any>) =>
 
 const LoadReplies = new DataLoader(
   async (ids: any) => {
-    const res: IComment[] = (await Comment.find({parentId: ids})) as IComment[];
+    const res: CommentDocument[] = (await Comment.find({parentId: ids})) as CommentDocument[];
     return ids.reduce(
       (acc: any, id: any) => [
         ...acc,

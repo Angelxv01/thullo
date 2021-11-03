@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import config from '../../utils/config';
 import {IUser, UserDocument} from '../../types';
 
-const schema = new mongoose.Schema<UserDocument>(
+const schema = new mongoose.Schema<IUser>(
   {
     username: {
       type: String,

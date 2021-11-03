@@ -2,7 +2,8 @@ import {gql} from 'apollo-server';
 import {UserInputError} from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 
-import User, {IUser} from '../../models/User';
+import User from '../../models/User';
+import {UserDocument} from '../../../types';
 import config from '../../../utils/config';
 import Logger from '../../../utils/Logger';
 
@@ -18,13 +19,13 @@ const resolvers = {
     login: async (_root: never, args: {username: string; password: string}) => {
       const user = (await User.findOne({
         username: args.username,
-      })) as IUser | null;
+      })) as UserDocument | null;
 
       if (!(user && (await user.comparePasswords(args.password)))) {
         throw new UserInputError('Invalid credentials');
       }
 
-      const token = {username: user.username, id: user.id as string};
+      const token = {username: user.username, id: user.id.toString()};
       // add this only after development {expiresIn: 60 * 60}
       // bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFuZ2VsIiwiaWQiOiI2MTQwY2NjYWNiZTAxNWNmYzQzMTU2MTgiLCJpYXQiOjE2MzE4MjUzNTZ9.TgXp8KqXIjxdxxz0fAxzrn3bFCSeZ32-hld3r2B1Xl8
 

@@ -1,6 +1,7 @@
 import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import List, {IList} from '../../models/List';
+import List from '../../models/List';
+import {IList} from '../../../types';
 
 const typeDefs = gql`
   type List {
@@ -15,7 +16,8 @@ const resolvers = {
   List: {
     cardCount: async (root: {id: string}) => {
       const list = (await List.findById(root.id)) as IList;
-      return list.cards.length;
+      // return list.cards.length;
+      return 0;
     },
     cards: async (
       {cards}: {cards: string[]},

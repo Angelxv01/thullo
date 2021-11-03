@@ -2,10 +2,10 @@ import {gql, ApolloError} from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
 import Logger from '../../../utils/Logger';
-import {IBoard} from '../../models/Board';
-import {ICard} from '../../models/Card';
-import Label, {Color} from '../../models/Label';
-import {IUser} from '../../models/User';
+import Label from '../../models/Label';
+
+import {BoardDocument, CardDocument, IUser} from '../../../types';
+import {Color} from '../../../types/ILabel';
 
 const typeDefs = gql`
   input createLabelInput {
@@ -45,13 +45,13 @@ const resolvers = {
         throw new ApolloError('Only logged user can create a List');
       }
 
-      let board: IBoard;
-      let card: ICard | undefined;
+      let board: BoardDocument;
+      let card: CardDocument | undefined;
 
       try {
-        board = (await dataLoader.BoardLoader.load(label.boardId)) as IBoard;
+        board = (await dataLoader.BoardLoader.load(label.boardId)) as BoardDocument;
         if (label.cardId) {
-          card = (await dataLoader.CardLoader.load(label.cardId)) as ICard;
+          card = (await dataLoader.CardLoader.load(label.cardId)) as CardDocument;
         }
       } catch (error) {
         Logger.info(error);
@@ -66,7 +66,7 @@ const resolvers = {
         color: label.color,
         boardId: label.boardId,
       });
-      board.labels.push(newLabel.id);
+      // board.labels.push(newLabel.id);
       card && card.labels.push(newLabel.id);
 
       try {

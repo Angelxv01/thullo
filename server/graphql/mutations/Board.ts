@@ -1,7 +1,6 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-
-import {IUser} from '../../models/User';
+import {IUser} from '../../../types'
 import Logger from '../../../utils/Logger';
 import Board from '../../models/Board';
 
@@ -55,7 +54,7 @@ const resolvers = {
       }
 
       const newBoard = new Board({
-        owner: currentUser.id as string,
+        // owner: currentUser.id as string,
         title: board.title,
         visibility: board.visibility,
         description: board.description,
@@ -64,15 +63,15 @@ const resolvers = {
 
       try {
         await newBoard.save();
-        currentUser.boards.push(newBoard._id);
-        await currentUser.save();
+        // currentUser.boards.push(newBoard._id);
+        // await currentUser.save();
 
         const collaboratorsPromise = collaborators.reduce(
           (acc: Promise<IUser>[], obj) => {
             const user: IUser = obj as IUser;
 
-            user.boards.push(newBoard._id);
-            acc.push(user.save());
+            // user.boards.push(newBoard._id);
+            // acc.push(user.save());
             return acc;
           },
           []
