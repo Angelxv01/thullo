@@ -40,6 +40,7 @@ schema.pre(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_, ret: Partial<UserDocument>) => {
+    ret.id = ret._id;
     delete ret._id;
     delete ret.passwordHash;
   },

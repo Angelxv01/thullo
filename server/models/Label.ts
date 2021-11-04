@@ -16,6 +16,7 @@ const schema = new mongoose.Schema<LabelDocument>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<LabelDocument>) => {
+    ret.id = ret._id;
     delete ret._id;
   },
 });

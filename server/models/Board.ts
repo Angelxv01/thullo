@@ -31,6 +31,7 @@ const schema = new mongoose.Schema<IBoard>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<BoardDocument>) => {
+    ret.id = ret._id;
     delete ret._id;
   },
 });

@@ -13,6 +13,7 @@ const schema = new mongoose.Schema<ListDocument>({
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<ListDocument>) => {
+    ret.id = ret._id;
     delete ret._id;
   },
 });

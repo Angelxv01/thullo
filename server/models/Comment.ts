@@ -13,6 +13,7 @@ const schema = new mongoose.Schema<CommentDocument>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<CommentDocument>) => {
+    ret.id = ret._id;
     delete ret._id;
   },
 });

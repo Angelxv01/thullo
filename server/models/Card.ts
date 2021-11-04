@@ -28,6 +28,7 @@ const schema = new mongoose.Schema<CardDocument>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<CardDocument>) => {
+    ret.id = ret._id;
     delete ret._id;
   },
 });
