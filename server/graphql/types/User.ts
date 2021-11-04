@@ -1,11 +1,12 @@
 import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
+import { IUser } from '../../../types';
 
 const typeDefs = gql`
   type User {
     id: ID!
     username: String!
-    boards: [Board!]
+    boards: [Board!]!
     friends: [User!]!
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -25,12 +26,12 @@ const resolvers = {
         {dataLoader: Record<string, DataLoader<unknown, unknown>>}
     ) => dataLoader.UserLoader.loadMany(friends),
     boards: async (
-      {boards}: {boards: string[]},
+      root: IUser,
       _args: never,
       {
-        dataLoader: {BoardLoader},
-      }: {dataLoader: {BoardLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => BoardLoader.loadMany(boards),
+        dataLoader,
+      }: {dataLoader: {UserBoard: DataLoader<unknown, unknown, unknown>}}
+    ) => dataLoader.UserBoard.load(root.id),
   },
 };
 

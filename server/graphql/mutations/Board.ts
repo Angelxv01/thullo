@@ -57,8 +57,8 @@ const resolvers = {
       }
       let board: BoardDocument | undefined;
       if (boardData.id) {
-        const {id, otherProps} = boardData; 
-        board = Board.findByIdAndUpdate(id, otherProps, { new: true }) as unknown as BoardDocument;
+        const {id, ...otherProps} = boardData; 
+        board = await Board.findByIdAndUpdate(id, otherProps, { new: true }) as unknown as BoardDocument;
       } else {
         board = new Board(boardData);
       }

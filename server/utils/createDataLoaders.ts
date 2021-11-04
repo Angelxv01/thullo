@@ -12,7 +12,7 @@ import List from '../models/List';
 import Card from '../models/Card';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
-import {CommentDocument} from '../../types';
+import {BoardDocument, CommentDocument} from '../../types';
 
 const dataLoader = (Model: mongoose.Model<any, any, any>) =>
   new DataLoader(
@@ -45,6 +45,21 @@ const LoadReplies = new DataLoader(
   }
 );
 
+const batchUserBoard = async (keys: readonly string[]) => {
+  const results = await Board.find({"members.id": keys}) as unknown as BoardDocument[];
+
+  return keys.reduce(
+    (acc: BoardDocument[][], key) => 
+      [
+        ...acc,
+        results.filter(result => 
+          result.members.some(member => member.id.toString() === key)
+        )
+      ],
+      []
+  );
+}
+
 // TODO: load child nodes from one parent id
 // mongoose.Model, string => mongoose.find() result[]
 
@@ -57,6 +72,7 @@ export const createDataLoader = () => {
     CommentLoader: dataLoader(Comment),
     LabelLoader: dataLoader(Label),
     LoadReplies,
+    UserBoard: new DataLoader(batchUserBoard)
   };
 };
 
