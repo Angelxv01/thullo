@@ -12,7 +12,7 @@ import List from '../models/List';
 import Card from '../models/Card';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
-import {BoardDocument, CommentDocument} from '../../types';
+import {BoardDocument, CommentDocument, IBoard} from '../../types';
 
 const dataLoader = (Model: mongoose.Model<any, any, any>) =>
   new DataLoader(
@@ -21,7 +21,7 @@ const dataLoader = (Model: mongoose.Model<any, any, any>) =>
       return ids.reduce(
         (acc: any, id: any) => [
           ...acc,
-          res.find((obj: any) => obj.id === id.toString()) || null,
+          res.find((obj: any) => obj.id === id.toString()).map((obj: any) => obj.toJSON()) || null,
         ],
         []
       );
@@ -46,10 +46,10 @@ const LoadReplies = new DataLoader(
 );
 
 const batchUserBoard = async (keys: readonly string[]) => {
-  const results = await Board.find({"members.id": keys}) as unknown as BoardDocument[];
-
+  const data = await Board.find({"members.id": keys}) as BoardDocument[];
+  const results = data.map(obj => obj.toJSON()) as IBoard[];
   return keys.reduce(
-    (acc: BoardDocument[][], key) => 
+    (acc: IBoard[][], key) => 
       [
         ...acc,
         results.filter(result => 
