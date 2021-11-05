@@ -13,6 +13,7 @@ import Comment from './types/Comment';
 // ENUMS
 import Color from './enums/Color';
 import Visibility from './enums/Visibility';
+import Role from './enums/Role';
 
 // QUERIES
 import CardQuery from './queries/Card';
@@ -47,6 +48,7 @@ const typeDefs = [
   Comment.typeDefs,
   Color.typeDefs,
   Visibility.typeDefs,
+  Role.typeDefs,
   CardQuery.typeDefs,
   BoardQuery.typeDefs,
   UserQuery.typeDefs,
@@ -67,6 +69,7 @@ const resolvers = mergeResolvers([
   Comment.resolvers,
   Color.resolvers,
   Visibility.resolvers,
+  Role.resolvers,
   CardQuery.resolvers,
   BoardQuery.resolvers,
   UserQuery.resolvers,

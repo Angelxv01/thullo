@@ -2,6 +2,11 @@ import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 
 const typeDefs = gql`
+  type Member {
+    user: User!
+    role: Role!  
+  }
+
   type Board {
     id: ID!
     title: String!
@@ -9,8 +14,7 @@ const typeDefs = gql`
     description: String!
     lists: [List!]!
     coverId: String
-    owner: User!
-    collaborators: [User!]!
+    members: [Member!]!
     labels: [Label!]!
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -26,20 +30,6 @@ const resolvers = {
         dataLoader: {ListLoader},
       }: {dataLoader: {ListLoader: DataLoader<unknown, unknown, unknown>}}
     ) => ListLoader.loadMany(lists),
-    owner: (
-      {owner}: {owner: string},
-      _args: never,
-      {
-        dataLoader: {UserLoader},
-      }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => UserLoader.load(owner),
-    collaborators: (
-      {collaborators}: {collaborators: string[]},
-      _args: never,
-      {
-        dataLoader: {UserLoader},
-      }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => UserLoader.loadMany(collaborators),
     labels: async (
       {labels}: {labels: string[]},
       _args: never,
