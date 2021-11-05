@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import {ListDocument} from '../../types';
+import {Schema, Document, model} from 'mongoose';
+import {IList} from '../../types';
 
-const schema = new mongoose.Schema<ListDocument>({
+const schema = new Schema<IList>({
   name: String,
   board_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Board',
   },
   order: Number,
@@ -12,10 +12,10 @@ const schema = new mongoose.Schema<ListDocument>({
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<ListDocument>) => {
+  transform: (_doc, ret: Partial<Document<IList>>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default mongoose.model('List', schema);
+export default model('List', schema);

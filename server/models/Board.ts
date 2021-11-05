@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import {BoardDocument, IBoard} from '../../types';
+import mongoose, {Document, Schema, model} from 'mongoose';
+import {IBoard} from '../../types';
 
-const schema = new mongoose.Schema<IBoard>(
+const schema = new Schema<IBoard>(
   {
     title: String,
     visibility: {
@@ -14,7 +14,7 @@ const schema = new mongoose.Schema<IBoard>(
     members: [
       {
         id: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: 'User',
         },
         role: {
@@ -30,10 +30,10 @@ const schema = new mongoose.Schema<IBoard>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<BoardDocument>) => {
+  transform: (_doc, ret: Partial<Document<IBoard>>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default mongoose.model('Board', schema);
+export default model('Board', schema);

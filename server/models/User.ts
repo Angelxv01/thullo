@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import { Schema, Document, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../utils/config';
-import {IUser, UserDocument} from '../../types';
+import {IUser} from '../../types';
 
-const schema = new mongoose.Schema<IUser>(
+const schema = new Schema<IUser>(
   {
     username: {
       type: String,
@@ -12,7 +12,7 @@ const schema = new mongoose.Schema<IUser>(
     },
     avatar: String,
     passwordHash: String,
-    friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
   },
   {timestamps: true}
 );
@@ -24,9 +24,9 @@ schema.methods.comparePasswords = async function (
   return bcrypt.compare(password, this.passwordHash);
 };
 
-schema.pre(
+schema.pre<IUser & Document>(
   'save',
-  async function (this: UserDocument, next: (err?: Error | undefined) => void) {
+  async function (next: (err?: Error | undefined) => void) {
     if (this.isNew || this.isModified('passwordHash')) {
       this.passwordHash = await bcrypt.hash(
         this.passwordHash,
@@ -39,11 +39,11 @@ schema.pre(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_, ret: Partial<UserDocument>) => {
+  transform: (_, ret: Partial<IUser & Document>) => {
     ret.id = ret._id;
     delete ret._id;
     delete ret.passwordHash;
   },
 });
 
-export default mongoose.model('User', schema);
+export default model('User', schema);

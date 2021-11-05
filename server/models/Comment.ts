@@ -1,21 +1,21 @@
-import mongoose from 'mongoose';
-import {CommentDocument} from '../../types';
+import {Schema, Document, model} from 'mongoose';
+import {IComment} from '../../types';
 
-const schema = new mongoose.Schema<CommentDocument>(
+const schema = new Schema<IComment>(
   {
     text: String,
-    user: mongoose.Schema.Types.ObjectId,
-    parentId: {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'},
+    user: Schema.Types.ObjectId,
+    parentId: {type: Schema.Types.ObjectId, ref: 'Comment'},
   },
   {timestamps: true}
 );
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<CommentDocument>) => {
+  transform: (_doc, ret: Partial<Document<IComment>>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default mongoose.model('Comment', schema);
+export default model('Comment', schema);

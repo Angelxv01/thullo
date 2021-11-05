@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import {CardDocument, AttachmentDocument} from '../../types';
+import {Schema, Document, model} from 'mongoose';
+import {ICard, IAttachment} from '../../types';
 
-const attachmentSchema = new mongoose.Schema<AttachmentDocument>(
+const attachmentSchema = new Schema<IAttachment>(
   {
     url: String,
     title: String,
@@ -10,16 +10,16 @@ const attachmentSchema = new mongoose.Schema<AttachmentDocument>(
   {timestamps: true}
 );
 
-const schema = new mongoose.Schema<CardDocument>(
+const schema = new Schema<ICard>(
   {
     title: String,
     description: String,
-    board_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
-    list_id: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
-    members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    board_id: {type: Schema.Types.ObjectId, ref: 'Board'},
+    list_id: {type: Schema.Types.ObjectId, ref: 'List'},
+    members: [{type: Schema.Types.ObjectId, ref: 'User'}],
     coverId: String,
-    comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
-    labels: [{type: mongoose.Schema.Types.ObjectId, ref: 'Label'}],
+    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
+    labels: [{type: Schema.Types.ObjectId, ref: 'Label'}],
     attachments: [attachmentSchema],
   },
   {timestamps: true}
@@ -27,11 +27,11 @@ const schema = new mongoose.Schema<CardDocument>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<CardDocument>) => {
+  transform: (_doc, ret: Partial<Document<ICard>>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export const Attachment = mongoose.model('Attachment', attachmentSchema);
-export default mongoose.model('Card', schema);
+export const Attachment = model('Attachment', attachmentSchema);
+export default model('Card', schema);
