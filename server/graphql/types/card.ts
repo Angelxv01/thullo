@@ -6,7 +6,7 @@ const typeDefs = gql`
   type Attachment {
     id: ID!
     url: String!
-    abbreviation: String
+    title: String
     coverId: String
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -20,7 +20,9 @@ const typeDefs = gql`
     id: ID!
     title: String
     description: String
-    assignedTo: [User!]!
+    board_id: ID!
+    list_id: ID!
+    members: [User!]!
     coverId: String
     comments: [Comment!]!
     labels: [Label!]!
@@ -32,31 +34,31 @@ const typeDefs = gql`
 
 const resolvers = {
   Card: {
-    assignedTo: async (
-      {assignedTo}: {assignedTo: mongoose.ObjectId[]},
-      _args: never,
-      {
-        dataLoader,
-      }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => dataLoader.UserLoader.loadMany(assignedTo),
-    comments: async (
-      {comments}: {comments: string[]},
-      _args: never,
-      {
-        dataLoader,
-      }: {dataLoader: {CommentLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => dataLoader.CommentLoader.loadMany(comments),
-    labels: async (
-      {labels}: {labels: string[]},
-      _args: never,
-      {
-        dataLoader,
-      }: {
-        dataLoader: {
-          LabelLoader: DataLoader<unknown, unknown, unknown>;
-        };
-      }
-    ) => dataLoader.LabelLoader.loadMany(labels),
+    // assignedTo: async (
+    //   {assignedTo}: {assignedTo: mongoose.ObjectId[]},
+    //   _args: never,
+    //   {
+    //     dataLoader,
+    //   }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
+    // ) => dataLoader.UserLoader.loadMany(assignedTo),
+    // comments: async (
+    //   {comments}: {comments: string[]},
+    //   _args: never,
+    //   {
+    //     dataLoader,
+    //   }: {dataLoader: {CommentLoader: DataLoader<unknown, unknown, unknown>}}
+    // ) => dataLoader.CommentLoader.loadMany(comments),
+    // labels: async (
+    //   {labels}: {labels: string[]},
+    //   _args: never,
+    //   {
+    //     dataLoader,
+    //   }: {
+    //     dataLoader: {
+    //       LabelLoader: DataLoader<unknown, unknown, unknown>;
+    //     };
+    //   }
+    // ) => dataLoader.LabelLoader.loadMany(labels),
   },
 };
 

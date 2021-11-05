@@ -1,6 +1,7 @@
 import {ObjectId, Date} from 'mongoose';
 
 export interface ILabel {
+  id: ObjectId;
   text: string;
   color: Color;
   boardId: ObjectId;
