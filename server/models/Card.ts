@@ -1,7 +1,6 @@
 import {Schema, Document, model} from 'mongoose';
-import {ICard, IAttachment} from '../../types';
 
-const attachmentSchema = new Schema<IAttachment>(
+const attachmentSchema = new Schema(
   {
     url: String,
     title: String,
@@ -10,7 +9,7 @@ const attachmentSchema = new Schema<IAttachment>(
   {timestamps: true}
 );
 
-const schema = new Schema<ICard>(
+const schema = new Schema(
   {
     title: String,
     description: String,
@@ -27,7 +26,7 @@ const schema = new Schema<ICard>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<Document<ICard>>) => {
+  transform: (_doc, ret: any) => {
     ret.id = ret._id;
     delete ret._id;
   },

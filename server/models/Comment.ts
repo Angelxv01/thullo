@@ -1,7 +1,6 @@
 import {Schema, Document, model} from 'mongoose';
-import {IComment} from '../../types';
 
-const schema = new Schema<IComment>(
+const schema = new Schema(
   {
     text: String,
     user: Schema.Types.ObjectId,
@@ -12,7 +11,7 @@ const schema = new Schema<IComment>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<Document<IComment>>) => {
+  transform: (_doc, ret: any) => {
     ret.id = ret._id;
     delete ret._id;
   },

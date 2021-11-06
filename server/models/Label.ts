@@ -1,7 +1,6 @@
 import { Schema, Document, model } from 'mongoose';
-import {ILabel} from '../../types';
 
-const schema = new Schema<ILabel>(
+const schema = new Schema(
   {
     text: String,
     color: {
@@ -15,7 +14,7 @@ const schema = new Schema<ILabel>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<Document<ILabel>>) => {
+  transform: (_doc, ret: any) => {
     ret.id = ret._id;
     delete ret._id;
   },

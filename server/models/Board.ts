@@ -1,7 +1,6 @@
 import mongoose, {Document, Schema, model} from 'mongoose';
-import {IBoard} from '../../types';
 
-const schema = new Schema<IBoard>(
+const schema = new Schema(
   {
     title: String,
     visibility: {
@@ -30,7 +29,7 @@ const schema = new Schema<IBoard>(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<Document<IBoard>>) => {
+  transform: (_doc, ret: any) => {
     ret.id = ret._id;
     delete ret._id;
   },

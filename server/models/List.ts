@@ -1,7 +1,6 @@
 import {Schema, Document, model} from 'mongoose';
-import {IList} from '../../types';
 
-const schema = new Schema<IList>({
+const schema = new Schema({
   name: String,
   board_id: {
     type: Schema.Types.ObjectId,
@@ -12,7 +11,7 @@ const schema = new Schema<IList>({
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: Partial<Document<IList>>) => {
+  transform: (_doc, ret: any) => {
     ret.id = ret._id;
     delete ret._id;
   },

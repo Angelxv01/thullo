@@ -1,6 +1,22 @@
-export {IBoard, Visibility, Role, Member} from './IBoard';
-export {ICard, IAttachment} from './ICard';
-export {IComment} from './IComment';
-export {ILabel, Color} from './ILabel';
-export {IUser} from './IUser';
-export {IList} from './IList';
+import {IBoard, Visibility, Role, Member} from './IBoard';
+import {ICard, IAttachment} from './ICard';
+import {IComment} from './IComment';
+import {ILabel, Color} from './ILabel';
+import {IUser} from './IUser';
+import {IList} from './IList';
+
+export {
+  // ENUMS
+  Color,
+  Role,
+  Visibility,
+  // TYPES
+  Member,
+  IUser,
+  IBoard, 
+  ICard,
+  IAttachment,
+  IComment,
+  ILabel,
+  IList
+}
