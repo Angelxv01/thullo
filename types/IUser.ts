@@ -1,12 +1,16 @@
-import {ObjectId, Date} from 'mongoose';
+import {Document, ObjectId, Date, Model} from 'mongoose';
 
 export interface IUser {
-  id: ObjectId;
   username: string;
-  avatar: string;
+  avatar?: string;
   passwordHash: string;
-  friends: ObjectId[];
+  friends?: ObjectId[];
   createdAt: Date;
   updatedAt: Date;
-  comparePasswords: (password: string) => Promise<boolean>;
 }
+
+export interface UserDocument extends IUser, Document {
+  comparePasswords(password: string): Promise<boolean>;
+}
+
+export interface UserModel extends Model<UserDocument> {};

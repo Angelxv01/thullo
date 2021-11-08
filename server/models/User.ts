@@ -1,8 +1,9 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../utils/config';
+import { UserDocument, UserModel } from '../../types';
 
-const schema = new Schema(
+const schema = new Schema<UserDocument, UserModel>(
   {
     username: {
       type: String,
@@ -17,13 +18,13 @@ const schema = new Schema(
 );
 
 schema.methods.comparePasswords = async function (
-  this: any,
+  this: UserDocument,
   password: string
 ) {
   return bcrypt.compare(password, this.passwordHash);
 };
 
-schema.pre(
+schema.pre<UserDocument>(
   'save',
   async function (next: (err?: Error | undefined) => void) {
     if (this.isNew || this.isModified('passwordHash')) {
@@ -38,7 +39,7 @@ schema.pre(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_, ret: any) => {
+  transform: (_, ret: Partial<UserDocument>) => {
     ret.id = ret._id;
     delete ret._id;
     delete ret.passwordHash;
