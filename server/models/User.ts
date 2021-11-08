@@ -46,4 +46,4 @@ schema.set('toJSON', {
   },
 });
 
-export default model('User', schema);
+export default model<UserDocument, UserModel>('User', schema);

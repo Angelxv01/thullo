@@ -1,7 +1,7 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
-import {CardDocument, IComment, IUser} from '../../../types'
+import {CardDocument, IComment, UserDocument} from '../../../types'
 import Logger from '../../../utils/Logger';
 import Comment from '../../models/Comment';
 
@@ -28,7 +28,7 @@ const resolvers = {
         currentUser,
         dataLoader,
       }: {
-        currentUser: IUser;
+        currentUser: UserDocument;
         dataLoader: {
           CardLoader: DataLoader<unknown, unknown, unknown>;
           CommentLoader: DataLoader<unknown, unknown, unknown>;
@@ -70,7 +70,7 @@ const resolvers = {
         currentUser,
         dataLoader,
       }: {
-        currentUser: IUser;
+        currentUser: UserDocument;
         dataLoader: {
           CardLoader: DataLoader<unknown, unknown, unknown>;
           CommentLoader: DataLoader<unknown, unknown, unknown>;

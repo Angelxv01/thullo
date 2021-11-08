@@ -1,10 +1,12 @@
-import {Date, ObjectId} from 'mongoose';
+import {Date, Document, Model, ObjectId} from 'mongoose';
 
 export interface IComment {
-  id: ObjectId;
   text: string;
   user: ObjectId;
   parentId: ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface CommentDocument extends IComment, Document {};
+export interface CommentModel extends Model<CommentDocument> {};

@@ -1,6 +1,7 @@
-import {Schema, Document, model} from 'mongoose';
+import {Schema, model} from 'mongoose';
+import { ListDocument, ListModel } from '../../types';
 
-const schema = new Schema({
+const schema = new Schema<ListDocument, ListModel>({
   name: String,
   board_id: {
     type: Schema.Types.ObjectId,
@@ -11,10 +12,10 @@ const schema = new Schema({
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: Partial<ListDocument>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default model('List', schema);
+export default model<ListDocument, ListModel>('List', schema);

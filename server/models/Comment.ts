@@ -1,6 +1,7 @@
-import {Schema, Document, model} from 'mongoose';
+import {Schema, model} from 'mongoose';
+import { CommentDocument, CommentModel } from '../../types';
 
-const schema = new Schema(
+const schema = new Schema<CommentDocument, CommentModel>(
   {
     text: String,
     user: Schema.Types.ObjectId,
@@ -11,10 +12,10 @@ const schema = new Schema(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: Partial<CommentDocument>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default model('Comment', schema);
+export default model<CommentDocument, CommentModel>('Comment', schema);

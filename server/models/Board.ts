@@ -1,6 +1,7 @@
-import mongoose, {Document, Schema, model} from 'mongoose';
+import {Schema, model} from 'mongoose';
+import { BoardDocument, BoardModel } from '../../types/';
 
-const schema = new Schema(
+const schema = new Schema<BoardDocument, BoardModel>(
   {
     title: String,
     visibility: {
@@ -29,10 +30,10 @@ const schema = new Schema(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: Partial<BoardDocument>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default model('Board', schema);
+export default model<BoardDocument, BoardModel>('Board', schema);

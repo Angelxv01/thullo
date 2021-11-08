@@ -1,6 +1,7 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { LabelDocument, LabelModel } from '../../types';
 
-const schema = new Schema(
+const schema = new Schema<LabelDocument, LabelModel>(
   {
     text: String,
     color: {
@@ -14,10 +15,10 @@ const schema = new Schema(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: Partial<LabelDocument>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export default model('Label', schema);
+export default model<LabelDocument, LabelModel>('Label', schema);

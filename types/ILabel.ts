@@ -1,7 +1,6 @@
-import {ObjectId, Date} from 'mongoose';
+import {ObjectId, Date, Document, Model} from 'mongoose';
 
 export interface ILabel {
-  id: ObjectId;
   text: string;
   color: Color;
   boardId: ObjectId;
@@ -23,3 +22,6 @@ export enum Color {
   GRAY4,
   GRAY5,
 }
+
+export interface LabelDocument extends ILabel, Document {};
+export interface LabelModel extends Model<LabelDocument> {};

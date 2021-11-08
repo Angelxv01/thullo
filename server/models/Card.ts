@@ -1,6 +1,12 @@
-import {Schema, Document, model} from 'mongoose';
+import {Schema, model} from 'mongoose';
+import { 
+  AttachmentDocument, 
+  AttachmentModel, 
+  CardDocument, 
+  CardModel
+} from '../../types';
 
-const attachmentSchema = new Schema(
+const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
   {
     url: String,
     title: String,
@@ -9,7 +15,7 @@ const attachmentSchema = new Schema(
   {timestamps: true}
 );
 
-const schema = new Schema(
+const schema = new Schema<CardDocument, CardModel>(
   {
     title: String,
     description: String,
@@ -26,11 +32,11 @@ const schema = new Schema(
 
 schema.set('toJSON', {
   versionKey: false,
-  transform: (_doc, ret: any) => {
+  transform: (_doc, ret: Partial<CardDocument>) => {
     ret.id = ret._id;
     delete ret._id;
   },
 });
 
-export const Attachment = model('Attachment', attachmentSchema);
-export default model('Card', schema);
+export const Attachment = model<AttachmentDocument, AttachmentModel>('Attachment', attachmentSchema);
+export default model<CardDocument, CardModel>('Card', schema);

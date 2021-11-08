@@ -21,7 +21,7 @@ const dataLoader = (Model: mongoose.Model<any, any, any>) =>
       return ids.reduce(
         (acc: any, id: any) => [
           ...acc,
-          res.find((obj: any) => obj.id === id.toString()).map((obj: any) => obj.toJSON()) || null,
+          (res.find((obj: any) => obj.id === id.toString()) || null).toJSON(),
         ],
         []
       );

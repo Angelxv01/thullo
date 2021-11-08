@@ -3,7 +3,7 @@ import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, {Attachment} from '../../models/Card';
-import {IBoard, IList, CardDocument, IUser, IAttachment} from '../../../types';
+import {IBoard, IList, CardDocument, IUser, AttachmentDocument} from '../../../types';
 
 const typeDefs = gql`
   input CreateCardInput {
@@ -131,11 +131,11 @@ const resolvers = {
         throw new ApolloError('Invalid Card');
       }
 
-      const newAttachment: IAttachment = new Attachment({
+      const newAttachment: AttachmentDocument = new Attachment({
         url: attachment.url,
         abbreviation: attachment.abbreviation,
         coverId: attachment.coverId,
-      }) as IAttachment;
+      }) as AttachmentDocument;
       card.attachments.push(newAttachment);
 
       try {

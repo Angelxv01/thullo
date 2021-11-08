@@ -1,4 +1,4 @@
-import {ObjectId, Date} from 'mongoose';
+import {Document, ObjectId, Date, Model} from 'mongoose';
 
 export enum Visibility {
   PRIVATE,
@@ -17,7 +17,6 @@ export interface Member {
 }
 
 export interface IBoard {
-  id: ObjectId;
   title: string;
   visibility: Visibility;
   description: string;
@@ -26,3 +25,6 @@ export interface IBoard {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface BoardDocument extends IBoard, Document {};
+export interface BoardModel extends Model<BoardDocument> {};

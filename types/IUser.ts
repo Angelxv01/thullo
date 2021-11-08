@@ -4,7 +4,7 @@ export interface IUser {
   username: string;
   avatar?: string;
   passwordHash: string;
-  friends?: ObjectId[];
+  friends: ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }

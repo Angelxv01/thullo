@@ -1,8 +1,7 @@
-import {Date, ObjectId} from 'mongoose';
-import { IAttachment } from './IAttachment';
+import {Document, Date, ObjectId, Model} from 'mongoose';
+import { AttachmentDocument } from '.';
 
 export interface ICard {
-  id: ObjectId;
   title: string;
   description: string;
   board_id: ObjectId;
@@ -11,7 +10,11 @@ export interface ICard {
   coverId: string;
   comments: ObjectId[];
   labels: ObjectId[];
-  attachments: IAttachment[];
+  attachments: AttachmentDocument[];
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+export interface CardDocument extends ICard, Document {};
+export interface CardModel extends Model<CardDocument> {};
