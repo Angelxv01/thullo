@@ -3,14 +3,14 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 import Logger from '../utils/Logger';
-import config from '../utils/config';
+import {MONGODB, SECRET} from '../utils/config';
 import schema from './graphql/schema';
 import User from './models/User';
 import {IUser} from '../types';
 import createDataLoader from './utils/createDataLoaders';
 
 mongoose
-  .connect(config.MONGODB || '')
+  .connect(MONGODB || '')
   .then(() => Logger.info('connected to MongoDB'))
   .catch(err => Logger.error(err));
 mongoose.set('debug', true);
@@ -21,7 +21,7 @@ const server = new ApolloServer({
     const auth = req ? req.headers.authorization : null;
     const dataLoader = createDataLoader();
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
-      const {id} = jwt.verify(auth.substr(7), config.SECRET) as Record<string, string>;
+      const {id} = jwt.verify(auth.substr(7), SECRET) as Record<string, string>;
       const currentUser = (await User.findById(id)) as IUser;
       return {currentUser, dataLoader};
     }

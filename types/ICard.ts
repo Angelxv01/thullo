@@ -1,13 +1,5 @@
 import {Date, ObjectId} from 'mongoose';
-
-export interface IAttachment {
-  id: ObjectId;
-  url: string;
-  title: string;
-  coverId: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IAttachment } from './IAttachment';
 
 export interface ICard {
   id: ObjectId;

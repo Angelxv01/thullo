@@ -1,5 +1,6 @@
 export {IBoard, Visibility, Role, Member} from './IBoard';
-export {ICard, IAttachment} from './ICard';
+export {ICard} from './ICard';
+export {IAttachment} from './IAttachment';
 export {IComment} from './IComment';
 export {ILabel, Color} from './ILabel';
 export {IUser, UserDocument, UserModel} from './IUser';
