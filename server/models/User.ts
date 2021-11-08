@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import config from '../../utils/config';
+import {SALT_ROUND} from '../../utils/config';
 import { UserDocument, UserModel } from '../../types';
 
 const schema = new Schema<UserDocument, UserModel>(
@@ -30,7 +30,7 @@ schema.pre<UserDocument>(
     if (this.isNew || this.isModified('passwordHash')) {
       this.passwordHash = await bcrypt.hash(
         this.passwordHash,
-        Number(config.SALT_ROUND)
+        SALT_ROUND
       );
     }
     next();
