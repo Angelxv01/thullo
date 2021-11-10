@@ -30,6 +30,12 @@ interface BoardInput {
   members?: (ObjectId)[];
 }
 
+interface PromoteUserInput {
+  id: ObjectId;
+  role: Role;
+  boardId: ObjectId;
+}
+
 const typeDefs = gql`
   input CreateBoardInput {
     id: ID
@@ -40,8 +46,15 @@ const typeDefs = gql`
     members: [ID!]
   }
 
+  input PromoteUserInput {
+    id: ID
+    role: Role
+    boardId: ID
+  }
+
   extend type Mutation {
     createBoard(boardData: CreateBoardInput): Board
+    promoteUser(userInput: PromoteUserInput): Board
   }
 `;
 
