@@ -1,11 +1,12 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import {BoardDocument, IBoard, IUser} from '../../../types'
+import {BoardDocument, IBoard, IUser, Member, Role} from '../../../types'
 import Logger from '../../../utils/Logger';
 import Board from '../../models/Board';
-import {object, string, mixed, array, Asserts} from 'yup';
+import {object, string, mixed, Asserts} from 'yup';
 import { Maybe } from 'yup/lib/types';
-import { Visibility } from '../../../types/IBoard';
+import { Visibility } from '../../../types';
+import { ObjectId } from 'mongoose';
 
 const boardSchema = object().shape({
   boardData: object().shape({
@@ -15,10 +16,19 @@ const boardSchema = object().shape({
       .oneOf(Object.values(Visibility) as Maybe<Visibility>[]),
     description: string().trim().optional(),
     coverId: string().trim().optional(),
-    members: array().of(string()).optional()
+    // members: array().optional().of(string())
   })
 });
-type BoardInput = Asserts<typeof boardSchema>;
+// type BoardInput = Asserts<typeof boardSchema>;
+
+interface BoardInput {
+  id?: ObjectId;
+  title?: string;
+  visibility?: Visibility;
+  description?: string;
+  coverId?: string;
+  members?: (ObjectId)[];
+}
 
 const typeDefs = gql`
   input CreateBoardInput {
@@ -39,10 +49,10 @@ const resolvers = {
   Mutation: {
     createBoard: async (
       _root: never,
-      args: unknown,
+      args: {boardData: BoardInput},
       {
         currentUser,
-        dataLoader: {UserLoader, BoardLoader},
+        dataLoader: {BoardLoader},
       }: {
         currentUser: IUser | undefined;
         dataLoader: {
@@ -51,16 +61,19 @@ const resolvers = {
         };
       }
     ) => {
-      const {boardData}: BoardInput = await boardSchema.validate(args);
+      // const {boardData}: BoardInput = await boardSchema.validate(args);
       if (!currentUser) {
         throw new ApolloError('Only logged user can create a Board');
       }
+      const out = {
+        ...args.boardData,
+        members: args.boardData.members?.map((id) => ({id, role: Role.MEMBER})) as Member[]
+      }
       let board: BoardDocument | undefined;
-      if (boardData.id) {
-        const {id, ...otherProps} = boardData; 
-        board = await Board.findByIdAndUpdate(id, otherProps, { new: true }) as unknown as BoardDocument;
+      if (args.boardData.id) {
+        board = await Board.findByIdAndUpdate(args.boardData.id, out, { new: true }) as unknown as BoardDocument;
       } else {
-        board = new Board(boardData);
+        board = new Board(out);
       }
 
       if (!board) {

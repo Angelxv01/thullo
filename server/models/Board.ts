@@ -13,6 +13,7 @@ const schema = new Schema<BoardDocument, BoardModel>(
     coverId: String,
     members: [
       {
+        _id: false,
         id: {
           type: Schema.Types.ObjectId,
           ref: 'User',
