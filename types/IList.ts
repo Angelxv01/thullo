@@ -2,8 +2,7 @@ import {Document, Model, ObjectId} from 'mongoose';
 
 export interface IList {
   name: string;
-  board_id: ObjectId;
-  order: number;
+  boardId: ObjectId;
 }
 
 export interface ListDocument extends IList, Document {};

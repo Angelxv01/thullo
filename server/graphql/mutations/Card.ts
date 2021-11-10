@@ -1,16 +1,30 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, {Attachment} from '../../models/Card';
-import {IBoard, IList, CardDocument, IUser, AttachmentDocument} from '../../../types';
+import {CardDocument, IUser, AttachmentDocument} from '../../../types';
+import Board from '../../models/Board';
+import List from '../../models/List';
+
+interface CreateCardInput {
+  id?: ObjectId;
+  title?: string;
+  description?: string;
+  boardId: ObjectId;
+  listId?: ObjectId;
+  members?: ObjectId[];
+  coverId?: string;
+}
 
 const typeDefs = gql`
   input CreateCardInput {
-    boardId: ID!
+    id: ID
     title: String
     description: String
-    listId: ID!
+    boardId: ID
+    listId: ID
+    members: [ID!]
     coverId: String
   }
   input CreateAttachmentInput {
@@ -20,7 +34,7 @@ const typeDefs = gql`
     url: String!
   }
   extend type Mutation {
-    createCard(card: CreateCardInput): Card
+    createCard(cardData: CreateCardInput): Card
     createAttachment(attachment: CreateAttachmentInput): Attachment
   }
 `;
@@ -29,68 +43,27 @@ const resolvers = {
   Mutation: {
     createCard: async (
       _root: never,
-      {
-        card,
-      }: {
-        card: {
-          boardId: mongoose.ObjectId;
-          title: string;
-          description: string;
-          listId: mongoose.ObjectId;
-          coverId: string;
-        };
-      },
-      {
-        currentUser,
-        dataLoader,
-      }: {
-        currentUser: IUser | undefined;
-        dataLoader: {
-          [key: string]: DataLoader<unknown, unknown, unknown>;
-        };
-      }
+      {cardData}: {cardData: CreateCardInput},
+      {currentUser}: {currentUser: IUser | undefined;}
     ) => {
-      if (!currentUser) {
-        throw new ApolloError('Only logged user can create a Card');
-      }
+      if (!currentUser) throw new ApolloError('Login to create');
+      const boardExist = await Board.findById(cardData.boardId);
+      const listExist = cardData.listId 
+        ? await List.findById(cardData.listId)
+        : true;
+      if (!(boardExist && listExist)) 
+        throw new ApolloError('Invalid Board or List ID');
 
-      let list: IList;
-      let board: IBoard;
-      try {
-        list = (await dataLoader.ListLoader.load(card.listId)) as IList;
-        board = (await dataLoader.BoardLoader.load(card.boardId)) as IBoard;
-      } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Invalid list or board id');
-      }
-      // const id = currentUser.id as string;
-      // if (
-      //   !(
-      //     board.owner.toString() === id ||
-      //     board.collaborators.find(collab => collab.toString() === id)
-      //   )
-      // ) {
-      //   throw new ApolloError(
-      //     'Invalid user: Only owner/collaborators can add a Card'
-      //   );
-      // }
-
-      const newCard = new Card({
-        title: card.title || '',
-        description: card.description || '',
-        coverId: card.coverId || '',
-      });
-      // list.cards.push(newCard.id);
+      const card = new Card(cardData);
 
       try {
-        await newCard.save();
-        // await list.save();
-      } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Cannot save the Card');
+        await card.save();
+      } catch(err) {
+        console.log((err as Error).message);
+        throw err;
       }
 
-      return dataLoader.CardLoader.load(newCard.id);
+      return card.toJSON();
     },
     createAttachment: async (
       _root: never,

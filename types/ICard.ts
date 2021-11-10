@@ -4,8 +4,8 @@ import { AttachmentDocument } from '.';
 export interface ICard {
   title: string;
   description: string;
-  board_id: ObjectId;
-  list_id: ObjectId;
+  boardId: ObjectId;
+  listId: ObjectId;
   members: ObjectId[];
   coverId: string;
   comments: ObjectId[];

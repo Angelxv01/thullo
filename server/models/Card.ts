@@ -19,8 +19,8 @@ const schema = new Schema<CardDocument, CardModel>(
   {
     title: String,
     description: String,
-    board_id: {type: Schema.Types.ObjectId, ref: 'Board'},
-    list_id: {type: Schema.Types.ObjectId, ref: 'List'},
+    boardId: {type: Schema.Types.ObjectId, ref: 'Board'},
+    listId: {type: Schema.Types.ObjectId, ref: 'List'},
     members: [{type: Schema.Types.ObjectId, ref: 'User'}],
     coverId: String,
     comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],

@@ -3,11 +3,10 @@ import { ListDocument, ListModel } from '../../types';
 
 const schema = new Schema<ListDocument, ListModel>({
   name: String,
-  board_id: {
+  boardId: {
     type: Schema.Types.ObjectId,
     ref: 'Board',
   },
-  order: Number,
 });
 
 schema.set('toJSON', {

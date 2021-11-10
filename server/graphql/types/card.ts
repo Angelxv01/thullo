@@ -20,8 +20,8 @@ const typeDefs = gql`
     id: ID!
     title: String
     description: String
-    board_id: ID!
-    list_id: ID!
+    boardId: ID!
+    listId: ID!
     members: [User!]!
     coverId: String
     comments: [Comment!]!

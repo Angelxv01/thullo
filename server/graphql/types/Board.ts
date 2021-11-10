@@ -3,6 +3,7 @@ import DataLoader from 'dataloader';
 import { ObjectId } from 'mongoose';
 import { Role } from '../../../types';
 import List from '../../models/List';
+import Card from '../../models/Card';
 
 const typeDefs = gql`
   type Member {
@@ -16,6 +17,7 @@ const typeDefs = gql`
     visibility: Visibility!
     description: String!
     lists: [List!]!
+    cards: [Card!]!
     coverId: String
     members: [Member!]!
     labels: [Label!]!
@@ -37,10 +39,13 @@ const resolvers = {
         };
       }
     ) => dataLoader.LabelLoader.loadMany(labels),
-    lists: async (root: {id: ObjectId}, _: never) => {
+    lists: async (root: {id: ObjectId}) => {
       const lists = await List.find({board_id: root.id});
       return lists.map(list => list.toJSON());
-    }
+    },
+    cards: async (
+      {id}: {id: ObjectId},
+    ) => Card.find({board_id: id}),
   },
   Member: {
     user: async (
