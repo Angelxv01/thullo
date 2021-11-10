@@ -3,7 +3,6 @@ import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
 import Logger from '../../../utils/Logger';
 import {BoardDocument, IUser} from '../../../types';
-
 import List from '../../models/List';
 
 
@@ -44,22 +43,19 @@ const resolvers = {
         throw new ApolloError('Only logged user can create a Board');
       }
 
-      // const isOwner = currentUser.boards.includes(list.boardId);
-      // if (!isOwner) {
-      //   throw new ApolloError('Only owner can create Lists');
-      // }
-
-      const newList = new List({name: list.name});
+      const newList = new List({name: list.name, board_id: list.boardId});
       const board: BoardDocument = (await dataLoader.BoardLoader.load(
         list.boardId
       )) as BoardDocument;
-      // board.lists.push(newList.id);
+
+      if (!board) {
+        throw new ApolloError('Invalid Board Id');
+      }
 
       try {
         await newList.save();
-        await board.save();
       } catch (error) {
-        Logger.error(error);
+        console.log((error as Error).message)
         throw new ApolloError('Cannot save the List');
       }
 

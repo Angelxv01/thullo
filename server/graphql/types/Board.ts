@@ -2,6 +2,7 @@ import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 import { ObjectId } from 'mongoose';
 import { Role } from '../../../types';
+import List from '../../models/List';
 
 const typeDefs = gql`
   type Member {
@@ -25,13 +26,6 @@ const typeDefs = gql`
 
 const resolvers = {
   Board: {
-    lists: (
-      {lists}: {lists: string[]},
-      _args: never,
-      {
-        dataLoader: {ListLoader},
-      }: {dataLoader: {ListLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => ListLoader.loadMany(lists),
     labels: async (
       {labels}: {labels: string[]},
       _args: never,
@@ -43,6 +37,10 @@ const resolvers = {
         };
       }
     ) => dataLoader.LabelLoader.loadMany(labels),
+    lists: async (root: {id: ObjectId}, _: never) => {
+      const lists = await List.find({board_id: root.id});
+      return lists.map(list => list.toJSON());
+    }
   },
   Member: {
     user: async (
