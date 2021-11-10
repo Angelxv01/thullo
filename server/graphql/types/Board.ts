@@ -1,10 +1,12 @@
 import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
+import { ObjectId } from 'mongoose';
+import { Role } from '../../../types';
 
 const typeDefs = gql`
   type Member {
     user: User!
-    role: Role!  
+    role: Role!
   }
 
   type Board {
@@ -42,6 +44,14 @@ const resolvers = {
       }
     ) => dataLoader.LabelLoader.loadMany(labels),
   },
+  Member: {
+    user: async (
+      root: {id: ObjectId}, 
+      _: never, 
+      ctx: {dataLoader: Record<string, DataLoader<unknown, unknown>>}
+    ) => ctx.dataLoader.UserLoader.load(root.id),
+    role: (root: {role: number}) => Role[root.role]
+  }
 };
 
 export default {typeDefs, resolvers};
