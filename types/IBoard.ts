@@ -26,5 +26,5 @@ export interface IBoard {
   updatedAt: Date;
 }
 
-export interface BoardDocument extends IBoard, Document {};
-export interface BoardModel extends Model<BoardDocument> {};
+export interface BoardDocument extends IBoard, Document {}
+export interface BoardModel extends Model<BoardDocument> {}

@@ -31,7 +31,9 @@ const dataLoader = (Model: mongoose.Model<any, any, any>) =>
 
 const LoadReplies = new DataLoader(
   async (ids: any) => {
-    const res: CommentDocument[] = (await Comment.find({parentId: ids})) as CommentDocument[];
+    const res: CommentDocument[] = (await Comment.find({
+      parentId: ids,
+    })) as CommentDocument[];
     return ids.reduce(
       (acc: any, id: any) => [
         ...acc,
@@ -46,19 +48,18 @@ const LoadReplies = new DataLoader(
 );
 
 const batchUserBoard = async (keys: readonly string[]) => {
-  const data = await Board.find({"members.id": keys}) as BoardDocument[];
+  const data = (await Board.find({'members.id': keys})) as BoardDocument[];
   const results = data.map(obj => obj.toJSON()) as IBoard[];
   return keys.reduce(
-    (acc: IBoard[][], key) => 
-      [
-        ...acc,
-        results.filter(result => 
-          result.members.some(member => member.id.toString() === key)
-        )
-      ],
-      []
+    (acc: IBoard[][], key) => [
+      ...acc,
+      results.filter(result =>
+        result.members.some(member => member.id.toString() === key)
+      ),
+    ],
+    []
   );
-}
+};
 
 // TODO: load child nodes from one parent id
 // mongoose.Model, string => mongoose.find() result[]
@@ -72,7 +73,7 @@ export const createDataLoader = () => {
     CommentLoader: dataLoader(Comment),
     LabelLoader: dataLoader(Label),
     LoadReplies,
-    UserBoard: new DataLoader(batchUserBoard)
+    UserBoard: new DataLoader(batchUserBoard),
   };
 };
 

@@ -1,5 +1,5 @@
 import {Document, Date, ObjectId, Model} from 'mongoose';
-import { AttachmentDocument } from '.';
+import {AttachmentDocument} from '.';
 
 export interface ICard {
   title: string;
@@ -15,6 +15,5 @@ export interface ICard {
   updatedAt: Date;
 }
 
-
-export interface CardDocument extends ICard, Document {};
-export interface CardModel extends Model<CardDocument> {};
+export interface CardDocument extends ICard, Document {}
+export interface CardModel extends Model<CardDocument> {}

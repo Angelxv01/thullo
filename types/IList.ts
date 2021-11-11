@@ -5,5 +5,5 @@ export interface IList {
   boardId: ObjectId;
 }
 
-export interface ListDocument extends IList, Document {};
-export interface ListModel extends Model<ListDocument> {};
+export interface ListDocument extends IList, Document {}
+export interface ListModel extends Model<ListDocument> {}

@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import {Schema, model} from 'mongoose';
 import bcrypt from 'bcryptjs';
 import {SALT_ROUND} from '../../utils/config';
-import { UserDocument, UserModel } from '../../types';
+import {UserDocument, UserModel} from '../../types';
 
 const schema = new Schema<UserDocument, UserModel>(
   {
@@ -28,10 +28,7 @@ schema.pre<UserDocument>(
   'save',
   async function (next: (err?: Error | undefined) => void) {
     if (this.isNew || this.isModified('passwordHash')) {
-      this.passwordHash = await bcrypt.hash(
-        this.passwordHash,
-        SALT_ROUND
-      );
+      this.passwordHash = await bcrypt.hash(this.passwordHash, SALT_ROUND);
     }
     next();
   }

@@ -23,5 +23,5 @@ export enum Color {
   GRAY5,
 }
 
-export interface LabelDocument extends ILabel, Document {};
-export interface LabelModel extends Model<LabelDocument> {};
+export interface LabelDocument extends ILabel, Document {}
+export interface LabelModel extends Model<LabelDocument> {}

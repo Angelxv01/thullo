@@ -1,7 +1,7 @@
 import {gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import { ObjectId } from 'mongoose';
-import { Role } from '../../../types';
+import {ObjectId} from 'mongoose';
+import {Role} from '../../../types';
 import List from '../../models/List';
 import Card from '../../models/Card';
 
@@ -43,18 +43,16 @@ const resolvers = {
       const lists = await List.find({board_id: root.id});
       return lists.map(list => list.toJSON());
     },
-    cards: async (
-      {id}: {id: ObjectId},
-    ) => Card.find({board_id: id}),
+    cards: async ({id}: {id: ObjectId}) => Card.find({board_id: id}),
   },
   Member: {
     user: async (
-      root: {id: ObjectId}, 
-      _: never, 
+      root: {id: ObjectId},
+      _: never,
       ctx: {dataLoader: Record<string, DataLoader<unknown, unknown>>}
     ) => ctx.dataLoader.UserLoader.load(root.id),
-    role: (root: {role: number}) => Role[root.role]
-  }
+    role: (root: {role: number}) => Role[root.role],
+  },
 };
 
 export default {typeDefs, resolvers};

@@ -1,6 +1,6 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose, {ObjectId} from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, {Attachment} from '../../models/Card';
 import {CardDocument, IUser, AttachmentDocument} from '../../../types';
@@ -44,21 +44,21 @@ const resolvers = {
     createCard: async (
       _root: never,
       {cardData}: {cardData: CreateCardInput},
-      {currentUser}: {currentUser: IUser | undefined;}
+      {currentUser}: {currentUser: IUser | undefined}
     ) => {
       if (!currentUser) throw new ApolloError('Login to create');
       const boardExist = await Board.findById(cardData.boardId);
-      const listExist = cardData.listId 
+      const listExist = cardData.listId
         ? await List.findById(cardData.listId)
         : true;
-      if (!(boardExist && listExist)) 
+      if (!(boardExist && listExist))
         throw new ApolloError('Invalid Board or List ID');
 
       const card = new Card(cardData);
 
       try {
         await card.save();
-      } catch(err) {
+      } catch (err) {
         console.log((err as Error).message);
         throw err;
       }
@@ -94,7 +94,9 @@ const resolvers = {
       let card;
 
       try {
-        card = (await dataLoader.CardLoader.load(attachment.cardId)) as CardDocument;
+        card = (await dataLoader.CardLoader.load(
+          attachment.cardId
+        )) as CardDocument;
       } catch (error) {
         Logger.error(error);
         throw new ApolloError('Invalid Card');

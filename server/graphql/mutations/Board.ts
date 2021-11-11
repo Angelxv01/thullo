@@ -1,23 +1,24 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import {BoardDocument, IBoard, IUser, Member, Role} from '../../../types'
+import {BoardDocument, IUser, Member, Role} from '../../../types';
 import Logger from '../../../utils/Logger';
 import Board from '../../models/Board';
-import {object, string, mixed, Asserts} from 'yup';
-import { Maybe } from 'yup/lib/types';
-import { Visibility } from '../../../types';
-import { ObjectId } from 'mongoose';
+import {object, string, mixed} from 'yup';
+import {Maybe} from 'yup/lib/types';
+import {Visibility} from '../../../types';
+import {ObjectId} from 'mongoose';
 
 const boardSchema = object().shape({
   boardData: object().shape({
     id: string().trim().optional(),
     title: string().trim().optional(),
-    visibility: mixed<Visibility>()
-      .oneOf(Object.values(Visibility) as Maybe<Visibility>[]),
+    visibility: mixed<Visibility>().oneOf(
+      Object.values(Visibility) as Maybe<Visibility>[]
+    ),
     description: string().trim().optional(),
     coverId: string().trim().optional(),
     // members: array().optional().of(string())
-  })
+  }),
 });
 // type BoardInput = Asserts<typeof boardSchema>;
 
@@ -27,7 +28,7 @@ interface BoardInput {
   visibility?: Visibility;
   description?: string;
   coverId?: string;
-  members?: (ObjectId)[];
+  members?: ObjectId[];
 }
 
 interface PromoteUserInput {
@@ -80,11 +81,16 @@ const resolvers = {
       }
       const out = {
         ...args.boardData,
-        members: args.boardData.members?.map((id) => ({id, role: Role.MEMBER})) as Member[]
-      }
+        members: args.boardData.members?.map(id => ({
+          id,
+          role: Role.MEMBER,
+        })) as Member[],
+      };
       let board: BoardDocument | undefined;
       if (args.boardData.id) {
-        board = await Board.findByIdAndUpdate(args.boardData.id, out, { new: true }) as unknown as BoardDocument;
+        board = (await Board.findByIdAndUpdate(args.boardData.id, out, {
+          new: true,
+        })) as unknown as BoardDocument;
       } else {
         board = new Board(out);
       }

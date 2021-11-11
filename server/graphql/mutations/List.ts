@@ -5,7 +5,6 @@ import Logger from '../../../utils/Logger';
 import {BoardDocument, IUser} from '../../../types';
 import List from '../../models/List';
 
-
 const typeDefs = gql`
   input CreateListInput {
     name: String!
@@ -55,7 +54,7 @@ const resolvers = {
       try {
         await newList.save();
       } catch (error) {
-        console.log((error as Error).message)
+        console.log((error as Error).message);
         throw new ApolloError('Cannot save the List');
       }
 

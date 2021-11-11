@@ -1,9 +1,9 @@
 import {Schema, model} from 'mongoose';
-import { 
-  AttachmentDocument, 
-  AttachmentModel, 
-  CardDocument, 
-  CardModel
+import {
+  AttachmentDocument,
+  AttachmentModel,
+  CardDocument,
+  CardModel,
 } from '../../types';
 
 const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
@@ -38,5 +38,8 @@ schema.set('toJSON', {
   },
 });
 
-export const Attachment = model<AttachmentDocument, AttachmentModel>('Attachment', attachmentSchema);
+export const Attachment = model<AttachmentDocument, AttachmentModel>(
+  'Attachment',
+  attachmentSchema
+);
 export default model<CardDocument, CardModel>('Card', schema);

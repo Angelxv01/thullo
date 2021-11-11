@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose';
-import { LabelDocument, LabelModel } from '../../types';
+import {Schema, model} from 'mongoose';
+import {LabelDocument, LabelModel} from '../../types';
 
 const schema = new Schema<LabelDocument, LabelModel>(
   {

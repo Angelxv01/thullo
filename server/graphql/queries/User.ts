@@ -1,5 +1,5 @@
 import {gql} from 'apollo-server';
-import { IUser, UserDocument } from '../../../types';
+import {IUser, UserDocument} from '../../../types';
 import User from '../../models/User';
 
 const typeDefs = gql`
@@ -12,11 +12,13 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     allUser: async () => {
-      const users: UserDocument[] = await User.find() as UserDocument[];
+      const users: UserDocument[] = (await User.find()) as UserDocument[];
       return users.map(user => user.toJSON());
     },
     authorizedUser: (
-      _root: never, _args: never, context: {currentUser: IUser}
+      _root: never,
+      _args: never,
+      context: {currentUser: IUser}
     ) => context.currentUser,
   },
 };

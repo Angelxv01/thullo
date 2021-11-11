@@ -8,5 +8,5 @@ export interface IComment {
   updatedAt: Date;
 }
 
-export interface CommentDocument extends IComment, Document {};
-export interface CommentModel extends Model<CommentDocument> {};
+export interface CommentDocument extends IComment, Document {}
+export interface CommentModel extends Model<CommentDocument> {}

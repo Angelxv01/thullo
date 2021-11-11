@@ -1,7 +1,7 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
-import {CardDocument, IComment, UserDocument} from '../../../types'
+import {CardDocument, IComment, UserDocument} from '../../../types';
 import Logger from '../../../utils/Logger';
 import Comment from '../../models/Comment';
 
@@ -41,7 +41,9 @@ const resolvers = {
 
       let card: CardDocument;
       try {
-        card = (await dataLoader.CardLoader.load(comment.cardId)) as CardDocument;
+        card = (await dataLoader.CardLoader.load(
+          comment.cardId
+        )) as CardDocument;
       } catch (error) {
         Logger.info(error);
         throw new ApolloError('Invalid Card');

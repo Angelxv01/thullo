@@ -49,9 +49,13 @@ const resolvers = {
       let card: CardDocument | undefined;
 
       try {
-        board = (await dataLoader.BoardLoader.load(label.boardId)) as BoardDocument;
+        board = (await dataLoader.BoardLoader.load(
+          label.boardId
+        )) as BoardDocument;
         if (label.cardId) {
-          card = (await dataLoader.CardLoader.load(label.cardId)) as CardDocument;
+          card = (await dataLoader.CardLoader.load(
+            label.cardId
+          )) as CardDocument;
         }
       } catch (error) {
         Logger.info(error);
