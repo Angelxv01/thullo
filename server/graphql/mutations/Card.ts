@@ -1,9 +1,8 @@
 import {ApolloError, gql} from 'apollo-server';
-import DataLoader from 'dataloader';
-import mongoose, {ObjectId} from 'mongoose';
+import {ObjectId} from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, {Attachment} from '../../models/Card';
-import {CardDocument, IUser, AttachmentDocument} from '../../../types';
+import {IUser, AttachmentDocument} from '../../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
 
@@ -29,7 +28,7 @@ const typeDefs = gql`
   }
   input CreateAttachmentInput {
     cardId: ID!
-    abbreviation: String!
+    title: String!
     coverId: String
     url: String!
   }
@@ -67,22 +66,18 @@ const resolvers = {
     },
     createAttachment: async (
       _root: never,
-      {
-        attachment,
-      }: {
+      args: {
         attachment: {
-          cardId: mongoose.ObjectId;
+          cardId: ObjectId;
           url: string;
-          abbreviation: string;
+          title: string;
           coverId: string;
         };
       },
       {
         currentUser,
-        dataLoader,
       }: {
         currentUser: IUser;
-        dataLoader: {[key: string]: DataLoader<unknown, unknown, unknown>};
       }
     ) => {
       if (!currentUser) {
@@ -91,26 +86,21 @@ const resolvers = {
         );
       }
 
+      const {cardId, ...props} = args.attachment;
+
       let card;
 
       try {
-        card = (await dataLoader.CardLoader.load(
-          attachment.cardId
-        )) as CardDocument;
+        card = await Card.findById(cardId);
+        if (!card) throw new ApolloError('Invalid card');
       } catch (error) {
         Logger.error(error);
         throw new ApolloError('Invalid Card');
       }
 
-      if (!card) {
-        throw new ApolloError('Invalid Card');
-      }
-
-      const newAttachment: AttachmentDocument = new Attachment({
-        url: attachment.url,
-        abbreviation: attachment.abbreviation,
-        coverId: attachment.coverId,
-      }) as AttachmentDocument;
+      const newAttachment: AttachmentDocument = new Attachment(
+        props
+      ) as AttachmentDocument;
       card.attachments.push(newAttachment);
 
       try {

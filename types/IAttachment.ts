@@ -1,4 +1,4 @@
-import {Document, Model, ObjectId} from 'mongoose';
+import {Document, Model} from 'mongoose';
 
 export interface IAttachment {
   url: string;
@@ -9,4 +9,4 @@ export interface IAttachment {
 }
 
 export interface AttachmentDocument extends IAttachment, Document {}
-export interface AttachmentModel extends Model<AttachmentDocument> {}
+export type AttachmentModel = Model<AttachmentDocument>;
