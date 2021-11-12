@@ -1,7 +1,6 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
-import Logger from '../../../utils/Logger';
 import {BoardDocument, IUser} from '../../../types';
 import List from '../../models/List';
 

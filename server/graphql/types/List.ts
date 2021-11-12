@@ -1,7 +1,6 @@
 import {gql} from 'apollo-server';
-import DataLoader from 'dataloader';
-import List from '../../models/List';
-import {IList} from '../../../types';
+import Card from '../../models/Card';
+import {ObjectId} from 'mongoose';
 
 const typeDefs = gql`
   type List {
@@ -14,18 +13,9 @@ const typeDefs = gql`
 
 const resolvers = {
   List: {
-    cardCount: async (root: {id: string}) => {
-      const list = (await List.findById(root.id)) as IList;
-      // return list.cards.length;
-      return 0;
-    },
-    cards: async (
-      {cards}: {cards: string[]},
-      _args: never,
-      {
-        dataLoader: {CardLoader},
-      }: {dataLoader: {CardLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => CardLoader.loadMany(cards),
+    cardCount: async (root: {id: ObjectId}) =>
+      Card.find({listId: root.id}).countDocuments(),
+    cards: async (root: {id: ObjectId}) => Card.find({listId: root.id}),
   },
 };
 

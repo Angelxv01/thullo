@@ -33,7 +33,6 @@ const schema = new Schema<CardDocument, CardModel>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<CardDocument>) => {
-    ret.id = ret._id;
     delete ret._id;
   },
 });
