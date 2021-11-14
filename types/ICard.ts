@@ -16,4 +16,4 @@ export interface ICard {
 }
 
 export interface CardDocument extends ICard, Document {}
-export interface CardModel extends Model<CardDocument> {}
+export type CardModel = Model<CardDocument>;

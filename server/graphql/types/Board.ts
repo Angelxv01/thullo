@@ -1,9 +1,7 @@
 import {gql} from 'apollo-server';
-import DataLoader from 'dataloader';
 import {ObjectId} from 'mongoose';
 import {Role} from '../../../types';
-import List from '../../models/List';
-import Card from '../../models/Card';
+import {List, Label, Card, User} from '../../models';
 
 const typeDefs = gql`
   type Member {
@@ -28,29 +26,15 @@ const typeDefs = gql`
 
 const resolvers = {
   Board: {
-    labels: async (
-      {labels}: {labels: string[]},
-      _args: never,
-      {
-        dataLoader,
-      }: {
-        dataLoader: {
-          LabelLoader: DataLoader<unknown, unknown, unknown>;
-        };
-      }
-    ) => dataLoader.LabelLoader.loadMany(labels),
     lists: async (root: {id: ObjectId}) => {
-      const lists = await List.find({board_id: root.id});
+      const lists = await List.find({boardId: root.id});
       return lists.map(list => list.toJSON());
     },
-    cards: async ({id}: {id: ObjectId}) => Card.find({board_id: id}),
+    cards: async (root: {id: ObjectId}) => Card.find({boardId: root.id}),
+    labels: async (root: {id: ObjectId}) => Label.find({boardId: root.id}),
   },
   Member: {
-    user: async (
-      root: {id: ObjectId},
-      _: never,
-      ctx: {dataLoader: Record<string, DataLoader<unknown, unknown>>}
-    ) => ctx.dataLoader.UserLoader.load(root.id),
+    user: async (root: {id: ObjectId}) => User.findById(root.id),
     role: (root: {role: number}) => Role[root.role],
   },
 };

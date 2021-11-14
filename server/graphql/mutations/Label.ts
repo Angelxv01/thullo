@@ -1,11 +1,17 @@
 import {gql, ApolloError} from 'apollo-server';
-import DataLoader from 'dataloader';
-import mongoose from 'mongoose';
-import Logger from '../../../utils/Logger';
+import {ObjectId} from 'mongoose';
 import Label from '../../models/Label';
 
-import {BoardDocument, CardDocument, IUser} from '../../../types';
 import {Color} from '../../../types/ILabel';
+import {Board, Card} from '../../models';
+import {UserDocument} from '../../../types';
+
+interface LabelInput {
+  boardId: ObjectId;
+  cardId: ObjectId;
+  text: string;
+  color: Color;
+}
 
 const typeDefs = gql`
   input createLabelInput {
@@ -16,7 +22,7 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createLabel(label: createLabelInput): Label
+    createLabel(labelData: createLabelInput): Label
   }
 `;
 const resolvers = {
@@ -24,65 +30,38 @@ const resolvers = {
     createLabel: async (
       _root: never,
       {
-        label,
+        labelData,
       }: {
-        label: {
-          boardId: mongoose.ObjectId;
-          cardId: mongoose.ObjectId;
-          text: string;
-          color: Color;
-        };
+        labelData: LabelInput;
       },
       {
         currentUser,
-        dataLoader,
       }: {
-        currentUser: IUser;
-        dataLoader: {[key: string]: DataLoader<unknown, unknown, unknown>};
+        currentUser: UserDocument;
       }
     ) => {
       if (!currentUser) {
         throw new ApolloError('Only logged user can create a List');
       }
 
-      let board: BoardDocument;
-      let card: CardDocument | undefined;
+      const board = await Board.findById(labelData.boardId);
+      if (!board) throw new ApolloError('Invalid board');
 
-      try {
-        board = (await dataLoader.BoardLoader.load(
-          label.boardId
-        )) as BoardDocument;
-        if (label.cardId) {
-          card = (await dataLoader.CardLoader.load(
-            label.cardId
-          )) as CardDocument;
-        }
-      } catch (error) {
-        Logger.info(error);
-        throw new ApolloError('Invalid Board');
-      }
-      if (!board) {
-        throw new ApolloError('Invalid Board');
-      }
-
-      const newLabel = new Label({
-        text: label.text,
-        color: label.color,
-        boardId: label.boardId,
+      const label = new Label({
+        text: labelData.text,
+        color: Color[labelData.color],
+        boardId: labelData.boardId,
       });
-      // board.labels.push(newLabel.id);
-      card && card.labels.push(newLabel.id);
 
-      try {
-        await newLabel.save();
-        await board.save();
-        card && (await card.save());
-      } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Cannot save Label');
-      }
+      await label.save();
+      if (!labelData.cardId) return label.toJSON();
 
-      return dataLoader.LabelLoader.load(newLabel.id);
+      const card = await Card.findById(labelData.cardId);
+      if (!card) throw new ApolloError('Invalid Card');
+      card.labels.push(label.id);
+      await card.save();
+
+      return label.toJSON();
     },
   },
 };
