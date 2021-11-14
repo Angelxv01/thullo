@@ -1,13 +1,11 @@
 import {gql} from 'apollo-server';
-import DataLoader from 'dataloader';
 import {ObjectId} from 'mongoose';
-import Card from '../../models/Card';
-import Comment from '../../models/Comment';
+import {CommentDocument} from '../../../types';
+import {Comment, User} from '../../models';
 
 const typeDefs = gql`
   type Comment {
     id: ID!
-    card: Card
     text: String
     user: User!
     replies: [Comment!]!
@@ -18,15 +16,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Comment: {
-    replies: async ({id}: {id: ObjectId}) => Comment.find({parentId: id}),
-    user: (
-      {user}: {user: string},
-      _args: never,
-      {
-        dataLoader: {UserLoader},
-      }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
-    ) => UserLoader.load(user),
-    card: async ({cardId}: {cardId: ObjectId}) => Card.findById(cardId),
+    replies: async (root: CommentDocument) =>
+      Comment.find({parentId: root.id as ObjectId}),
+    user: async (root: CommentDocument) => User.findById(root.user),
   },
 };
 export default {typeDefs, resolvers};

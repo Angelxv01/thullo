@@ -1,6 +1,6 @@
 import {gql} from 'apollo-server';
 import {ObjectId} from 'mongoose';
-import {Role} from '../../../types';
+import {BoardDocument, Role, Visibility} from '../../../types';
 import {List, Label, Card, User} from '../../models';
 
 const typeDefs = gql`
@@ -11,9 +11,9 @@ const typeDefs = gql`
 
   type Board {
     id: ID!
-    title: String!
+    title: String
     visibility: Visibility!
-    description: String!
+    description: String
     lists: [List!]!
     cards: [Card!]!
     coverId: String
@@ -26,10 +26,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Board: {
-    lists: async (root: {id: ObjectId}) => {
-      const lists = await List.find({boardId: root.id});
-      return lists.map(list => list.toJSON());
-    },
+    lists: async (root: BoardDocument) =>
+      List.find({boardId: root.id as ObjectId}),
+    visibility: (root: BoardDocument) => Visibility[root.visibility],
     cards: async (root: {id: ObjectId}) => Card.find({boardId: root.id}),
     labels: async (root: {id: ObjectId}) => Label.find({boardId: root.id}),
   },
