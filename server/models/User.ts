@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, ObjectId} from 'mongoose';
 import bcrypt from 'bcryptjs';
 import {SALT_ROUND} from '../../utils/config';
 import {UserDocument, UserModel} from '../../types';
@@ -37,7 +37,7 @@ schema.pre<UserDocument>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_, ret: Partial<UserDocument>) => {
-    ret.id = ret._id;
+    ret.id = ret._id as ObjectId;
     delete ret._id;
     delete ret.passwordHash;
   },

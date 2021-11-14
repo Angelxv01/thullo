@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, ObjectId} from 'mongoose';
 import {LabelDocument, LabelModel} from '../../types';
 
 const schema = new Schema<LabelDocument, LabelModel>(
@@ -16,7 +16,7 @@ const schema = new Schema<LabelDocument, LabelModel>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<LabelDocument>) => {
-    ret.id = ret._id;
+    ret.id = ret._id as ObjectId;
     delete ret._id;
   },
 });

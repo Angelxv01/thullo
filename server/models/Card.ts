@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, ObjectId} from 'mongoose';
 import {
   AttachmentDocument,
   AttachmentModel,
@@ -33,6 +33,7 @@ const schema = new Schema<CardDocument, CardModel>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<CardDocument>) => {
+    ret.id = ret._id as ObjectId;
     delete ret._id;
   },
 });

@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, ObjectId} from 'mongoose';
 import {BoardDocument, BoardModel} from '../../types/';
 
 const schema = new Schema<BoardDocument, BoardModel>(
@@ -32,7 +32,7 @@ const schema = new Schema<BoardDocument, BoardModel>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<BoardDocument>) => {
-    ret.id = ret._id;
+    ret.id = ret._id as ObjectId;
     delete ret._id;
   },
 });

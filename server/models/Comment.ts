@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, ObjectId} from 'mongoose';
 import {CommentDocument, CommentModel} from '../../types';
 
 const schema = new Schema<CommentDocument, CommentModel>(
@@ -14,6 +14,7 @@ const schema = new Schema<CommentDocument, CommentModel>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<CommentDocument>) => {
+    ret.id = ret._id as ObjectId;
     delete ret._id;
   },
 });
