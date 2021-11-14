@@ -1,9 +1,10 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import mongoose from 'mongoose';
-import {CardDocument, IComment, UserDocument} from '../../../types';
+import mongoose, {ObjectId} from 'mongoose';
+import {IComment, UserDocument} from '../../../types';
 import Logger from '../../../utils/Logger';
 import Comment from '../../models/Comment';
+import Card from '../../models/Card';
 
 const typeDefs = gql`
   input CreateReply {
@@ -39,25 +40,20 @@ const resolvers = {
         throw new ApolloError('Only logged user can create Comment');
       }
 
-      let card: CardDocument;
       try {
-        card = (await dataLoader.CardLoader.load(
-          comment.cardId
-        )) as CardDocument;
+        const card = await Card.findById(comment.cardId);
+        if (!card) throw new ApolloError('Invalid Card');
       } catch (error) {
-        Logger.info(error);
         throw new ApolloError('Invalid Card');
       }
 
       const newComment = new Comment({
         text: comment.text,
-        user: currentUser.id.toString(),
+        user: currentUser.id as ObjectId,
       });
-      card.comments.push(newComment.id);
 
       try {
         await newComment.save();
-        await card.save();
       } catch (error) {
         Logger.error(error);
         throw new ApolloError('Cannot save the comment');
@@ -99,7 +95,7 @@ const resolvers = {
 
       const newReply = new Comment({
         text: reply.text,
-        user: currentUser.id.toString(),
+        user: currentUser,
         parentId: reply.commentId,
       });
 

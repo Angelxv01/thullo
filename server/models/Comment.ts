@@ -5,6 +5,7 @@ const schema = new Schema<CommentDocument, CommentModel>(
   {
     text: String,
     user: Schema.Types.ObjectId,
+    cardId: Schema.Types.ObjectId,
     parentId: {type: Schema.Types.ObjectId, ref: 'Comment'},
   },
   {timestamps: true}
@@ -13,7 +14,6 @@ const schema = new Schema<CommentDocument, CommentModel>(
 schema.set('toJSON', {
   versionKey: false,
   transform: (_doc, ret: Partial<CommentDocument>) => {
-    ret.id = ret._id;
     delete ret._id;
   },
 });
