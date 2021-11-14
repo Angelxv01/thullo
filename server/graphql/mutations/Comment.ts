@@ -39,7 +39,8 @@ const resolvers = {
 
       try {
         const card = await Card.findById(commentData.cardId);
-        if (!card) throw new ApolloError('Invalid Card');
+        if (!(card || commentData.commentId))
+          throw new ApolloError('Invalid Card');
       } catch (error) {
         throw new ApolloError('Invalid Card');
       }
