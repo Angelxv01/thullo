@@ -1,6 +1,6 @@
 import {gql} from 'apollo-server';
-import DataLoader from 'dataloader';
-import mongoose from 'mongoose';
+import {ObjectId} from 'mongoose';
+import Comment from '../../models/Comment';
 
 const typeDefs = gql`
   type Attachment {
@@ -34,31 +34,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Card: {
-    // assignedTo: async (
-    //   {assignedTo}: {assignedTo: mongoose.ObjectId[]},
-    //   _args: never,
-    //   {
-    //     dataLoader,
-    //   }: {dataLoader: {UserLoader: DataLoader<unknown, unknown, unknown>}}
-    // ) => dataLoader.UserLoader.loadMany(assignedTo),
-    // comments: async (
-    //   {comments}: {comments: string[]},
-    //   _args: never,
-    //   {
-    //     dataLoader,
-    //   }: {dataLoader: {CommentLoader: DataLoader<unknown, unknown, unknown>}}
-    // ) => dataLoader.CommentLoader.loadMany(comments),
-    // labels: async (
-    //   {labels}: {labels: string[]},
-    //   _args: never,
-    //   {
-    //     dataLoader,
-    //   }: {
-    //     dataLoader: {
-    //       LabelLoader: DataLoader<unknown, unknown, unknown>;
-    //     };
-    //   }
-    // ) => dataLoader.LabelLoader.loadMany(labels),
+    comments: async (root: {id: ObjectId}) => Comment.find({cardId: root.id}),
   },
 };
 
