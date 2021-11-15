@@ -7,7 +7,7 @@ export interface IUseTextArea {
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-const UseTextArea = (): IUseTextArea => {
+const useTextArea = (): IUseTextArea => {
   const [value, setValue] = useState<string>('');
   const divRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -19,4 +19,4 @@ const UseTextArea = (): IUseTextArea => {
   return {value, onChange, divRef, textAreaRef};
 };
 
-export default UseTextArea;
+export default useTextArea;
