@@ -24,15 +24,15 @@ schema.methods.comparePasswords = async function (
   return bcrypt.compare(password, this.passwordHash);
 };
 
-schema.pre<UserDocument>(
-  'save',
-  async function (next: (err?: Error | undefined) => void) {
-    if (this.isNew || this.isModified('passwordHash')) {
-      this.passwordHash = await bcrypt.hash(this.passwordHash, SALT_ROUND);
-    }
-    next();
+schema.pre<UserDocument>('save', async function (next: () => void) {
+  if (this.isNew || this.isModified('passwordHash')) {
+    this.passwordHash = await bcrypt.hash(
+      this.passwordHash,
+      Number(SALT_ROUND)
+    );
   }
-);
+  next();
+});
 
 schema.set('toJSON', {
   versionKey: false,

@@ -6,6 +6,7 @@ import {object, string, Asserts} from 'yup';
 import User from '../../models/User';
 import {UserDocument} from '../../../types';
 import {SECRET} from '../../../utils/config';
+import {ObjectId} from 'mongoose';
 
 const userSchema = object().shape({
   credentials: object().shape({
@@ -50,7 +51,7 @@ const resolvers = {
         throw new UserInputError('Invalid credentials');
       }
 
-      const token = {username: user.username, id: user.id.toString()};
+      const token = {username: user.username, id: user.id as ObjectId};
       // add this only after development {expiresIn: 60 * 60}
       // bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFuZ2VsIiwiaWQiOiI2MTQwY2NjYWNiZTAxNWNmYzQzMTU2MTgiLCJpYXQiOjE2MzE4MjUzNTZ9.TgXp8KqXIjxdxxz0fAxzrn3bFCSeZ32-hld3r2B1Xl8
       return {value: jwt.sign(token, SECRET)};
@@ -63,12 +64,7 @@ const resolvers = {
         username: credentials.username,
         passwordHash: credentials.password,
       });
-
-      try {
-        await user.save();
-      } catch (err) {
-        throw err;
-      }
+      await user.save();
 
       return user.toJSON();
     },
@@ -81,19 +77,13 @@ const resolvers = {
         throw new ApolloError('Only logged user can add friends');
 
       const {userId}: AddFriendInput = await addFriendSchema.validate(args);
-      let user: UserDocument | null;
-      user = await User.findById(userId);
+      const user = await User.findById(userId);
       if (!user) return null;
 
       currentUser.friends.push(user.id);
       user.friends.push(currentUser.id);
-
-      try {
-        await currentUser.save();
-        await user.save();
-      } catch (err) {
-        throw err;
-      }
+      await currentUser.save();
+      await user.save();
 
       return user.toJSON();
     },

@@ -1,26 +1,9 @@
 import {ApolloError, gql} from 'apollo-server';
 import DataLoader from 'dataloader';
-import {BoardDocument, IUser, Member, Role} from '../../../types';
-import Logger from '../../../utils/Logger';
+import {BoardDocument, Member, Role, UserDocument} from '../../../types';
 import Board from '../../models/Board';
-import {object, string, mixed} from 'yup';
-import {Maybe} from 'yup/lib/types';
 import {Visibility} from '../../../types';
 import {ObjectId} from 'mongoose';
-
-const boardSchema = object().shape({
-  boardData: object().shape({
-    id: string().trim().optional(),
-    title: string().trim().optional(),
-    visibility: mixed<Visibility>().oneOf(
-      Object.values(Visibility) as Maybe<Visibility>[]
-    ),
-    description: string().trim().optional(),
-    coverId: string().trim().optional(),
-    // members: array().optional().of(string())
-  }),
-});
-// type BoardInput = Asserts<typeof boardSchema>;
 
 interface BoardInput {
   id?: ObjectId;
@@ -31,10 +14,11 @@ interface BoardInput {
   members?: ObjectId[];
 }
 
-interface PromoteUserInput {
-  id: ObjectId;
-  role: Role;
-  boardId: ObjectId;
+interface InviteUserInput {
+  data: {
+    userId: ObjectId;
+    boardId: ObjectId;
+  };
 }
 
 const typeDefs = gql`
@@ -53,9 +37,15 @@ const typeDefs = gql`
     boardId: ID
   }
 
+  input InviteUserInput {
+    userId: ID!
+    boardId: ID!
+  }
+
   extend type Mutation {
     createBoard(boardData: CreateBoardInput): Board
     promoteUser(userInput: PromoteUserInput): Board
+    inviteUser(data: InviteUserInput): Board
   }
 `;
 
@@ -68,14 +58,13 @@ const resolvers = {
         currentUser,
         dataLoader: {BoardLoader},
       }: {
-        currentUser: IUser | undefined;
+        currentUser: UserDocument | undefined;
         dataLoader: {
           UserLoader: DataLoader<unknown, unknown, unknown>;
           BoardLoader: DataLoader<unknown, unknown, unknown>;
         };
       }
     ) => {
-      // const {boardData}: BoardInput = await boardSchema.validate(args);
       if (!currentUser) {
         throw new ApolloError('Only logged user can create a Board');
       }
@@ -99,14 +88,32 @@ const resolvers = {
         return null;
       }
 
-      try {
-        await board.save();
-      } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Cannot save or update the board');
-      }
-
+      await board.save();
       return BoardLoader.load(board.id);
+    },
+    inviteUser: async (
+      _: never,
+      args: InviteUserInput,
+      ctx: {
+        currentUser: UserDocument;
+      }
+    ) => {
+      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      const board = await Board.findById(args.data.boardId);
+      if (!board) throw new ApolloError('Invalid Resource');
+      const canInvite = board.members.find(
+        member => member.id === ctx.currentUser.id
+      );
+      const existOnBoard = board.members.find(
+        member => member.id === args.data.userId
+      );
+
+      if (!canInvite && existOnBoard)
+        throw new ApolloError('Unable to invite your friend');
+      board.members.push({id: args.data.userId, role: Role.MEMBER});
+      await board.save();
+
+      return board;
     },
   },
 };
