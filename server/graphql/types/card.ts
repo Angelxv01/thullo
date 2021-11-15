@@ -22,7 +22,6 @@ const typeDefs = gql`
     id: ID!
     title: String
     description: String
-    boardId: ID!
     listId: ID
     members: [User!]!
     coverId: String

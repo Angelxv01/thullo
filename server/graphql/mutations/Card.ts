@@ -7,10 +7,9 @@ import Board from '../../models/Board';
 import List from '../../models/List';
 
 interface CreateCardInput {
-  id?: ObjectId;
   title?: string;
   description?: string;
-  boardId: ObjectId;
+  boardId?: ObjectId;
   listId?: ObjectId;
   members?: ObjectId[];
   coverId?: string;
@@ -18,12 +17,11 @@ interface CreateCardInput {
 
 const typeDefs = gql`
   input CreateCardInput {
-    id: ID
     title: String
     description: String
     boardId: ID
     listId: ID
-    members: [ID!]
+    members: [ID!]!
     coverId: String
   }
   input CreateAttachmentInput {
@@ -54,13 +52,7 @@ const resolvers = {
         throw new ApolloError('Invalid Board or List ID');
 
       const card = new Card(cardData);
-
-      try {
-        await card.save();
-      } catch (err) {
-        console.log((err as Error).message);
-        throw err;
-      }
+      await card.save();
 
       return card.toJSON();
     },
