@@ -28,13 +28,15 @@ const InputGroup = ({
   children,
   width,
   props,
+  wrapper,
 }: {
   children?: React.ReactChild;
   width?: Size['width'];
-  props: HTMLAttributes<HTMLInputElement>;
+  props?: HTMLAttributes<HTMLInputElement>;
+  wrapper?: HTMLAttributes<HTMLDivElement>;
 }) => {
   return (
-    <StyledInput width={width}>
+    <StyledInput width={width} {...wrapper}>
       <input {...props} />
       {children}
     </StyledInput>

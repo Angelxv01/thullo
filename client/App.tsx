@@ -23,31 +23,53 @@ const App = () => {
   // console.log(ctx.data.authorizedUser.avatar);
 
   return (
-    <Flex style={{alignItems: 'center'}}>
-      <Logo />
-      <Text fontSize={theme.font.size[600]} lineHeight={theme.lineHeight[3]}>
-        {ctx.data.board.title}
-      </Text>
-      <Button.Icon>
-        <Icon.Apps />
-        <Text>All boards</Text>
-      </Button.Icon>
-      <InputGroup
-        props={{...searchController, placeholder: 'Keyword...'}}
-        width="24rem"
-      >
-        <Button.Colored>Search</Button.Colored>
-      </InputGroup>
-      <Avatar id={ctx.data.authorizedUser.avatar || ''} />
-      <Text
-        fontFamily={theme.font.family.secondary}
-        fontWeight="bold"
-        lineHeight={theme.lineHeight[0]}
-      >
-        {ctx.data.authorizedUser.username}
-      </Text>
-      <Icon.ArrowDropDown />
-    </Flex>
+    // Container
+    <div style={{width: '80%', margin: '0 auto'}}>
+      <Flex style={{alignItems: 'center', justifyContent: 'space-between'}}>
+        <Logo />
+        {/* Board Name + Back to boards */}
+        <Flex space="2rem" style={{alignItems: 'inherit'}}>
+          <Text
+            fontSize={theme.font.size[600]}
+            lineHeight={theme.lineHeight[3]}
+          >
+            {ctx.data.board.title}
+          </Text>
+          <hr
+            style={{
+              width: '1px',
+              height: '2.5rem',
+              border: 0,
+              backgroundColor: `hsl(${theme.color.GRAY5})`,
+            }}
+          />
+          <Button.Icon>
+            <Icon.Apps />
+            <Text>All boards</Text>
+          </Button.Icon>
+        </Flex>
+        <InputGroup
+          props={{
+            ...searchController,
+            placeholder: 'Keyword...',
+          }}
+          width="24rem"
+        >
+          <Button.Colored>Search</Button.Colored>
+        </InputGroup>
+        <Flex style={{alignItems: 'inherit'}}>
+          <Avatar id={ctx.data.authorizedUser.avatar || ''} />
+          <Text
+            fontFamily={theme.font.family.secondary}
+            fontWeight="bold"
+            lineHeight={theme.lineHeight[0]}
+          >
+            {ctx.data.authorizedUser.username}
+          </Text>
+          <Icon.ArrowDropDown />
+        </Flex>
+      </Flex>
+    </div>
   );
 };
 
