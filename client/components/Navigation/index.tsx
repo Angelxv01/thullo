@@ -3,10 +3,12 @@
 import React from 'react';
 import {useQuery} from '@apollo/client';
 import {MASTER} from '../../query';
-import {Avatar, Button, Flex, Icon, InputGroup, Text} from '../common';
-import {useTheme} from 'styled-components';
 import useInput from '../../hooks/useInput';
+import {useTheme} from 'styled-components';
+
 import Logo from '../../assets/Logo.svg';
+
+import {Avatar, Button, Flex, Icon, InputGroup, Text} from '../common';
 import StyledNavigation from './StyledNavigation';
 import Separator from './Separator';
 

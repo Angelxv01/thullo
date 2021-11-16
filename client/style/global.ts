@@ -38,7 +38,7 @@ export default createGlobalStyle`
     min-height: 100vh;
     font-family: ${({theme}) => theme.font.family.normal};
     font-size: ${({theme}) => theme.font.size[300]};
-    background-color: hsl(${({theme}) => theme.color.white});
+    background-color: hsl(${({theme}) => theme.color.BLUE1});
     color: hsl(${({theme}) => theme.color.GRAY1});
   }
 

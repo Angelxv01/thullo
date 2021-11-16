@@ -1,11 +1,11 @@
 import React from 'react';
 import Navigation from './components/Navigation';
+import {Container} from './style/Utils';
 const App = () => {
   return (
-    // Container
-    <div style={{width: '80%', margin: '0 auto'}}>
+    <Container>
       <Navigation />
-    </div>
+    </Container>
   );
 };
 

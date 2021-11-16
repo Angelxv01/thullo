@@ -18,9 +18,11 @@ export const Flow = styled.div<Spacing>`
   }
 `;
 export const Container = styled.div`
-  padding-inline: 2em;
-  margin-inline: auto;
-  max-width: 80rem;
+  margin: 2em auto;
+  max-width: 80%;
+  border-radius: ${({theme}) => theme.border.radius[1]};
+  background-color: hsl(${({theme}) => theme.color.WHITE});
+  min-height: 100vh;
 `;
 export const ReaderOnly = styled.div`
   position: absolute;
