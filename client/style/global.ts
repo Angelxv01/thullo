@@ -39,7 +39,7 @@ export default createGlobalStyle`
     font-family: ${({theme}) => theme.font.family.normal};
     font-size: ${({theme}) => theme.font.size[300]};
     background-color: hsl(${({theme}) => theme.color.white});
-    color: hsl(${({theme}) => theme.color.dark});
+    color: hsl(${({theme}) => theme.color.GRAY1});
   }
 
   ::placeholder { 
@@ -77,6 +77,7 @@ export default createGlobalStyle`
     line-height: inherit;
     letter-spacing: inherit;
     display: inline;
-    color: inherit
+    color: inherit;
+    cursor: pointer;
   }
 `;

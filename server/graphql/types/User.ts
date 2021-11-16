@@ -6,6 +6,7 @@ const typeDefs = gql`
   type User {
     id: ID!
     username: String!
+    avatar: String
     boards: [Board!]!
     friends: [User!]!
     createdAt: DateTime!
