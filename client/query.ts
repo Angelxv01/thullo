@@ -9,6 +9,20 @@ export const MASTER = gql`
     board(id: $id) {
       title
       visibility
+      lists {
+        id
+        name
+        cards {
+          coverId
+          id
+          title
+          labels {
+            id
+            text
+            color
+          }
+        }
+      }
       members {
         role
         user {

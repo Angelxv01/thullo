@@ -12,9 +12,12 @@ const Label = styled.div<ILabelStyle>`
   line-height: ${({theme}) => theme.lineHeight[0]};
   color: hsl(${({color, theme}) => theme.color[color || 'BLUE1']});
   background-color: hsl(
-    ${({color, theme}) => theme.color[color || 'BLUE1']} / 0.2
+    ${({color, theme}) =>
+        color && theme.color[color] ? theme.color[color] : theme.color.BLUE1} /
+      0.2
   );
   cursor: pointer;
+  text-transform: uppercase;
 `;
 
 export default Label;

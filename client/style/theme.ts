@@ -35,7 +35,7 @@ export default {
   lineHeight: {
     0: '16px',
     1: '18px',
-    2: '21px',
+    2: '22px',
     3: '27px',
   },
   border: {

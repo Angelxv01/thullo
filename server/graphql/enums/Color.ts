@@ -2,13 +2,13 @@ import {gql} from 'apollo-server';
 
 const typeDefs = gql`
   enum Color {
-    GREEN
+    GREEN1
     YELLOW
     ORANGE
     RED
-    BLUE
-    AQUA
-    SAGE
+    BLUE1
+    BLUE3
+    GREEN3
     GRAY1
     GRAY2
     GRAY3
