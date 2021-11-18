@@ -13,7 +13,10 @@ import StyledNavigation from './StyledNavigation';
 import Separator from './Separator';
 
 const Navigation = () => {
-  const ctx = useQuery(MASTER, {variables: {id: '6182d8c9bba2b2dfab68119d'}});
+  const ctx = useQuery(MASTER, {
+    fetchPolicy: 'cache-only',
+    variables: {id: '6182d8c9bba2b2dfab68119d'},
+  });
   const searchController = useInput('text');
   const theme = useTheme();
 
@@ -48,7 +51,10 @@ const Navigation = () => {
 
       {/* User */}
       <Flex style={{alignItems: 'inherit'}}>
-        <Avatar id={ctx.data.authorizedUser.avatar || ''} />
+        <Avatar
+          id={ctx.data.authorizedUser.avatar || ''}
+          username={ctx.data.authorizedUser.username}
+        />
         <Text
           fontFamily={theme.font.family.secondary}
           fontWeight="bold"

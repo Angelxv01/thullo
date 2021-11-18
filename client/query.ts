@@ -8,6 +8,14 @@ export const MASTER = gql`
     }
     board(id: $id) {
       title
+      visibility
+      members {
+        role
+        user {
+          username
+          avatar
+        }
+      }
     }
   }
 `;

@@ -6,3 +6,5 @@ export const Public = () => <span className="material-icons">&#xe80b;</span>;
 export const ArrowDropDown = () => (
   <span className="material-icons">&#xe5c5;</span>
 );
+export const Add = () => <span className="material-icons">&#xe145;</span>;
+export const Close = () => <span className="material-icons">&#xe5cd;</span>;

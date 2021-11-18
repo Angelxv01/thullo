@@ -4,6 +4,7 @@ import {Flex} from '../../style/Utils';
 
 interface Color {
   color?: string;
+  backgroundColor?: string;
 }
 
 export const Colored = styled.button<Color>`
@@ -57,3 +58,22 @@ export const Icon = ({
     </Flex>
   </StyledIcon>
 );
+
+export const Squared = styled.button<Color>`
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: ${({theme}) => theme.border.radius[1]};
+  outline: none;
+  width: 2rem;
+  border: 0;
+  color: hsl(
+    ${({theme, color}) =>
+      color && theme.color[color] ? theme.color[color] : theme.color.WHITE}
+  );
+  background-color: hsl(
+    ${({theme, color}) =>
+      color && theme.color[color] ? theme.color[color] : theme.color.BLUE1}
+  );
+`;
