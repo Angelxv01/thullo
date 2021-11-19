@@ -25,6 +25,12 @@ export const MASTER = gql`
             text
             color
           }
+          comments {
+            id
+          }
+          attachments {
+            id
+          }
         }
       }
       members {

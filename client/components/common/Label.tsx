@@ -17,7 +17,7 @@ const Label = styled.div<ILabelStyle>`
       0.2
   );
   cursor: pointer;
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 export default Label;

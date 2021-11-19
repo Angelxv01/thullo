@@ -60,6 +60,7 @@ export const Icon = ({
 );
 
 export const Squared = styled.button<Color>`
+  flex: 1;
   padding: 0;
   display: grid;
   place-items: center;

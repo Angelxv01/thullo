@@ -1,10 +1,46 @@
-import React from 'react';
-export const Apps = () => <span className="material-icons">&#xe5c3;</span>;
-export const Lock = () => <span className="material-icons">&#xe897;</span>;
-export const MoreHoriz = () => <span className="material-icons">&#xe5d3;</span>;
-export const Public = () => <span className="material-icons">&#xe80b;</span>;
-export const ArrowDropDown = () => (
-  <span className="material-icons">&#xe5c5;</span>
+import React, {HtmlHTMLAttributes} from 'react';
+export const Apps = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe5c3;
+  </span>
 );
-export const Add = () => <span className="material-icons">&#xe145;</span>;
-export const Close = () => <span className="material-icons">&#xe5cd;</span>;
+export const Lock = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe897;
+  </span>
+);
+export const MoreHoriz = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe5d3;
+  </span>
+);
+export const Public = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe80b;
+  </span>
+);
+export const ArrowDropDown = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe5c5;
+  </span>
+);
+export const Add = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe145;
+  </span>
+);
+export const Close = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe5cd;
+  </span>
+);
+export const AttachFile = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe226;
+  </span>
+);
+export const Comment = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe0b9;
+  </span>
+);

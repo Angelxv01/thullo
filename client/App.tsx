@@ -54,6 +54,8 @@ const App = () => {
               coverId?: string;
               labels: {id: string; text: string; color: string}[];
               members: IUser[];
+              attachments: {id: string}[];
+              comments: {id: string}[];
             }[];
           }) => (
             <div
@@ -93,14 +95,25 @@ const App = () => {
                     >
                       {card.title}
                     </Text>
-                    <Flex style={{justifyContent: 'flex-start'}}>
+                    <Flex
+                      style={{
+                        justifyContent: 'flex-start',
+                        flexWrap: 'wrap',
+                        gap: '0.25em',
+                      }}
+                    >
                       {card.labels.map(label => (
                         <Label color={label.color} key={label.id}>
                           {label.text}
                         </Label>
                       ))}
                     </Flex>
-                    <Flex>
+                    <Flex
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
                       <div>
                         <Avatars members={card.members}>
                           <Button.Squared>
@@ -108,6 +121,36 @@ const App = () => {
                           </Button.Squared>
                         </Avatars>
                       </div>
+                      <Flex>
+                        {card.comments.length > 0 && (
+                          <Flex
+                            space="0.25em"
+                            style={{
+                              alignItems: 'center',
+                              color: `hsl(${theme.color.GRAY4})`,
+                            }}
+                          >
+                            <Icon.Comment
+                              style={{fontSize: theme.font.size[200]}}
+                            />
+                            <Text>{card.comments.length}</Text>
+                          </Flex>
+                        )}
+                        {card.attachments.length > 0 && (
+                          <Flex
+                            space="0.25em"
+                            style={{
+                              alignItems: 'center',
+                              color: `hsl(${theme.color.GRAY4})`,
+                            }}
+                          >
+                            <Icon.AttachFile
+                              style={{fontSize: theme.font.size[200]}}
+                            />
+                            <Text>{card.attachments.length}</Text>
+                          </Flex>
+                        )}
+                      </Flex>
                     </Flex>
                   </Flow>
                 ))}
