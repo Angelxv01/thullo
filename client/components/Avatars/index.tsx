@@ -1,12 +1,12 @@
 import React from 'react';
-import {IUser} from '../../../types';
+import {User} from '../../../server/graphql/type';
 import {Avatar, Flex} from '../common';
 
 const Avatars = ({
   members,
   children,
 }: {
-  members: IUser[];
+  members: User[];
   children?: React.ReactChild;
 }) => (
   <Flex space="0.5rem">

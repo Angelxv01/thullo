@@ -74,6 +74,8 @@ export interface Card extends BaseInterface, TimestampInterface {
   comments: Comment[];
   labels: Label[];
   attachments: Attachment[];
+  coverId?: string;
+  members: User[];
 }
 
 export interface Comment extends BaseInterface, TimestampInterface {
