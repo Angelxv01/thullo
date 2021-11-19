@@ -6,12 +6,12 @@ const Avatars = ({
   members,
   children,
 }: {
-  members: {user: IUser}[];
+  members: IUser[];
   children?: React.ReactChild;
 }) => (
   <Flex space="0.5rem">
-    {members.map(({user}) => (
-      <Avatar key={user.username} username={user.username} id={user.avatar} />
+    {members.map(({username, avatar}) => (
+      <Avatar key={username} username={username} id={avatar} />
     ))}
     {children}
   </Flex>

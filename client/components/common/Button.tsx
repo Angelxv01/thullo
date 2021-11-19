@@ -67,6 +67,7 @@ export const Squared = styled.button<Color>`
   border-radius: ${({theme}) => theme.border.radius[1]};
   outline: none;
   width: 2rem;
+  aspect-ratio: 1;
   border: 0;
   color: hsl(
     ${({theme, color}) =>

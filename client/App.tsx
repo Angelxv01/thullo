@@ -4,11 +4,21 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 import Navigation from './components/Navigation';
-import {Container, Flex, Flow, Icon, Label, Text} from './components/common';
+import {
+  Button,
+  Container,
+  Flex,
+  Flow,
+  Icon,
+  Label,
+  Text,
+} from './components/common';
 import {useQuery} from '@apollo/client';
 import {MASTER} from './query';
 import Infobar from './components/Infobar';
 import {useTheme} from 'styled-components';
+import Avatars from './components/Avatars';
+import {IUser} from '../types';
 
 const App = () => {
   const theme = useTheme();
@@ -26,7 +36,13 @@ const App = () => {
       <Flex
         as="main"
         className="board"
-        style={{marginInline: '2em', paddingInline: '1em', overflowX: 'scroll'}}
+        style={{
+          marginInline: '2em',
+          paddingInline: '1em',
+          overflowX: 'scroll',
+          backgroundColor: `hsl(${theme.color.WHITE1})`,
+          borderRadius: theme.border.radius[3],
+        }}
       >
         {ctx.data.board.lists.map(
           (list: {
@@ -37,13 +53,28 @@ const App = () => {
               title: string;
               coverId?: string;
               labels: {id: string; text: string; color: string}[];
+              members: IUser[];
             }[];
           }) => (
-            <div key={list.id} style={{flex: 1, minWidth: '20em'}}>
+            <div
+              key={list.id}
+              style={{
+                flex: 1,
+                minWidth: '20em',
+              }}
+            >
               <Header name={list.name} />
               <Flow>
                 {list.cards.map(card => (
-                  <Flow key={card.id}>
+                  <Flow
+                    key={card.id}
+                    style={{
+                      backgroundColor: `hsl(${theme.color.WHITE})`,
+                      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
+                      borderRadius: `${theme.border.radius[2]}`,
+                      padding: '1em',
+                    }}
+                  >
                     {card.coverId && (
                       <img
                         src={`https://source.unsplash.com/${card.coverId}`}
@@ -68,6 +99,15 @@ const App = () => {
                           {label.text}
                         </Label>
                       ))}
+                    </Flex>
+                    <Flex>
+                      <div>
+                        <Avatars members={card.members}>
+                          <Button.Squared>
+                            <Icon.Add />
+                          </Button.Squared>
+                        </Avatars>
+                      </div>
                     </Flex>
                   </Flow>
                 ))}

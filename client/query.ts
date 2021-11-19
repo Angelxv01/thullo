@@ -16,6 +16,10 @@ export const MASTER = gql`
           coverId
           id
           title
+          members {
+            username
+            avatar
+          }
           labels {
             id
             text

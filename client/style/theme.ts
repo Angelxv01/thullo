@@ -4,6 +4,7 @@ export default {
   color: {
     DARK: '0 0% 0%',
     WHITE: '0 0% 100%',
+    WHITE1: '228, 56%, 98%',
     GREEN1: '146 64% 36%',
     YELLOW: '45 86% 62%',
     ORANGE: '28 87% 62%',
@@ -42,6 +43,7 @@ export default {
     radius: {
       1: '0.5rem',
       2: '0.75rem',
+      3: '1.5rem',
     },
   },
 } as DefaultTheme;
