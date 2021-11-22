@@ -6,6 +6,7 @@ import {MASTER} from '../../query';
 import * as GqlTypes from '../../../server/graphql/type';
 import List from '../List';
 import StyledKanban from './StyledKanban';
+import {Button, Icon} from '../common';
 
 const Kanban = () => {
   const ctx = useQuery(MASTER, {
@@ -17,6 +18,12 @@ const Kanban = () => {
       {ctx.data.board.lists.map((list: GqlTypes.List) => (
         <List key={list.id} {...list} />
       ))}
+      <div style={{minWidth: '20em'}}>
+        <Button.IconColored>
+          Add another List
+          <Icon.Add />
+        </Button.IconColored>
+      </div>
     </StyledKanban>
   );
 };

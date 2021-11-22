@@ -79,3 +79,27 @@ export const Squared = styled.button<Color>`
       color && theme.color[color] ? theme.color[color] : theme.color.BLUE1}
   );
 `;
+
+export const IconColored = styled.button<Color>`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 0;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  padding: 0.5em 1em;
+  background-color: hsl(
+    ${({color, theme}) =>
+        color && theme.color[color] ? theme.color[color] : theme.color.BLUE1} /
+      0.2
+  );
+  border-radius: ${({theme}) => theme.border.radius[1]};
+  &,
+  & > * {
+    color: hsl(
+      ${({theme, color}) =>
+        color && theme.color[color] ? theme.color[color] : theme.color.BLUE1}
+    );
+  }
+`;

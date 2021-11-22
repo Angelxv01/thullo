@@ -1,7 +1,7 @@
 import React from 'react';
 import * as GqlTypes from '../../../server/graphql/type';
 import Card from '../Card';
-import {Flow} from '../common';
+import {Button, Flow, Icon} from '../common';
 import Header from './Header';
 import StyledList from './StyledList';
 
@@ -15,11 +15,15 @@ const List = ({
 }) => {
   return (
     <StyledList>
-      <Header name={name} />
       <Flow>
+        <Header name={name} />
         {cards.map(card => (
           <Card key={card.id} card={card} />
         ))}
+        <Button.IconColored>
+          Add another card
+          <Icon.Add />
+        </Button.IconColored>
       </Flow>
     </StyledList>
   );
