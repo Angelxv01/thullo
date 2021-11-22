@@ -13,4 +13,4 @@ export interface UserDocument extends IUser, Document {
   comparePasswords(password: string): Promise<boolean>;
 }
 
-export interface UserModel extends Model<UserDocument> {}
+export type UserModel = Model<UserDocument>;
