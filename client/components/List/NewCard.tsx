@@ -10,6 +10,7 @@ const StyledNewCard = styled(Flow)`
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   padding: 1em;
   maxwidth: 100%;
+  font-size: ${({theme}) => theme.font.size[400]};
 `;
 
 const NewCard = () => {
