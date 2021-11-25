@@ -10,7 +10,7 @@ const Toggle = React.forwardRef(
     }: {children: ReactChild[]; props?: HtmlHTMLAttributes<HTMLDivElement>},
     ref
   ) => {
-    const [visible, setVisible] = useState<boolean>(true);
+    const [visible, setVisible] = useState<boolean>(false);
     const [button, ...other] = children;
     const toggleVisibility = () => setVisible(state => !state);
     useImperativeHandle(ref, () => ({toggleVisibility}));

@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import {IUseTextArea} from '../../hooks/useTextArea';
 
 // https://codepen.io/chriscoyier/pen/XWKEVLy
+// unfortunately this approach woudn't work
+// if the word is really long
 const StyledTextArea = styled.div`
   display: grid;
-  width: 100%;
 
   &::after {
     content: attr(data-replicated-value) ' ';
@@ -20,10 +21,9 @@ const StyledTextArea = styled.div`
 
   & > textarea,
   &::after {
-    padding: 0.5rem;
+    width: 100%;
     grid-area: 1 / 1 / 2 / 2;
     overflow-wrap: break-word;
-    max-width: 400px;
     font-family: ${({theme}) => theme.font.family.secondary};
     border-radius: ${({theme}) => theme.border.radius[1]};
     border: 0;
