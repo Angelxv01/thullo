@@ -35,3 +35,9 @@ export const ReaderOnly = styled.div`
   white-space: nowrap; /* added line */
   border: 0;
 `;
+export const Absolute = styled.div`
+  position: absolute;
+`;
+export const Relative = styled.div`
+  position: relative;
+`;

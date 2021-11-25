@@ -5,4 +5,12 @@ export {default as Label} from './Label';
 export {default as Text} from './Text';
 export {default as TextArea} from './TextArea';
 export * as Icon from '../../style/Icons';
-export {Flex, Grid, Flow, Container, ReaderOnly} from '../../style/Utils';
+export {
+  Flex,
+  Grid,
+  Flow,
+  Container,
+  ReaderOnly,
+  Absolute,
+  Relative,
+} from '../../style/Utils';

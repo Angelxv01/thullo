@@ -25,7 +25,6 @@ const App = () => {
     <Container>
       <Navigation />
       <Infobar />
-      {/* Board */}
       <Kanban />
     </Container>
   );

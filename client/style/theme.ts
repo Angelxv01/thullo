@@ -26,7 +26,7 @@ export default {
     size: {
       1: '0.0625rem', // 1px
       100: '0.5rem', // 8px
-      200: '0.675rem', // 10px
+      200: '0.625rem', // 10px
       300: '0.75rem', // 12px
       400: '0.875rem', // 14px
       500: '1rem', // 16px
@@ -45,5 +45,11 @@ export default {
       2: '0.75rem',
       3: '1.5rem',
     },
+  },
+  z: {
+    BASE: 0,
+    POPUP: 1,
+    CARD: 2,
+    CARD_POPUP: 3,
   },
 } as DefaultTheme;

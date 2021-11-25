@@ -2,14 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import {Text} from '.';
 
-const StyledInfoLabel = styled.div`
+interface IStyledInfoLabel {
+  color?: string;
+  fontSize?: string;
+  lineHeight?: string;
+  fontFamily?: string;
+}
+
+export const StyledInfoLabel = styled.div<IStyledInfoLabel>`
   display: flex;
   gap: 0.25em;
   align-items: center;
-  color: hsl(${({theme}) => theme.color.GRAY4});
+  color: hsl(
+    ${({theme, color}) =>
+      color && theme.color[color] ? theme.color[color] : theme.color.GRAY4}
+  );
 
   & > * {
-    font-size: ${({theme}) => theme.font.size[200]};
+    line-height: ${({lineHeight}) => lineHeight || 'inherit'};
+    font-size: ${({theme, fontSize}) => fontSize || theme.font.size[200]};
   }
 `;
 

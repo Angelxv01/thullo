@@ -6,5 +6,6 @@ declare module 'styled-components' {
     font: {family: Record<string, string>; size: Record<number, string>};
     lineHeight: Record<number, string>;
     border: {radius: Record<number, string>};
+    z: Record<string, number>;
   }
 }
