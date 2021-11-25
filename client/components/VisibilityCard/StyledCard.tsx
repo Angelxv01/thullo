@@ -8,5 +8,6 @@ export default styled(Flow)`
 
   &:hover {
     background-color: hsl(${({theme}) => theme.color.DARK} / 0.05);
+    cursor: pointer;
   }
 `;
