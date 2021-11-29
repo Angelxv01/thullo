@@ -46,7 +46,9 @@ const Navigation = () => {
         }}
         width="24rem"
       >
-        <Button.Colored>Search</Button.Colored>
+        <Button.Colored style={{padding: '0.75em 1.5em'}}>
+          Search
+        </Button.Colored>
       </InputGroup>
 
       {/* User */}
