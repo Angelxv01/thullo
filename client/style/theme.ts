@@ -49,7 +49,8 @@ export default {
   z: {
     BASE: 0,
     POPUP: 1,
-    CARD: 2,
-    CARD_POPUP: 3,
+    MENU: 2,
+    CARD: 3,
+    CARD_POPUP: 4,
   },
 } as DefaultTheme;
