@@ -11,6 +11,7 @@ const StyledAvatar = styled.img`
 
 const TextAvatar = styled.div`
   width: 2rem;
+  aspect-ratio: 1;
   display: grid;
   place-items: center;
   color: hsl(${({theme}) => theme.color.WHITE});

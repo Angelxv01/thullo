@@ -9,6 +9,7 @@ export const MASTER = gql`
     board(id: $id) {
       title
       visibility
+      createdAt
       lists {
         id
         name
