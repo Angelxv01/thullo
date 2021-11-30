@@ -44,3 +44,8 @@ export const Comment = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
     &#xe0b9;
   </span>
 );
+export const AccountCircle = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe853;
+  </span>
+);
