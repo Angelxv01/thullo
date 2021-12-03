@@ -1,4 +1,4 @@
-import React, {HtmlHTMLAttributes} from 'react';
+import React, {TextareaHTMLAttributes} from 'react';
 import styled from 'styled-components';
 import {IUseTextArea} from '../../hooks/useTextArea';
 
@@ -33,16 +33,12 @@ const StyledTextArea = styled.div`
 `;
 
 const TextArea = (
-  props: IUseTextArea & HtmlHTMLAttributes<HTMLTextAreaElement>
+  props: IUseTextArea & TextareaHTMLAttributes<HTMLTextAreaElement>
 ) => {
+  const {divRef, textAreaRef, ...other} = props;
   return (
-    <StyledTextArea ref={props.divRef}>
-      <textarea
-        {...props}
-        ref={props.textAreaRef}
-        onChange={props.onChange}
-        value={props.value}
-      />
+    <StyledTextArea ref={divRef}>
+      <textarea ref={textAreaRef} {...other} />
     </StyledTextArea>
   );
 };

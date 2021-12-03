@@ -7,8 +7,8 @@ export interface IUseTextArea {
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-const useTextArea = (): IUseTextArea => {
-  const [value, setValue] = useState<string>('');
+const useTextArea = (init = ''): IUseTextArea => {
+  const [value, setValue] = useState<string>(init);
   const divRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

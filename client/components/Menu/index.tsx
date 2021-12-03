@@ -3,12 +3,23 @@ import {useQuery} from '@apollo/client';
 import React from 'react';
 import styled, {useTheme} from 'styled-components';
 import {MASTER} from '../../query';
-import {Button, Flex, Icon, Absolute, Text, Flow, Avatar} from '../common';
+import {
+  Button,
+  Flex,
+  Icon,
+  Absolute,
+  Text,
+  Flow,
+  Avatar,
+  TextArea,
+} from '../common';
 import InfoLabel from '../common/InfoLabel';
 import * as GQLTypes from '../../../server/graphql/type';
+import useTextArea from '../../hooks/useTextArea';
 
 interface Data {
   board: GQLTypes.Board;
+  authorizedUser: GQLTypes.User;
 }
 
 interface Var {
@@ -20,12 +31,12 @@ const StyledMenu = styled(Flow)`
   align-items: center;
   z-index: ${({theme}) => theme.z.MENU};
   background-color: hsl(${({theme}) => theme.color.WHITE});
-  min-width: 20em;
-  min-height: 10em;
+  height: fit-content;
   padding: 2em 1.5em;
 `;
 
 const StyledMenuWrapper = styled(Absolute)`
+  width: 33%;
   top: 0;
   right: 0;
   padding: 0 2em;
@@ -66,6 +77,8 @@ const Menu = ({toggle}: {toggle: () => void}) => {
         <StyledSeparator />
         <Flow>
           <MadeBy owner={owner as GQLTypes.Member} date={date} />
+          <Description value={ctx.data.board.description || ''} />
+          <Team />
         </Flow>
       </StyledMenu>
     </StyledMenuWrapper>
@@ -96,6 +109,72 @@ const MadeBy = ({owner, date}: {owner: GQLTypes.Member; date: string}) => {
         </Flow>
       </Flex>
     </>
+  );
+};
+
+const Description = ({value}: {value: string}) => {
+  const controller = useTextArea(value);
+  return (
+    <Flow>
+      <Flex>
+        <InfoLabel text="Description">
+          <Icon.Description />
+        </InfoLabel>
+        <Button.IconColored>
+          <Icon.Edit />
+          <Text>Edit</Text>
+        </Button.IconColored>
+      </Flex>
+      <TextArea {...controller} />
+    </Flow>
+  );
+};
+
+const Team = () => {
+  const theme = useTheme();
+  const ctx = useQuery<Data, Var>(MASTER, {
+    fetchPolicy: 'cache-only',
+    variables: {id: '6182d8c9bba2b2dfab68119d'},
+  });
+  if (!ctx.data) return null;
+
+  const user = ctx.data.board.members.find(
+    member => member.user.id === ctx.data?.authorizedUser.id
+  );
+  const isAdmin = user ? user.role !== 'MEMBER' : false;
+
+  return (
+    <Flow>
+      <InfoLabel text="Team">
+        <Icon.Description />
+      </InfoLabel>
+      {ctx.data.board.members.map(member => (
+        <Flex
+          key={member.user.id}
+          style={{justifyContent: 'space-between', alignItems: 'center'}}
+        >
+          <UserRole user={member} />
+          {member.role === 'MEMBER' && isAdmin ? (
+            <Button.Outline color="RED" style={{padding: '0.33em 0.75em'}}>
+              <Text fontSize={theme.font.size[200]}>Remove</Text>
+            </Button.Outline>
+          ) : (
+            <Text fontSize={theme.font.size[200]} color="GRAY4">
+              Admin
+            </Text>
+          )}
+        </Flex>
+      ))}
+    </Flow>
+  );
+};
+
+const UserRole = ({user}: {user: GQLTypes.Member}) => {
+  return (
+    <Flex style={{alignItems: 'center'}}>
+      <Avatar id={user.user.avatar} username={user.user.username} />
+      <Text>{user.user.username}</Text>
+    </Flex>
   );
 };
 

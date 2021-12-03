@@ -3,11 +3,13 @@ import {gql} from '@apollo/client';
 export const MASTER = gql`
   query MASTER($id: ID!) {
     authorizedUser {
+      id
       avatar
       username
     }
     board(id: $id) {
       title
+      description
       visibility
       createdAt
       lists {
@@ -37,6 +39,7 @@ export const MASTER = gql`
       members {
         role
         user {
+          id
           username
           avatar
         }

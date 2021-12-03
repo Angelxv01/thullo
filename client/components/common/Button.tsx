@@ -28,6 +28,22 @@ export const Colored = styled.button<Color>`
   } */
 `;
 
+export const Outline = styled(Colored)`
+  cursor: pointer;
+  border-radius: ${({theme}) => theme.border.radius[1]};
+  color: hsl(${({theme}) => theme.color.WHITE});
+  line-height: ${({theme}) => theme.lineHeight[0]};
+
+  background-color: hsl(${({theme}) => theme.color.WHITE});
+  color: hsl(
+    ${({color, theme}) => (color && theme.color[color]) || theme.color.BLUE1}
+  );
+  border: hsl(
+      ${({color, theme}) => (color && theme.color[color]) || theme.color.BLUE1}
+    )
+    1px solid;
+`;
+
 const StyledIcon = styled.button`
   cursor: pointer;
   border-radius: ${({theme}) => theme.border.radius[1]};
@@ -89,9 +105,10 @@ export const IconColored = styled.button<Color>`
   border: 0;
   padding: 0.5em 1em;
   background-color: hsl(
-    ${({color, theme}) =>
-        color && theme.color[color] ? theme.color[color] : theme.color.BLUE1} /
-      0.2
+    ${({backgroundColor, theme}) =>
+        backgroundColor && theme.color[backgroundColor]
+          ? theme.color[backgroundColor]
+          : theme.color.BLUE1} / 0.2
   );
   border-radius: ${({theme}) => theme.border.radius[1]};
   &,

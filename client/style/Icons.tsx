@@ -49,3 +49,13 @@ export const AccountCircle = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
     &#xe853;
   </span>
 );
+export const Description = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe873;
+  </span>
+);
+export const Edit = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe3c9;
+  </span>
+);
