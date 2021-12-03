@@ -4,6 +4,7 @@ import {BoardDocument, Member, Role, UserDocument} from '../../../types';
 import Board from '../../models/Board';
 import {Visibility} from '../../../types';
 import {ObjectId} from 'mongoose';
+import {User} from '../../models';
 
 interface BoardInput {
   id?: ObjectId;
@@ -15,6 +16,13 @@ interface BoardInput {
 }
 
 interface InviteUserInput {
+  data: {
+    userId: ObjectId;
+    boardId: ObjectId;
+  };
+}
+
+interface DeleteUserInput {
   data: {
     userId: ObjectId;
     boardId: ObjectId;
@@ -42,10 +50,16 @@ const typeDefs = gql`
     boardId: ID!
   }
 
+  input DeleteUserInput {
+    userId: ID!
+    boardId: ID!
+  }
+
   extend type Mutation {
     createBoard(boardData: CreateBoardInput): Board
     promoteUser(userInput: PromoteUserInput): Board
     inviteUser(data: InviteUserInput): Board
+    deleteUser(data: DeleteUserInput): Board
   }
 `;
 
@@ -114,6 +128,43 @@ const resolvers = {
       await board.save();
 
       return board;
+    },
+    deleteUser: async (
+      _: never,
+      args: DeleteUserInput,
+      ctx: {currentUser: UserDocument}
+    ) => {
+      if (!ctx.currentUser) {
+        throw new ApolloError('Only logged user can remove members');
+      }
+
+      const userToRemove = await User.findById(args.data.userId);
+      const board = await Board.findById(args.data.boardId);
+      if (!(userToRemove && board)) {
+        throw new ApolloError('Invalid input');
+      }
+
+      const userBelongToBoard = board?.members.find(
+        member => String(member.id) === userToRemove.id && member.role === 2
+      );
+      const isCurrentAdmin = board?.members.find(
+        member => String(member.id) === ctx.currentUser.id && member.role !== 2
+      );
+      if (!(userBelongToBoard && isCurrentAdmin)) {
+        console.log({
+          members: board.members,
+          toFind: userBelongToBoard,
+          current: isCurrentAdmin,
+        } as Record<string, unknown>);
+        throw new ApolloError('Invalid operation');
+      }
+
+      board.members = board.members.filter(
+        member => String(member.id) !== String(args.data.userId)
+      );
+
+      await board.save();
+      return board.toJSON();
     },
   },
 };
