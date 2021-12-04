@@ -59,3 +59,8 @@ export const Edit = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
     &#xe3c9;
   </span>
 );
+export const Search = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe8b6;
+  </span>
+);

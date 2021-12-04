@@ -2,7 +2,7 @@
 import {useQuery} from '@apollo/client';
 import React from 'react';
 import styled, {useTheme} from 'styled-components';
-import {MASTER} from '../../query';
+import {Data, Var, MASTER} from '../../query';
 import {
   Button,
   Flex,
@@ -16,15 +16,7 @@ import {
 import InfoLabel from '../common/InfoLabel';
 import * as GQLTypes from '../../../server/graphql/type';
 import useTextArea from '../../hooks/useTextArea';
-
-interface Data {
-  board: GQLTypes.Board;
-  authorizedUser: GQLTypes.User;
-}
-
-interface Var {
-  id: string;
-}
+import User from '../User';
 
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
@@ -153,7 +145,7 @@ const Team = () => {
           key={member.user.id}
           style={{justifyContent: 'space-between', alignItems: 'center'}}
         >
-          <UserRole user={member} />
+          <User user={member.user} />
           {member.role === 'MEMBER' && isAdmin ? (
             <Button.Outline color="RED" style={{padding: '0.33em 0.75em'}}>
               <Text fontSize={theme.font.size[200]}>Remove</Text>
@@ -166,15 +158,6 @@ const Team = () => {
         </Flex>
       ))}
     </Flow>
-  );
-};
-
-const UserRole = ({user}: {user: GQLTypes.Member}) => {
-  return (
-    <Flex style={{alignItems: 'center'}}>
-      <Avatar id={user.user.avatar} username={user.user.username} />
-      <Text>{user.user.username}</Text>
-    </Flex>
   );
 };
 
