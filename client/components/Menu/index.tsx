@@ -152,7 +152,7 @@ const Team = () => {
             </Button.Outline>
           ) : (
             <Text fontSize={theme.font.size[200]} color="GRAY4">
-              Admin
+              {member.role}
             </Text>
           )}
         </Flex>

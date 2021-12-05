@@ -19,6 +19,7 @@ const StyledInput = styled.div<Size>`
   & > input {
     flex: 1;
     border: 0;
+    border-radius: ${({theme}) => theme.border.radius[1]};
     padding: 0.75em;
     outline: none;
   }
