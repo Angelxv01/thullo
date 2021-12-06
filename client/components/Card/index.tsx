@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {DragEventHandler} from 'react';
 import * as GqlTypes from '../../../server/graphql/type';
 import Avatars from '../Avatars';
 import {Button, Flex, Icon, Label} from '../common';
@@ -6,9 +6,15 @@ import {Cover, Labels, StatusBar, Title} from './Utils';
 import StyledCard from './StyledCard';
 import InfoLabel from '../common/InfoLabel';
 
-const Card = ({card}: {card: GqlTypes.Card}) => {
+const Card = ({
+  card,
+  onDragStart,
+}: {
+  card: GqlTypes.Card;
+  onDragStart: DragEventHandler<HTMLDivElement>;
+}) => {
   return (
-    <StyledCard>
+    <StyledCard draggable={true} onDragStart={onDragStart}>
       {card.coverId && (
         <Cover src={`https://source.unsplash.com/${card.coverId}`} />
       )}

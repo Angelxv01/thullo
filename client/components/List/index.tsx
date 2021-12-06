@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {DragEvent, useState} from 'react';
 import * as GqlTypes from '../../../server/graphql/type';
 import Card from '../Card';
 import {Button, Flow, Icon} from '../common';
@@ -7,21 +7,33 @@ import NewCard from './NewCard';
 import StyledList from './StyledList';
 
 const List = ({
+  id,
   name,
   cards,
+  onDragStart,
+  onDrop,
 }: {
   id: string;
   name: string;
   cards: GqlTypes.Card[];
+  onDragStart: (e: DragEvent<HTMLDivElement>, list: string) => void;
+  onDrop: (e: DragEvent<HTMLDivElement>, list: string) => void;
 }) => {
   const [newCard, setNewCard] = useState<boolean>(false);
 
   return (
-    <StyledList>
+    <StyledList
+      onDragOver={e => e.preventDefault()}
+      onDrop={e => onDrop(e, id)}
+    >
       <Flow>
         <Header name={name} />
         {cards.map(card => (
-          <Card key={card.id} card={card} />
+          <Card
+            key={card.id}
+            card={card}
+            onDragStart={e => onDragStart(e, card.id)}
+          />
         ))}
         {newCard && <NewCard />}
         <Button.IconColored onClick={() => setNewCard(state => !state)}>
