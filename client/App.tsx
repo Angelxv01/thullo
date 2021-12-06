@@ -6,7 +6,7 @@ import React from 'react';
 import Navigation from './components/Navigation';
 import {Container} from './components/common';
 import {useQuery} from '@apollo/client';
-import {MASTER} from './query';
+import {MASTER} from './graphql/query';
 import Infobar from './components/Infobar';
 // import {useTheme} from 'styled-components';
 import * as GQL from '../server/graphql/type';

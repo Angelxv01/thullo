@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 import {useQuery} from '@apollo/client';
-import {MASTER} from '../../query';
+import {MASTER} from '../../graphql/query';
 import useInput from '../../hooks/useInput';
 import {useTheme} from 'styled-components';
 

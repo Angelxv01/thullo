@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {useQuery} from '@apollo/client';
 import React, {DragEvent} from 'react';
-import {MASTER} from '../../query';
+import {MASTER} from '../../graphql/query';
 import * as GqlTypes from '../../../server/graphql/type';
 import List from '../List';
 import StyledKanban from './StyledKanban';

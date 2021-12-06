@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import {useQuery} from '@apollo/client';
-import {Data, MASTER, Var} from '../../query';
+import {Data, MASTER, Var} from '../../graphql/query';
 import {Button, Flex, Icon, Relative, Text} from '../common';
 
 import Avatars from '../Avatars';

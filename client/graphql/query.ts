@@ -1,5 +1,5 @@
 import {gql} from '@apollo/client';
-import * as GQLTypes from '../server/graphql/type';
+import * as GQLTypes from '../../server/graphql/type';
 export const MASTER = gql`
   query MASTER($id: ID!) {
     authorizedUser {

@@ -2,7 +2,7 @@
 import {useQuery} from '@apollo/client';
 import React from 'react';
 import styled, {useTheme} from 'styled-components';
-import {Data, Var, MASTER} from '../../query';
+import {Data, Var, MASTER} from '../../graphql/query';
 import {
   Button,
   Flex,
