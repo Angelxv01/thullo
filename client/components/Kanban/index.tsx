@@ -1,26 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import React, {DragEvent} from 'react';
 import {MASTER} from '../../graphql/query';
 import * as GqlTypes from '../../../server/graphql/type';
 import List from '../List';
 import StyledKanban from './StyledKanban';
 import {Button, Icon} from '../common';
+import {CHANGE_LIST} from '../../graphql/mutation';
 
 const Kanban = () => {
   const ctx = useQuery(MASTER, {
     fetchPolicy: 'cache-only',
     variables: {id: '6182d8c9bba2b2dfab68119d'},
   });
+  const [changeList] = useMutation(CHANGE_LIST, {
+    refetchQueries: [
+      {query: MASTER, variables: {id: '6182d8c9bba2b2dfab68119d'}},
+    ],
+  });
 
   const onDragStart = (e: DragEvent<HTMLDivElement>, card: string) => {
-    console.log(card);
     e.dataTransfer.setData('card', card);
   };
-  const onDrop = (e: DragEvent<HTMLDivElement>, list: string) => {
+  const onDrop = async (e: DragEvent<HTMLDivElement>, list: string) => {
     const card = e.dataTransfer.getData('card');
-    console.log(`I want to add ${card} to ${list}`);
+    await changeList({variables: {data: {cardId: card, listId: list}}});
   };
 
   return (
