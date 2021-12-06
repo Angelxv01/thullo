@@ -13,7 +13,7 @@ const VisibilityModal = ({visibility}: {visibility: GQLTypes.Visibility}) => {
         style: {
           marginTop: '1em',
           backgroundColor: 'white',
-          zIndex: theme.z.POPUP,
+          zIndex: theme.z.HEADER_POPUP,
           minWidth: '20em',
           padding: '1em',
           border: '1px solid #E0E0E0',

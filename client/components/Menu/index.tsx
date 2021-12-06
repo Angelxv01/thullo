@@ -21,7 +21,6 @@ import User from '../User';
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
   align-items: center;
-  z-index: ${({theme}) => theme.z.MENU};
   background-color: hsl(${({theme}) => theme.color.WHITE});
   height: fit-content;
   padding: 2em 1.5em;
@@ -32,6 +31,7 @@ const StyledMenuWrapper = styled(Absolute)`
   top: 0;
   right: 0;
   padding: 0 2em;
+  z-index: ${({theme}) => theme.z.MENU};
 `;
 
 const StyledSeparator = styled.hr`

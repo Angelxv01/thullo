@@ -8,11 +8,10 @@ const ListOperationModal = () => {
   const theme = useTheme();
   const ToggleStyle = {
     style: {
-      marginTop: '1em',
-      zIndex: theme.z.POPUP,
+      zIndex: theme.z.BOARD_POPUP,
       backgroundColor: `hsl(${theme.color.WHITE})`,
       minWidth: '13em',
-      padding: '0.75em 1em',
+      padding: '1em',
       border: '1px solid #E0E0E0',
       boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
       borderRadius: theme.border.radius[2],

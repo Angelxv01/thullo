@@ -11,7 +11,7 @@ const InviteFriendModal = ({friends}: {friends: GQLTypes.User[]}) => {
   const ToggleStyle = {
     style: {
       marginTop: '1em',
-      zIndex: theme.z.POPUP,
+      zIndex: theme.z.HEADER_POPUP,
       backgroundColor: `hsl(${theme.color.WHITE})`,
       minWidth: '23em',
       padding: '0.75em 1em',

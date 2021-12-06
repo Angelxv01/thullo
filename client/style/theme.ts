@@ -48,9 +48,10 @@ export default {
   },
   z: {
     BASE: 0,
-    POPUP: 1,
-    MENU: 2,
-    CARD: 3,
-    CARD_POPUP: 4,
+    BOARD_POPUP: 1,
+    HEADER_POPUP: 2,
+    MENU: 3,
+    CARD: 4,
+    CARD_POPUP: 5,
   },
 } as DefaultTheme;
