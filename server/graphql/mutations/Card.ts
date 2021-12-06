@@ -2,7 +2,7 @@ import {ApolloError, gql} from 'apollo-server';
 import {ObjectId} from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, {Attachment} from '../../models/Card';
-import {IUser, AttachmentDocument} from '../../../types';
+import {IUser, AttachmentDocument, UserDocument} from '../../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
 
@@ -13,6 +13,11 @@ interface CreateCardInput {
   listId?: ObjectId;
   members?: ObjectId[];
   coverId?: string;
+}
+
+interface IChangeList {
+  cardId: ObjectId;
+  listId: ObjectId;
 }
 
 const typeDefs = gql`
@@ -30,9 +35,14 @@ const typeDefs = gql`
     coverId: String
     url: String!
   }
+  input ChangeList {
+    cardId: ID!
+    listId: ID!
+  }
   extend type Mutation {
     createCard(cardData: CreateCardInput): Card
     createAttachment(attachment: CreateAttachmentInput): Attachment
+    changeList(data: ChangeList): Card
   }
 `;
 
@@ -104,6 +114,25 @@ const resolvers = {
       return card.attachments.find(
         attachment => attachment.id === newAttachment.id
       );
+    },
+    changeList: async (
+      _: never,
+      {data}: {data: IChangeList},
+      {currentUser}: {currentUser: UserDocument}
+    ) => {
+      if (!currentUser) throw new ApolloError('Unauthorized');
+      const cardExists = await Card.findById(data.cardId);
+      const listExists = await List.findById(data.listId);
+      if (
+        !(cardExists && listExists) ||
+        String(cardExists.boardId) !== String(listExists.boardId)
+      ) {
+        throw new ApolloError('Invalid operation');
+      }
+      cardExists.listId = listExists.id as ObjectId;
+      await cardExists.save();
+
+      return cardExists.toJSON();
     },
   },
 };
