@@ -3,6 +3,9 @@ import {Document, ObjectId, Date, Model} from 'mongoose';
 export interface IUser {
   username: string;
   avatar?: string;
+  bio: string;
+  phone: string;
+  email: string;
   passwordHash: string;
   friends: ObjectId[];
   createdAt: Date;

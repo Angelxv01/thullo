@@ -7,6 +7,9 @@ const typeDefs = gql`
     id: ID!
     username: String!
     avatar: String
+    bio: String
+    phone: String
+    email: String
     boards: [Board!]!
     friends: [User!]!
     createdAt: DateTime!
