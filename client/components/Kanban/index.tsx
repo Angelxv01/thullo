@@ -11,10 +11,13 @@ import {CHANGE_LIST} from '../../graphql/mutation';
 
 const Kanban = () => {
   const ctx = useQuery(MASTER, {
-    fetchPolicy: 'cache-only',
+    fetchPolicy: 'cache-and-network',
     variables: {id: '6182d8c9bba2b2dfab68119d'},
   });
-  const [changeList] = useMutation(CHANGE_LIST, {
+  const [changeList] = useMutation<
+    {changeList: GqlTypes.Card},
+    {data: {cardId: string; listId: string}}
+  >(CHANGE_LIST, {
     refetchQueries: [
       {query: MASTER, variables: {id: '6182d8c9bba2b2dfab68119d'}},
     ],

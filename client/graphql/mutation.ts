@@ -10,6 +10,7 @@ export interface Var {
 export const CHANGE_LIST = gql`
   mutation CHANGE_LIST($data: ChangeList) {
     changeList(data: $data) {
+      id
       list {
         id
       }
