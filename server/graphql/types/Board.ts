@@ -2,7 +2,7 @@ import {gql} from 'apollo-server';
 import {ObjectId} from 'mongoose';
 import {Context} from '../..';
 import {BoardDocument, Role, Visibility} from '../../../types';
-import {List, Card, User} from '../../models';
+import {List, Card} from '../../models';
 
 const typeDefs = gql`
   type Member {
@@ -35,7 +35,8 @@ const resolvers = {
       ctx.dataLoader.LabelLoader.load(String(root.id)),
   },
   Member: {
-    user: async (root: {id: ObjectId}) => User.findById(root.id),
+    user: async (root: {id: ObjectId}, _: never, ctx: Context) =>
+      ctx.dataLoader.UserLoader.load(String(root.id)),
     role: (root: {role: number}) => Role[root.role],
   },
 };
