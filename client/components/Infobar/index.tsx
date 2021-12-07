@@ -40,12 +40,10 @@ const Infobar = () => {
           </Avatars>
         </Flex>
         {/* Right hand side */}
-        <div onClick={setVisibility}>
-          <Button.Icon>
-            <Icon.MoreHoriz />
-            <Text>Show Menu</Text>
-          </Button.Icon>
-        </div>
+        <Button.Icon onClick={setVisibility}>
+          <Icon.MoreHoriz />
+          <Text>Show Menu</Text>
+        </Button.Icon>
       </StyledInfobar>
       {visibility && <Menu toggle={setVisibility} />}
     </Relative>

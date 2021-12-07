@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ButtonHTMLAttributes} from 'react';
 import styled from 'styled-components';
 import {Flex} from '../../style/Utils';
 
@@ -62,17 +62,17 @@ const StyledIcon = styled.button`
   }
 `;
 
-export const Icon = ({
-  children,
-}: {
-  children: React.ReactChild[] | React.ReactChild;
-}) => (
-  <StyledIcon>
-    <Flex as="span" space="0.5rem">
-      {children}
-    </Flex>
-  </StyledIcon>
-);
+export const Icon = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const {children, ...button} = props;
+
+  return (
+    <StyledIcon {...button}>
+      <Flex as="span" space="0.5rem">
+        {children}
+      </Flex>
+    </StyledIcon>
+  );
+};
 
 export const Squared = styled.button<Color>`
   // flex: 1;
