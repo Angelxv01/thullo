@@ -32,11 +32,11 @@ const resolvers = {
     visibility: (root: BoardDocument) => Visibility[root.visibility],
     cards: async (root: {id: ObjectId}) => Card.find({boardId: root.id}),
     labels: async (root: {id: ObjectId}, _: never, ctx: Context) =>
-      ctx.dataLoader.LabelLoader.load(String(root.id)),
+      ctx.dataLoader.LabelLoader.load(root.id),
   },
   Member: {
     user: async (root: {id: ObjectId}, _: never, ctx: Context) =>
-      ctx.dataLoader.UserLoader.load(String(root.id)),
+      ctx.dataLoader.UserLoader.load(root.id),
     role: (root: {role: number}) => Role[root.role],
   },
 };

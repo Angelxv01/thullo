@@ -1,5 +1,5 @@
 import DataLoader from 'dataloader';
-import mongoose from 'mongoose';
+import mongoose, {ObjectId} from 'mongoose';
 
 import User from '../models/User';
 import Board from '../models/Board';
@@ -17,10 +17,10 @@ type Unknown =
 
 const dataLoader = (Model: mongoose.Model<unknown>) =>
   new DataLoader(
-    async (ids: readonly string[]) => {
+    async (ids: readonly ObjectId[]) => {
       const res = await Model.find({_id: {$in: ids}});
 
-      return ids.reduce((acc: Unknown[], id: string) => {
+      return ids.reduce((acc: Unknown[], id: ObjectId) => {
         const find = res.find(obj => String(obj.id) === String(id));
         acc.push(find);
         return acc;
@@ -29,14 +29,14 @@ const dataLoader = (Model: mongoose.Model<unknown>) =>
     {cacheKeyFn: val => val}
   );
 
-const batchUserBoard = async (keys: readonly string[]) => {
+const batchUserBoard = async (keys: readonly ObjectId[]) => {
   const data = (await Board.find({'members.id': keys})) as BoardDocument[];
   const results = data.map(obj => obj.toJSON()) as IBoard[];
   return keys.reduce(
     (acc: IBoard[][], key) => [
       ...acc,
       results.filter(result =>
-        result.members.some(member => member.id.toString() === key)
+        result.members.some(member => member.id === key)
       ),
     ],
     []
@@ -55,6 +55,7 @@ const dataLoaders = {
   LabelLoader: dataLoader(Label),
   UserBoard: new DataLoader(batchUserBoard),
 };
+
 const createDataLoader = () => {
   return dataLoaders;
 };

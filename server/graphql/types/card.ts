@@ -1,7 +1,7 @@
 import {gql} from 'apollo-server';
 import {ObjectId} from 'mongoose';
-import {CardDocument, Color} from '../../../types';
-import {Label, List, User} from '../../models';
+import {Context} from '../..';
+import {CardDocument, Color, LabelDocument} from '../../../types';
 import Comment from '../../models/Comment';
 
 const typeDefs = gql`
@@ -37,13 +37,15 @@ const resolvers = {
   Card: {
     comments: async (root: CardDocument) =>
       Comment.find({cardId: root.id as ObjectId}),
-    labels: async (root: CardDocument) => Label.find({_id: {$in: root.labels}}),
-    members: async (root: CardDocument) =>
-      User.find({_id: {$in: root.members}}),
-    list: async (root: CardDocument) => List.findById(root.listId),
+    labels: async (root: CardDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.LabelLoader.loadMany(root.labels),
+    members: async (root: CardDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.UserLoader.loadMany(root.members),
+    list: async (root: CardDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.ListLoader.load(root.listId),
   },
   Label: {
-    color: (root: {color: Color}) => Color[root.color],
+    color: (root: LabelDocument) => Color[root.color],
   },
 };
 
