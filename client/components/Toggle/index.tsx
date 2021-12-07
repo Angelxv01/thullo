@@ -11,14 +11,14 @@ const Toggle = React.forwardRef(
     ref
   ) => {
     const [visible, setVisible] = useState<boolean>(false);
-    const [button, ...other] = children;
+    const [Button, ...Child] = children;
     const toggleVisibility = () => setVisible(state => !state);
     useImperativeHandle(ref, () => ({toggleVisibility}));
 
     return (
       <Relative>
-        <div onClick={toggleVisibility}>{button}</div>
-        {visible && <Absolute {...props}>{other}</Absolute>}
+        <div onClick={toggleVisibility}>{Button}</div>
+        {visible && <Absolute {...props}>{Child}</Absolute>}
       </Relative>
     );
   }
