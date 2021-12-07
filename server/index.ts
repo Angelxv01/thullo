@@ -6,14 +6,19 @@ import Logger from '../utils/Logger';
 import {MONGODB, SECRET} from '../utils/config';
 import schema from './graphql/schema';
 import User from './models/User';
-import {IUser} from '../types';
-import createDataLoader from './utils/createDataLoaders';
+import {UserDocument} from '../types';
+import createDataLoader, {Dataloaders} from './utils/createDataLoaders';
 
 mongoose
   .connect(MONGODB || '')
   .then(() => Logger.info('connected to MongoDB'))
   .catch(err => Logger.error(err));
 mongoose.set('debug', true);
+
+export interface Context {
+  currentUser?: UserDocument;
+  dataLoader: Dataloaders;
+}
 
 const server = new ApolloServer({
   schema,
@@ -22,7 +27,7 @@ const server = new ApolloServer({
     const dataLoader = createDataLoader();
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
       const {id} = jwt.verify(auth.substr(7), SECRET) as Record<string, string>;
-      const currentUser = (await User.findById(id)) as IUser;
+      const currentUser = await User.findById(id);
       return {currentUser, dataLoader};
     }
     return {dataLoader};

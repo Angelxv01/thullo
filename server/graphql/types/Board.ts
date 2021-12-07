@@ -1,7 +1,8 @@
 import {gql} from 'apollo-server';
 import {ObjectId} from 'mongoose';
+import {Context} from '../..';
 import {BoardDocument, Role, Visibility} from '../../../types';
-import {List, Label, Card, User} from '../../models';
+import {List, Card, User} from '../../models';
 
 const typeDefs = gql`
   type Member {
@@ -30,7 +31,8 @@ const resolvers = {
       List.find({boardId: root.id as ObjectId}),
     visibility: (root: BoardDocument) => Visibility[root.visibility],
     cards: async (root: {id: ObjectId}) => Card.find({boardId: root.id}),
-    labels: async (root: {id: ObjectId}) => Label.find({boardId: root.id}),
+    labels: async (root: {id: ObjectId}, _: never, ctx: Context) =>
+      ctx.dataLoader.LabelLoader.load(String(root.id)),
   },
   Member: {
     user: async (root: {id: ObjectId}) => User.findById(root.id),

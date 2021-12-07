@@ -16,7 +16,7 @@ import {BoardDocument, IBoard} from '../../types';
 
 const dataLoader = (Model: mongoose.Model<any, any, any>) =>
   new DataLoader(
-    async (ids: any) => {
+    async (ids: readonly string[]) => {
       const res = await Model.find({_id: {$in: ids}});
       return ids.reduce(
         (acc: any, id: any) => [
@@ -46,16 +46,19 @@ const batchUserBoard = async (keys: readonly string[]) => {
 // TODO: load child nodes from one parent id
 // mongoose.Model, string => mongoose.find() result[]
 
-export const createDataLoader = () => {
-  return {
-    UserLoader: dataLoader(User),
-    BoardLoader: dataLoader(Board),
-    ListLoader: dataLoader(List),
-    CardLoader: dataLoader(Card),
-    CommentLoader: dataLoader(Comment),
-    LabelLoader: dataLoader(Label),
-    UserBoard: new DataLoader(batchUserBoard),
-  };
+const dataLoaders = {
+  UserLoader: dataLoader(User),
+  BoardLoader: dataLoader(Board),
+  ListLoader: dataLoader(List),
+  CardLoader: dataLoader(Card),
+  CommentLoader: dataLoader(Comment),
+  LabelLoader: dataLoader(Label),
+  UserBoard: new DataLoader(batchUserBoard),
 };
+const createDataLoader = () => {
+  return dataLoaders;
+};
+
+export type Dataloaders = typeof dataLoaders;
 
 export default createDataLoader;
