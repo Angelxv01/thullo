@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
 
@@ -14,17 +9,22 @@ import Comment from '../models/Comment';
 import Label from '../models/Label';
 import {BoardDocument, IBoard} from '../../types';
 
-const dataLoader = (Model: mongoose.Model<any, any, any>) =>
+type Unknown =
+  | (mongoose.Document<unknown> & {
+      _id: mongoose.Types.ObjectId;
+    })
+  | undefined;
+
+const dataLoader = (Model: mongoose.Model<unknown>) =>
   new DataLoader(
     async (ids: readonly string[]) => {
       const res = await Model.find({_id: {$in: ids}});
-      return ids.reduce(
-        (acc: any, id: any) => [
-          ...acc,
-          (res.find((obj: any) => obj.id === id.toString()) || null).toJSON(),
-        ],
-        []
-      );
+
+      return ids.reduce((acc: Unknown[], id: string) => {
+        const find = res.find(obj => String(obj.id) === String(id));
+        acc.push(find);
+        return acc;
+      }, []);
     },
     {cacheKeyFn: val => val}
   );
