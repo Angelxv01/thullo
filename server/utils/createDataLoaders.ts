@@ -72,16 +72,21 @@ const batchCommentCard = async (keys: readonly ObjectId[]) => {
   });
   const result = data.map(obj => obj.toJSON()) as IComment[];
 
-  const out = keys.reduce((acc: IComment[][], key) => {
-    const find = result.filter(obj => String(obj.cardId) === String(key));
-    acc.push(find);
-    return acc;
-  }, []);
-  return out;
+  return keys.map(key =>
+    result.filter(obj => String(obj.cardId) === String(key))
+  );
 };
 
-// TODO: load child nodes from one parent id
-// mongoose.Model, string => mongoose.find() result[]
+const batchCommentParent = async (keys: readonly ObjectId[]) => {
+  const data = await Comment.find({
+    parentId: {$in: keys as unknown as ObjectId[]},
+  });
+  const result = data.map(obj => obj.toJSON());
+
+  return keys.map(key =>
+    result.filter(obj => String(obj.parentId) === String(key))
+  );
+};
 
 const dataLoaders = {
   UserLoader: dataLoader(User),
@@ -90,10 +95,11 @@ const dataLoaders = {
   CardLoader: dataLoader(Card),
   CommentLoader: dataLoader(Comment),
   LabelLoader: dataLoader(Label),
-  UserBoard: new DataLoader(batchUserBoard),
+  UserBoard: new DataLoader(batchUserBoard, {cacheKeyFn}),
   ListBoard: boardLoader(List),
   CardBoard: boardLoader(Card),
-  CommentCard: new DataLoader(batchCommentCard),
+  CommentCard: new DataLoader(batchCommentCard, {cacheKeyFn}),
+  CommentReply: new DataLoader(batchCommentParent, {cacheKeyFn}),
 };
 
 const createDataLoader = () => {
