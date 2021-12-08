@@ -1,8 +1,6 @@
 import {gql} from 'apollo-server';
-import {ObjectId} from 'mongoose';
 import {Context} from '../..';
 import {CardDocument, Color, LabelDocument} from '../../../types';
-import Comment from '../../models/Comment';
 
 const typeDefs = gql`
   type Attachment {
@@ -35,8 +33,8 @@ const typeDefs = gql`
 
 const resolvers = {
   Card: {
-    comments: async (root: CardDocument) =>
-      Comment.find({cardId: root.id as ObjectId}),
+    comments: async (root: CardDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.CommentCard.load(root.id),
     labels: async (root: CardDocument, _: never, ctx: Context) =>
       ctx.dataLoader.LabelLoader.loadMany(root.labels),
     members: async (root: CardDocument, _: never, ctx: Context) =>

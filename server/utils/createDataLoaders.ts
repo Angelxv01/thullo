@@ -7,11 +7,15 @@ import List from '../models/List';
 import Card from '../models/Card';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
-import {BoardDocument, IBoard} from '../../types';
+import {BoardDocument, IBoard, IComment} from '../../types';
 
 type Unknown = mongoose.Document<unknown> & {
   _id: mongoose.Types.ObjectId;
 };
+
+function cacheKeyFn(val: unknown) {
+  return val;
+}
 
 const dataLoader = (Model: mongoose.Model<unknown>) =>
   new DataLoader(
@@ -25,7 +29,7 @@ const dataLoader = (Model: mongoose.Model<unknown>) =>
         return acc;
       }, []);
     },
-    {cacheKeyFn: val => val}
+    {cacheKeyFn}
   );
 
 const batchUserBoard = async (keys: readonly ObjectId[]) => {
@@ -59,8 +63,22 @@ const boardLoader = (Model: mongoose.Model<unknown>) =>
       }, []);
       return out;
     },
-    {cacheKeyFn: val => val}
+    {cacheKeyFn}
   );
+
+const batchCommentCard = async (keys: readonly ObjectId[]) => {
+  const data = await Comment.find({
+    cardId: {$in: keys as unknown as ObjectId[]},
+  });
+  const result = data.map(obj => obj.toJSON()) as IComment[];
+
+  const out = keys.reduce((acc: IComment[][], key) => {
+    const find = result.filter(obj => String(obj.cardId) === String(key));
+    acc.push(find);
+    return acc;
+  }, []);
+  return out;
+};
 
 // TODO: load child nodes from one parent id
 // mongoose.Model, string => mongoose.find() result[]
@@ -75,6 +93,7 @@ const dataLoaders = {
   UserBoard: new DataLoader(batchUserBoard),
   ListBoard: boardLoader(List),
   CardBoard: boardLoader(Card),
+  CommentCard: new DataLoader(batchCommentCard),
 };
 
 const createDataLoader = () => {
