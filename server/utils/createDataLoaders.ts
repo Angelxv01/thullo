@@ -78,6 +78,15 @@ const batchCommentParent = async (keys: readonly ObjectId[]) => {
   );
 };
 
+const batchCardList = async (keys: readonly ObjectId[]) => {
+  const data = await Card.find({listId: {$in: keys as unknown as ObjectId[]}});
+  const result = data.map(obj => obj.toJSON());
+
+  return keys.map(key =>
+    result.filter(obj => String(obj.listId) === String(key))
+  );
+};
+
 const dataLoaders = {
   UserLoader: dataLoader(User),
   BoardLoader: dataLoader(Board),
@@ -90,6 +99,7 @@ const dataLoaders = {
   CardBoard: boardLoader(Card),
   CommentCard: new DataLoader(batchCommentCard, {cacheKeyFn}),
   CommentReply: new DataLoader(batchCommentParent, {cacheKeyFn}),
+  CardList: new DataLoader(batchCardList, {cacheKeyFn}),
 };
 
 const createDataLoader = () => {
