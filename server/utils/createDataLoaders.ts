@@ -87,25 +87,25 @@ const batchCardList = async (keys: readonly ObjectId[]) => {
   );
 };
 
-const dataLoaders = {
-  UserLoader: dataLoader(User),
-  BoardLoader: dataLoader(Board),
-  ListLoader: dataLoader(List),
-  CardLoader: dataLoader(Card),
-  CommentLoader: dataLoader(Comment),
-  LabelLoader: dataLoader(Label),
-  UserBoard: new DataLoader(batchUserBoard, {cacheKeyFn}),
-  ListBoard: boardLoader(List),
-  CardBoard: boardLoader(Card),
-  CommentCard: new DataLoader(batchCommentCard, {cacheKeyFn}),
-  CommentReply: new DataLoader(batchCommentParent, {cacheKeyFn}),
-  CardList: new DataLoader(batchCardList, {cacheKeyFn}),
-};
-
 const createDataLoader = () => {
+  const dataLoaders = {
+    UserLoader: dataLoader(User),
+    BoardLoader: dataLoader(Board),
+    ListLoader: dataLoader(List),
+    CardLoader: dataLoader(Card),
+    CommentLoader: dataLoader(Comment),
+    LabelLoader: dataLoader(Label),
+    UserBoard: new DataLoader(batchUserBoard, {cacheKeyFn}),
+    ListBoard: boardLoader(List),
+    CardBoard: boardLoader(Card),
+    CommentCard: new DataLoader(batchCommentCard, {cacheKeyFn}),
+    CommentReply: new DataLoader(batchCommentParent, {cacheKeyFn}),
+    CardList: new DataLoader(batchCardList, {cacheKeyFn}),
+  } as const;
+
   return dataLoaders;
 };
 
-export type Dataloaders = typeof dataLoaders;
+export type Dataloaders = typeof createDataLoader;
 
 export default createDataLoader;

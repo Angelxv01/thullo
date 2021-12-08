@@ -17,7 +17,7 @@ mongoose.set('debug', true);
 
 export interface Context {
   currentUser?: UserDocument;
-  dataLoader: Dataloaders;
+  dataLoader: ReturnType<Dataloaders>;
 }
 
 const server = new ApolloServer({
