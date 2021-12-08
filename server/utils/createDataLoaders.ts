@@ -21,7 +21,8 @@ const dataLoader = (Model: mongoose.Model<unknown>) =>
       const res = await Model.find({_id: {$in: ids}});
 
       return ids.reduce((acc: Unknown[], id: ObjectId) => {
-        const find = res.find(obj => String(obj.id) === String(id));
+        // By definition obj.id is string
+        const find = res.find(obj => obj.id === String(id));
         acc.push(find);
         return acc;
       }, []);
