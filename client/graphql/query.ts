@@ -37,7 +37,7 @@ export const MASTER = gql`
             id
           }
           attachments {
-            id
+            title
           }
         }
       }

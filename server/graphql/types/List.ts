@@ -15,8 +15,8 @@ const typeDefs = gql`
 
 const resolvers = {
   List: {
-    cardCount: async (root: {id: ObjectId}) =>
-      Card.find({listId: root.id}).countDocuments(),
+    cardCount: async (root: ListDocument) =>
+      Card.find({listId: root.id as ObjectId}).countDocuments(),
     cards: async (root: ListDocument, _: never, ctx: Context) =>
       ctx.dataLoader.CardList.load(root.id),
   },

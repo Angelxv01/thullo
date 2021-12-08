@@ -2,9 +2,10 @@ import {ApolloError, gql} from 'apollo-server';
 import {ObjectId} from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, {Attachment} from '../../models/Card';
-import {IUser, AttachmentDocument, UserDocument} from '../../../types';
+import {IUser, AttachmentDocument} from '../../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
+import {Context} from '../..';
 
 interface CreateCardInput {
   title?: string;
@@ -115,12 +116,8 @@ const resolvers = {
         attachment => attachment.id === newAttachment.id
       );
     },
-    changeList: async (
-      _: never,
-      {data}: {data: IChangeList},
-      {currentUser}: {currentUser: UserDocument}
-    ) => {
-      if (!currentUser) throw new ApolloError('Unauthorized');
+    changeList: async (_: never, {data}: {data: IChangeList}, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError('Unauthorized');
       const cardExists = await Card.findById(data.cardId);
       const listExists = await List.findById(data.listId);
       if (

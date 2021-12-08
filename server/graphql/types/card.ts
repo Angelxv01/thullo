@@ -4,7 +4,6 @@ import {CardDocument, Color, LabelDocument} from '../../../types';
 
 const typeDefs = gql`
   type Attachment {
-    id: ID!
     url: String!
     title: String
     coverId: String
