@@ -1,7 +1,6 @@
 import {gql} from 'apollo-server';
-import {ObjectId} from 'mongoose';
+import {Context} from '../..';
 import {CommentDocument} from '../../../types';
-import {Comment, User} from '../../models';
 
 const typeDefs = gql`
   type Comment {
@@ -16,9 +15,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Comment: {
-    replies: async (root: CommentDocument) =>
-      Comment.find({parentId: root.id as ObjectId}),
-    user: async (root: CommentDocument) => User.findById(root.user),
+    replies: async (root: CommentDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.CommentReply.load(root.id),
+    user: async (root: CommentDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.UserLoader.load(root.user),
   },
 };
 export default {typeDefs, resolvers};

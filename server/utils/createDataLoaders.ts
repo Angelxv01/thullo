@@ -19,15 +19,9 @@ function cacheKeyFn(val: unknown) {
 
 const dataLoader = (Model: mongoose.Model<unknown>) =>
   new DataLoader(
-    async (ids: readonly ObjectId[]) => {
-      const result = await Model.find({_id: {$in: ids}});
-
-      return ids.reduce((acc: (Unknown | undefined)[], id: ObjectId) => {
-        // By definition obj.id is string
-        const find = result.find(obj => obj.id === String(id));
-        acc.push(find);
-        return acc;
-      }, []);
+    async (keys: readonly ObjectId[]) => {
+      const result = await Model.find({_id: {$in: keys}});
+      return keys.map(key => result.find(obj => obj.id === String(key)));
     },
     {cacheKeyFn}
   );
@@ -35,14 +29,10 @@ const dataLoader = (Model: mongoose.Model<unknown>) =>
 const batchUserBoard = async (keys: readonly ObjectId[]) => {
   const data = (await Board.find({'members.id': keys})) as BoardDocument[];
   const results = data.map(obj => obj.toJSON()) as IBoard[];
-  return keys.reduce(
-    (acc: IBoard[][], key) => [
-      ...acc,
-      results.filter(result =>
-        result.members.some(member => member.id === key)
-      ),
-    ],
-    []
+  return keys.map(key =>
+    results.filter(obj =>
+      obj.members.find(value => String(value.id) === String(key))
+    )
   );
 };
 
