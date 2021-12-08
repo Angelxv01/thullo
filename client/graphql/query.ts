@@ -53,6 +53,31 @@ export const MASTER = gql`
   }
 `;
 
+export const CARD = gql`
+  query CARD($id: ID!) {
+    card(id: $id) {
+      coverId
+      id
+      title
+      members {
+        username
+        avatar
+      }
+      labels {
+        id
+        text
+        color
+      }
+      comments {
+        id
+      }
+      attachments {
+        title
+      }
+    }
+  }
+`;
+
 export interface Data {
   board: GQLTypes.Board;
   authorizedUser: GQLTypes.User;
