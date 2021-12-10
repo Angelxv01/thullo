@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 export interface IUseTextArea {
   value: string;
@@ -11,6 +11,12 @@ const useTextArea = (init = ''): IUseTextArea => {
   const [value, setValue] = useState<string>(init);
   const divRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.dataset.replicatedValue = init;
+    }
+  }, []);
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (!(divRef.current && textAreaRef.current)) return;
     divRef.current.dataset.replicatedValue = textAreaRef.current.value;

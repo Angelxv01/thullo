@@ -22,7 +22,6 @@ const StyledMenu = styled(Flow)`
   justify-content: space-between;
   align-items: center;
   background-color: hsl(${({theme}) => theme.color.WHITE});
-  height: fit-content;
   padding: 2em 1.5em;
 `;
 
