@@ -56,6 +56,9 @@ export const MASTER = gql`
 export const CARD = gql`
   query CARD($id: ID!) {
     card(id: $id) {
+      list {
+        id
+      }
       coverId
       id
       title
@@ -69,7 +72,13 @@ export const CARD = gql`
         color
       }
       comments {
+        user {
+          username
+          id
+          avatar
+        }
         id
+        createdAt
       }
       attachments {
         title
