@@ -64,3 +64,18 @@ export const Search = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
     &#xe8b6;
   </span>
 );
+export const People = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe7fb;
+  </span>
+);
+export const Label = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe7fb;
+  </span>
+);
+export const Image = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
+  <span className="material-icons" {...props}>
+    &#xe3f4;
+  </span>
+);

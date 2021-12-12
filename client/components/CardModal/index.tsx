@@ -1,7 +1,16 @@
 import {useQuery} from '@apollo/client';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
-import {Avatar, Button, Icon, TextArea, Label, Text, Flow} from '../common';
+import {
+  Avatar,
+  Button,
+  Icon,
+  TextArea,
+  Label,
+  Text,
+  Flow,
+  Flex,
+} from '../common';
 import {CARD, Data, MASTER} from '../../graphql/query';
 import * as GQLType from '../../../server/graphql/type';
 import useTextArea from '../../hooks/useTextArea';
@@ -71,49 +80,40 @@ const CardModal = ({
             )}
             <Text>{card.title}</Text>
             <Text>
-              <span>in list </span>
-              {card.list.name}
+              in list
+              <Text as="span"> {card.list.name}</Text>
             </Text>
           </Flow>
         </div>
         {/* Card Content */}
-        <div
-          style={{
-            display: 'flex',
-            gap: '1rem',
-          }}
-        >
+        <Flex>
           {/* Left hand side */}
           <div style={{flex: 4}}>
             {/* Subheading */}
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <Flex>
               <InfoLabel text="Description">
                 <Icon.Description />
               </InfoLabel>
-              {/* <span className="material-icons">&#xe873;</span>
-              <p>Description</p> */}
-              <button>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                  <span className="material-icons">&#xe3c9;</span>
-                  <p>Edit</p>
-                </div>
-              </button>
-            </div>
+              <Button.Icon>
+                <Icon.Edit />
+                <Text>Edit</Text>
+              </Button.Icon>
+            </Flex>
 
             {/* Content */}
             <div className="content">
               {/* Description */}
               <TextArea disabled {...descriptionController} />
               {/* Attachment */}
-              <div style={{display: 'flex', alignItems: 'center'}}>
-                <span className="material-icons">&#xe873;</span>
-                <p>Attachments</p>
-                <button>
-                  <p>
-                    <span>+</span> Add
-                  </p>
-                </button>
-              </div>
+              <Flex>
+                <InfoLabel text="Attachments">
+                  <Icon.AttachFile />
+                </InfoLabel>
+                <Button.Icon>
+                  <Icon.Add />
+                  <Text>Add</Text>
+                </Button.Icon>
+              </Flex>
               {card.attachments.map(attachment => (
                 <Attachment key={attachment.title} attachment={attachment} />
               ))}
@@ -121,14 +121,16 @@ const CardModal = ({
 
             <div className="comments" style={{backgroundColor: 'white'}}>
               <div className="commentForm">
-                <div style={{display: 'flex'}}>
+                <Flex>
                   <Avatar
-                    id={ctx.data?.authorizedUser.avatar || ''}
+                    id={ctx.data?.authorizedUser.avatar}
                     username={ctx.data?.authorizedUser.username}
                   />
                   <TextArea {...commentController} />
-                </div>
-                <button>Comment</button>
+                </Flex>
+                <Button.Colored style={{padding: '0.5em 1em'}}>
+                  Comment
+                </Button.Colored>
               </div>
               <div className="commentList">
                 {card.comments.map(comment => (
@@ -139,70 +141,37 @@ const CardModal = ({
           </div>
 
           {/* Right hand side */}
-          <div style={{flex: 1}}>
+          <Flow>
             {/* Label */}
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <span className="material-icons">&#xe853;</span>
-              <p>Actions</p>
+            <InfoLabel text="Actions">
+              <Icon.AccountCircle />
+            </InfoLabel>
+            {/* Members */}
+            <div style={{position: 'relative'}}>
+              <Button.Icon onClick={setShowMember}>
+                <Icon.People />
+                <Text>Members</Text>
+              </Button.Icon>
+              {showMember && <Member user={ctx.data.authorizedUser} />}
             </div>
-            {/* Call to actions */}
-            <div
-              style={{
-                zIndex: 5,
-              }}
-            >
-              {/* Members */}
-              <div style={{position: 'relative'}}>
-                <button onClick={setShowMember}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span className="material-icons">&#xe7fb;</span>
-                    <p>Members</p>
-                  </div>
-                </button>
-                {showMember && <Member user={ctx.data.authorizedUser} />}
-              </div>
-              {/* Labels */}
-              <div style={{position: 'relative'}}>
-                <button onClick={setShowLabel}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span className="material-icons">&#xe892;</span>
-                    <p>Labels</p>
-                  </div>
-                </button>
-                {showLabel && <LabelModal labels={card.labels} />}
-              </div>
-              {/* Covers */}
-              <div style={{position: 'relative'}}>
-                <button onClick={setShowCover}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span className="material-icons">&#xe3f4;</span>
-                    <p>Cover</p>
-                  </div>
-                </button>
-                {showCover && <Cover />}
-              </div>
+            {/* Labels */}
+            <div style={{position: 'relative'}}>
+              <Button.Icon onClick={setShowLabel}>
+                <Icon.Label />
+                <Text>Labels</Text>
+              </Button.Icon>
+              {showLabel && <LabelModal labels={card.labels} />}
             </div>
-          </div>
-        </div>
-        {data.data?.card.title}
+            {/* Covers */}
+            <div style={{position: 'relative'}}>
+              <Button.Icon onClick={setShowCover}>
+                <Icon.Image />
+                <Text>Cover</Text>
+              </Button.Icon>
+              {showCover && <Cover />}
+            </div>
+          </Flow>
+        </Flex>
       </div>
     </div>
   );
