@@ -1,13 +1,14 @@
 import {useQuery} from '@apollo/client';
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'styled-components';
-import {Avatar, Button, Icon, TextArea, Label} from '../common';
+import {Avatar, Button, Icon, TextArea, Label, Text, Flow} from '../common';
 import {CARD, Data, MASTER} from '../../graphql/query';
 import * as GQLType from '../../../server/graphql/type';
 import useTextArea from '../../hooks/useTextArea';
 import useVisibility from '../../hooks/useVisiblity';
 import InviteFriendModal from '../Infobar/InviteFriendModal';
-import {Labels} from '../Card/Utils';
+import {Cover, Labels} from '../Card/Utils';
+import InfoLabel from '../common/InfoLabel';
 
 const CardModal = ({
   setVisibility,
@@ -26,7 +27,10 @@ const CardModal = ({
   });
 
   const [card, setCard] = useState<GQLType.Card | undefined>();
-  const controller = useTextArea(card?.description);
+  const descriptionController = useTextArea(
+    card?.description || "There's no description yet"
+  );
+  const commentController = useTextArea(card?.description);
 
   const [showMember, setShowMember] = useVisibility();
   const [showLabel, setShowLabel] = useVisibility();
@@ -56,21 +60,21 @@ const CardModal = ({
       >
         {/* Header */}
         <div className="header">
-          <Button.Squared onClick={setVisibility}>
-            <Icon.Close />
-          </Button.Squared>
-          {card.coverId && (
-            <img
-              src={`https://source.unsplash.com/${card.coverId}/620x130`}
-              alt="Card Cover"
-            />
-          )}
-
-          <h1>{card.title}</h1>
-          <p>
-            <span>in list </span>
-            {card.list.name}
-          </p>
+          <Flow>
+            <Button.Squared onClick={setVisibility}>
+              <Icon.Close />
+            </Button.Squared>
+            {card.coverId && (
+              <img
+                src={`https://source.unsplash.com/${card.coverId}/620x130`}
+              />
+            )}
+            <Text>{card.title}</Text>
+            <Text>
+              <span>in list </span>
+              {card.list.name}
+            </Text>
+          </Flow>
         </div>
         {/* Card Content */}
         <div
@@ -83,13 +87,13 @@ const CardModal = ({
           <div style={{flex: 4}}>
             {/* Subheading */}
             <div style={{display: 'flex', alignItems: 'center'}}>
-              <span className="material-icons">&#xe873;</span>
-              <p>Description</p>
+              <InfoLabel text="Description">
+                <Icon.Description />
+              </InfoLabel>
+              {/* <span className="material-icons">&#xe873;</span>
+              <p>Description</p> */}
               <button>
-                <div
-                  style={{display: 'flex', alignItems: 'center'}}
-                  // onClick={() => setDisabled(false)}
-                >
+                <div style={{display: 'flex', alignItems: 'center'}}>
                   <span className="material-icons">&#xe3c9;</span>
                   <p>Edit</p>
                 </div>
@@ -99,7 +103,7 @@ const CardModal = ({
             {/* Content */}
             <div className="content">
               {/* Description */}
-              <TextArea disabled {...controller} />
+              <TextArea disabled {...descriptionController} />
               {/* Attachment */}
               <div style={{display: 'flex', alignItems: 'center'}}>
                 <span className="material-icons">&#xe873;</span>
@@ -122,7 +126,7 @@ const CardModal = ({
                     id={ctx.data?.authorizedUser.avatar || ''}
                     username={ctx.data?.authorizedUser.username}
                   />
-                  <TextArea {...controller} />
+                  <TextArea {...commentController} />
                 </div>
                 <button>Comment</button>
               </div>
@@ -205,7 +209,11 @@ const CardModal = ({
 };
 
 const Attachment = ({attachment}: {attachment: GQLType.Attachment}) => {
-  const date = attachment.createdAt.toLocaleString().substr(0, 10);
+  const date = new Date(attachment.createdAt).toLocaleString('en-GB', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
   return (
     <div style={{display: 'flex', maxWidth: '100%'}}>
       <div style={{maxWidth: '15%'}}>
@@ -333,18 +341,18 @@ const LabelModal = ({labels}: {labels: GQLType.Label[]}) => {
     </div>
   );
 };
-const Cover = () => {
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        backgroundColor: 'red',
-        zIndex: 7,
-      }}
-    >
-      Cover
-    </div>
-  );
-};
+// const Cover = () => {
+//   return (
+//     <div
+//       style={{
+//         position: 'absolute',
+//         backgroundColor: 'red',
+//         zIndex: 7,
+//       }}
+//     >
+//       Cover
+//     </div>
+//   );
+// };
 
 export default CardModal;

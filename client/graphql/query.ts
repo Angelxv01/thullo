@@ -62,6 +62,9 @@ export const CARD = gql`
       coverId
       id
       title
+      list {
+        name
+      }
       members {
         username
         avatar
