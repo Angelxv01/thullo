@@ -65,7 +65,12 @@ const CardModal = ({
       }}
     >
       <div
-        style={{backgroundColor: 'white', margin: '4em auto', maxWidth: '45%'}}
+        style={{
+          backgroundColor: 'white',
+          margin: '4em auto',
+          maxWidth: '45%',
+          padding: '2em 1.75em',
+        }}
       >
         {/* Header */}
         <div className="header">
@@ -120,18 +125,31 @@ const CardModal = ({
             </div>
 
             <div className="comments" style={{backgroundColor: 'white'}}>
-              <div className="commentForm">
-                <Flex>
+              <Flex
+                className="commentForm"
+                style={{
+                  border: '1px solid red',
+                  borderRadius: '8px',
+                  padding: '1em',
+                  flexDirection: 'column',
+                }}
+              >
+                <Flex style={{alignItems: 'center'}}>
                   <Avatar
                     id={ctx.data?.authorizedUser.avatar}
                     username={ctx.data?.authorizedUser.username}
                   />
-                  <TextArea {...commentController} />
+                  <TextArea
+                    {...commentController}
+                    placeholder="Write a comment..."
+                  />
                 </Flex>
-                <Button.Colored style={{padding: '0.5em 1em'}}>
+                <Button.Colored
+                  style={{padding: '0.5em 1em', alignSelf: 'flex-end'}}
+                >
                   Comment
                 </Button.Colored>
-              </div>
+              </Flex>
               <div className="commentList">
                 {card.comments.map(comment => (
                   <Comment key={comment.id} comment={comment} />
