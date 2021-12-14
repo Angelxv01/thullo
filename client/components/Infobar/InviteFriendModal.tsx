@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTheme} from 'styled-components';
 import {Button, Icon} from '../common';
-import * as GQLTypes from '../../../server/graphql/type';
+import * as GQLTypes from '../../../types/gqlTypes';
 
 import Toggle from '../Toggle';
 import InviteFriend from '../InviteFriend';

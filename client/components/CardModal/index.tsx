@@ -12,7 +12,7 @@ import {
   Flex,
 } from '../common';
 import {CARD, Data, MASTER} from '../../graphql/query';
-import * as GQLType from '../../../server/graphql/type';
+import * as GQLType from '../../../types/gqlTypes';
 import useTextArea from '../../hooks/useTextArea';
 import useVisibility from '../../hooks/useVisiblity';
 import InviteFriendModal from '../Infobar/InviteFriendModal';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {User} from '../../../server/graphql/type';
+import {User} from '../../../types/gqlTypes';
 import {Avatar, Flex} from '../common';
 
 const Avatars = ({

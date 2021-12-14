@@ -3,7 +3,7 @@ import {useTheme} from 'styled-components';
 import Toggle from '../Toggle';
 import VisibilityCard from '../VisibilityCard';
 import VisibilityBadge from './Badge';
-import * as GQLTypes from '../../../server/graphql/type';
+import * as GQLTypes from '../../../types/gqlTypes';
 
 const VisibilityModal = ({visibility}: {visibility: GQLTypes.Visibility}) => {
   const theme = useTheme();

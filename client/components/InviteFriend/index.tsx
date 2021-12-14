@@ -3,7 +3,7 @@ import {useTheme} from 'styled-components';
 import {InputGroup, Flow, Text, Button, Icon, Flex} from '../common';
 import User from '../User';
 import StyledFriendFlow from './StyledFriendFlow';
-import * as GQLTypes from '../../../server/graphql/type';
+import * as GQLTypes from '../../../types/gqlTypes';
 
 const InviteFriend = ({friends}: {friends: GQLTypes.User[]}) => {
   const theme = useTheme();

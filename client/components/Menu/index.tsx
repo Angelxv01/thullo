@@ -14,7 +14,7 @@ import {
   TextArea,
 } from '../common';
 import InfoLabel from '../common/InfoLabel';
-import * as GQLTypes from '../../../server/graphql/type';
+import * as GQLTypes from '../../../types/gqlTypes';
 import useTextArea from '../../hooks/useTextArea';
 import User from '../User';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Flex, Text} from '../common';
-import * as GQLTypes from '../../../server/graphql/type';
+import * as GQLTypes from '../../../types/gqlTypes';
 
 const User = ({user}: {user: GQLTypes.User}) => {
   return (
