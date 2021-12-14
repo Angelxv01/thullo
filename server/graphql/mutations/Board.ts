@@ -1,10 +1,10 @@
-import {ApolloError, gql} from 'apollo-server';
+import { ApolloError, gql } from 'apollo-server';
 import DataLoader from 'dataloader';
-import {BoardDocument, Member, Role, UserDocument} from '../../../types';
+import { BoardDocument, Member, Role, UserDocument } from '../../../types';
 import Board from '../../models/Board';
-import {Visibility} from '../../../types';
-import {ObjectId} from 'mongoose';
-import {User} from '../../models';
+import { Visibility } from '../../../types';
+import { ObjectId } from 'mongoose';
+import { User } from '../../models';
 
 interface BoardInput {
   id?: ObjectId;
@@ -67,10 +67,10 @@ const resolvers = {
   Mutation: {
     createBoard: async (
       _root: never,
-      args: {boardData: BoardInput},
+      args: { boardData: BoardInput },
       {
         currentUser,
-        dataLoader: {BoardLoader},
+        dataLoader: { BoardLoader },
       }: {
         currentUser: UserDocument | undefined;
         dataLoader: {
@@ -82,15 +82,19 @@ const resolvers = {
       if (!currentUser) {
         throw new ApolloError('Only logged user can create a Board');
       }
+
+      const { id, ...data } = args.boardData;
+
       const out = {
-        ...args.boardData,
+        ...data,
         members: args.boardData.members?.map(id => ({
           id,
           role: Role.MEMBER,
         })) as Member[],
       };
+
       let board: BoardDocument | undefined;
-      if (args.boardData.id) {
+      if (id) {
         board = (await Board.findByIdAndUpdate(args.boardData.id, out, {
           new: true,
         })) as unknown as BoardDocument;
@@ -124,7 +128,7 @@ const resolvers = {
 
       if (!canInvite && existOnBoard)
         throw new ApolloError('Unable to invite your friend');
-      board.members.push({id: args.data.userId, role: Role.MEMBER});
+      board.members.push({ id: args.data.userId, role: Role.MEMBER });
       await board.save();
 
       return board;
@@ -132,7 +136,7 @@ const resolvers = {
     deleteUser: async (
       _: never,
       args: DeleteUserInput,
-      ctx: {currentUser: UserDocument}
+      ctx: { currentUser: UserDocument }
     ) => {
       if (!ctx.currentUser) {
         throw new ApolloError('Only logged user can remove members');
@@ -169,4 +173,4 @@ const resolvers = {
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };
