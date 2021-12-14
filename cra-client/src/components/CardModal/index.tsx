@@ -82,6 +82,7 @@ const CardModal = ({
             {card.coverId && (
               <img
                 src={`https://source.unsplash.com/${card.coverId}/620x130`}
+                alt="cover"
               />
             )}
             <Text>{card.title}</Text>
