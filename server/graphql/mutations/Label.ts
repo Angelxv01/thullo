@@ -1,10 +1,10 @@
-import {gql, ApolloError} from 'apollo-server';
-import {ObjectId} from 'mongoose';
+import { gql, ApolloError } from 'apollo-server';
+import { ObjectId } from 'mongoose';
 import Label from '../../models/Label';
 
-import {Color} from '../../../types/ILabel';
-import {Board, Card} from '../../models';
-import {UserDocument} from '../../../types';
+import { Color } from '../../../types/ILabel';
+import { Board, Card } from '../../models';
+import { UserDocument } from '../../../types';
 
 interface LabelInput {
   boardId: ObjectId;
@@ -65,4 +65,4 @@ const resolvers = {
     },
   },
 };
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

@@ -1,4 +1,4 @@
-import {gql} from 'apollo-server';
+import { gql } from 'apollo-server';
 import DataLoader from 'dataloader';
 import Label from '../../models/Label';
 
@@ -13,13 +13,13 @@ const resolvers = {
   Query: {
     card: (
       _root: never,
-      args: {id: string},
+      args: { id: string },
       {
-        dataLoader: {CardLoader},
-      }: {dataLoader: {CardLoader: DataLoader<unknown, unknown, unknown>}}
+        dataLoader: { CardLoader },
+      }: { dataLoader: { CardLoader: DataLoader<unknown, unknown, unknown> } }
     ) => CardLoader.load(args.id),
     labels: async () => Label.find(),
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

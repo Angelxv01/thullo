@@ -1,7 +1,7 @@
-import {Schema, model, ObjectId} from 'mongoose';
+import { Schema, model, ObjectId } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import {SALT_ROUND} from '../../utils/config';
-import {UserDocument, UserModel} from '../../types';
+import { SALT_ROUND } from '../utils/config';
+import { UserDocument, UserModel } from '../../types';
 
 const schema = new Schema<UserDocument, UserModel>(
   {
@@ -15,9 +15,9 @@ const schema = new Schema<UserDocument, UserModel>(
     email: String,
     avatar: String,
     passwordHash: String,
-    friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 schema.methods.comparePasswords = async function (

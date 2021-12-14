@@ -1,7 +1,7 @@
-import {makeExecutableSchema} from '@graphql-tools/schema';
-import {mergeResolvers} from '@graphql-tools/merge';
-import {gql} from 'apollo-server';
-import {DateTimeTypeDefinition, DateTimeResolver} from 'graphql-scalars';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { mergeResolvers } from '@graphql-tools/merge';
+import { gql } from 'apollo-server';
+import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
 
 // TYPES
 import Card from './types/Card';
@@ -61,7 +61,7 @@ const typeDefs = [
 ];
 
 const resolvers = mergeResolvers([
-  {DateTime: DateTimeResolver},
+  { DateTime: DateTimeResolver },
   Card.resolvers,
   List.resolvers,
   Board.resolvers,
@@ -81,5 +81,5 @@ const resolvers = mergeResolvers([
   LabelMutation.resolvers,
 ]);
 
-const schema = makeExecutableSchema({typeDefs, resolvers});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 export default schema;

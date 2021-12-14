@@ -1,7 +1,7 @@
 import express from 'express';
-import {connect} from 'mongoose';
+import { connect } from 'mongoose';
 
-import {MONGODB, PORT as CONFIG_PORT} from './utils/config';
+import { MONGODB, PORT as CONFIG_PORT } from './server/utils/config';
 import Logger from './utils/Logger';
 
 const app = express();

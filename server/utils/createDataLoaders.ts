@@ -1,5 +1,5 @@
 import DataLoader from 'dataloader';
-import mongoose, {ObjectId} from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 import User from '../models/User';
 import Board from '../models/Board';
@@ -7,7 +7,7 @@ import List from '../models/List';
 import Card from '../models/Card';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
-import {BoardDocument, IBoard, IComment} from '../../types';
+import { BoardDocument, CommentDocument, IBoard, IComment } from '../../types';
 
 type Unknown = mongoose.Document<unknown> & {
   _id: mongoose.Types.ObjectId;
@@ -17,17 +17,17 @@ function cacheKeyFn(val: unknown) {
   return val;
 }
 
-const dataLoader = (Model: mongoose.Model<unknown>) =>
+const dataLoader = (Model: mongoose.Model<any>) =>
   new DataLoader(
     async (keys: readonly ObjectId[]) => {
-      const result = await Model.find({_id: {$in: keys}});
+      const result = await Model.find({ _id: { $in: keys } });
       return keys.map(key => result.find(obj => obj.id === String(key)));
     },
-    {cacheKeyFn}
+    { cacheKeyFn }
   );
 
 const batchUserBoard = async (keys: readonly ObjectId[]) => {
-  const data = (await Board.find({'members.id': keys})) as BoardDocument[];
+  const data = (await Board.find({ 'members.id': keys })) as BoardDocument[];
   const results = data.map(obj => obj.toJSON()) as IBoard[];
   return keys.map(key =>
     results.filter(obj =>
@@ -40,10 +40,10 @@ interface UnknownWithBoard extends Unknown {
   boardId: ObjectId;
 }
 
-const boardLoader = (Model: mongoose.Model<unknown>) =>
+const boardLoader = (Model: mongoose.Model<any>) =>
   new DataLoader(
     async (keys: readonly ObjectId[]) => {
-      const data = await Model.find({boardId: {$in: keys}});
+      const data = await Model.find({ boardId: { $in: keys } });
       const result = data.map(obj => obj.toJSON()) as UnknownWithBoard[];
 
       const out = keys.reduce((acc: UnknownWithBoard[][], key) => {
@@ -53,14 +53,14 @@ const boardLoader = (Model: mongoose.Model<unknown>) =>
       }, []);
       return out;
     },
-    {cacheKeyFn}
+    { cacheKeyFn }
   );
 
 const batchCommentCard = async (keys: readonly ObjectId[]) => {
   const data = await Comment.find({
-    cardId: {$in: keys as unknown as ObjectId[]},
+    cardId: { $in: keys as unknown as ObjectId[] },
   });
-  const result = data.map(obj => obj.toJSON()) as IComment[];
+  const result = data.map(obj => obj.toJSON()) as CommentDocument[];
 
   return keys.map(key =>
     result.filter(obj => String(obj.cardId) === String(key))
@@ -69,7 +69,7 @@ const batchCommentCard = async (keys: readonly ObjectId[]) => {
 
 const batchCommentParent = async (keys: readonly ObjectId[]) => {
   const data = await Comment.find({
-    parentId: {$in: keys as unknown as ObjectId[]},
+    parentId: { $in: keys as unknown as ObjectId[] },
   });
   const result = data.map(obj => obj.toJSON());
 
@@ -79,7 +79,9 @@ const batchCommentParent = async (keys: readonly ObjectId[]) => {
 };
 
 const batchCardList = async (keys: readonly ObjectId[]) => {
-  const data = await Card.find({listId: {$in: keys as unknown as ObjectId[]}});
+  const data = await Card.find({
+    listId: { $in: keys as unknown as ObjectId[] },
+  });
   const result = data.map(obj => obj.toJSON());
 
   return keys.map(key =>
@@ -95,12 +97,12 @@ const createDataLoader = () => {
     CardLoader: dataLoader(Card),
     CommentLoader: dataLoader(Comment),
     LabelLoader: dataLoader(Label),
-    UserBoard: new DataLoader(batchUserBoard, {cacheKeyFn}),
+    UserBoard: new DataLoader(batchUserBoard, { cacheKeyFn }),
     ListBoard: boardLoader(List),
     CardBoard: boardLoader(Card),
-    CommentCard: new DataLoader(batchCommentCard, {cacheKeyFn}),
-    CommentReply: new DataLoader(batchCommentParent, {cacheKeyFn}),
-    CardList: new DataLoader(batchCardList, {cacheKeyFn}),
+    CommentCard: new DataLoader(batchCommentCard, { cacheKeyFn }),
+    CommentReply: new DataLoader(batchCommentParent, { cacheKeyFn }),
+    CardList: new DataLoader(batchCardList, { cacheKeyFn }),
   } as const;
 
   return dataLoaders;

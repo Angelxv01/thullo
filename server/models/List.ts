@@ -1,5 +1,5 @@
-import {Schema, model, ObjectId} from 'mongoose';
-import {ListDocument, ListModel} from '../../types';
+import { Schema, model, ObjectId } from 'mongoose';
+import { ListDocument, ListModel } from '../../types';
 
 const schema = new Schema<ListDocument, ListModel>({
   name: String,

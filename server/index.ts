@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 import Logger from '../utils/Logger';
-import { MONGODB, SECRET } from '../utils/config';
+import { MONGODB, SECRET } from './utils/config';
 import schema from './graphql/schema';
 import User from './models/User';
 import { UserDocument } from '../types';

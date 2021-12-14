@@ -1,5 +1,5 @@
-import {Schema, model, ObjectId} from 'mongoose';
-import {LabelDocument, LabelModel} from '../../types';
+import { Schema, model, ObjectId } from 'mongoose';
+import { LabelDocument, LabelModel } from '../../types';
 
 const schema = new Schema<LabelDocument, LabelModel>(
   {
@@ -8,9 +8,9 @@ const schema = new Schema<LabelDocument, LabelModel>(
       type: Number,
       enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     },
-    boardId: {type: Schema.Types.ObjectId, ref: 'Board'},
+    boardId: { type: Schema.Types.ObjectId, ref: 'Board' },
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 schema.set('toJSON', {

@@ -1,6 +1,6 @@
-import {gql} from 'apollo-server';
-import {Context} from '../..';
-import {CardDocument, Color, LabelDocument} from '../../../types';
+import { gql } from 'apollo-server';
+import { Context } from '../..';
+import { CardDocument, Color, LabelDocument } from '../../../types';
 
 const typeDefs = gql`
   type Attachment {
@@ -46,4 +46,4 @@ const resolvers = {
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

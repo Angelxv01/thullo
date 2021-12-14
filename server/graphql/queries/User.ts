@@ -1,5 +1,5 @@
-import {gql} from 'apollo-server';
-import {IUser, UserDocument} from '../../../types';
+import { gql } from 'apollo-server';
+import { IUser, UserDocument } from '../../../types';
 import User from '../../models/User';
 
 const typeDefs = gql`
@@ -18,9 +18,9 @@ const resolvers = {
     authorizedUser: (
       _root: never,
       _args: never,
-      context: {currentUser: IUser}
+      context: { currentUser: IUser }
     ) => context.currentUser,
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

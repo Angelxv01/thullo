@@ -1,11 +1,11 @@
-import {ApolloError, gql} from 'apollo-server';
-import {ObjectId} from 'mongoose';
+import { ApolloError, gql } from 'apollo-server';
+import { ObjectId } from 'mongoose';
 import Logger from '../../../utils/Logger';
-import Card, {Attachment} from '../../models/Card';
-import {IUser, AttachmentDocument} from '../../../types';
+import Card, { Attachment } from '../../models/Card';
+import { IUser, AttachmentDocument } from '../../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
-import {Context} from '../..';
+import { Context } from '../..';
 
 interface CreateCardInput {
   title?: string;
@@ -51,8 +51,8 @@ const resolvers = {
   Mutation: {
     createCard: async (
       _root: never,
-      {cardData}: {cardData: CreateCardInput},
-      {currentUser}: {currentUser: IUser | undefined}
+      { cardData }: { cardData: CreateCardInput },
+      { currentUser }: { currentUser: IUser | undefined }
     ) => {
       if (!currentUser) throw new ApolloError('Login to create');
       const boardExist = await Board.findById(cardData.boardId);
@@ -89,7 +89,7 @@ const resolvers = {
         );
       }
 
-      const {cardId, ...props} = args.attachment;
+      const { cardId, ...props } = args.attachment;
 
       let card;
 
@@ -116,7 +116,11 @@ const resolvers = {
         attachment => attachment.id === newAttachment.id
       );
     },
-    changeList: async (_: never, {data}: {data: IChangeList}, ctx: Context) => {
+    changeList: async (
+      _: never,
+      { data }: { data: IChangeList },
+      ctx: Context
+    ) => {
       if (!ctx.currentUser) throw new ApolloError('Unauthorized');
       const cardExists = await Card.findById(data.cardId);
       const listExists = await List.findById(data.listId);
@@ -134,4 +138,4 @@ const resolvers = {
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

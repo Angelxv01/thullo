@@ -1,7 +1,7 @@
-import {ApolloError, gql} from 'apollo-server';
+import { ApolloError, gql } from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose from 'mongoose';
-import {BoardDocument, IUser} from '../../../types';
+import { BoardDocument, IUser } from '../../../types';
 import List from '../../models/List';
 
 const typeDefs = gql`
@@ -41,7 +41,7 @@ const resolvers = {
         throw new ApolloError('Only logged user can create a Board');
       }
 
-      const newList = new List({name: list.name, board_id: list.boardId});
+      const newList = new List({ name: list.name, board_id: list.boardId });
       const board: BoardDocument = (await dataLoader.BoardLoader.load(
         list.boardId
       )) as BoardDocument;
@@ -62,4 +62,4 @@ const resolvers = {
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

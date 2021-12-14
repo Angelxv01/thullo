@@ -1,4 +1,4 @@
-import {Schema, model, ObjectId} from 'mongoose';
+import { Schema, model, ObjectId } from 'mongoose';
 import {
   AttachmentDocument,
   AttachmentModel,
@@ -12,22 +12,22 @@ const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
     title: String,
     coverId: String,
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 const schema = new Schema<CardDocument, CardModel>(
   {
     title: String,
     description: String,
-    boardId: {type: Schema.Types.ObjectId, ref: 'Board'},
-    listId: {type: Schema.Types.ObjectId, ref: 'List'},
-    members: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    boardId: { type: Schema.Types.ObjectId, ref: 'Board' },
+    listId: { type: Schema.Types.ObjectId, ref: 'List' },
+    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     coverId: String,
-    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
-    labels: [{type: Schema.Types.ObjectId, ref: 'Label'}],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    labels: [{ type: Schema.Types.ObjectId, ref: 'Label' }],
     attachments: [attachmentSchema],
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 schema.set('toJSON', {
