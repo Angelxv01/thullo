@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledAvatar = styled.img`
-  flex: 1;
+  flex: 1 0 2rem;
   width: 2rem;
   aspect-ratio: 1;
   border-radius: ${({theme}) => theme.border.radius[1]};
@@ -27,7 +27,7 @@ const Avatar = ({id, username}: {id?: string; username: string}) => {
         {username
           .split(' ')
           .reduce((acc, word) => (acc += word[0]), '')
-          .substr(0, 2)}
+          .substring(0, 2)}
       </TextAvatar>
     );
   return <StyledAvatar src={`https://source.unsplash.com/${id}/150x150`} />;

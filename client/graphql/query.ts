@@ -81,6 +81,7 @@ export const CARD = gql`
           avatar
         }
         id
+        text
         createdAt
       }
       attachments {

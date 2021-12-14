@@ -62,6 +62,7 @@ const CardModal = ({
         inset: '0',
         margin: 'auto',
         zIndex: theme.z.CARD,
+        overflowY: 'scroll',
       }}
     >
       <div
@@ -94,47 +95,54 @@ const CardModal = ({
         <Flex>
           {/* Left hand side */}
           <div style={{flex: 4}}>
-            {/* Subheading */}
-            <Flex>
-              <InfoLabel text="Description">
-                <Icon.Description />
-              </InfoLabel>
-              <Button.Icon>
-                <Icon.Edit />
-                <Text>Edit</Text>
-              </Button.Icon>
-            </Flex>
-
-            {/* Content */}
-            <div className="content">
-              {/* Description */}
-              <TextArea disabled {...descriptionController} />
-              {/* Attachment */}
+            <Flow>
+              {/* Subheading */}
               <Flex>
-                <InfoLabel text="Attachments">
-                  <Icon.AttachFile />
+                <InfoLabel text="Description">
+                  <Icon.Description />
                 </InfoLabel>
                 <Button.Icon>
-                  <Icon.Add />
-                  <Text>Add</Text>
+                  <Icon.Edit />
+                  <Text>Edit</Text>
                 </Button.Icon>
               </Flex>
-              {card.attachments.map(attachment => (
-                <Attachment key={attachment.title} attachment={attachment} />
-              ))}
-            </div>
 
-            <div className="comments" style={{backgroundColor: 'white'}}>
-              <Flex
-                className="commentForm"
+              {/* Content */}
+              <div className="content">
+                {/* Description */}
+                <TextArea disabled {...descriptionController} />
+                {/* Attachment */}
+                <Flex>
+                  <InfoLabel text="Attachments">
+                    <Icon.AttachFile />
+                  </InfoLabel>
+                  <Button.Icon>
+                    <Icon.Add />
+                    <Text>Add</Text>
+                  </Button.Icon>
+                </Flex>
+                {card.attachments.map(attachment => (
+                  <Attachment key={attachment.title} attachment={attachment} />
+                ))}
+              </div>
+              {/* Comments */}
+              <Flow
                 style={{
-                  border: '1px solid red',
-                  borderRadius: '8px',
+                  textAlign: 'right',
+                  boxShadow: ' 0px 2px 8px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid #E0E0E0',
                   padding: '1em',
-                  flexDirection: 'column',
+                  borderRadius: '12px',
                 }}
               >
-                <Flex style={{alignItems: 'center'}}>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'max-content auto',
+                    alignItems: 'start',
+                    gap: '1em',
+                  }}
+                >
                   <Avatar
                     id={ctx.data?.authorizedUser.avatar}
                     username={ctx.data?.authorizedUser.username}
@@ -143,19 +151,17 @@ const CardModal = ({
                     {...commentController}
                     placeholder="Write a comment..."
                   />
-                </Flex>
-                <Button.Colored
-                  style={{padding: '0.5em 1em', alignSelf: 'flex-end'}}
-                >
+                </div>
+                <Button.Colored style={{padding: '0.5em 1em'}}>
                   Comment
                 </Button.Colored>
-              </Flex>
-              <div className="commentList">
+              </Flow>
+              <Flow className="commentList">
                 {card.comments.map(comment => (
                   <Comment key={comment.id} comment={comment} />
                 ))}
-              </div>
-            </div>
+              </Flow>
+            </Flow>
           </div>
 
           {/* Right hand side */}
@@ -201,8 +207,9 @@ const Attachment = ({attachment}: {attachment: GQLType.Attachment}) => {
     month: 'short',
     day: 'numeric',
   });
+
   return (
-    <div style={{display: 'flex', maxWidth: '100%'}}>
+    <Flex>
       <div style={{maxWidth: '15%'}}>
         {attachment.coverId ? (
           <img
@@ -214,14 +221,14 @@ const Attachment = ({attachment}: {attachment: GQLType.Attachment}) => {
         )}
       </div>
       <div>
-        <p>added {date}</p>
-        <p>{attachment.title}</p>
+        <Text>added {date}</Text>
+        <Text>{attachment.title}</Text>
         <div>
           <a href={attachment.url}>Download</a>
           <button>Delete</button>
         </div>
       </div>
-    </div>
+    </Flex>
   );
 };
 
@@ -233,28 +240,32 @@ const Comment = ({comment}: {comment: GQLType.Comment}) => {
   });
 
   return (
-    <div>
-      {/* Header */}
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        {/* Comment's User */}
-        <div style={{display: 'flex'}}>
-          <Avatar id={comment.user.avatar} username={comment.user.username} />
-          <div>
-            <p>{comment.user.username}</p>
-            <p>{commentDate}</p>
-          </div>
-        </div>
+    <Flow>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'max-content auto max-content',
+          alignItems: 'center',
+          gap: '1em',
+        }}
+      >
+        {/* Header */}
+        <Avatar id={comment.user.avatar} username={comment.user.username} />
+        <Flow space="0.25em">
+          <Text>{comment.user.username}</Text>
+          <Text>{commentDate}</Text>
+        </Flow>
         {/* Actions */}
-        <div>
+        <div style={{alignSelf: 'flex-start'}}>
           <button>Edit</button>
           <button>Delete</button>
         </div>
+        {/* Content */}
       </div>
-      {/* Content */}
       <div>
-        <p>{comment.text}</p>
+        <Text>{comment.text}</Text>
       </div>
-    </div>
+    </Flow>
   );
 };
 
@@ -316,7 +327,7 @@ const LabelModal = ({labels}: {labels: GQLType.Label[]}) => {
       </div>
       <div style={{display: 'flex', alignItems: 'center'}}>
         <span className="material-icons">&#xe892;</span>
-        <p>Available</p>
+        <Text>Available</Text>
         <Labels>
           {labels.map(label => (
             <Label color={label.color} key={label.id}>
