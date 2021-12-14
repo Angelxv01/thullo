@@ -1,8 +1,8 @@
-import React, {DragEventHandler} from 'react';
-import * as GqlTypes from '../../../server/graphql/type';
+import React, { DragEventHandler } from 'react';
+import { Gql } from '../../../../types/';
 import Avatars from '../Avatars';
-import {Button, Flex, Icon, Label} from '../common';
-import {Cover, Labels, StatusBar, Title} from './Utils';
+import { Button, Flex, Icon, Label } from '../common';
+import { Cover, Labels, StatusBar, Title } from './Utils';
 import StyledCard from './StyledCard';
 import InfoLabel from '../common/InfoLabel';
 import useVisibility from '../../hooks/useVisiblity';
@@ -12,7 +12,7 @@ const Card = ({
   card,
   onDragStart,
 }: {
-  card: GqlTypes.Card;
+  card: Gql.Card;
   onDragStart: DragEventHandler<HTMLDivElement>;
 }) => {
   const [visibility, setVisibility] = useVisibility();

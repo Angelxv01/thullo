@@ -6,6 +6,6 @@ export default styled.main`
   margin-inline: 2em;
   padding: 2em;
   overflow-x: scroll;
-  background-color: hsl(${({theme}) => theme.color.WHITE1});
-  border-radius: ${({theme}) => theme.border.radius[3]};
+  background-color: hsl(${({ theme }) => theme.color.WHITE1});
+  border-radius: ${({ theme }) => theme.border.radius[3]};
 `;

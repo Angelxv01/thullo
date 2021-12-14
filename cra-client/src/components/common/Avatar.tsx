@@ -5,7 +5,7 @@ const StyledAvatar = styled.img`
   flex: 1 0 2rem;
   width: 2rem;
   aspect-ratio: 1;
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
   cursor: pointer;
 `;
 
@@ -14,13 +14,13 @@ const TextAvatar = styled.div`
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  color: hsl(${({theme}) => theme.color.WHITE});
-  background-color: hsl(${({theme}) => theme.color.GRAY4});
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  color: hsl(${({ theme }) => theme.color.WHITE});
+  background-color: hsl(${({ theme }) => theme.color.GRAY4});
+  border-radius: ${({ theme }) => theme.border.radius[1]};
   cursor: pointer;
 `;
 
-const Avatar = ({id, username}: {id?: string; username: string}) => {
+const Avatar = ({ id, username }: { id?: string; username: string }) => {
   if (!id)
     return (
       <TextAvatar>

@@ -1,6 +1,6 @@
-import React, {ButtonHTMLAttributes} from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import {Flex} from '../../style/Utils';
+import { Flex } from '../../style/Utils';
 
 interface Color {
   color?: string;
@@ -9,47 +9,49 @@ interface Color {
 
 export const Colored = styled.button<Color>`
   cursor: pointer;
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
   background-color: hsl(
-    ${({backgroundColor, theme}) =>
+    ${({ backgroundColor, theme }) =>
       backgroundColor && theme.color[backgroundColor]
         ? theme.color[backgroundColor]
         : theme.color.BLUE1}
   );
-  color: hsl(${({theme}) => theme.color.WHITE});
+  color: hsl(${({ theme }) => theme.color.WHITE});
   border: 0;
-  line-height: ${({theme}) => theme.lineHeight[0]};
+  line-height: ${({ theme }) => theme.lineHeight[0]};
 
   /* &:hover {
-    background-color: hsl(${({theme}) => theme.color.WHITE});
+    background-color: hsl(${({ theme }) => theme.color.WHITE});
     color: hsl(
-      ${({color, theme}) => (color && theme.color[color]) || theme.color.BLUE1}
+      ${({ color, theme }) =>
+    (color && theme.color[color]) || theme.color.BLUE1}
     );
   } */
 `;
 
 export const Outline = styled(Colored)`
   cursor: pointer;
-  border-radius: ${({theme}) => theme.border.radius[1]};
-  color: hsl(${({theme}) => theme.color.WHITE});
-  line-height: ${({theme}) => theme.lineHeight[0]};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
+  color: hsl(${({ theme }) => theme.color.WHITE});
+  line-height: ${({ theme }) => theme.lineHeight[0]};
 
-  background-color: hsl(${({theme}) => theme.color.WHITE});
+  background-color: hsl(${({ theme }) => theme.color.WHITE});
   color: hsl(
-    ${({color, theme}) => (color && theme.color[color]) || theme.color.BLUE1}
+    ${({ color, theme }) => (color && theme.color[color]) || theme.color.BLUE1}
   );
   border: hsl(
-      ${({color, theme}) => (color && theme.color[color]) || theme.color.BLUE1}
+      ${({ color, theme }) =>
+        (color && theme.color[color]) || theme.color.BLUE1}
     )
     1px solid;
 `;
 
 const StyledIcon = styled.button`
   cursor: pointer;
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
   border: 0;
   cursor: pointer;
-  color: hsl(${({theme}) => theme.color.GRAY3});
+  color: hsl(${({ theme }) => theme.color.GRAY3});
 
   & > * {
     padding: 0.5em 1em;
@@ -57,13 +59,13 @@ const StyledIcon = styled.button`
 
   &,
   & .material-icons {
-    font-size: ${({theme}) => theme.font.size['300']};
-    line-height: ${({theme}) => theme.lineHeight[0]};
+    font-size: ${({ theme }) => theme.font.size['300']};
+    line-height: ${({ theme }) => theme.lineHeight[0]};
   }
 `;
 
 export const Icon = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const {children, ...button} = props;
+  const { children, ...button } = props;
 
   return (
     <StyledIcon {...button}>
@@ -80,17 +82,17 @@ export const Squared = styled.button<Color>`
   display: grid;
   place-items: center;
   cursor: pointer;
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
   outline: none;
   width: 2rem;
   aspect-ratio: 1;
   border: 0;
   color: hsl(
-    ${({theme, color}) =>
+    ${({ theme, color }) =>
       color && theme.color[color] ? theme.color[color] : theme.color.WHITE}
   );
   background-color: hsl(
-    ${({theme, color}) =>
+    ${({ theme, color }) =>
       color && theme.color[color] ? theme.color[color] : theme.color.BLUE1}
   );
 `;
@@ -105,16 +107,16 @@ export const IconColored = styled.button<Color>`
   border: 0;
   padding: 0.5em 1em;
   background-color: hsl(
-    ${({backgroundColor, theme}) =>
+    ${({ backgroundColor, theme }) =>
         backgroundColor && theme.color[backgroundColor]
           ? theme.color[backgroundColor]
           : theme.color.BLUE1} / 0.2
   );
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
   &,
   & > * {
     color: hsl(
-      ${({theme, color}) =>
+      ${({ theme, color }) =>
         color && theme.color[color] ? theme.color[color] : theme.color.BLUE1}
     );
   }

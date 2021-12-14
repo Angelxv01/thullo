@@ -1,17 +1,17 @@
 import React from 'react';
-import styled, {useTheme} from 'styled-components';
-import {Flex, Text} from '../common/index';
+import styled, { useTheme } from 'styled-components';
+import { Flex, Text } from '../common/index';
 
 interface Ratio {
   ratio?: string;
 }
 
 export const Cover = styled.img<Ratio>`
-  aspect-ratio: ${({ratio}) => ratio || '5 / 3'};
-  border-radius: ${({theme}) => theme.border.radius[1]};
+  aspect-ratio: ${({ ratio }) => ratio || '5 / 3'};
+  border-radius: ${({ theme }) => theme.border.radius[1]};
 `;
 
-export const Title = ({children}: {children: React.ReactChild}) => {
+export const Title = ({ children }: { children: React.ReactChild }) => {
   const theme = useTheme();
   return (
     <Text

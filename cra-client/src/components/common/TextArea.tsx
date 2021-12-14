@@ -1,6 +1,6 @@
-import React, {TextareaHTMLAttributes} from 'react';
+import React, { TextareaHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import {IUseTextArea} from '../../hooks/useTextArea';
+import { IUseTextArea } from '../../hooks/useTextArea';
 
 // https://codepen.io/chriscoyier/pen/XWKEVLy
 // unfortunately this approach woudn't work
@@ -24,8 +24,8 @@ const StyledTextArea = styled.div`
     width: 100%;
     grid-area: 1 / 1 / 2 / 2;
     overflow-wrap: break-word;
-    font-family: ${({theme}) => theme.font.family.secondary};
-    border-radius: ${({theme}) => theme.border.radius[1]};
+    font-family: ${({ theme }) => theme.font.family.secondary};
+    border-radius: ${({ theme }) => theme.border.radius[1]};
     border: 0;
     outline: 0;
     font-weight: 500;
@@ -35,7 +35,7 @@ const StyledTextArea = styled.div`
 const TextArea = (
   props: IUseTextArea & TextareaHTMLAttributes<HTMLTextAreaElement>
 ) => {
-  const {divRef, textAreaRef, ...other} = props;
+  const { divRef, textAreaRef, ...other } = props;
   return (
     <StyledTextArea ref={divRef}>
       <textarea ref={textAreaRef} {...other} />

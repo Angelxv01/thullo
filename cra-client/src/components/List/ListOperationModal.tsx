@@ -1,6 +1,6 @@
 import React from 'react';
-import {useTheme} from 'styled-components';
-import {Icon} from '../common';
+import { useTheme } from 'styled-components';
+import { Icon } from '../common';
 import ListOperation from '../ListOperation';
 import Toggle from '../Toggle';
 

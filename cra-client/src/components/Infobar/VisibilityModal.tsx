@@ -1,11 +1,11 @@
 import React from 'react';
-import {useTheme} from 'styled-components';
+import { useTheme } from 'styled-components';
 import Toggle from '../Toggle';
 import VisibilityCard from '../VisibilityCard';
 import VisibilityBadge from './Badge';
-import * as GQLTypes from '../../../server/graphql/type';
+import { Gql } from '../../../../types';
 
-const VisibilityModal = ({visibility}: {visibility: GQLTypes.Visibility}) => {
+const VisibilityModal = ({ visibility }: { visibility: Gql.Visibility }) => {
   const theme = useTheme();
   return (
     <Toggle

@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import {useQuery} from '@apollo/client';
-import {Data, MASTER, Var} from '../../graphql/query';
-import {Button, Flex, Icon, Relative, Text} from '../common';
+import { useQuery } from '@apollo/client';
+import { Data, MASTER, Var } from '../../graphql/query';
+import { Button, Flex, Icon, Relative, Text } from '../common';
 
 import Avatars from '../Avatars';
 import StyledInfobar from './StyledInfobar';
-import * as GQLTypes from '../../../server/graphql/type';
+import { Gql } from '../../../../types';
 import Menu from '../Menu';
 import useVisibility from '../../hooks/useVisiblity';
 import InviteFriendModal from './InviteFriendModal';
@@ -17,7 +17,7 @@ import VisibilityModal from './VisibilityModal';
 const Infobar = () => {
   const ctx = useQuery<Data, Var>(MASTER, {
     fetchPolicy: 'cache-only',
-    variables: {id: '6182d8c9bba2b2dfab68119d'},
+    variables: { id: '6182d8c9bba2b2dfab68119d' },
   });
 
   const [visibility, setVisibility] = useVisibility();
@@ -32,7 +32,7 @@ const Infobar = () => {
           <VisibilityModal visibility={ctx.data.board.visibility} />
           <Avatars
             members={ctx.data.board.members.map(
-              ({user}: {user: GQLTypes.User}) => user
+              ({ user }: { user: Gql.User }) => user
             )}
           >
             {/* Append this at the end of the 'mapping' */}

@@ -1,7 +1,7 @@
-import React, {DragEvent, useState} from 'react';
-import * as GqlTypes from '../../../server/graphql/type';
+import React, { DragEvent, useState } from 'react';
+import { Gql } from '../../../../types';
 import Card from '../Card';
-import {Button, Flow, Icon} from '../common';
+import { Button, Flow, Icon } from '../common';
 import Header from './Header';
 import NewCard from './NewCard';
 import StyledList from './StyledList';
@@ -15,7 +15,7 @@ const List = ({
 }: {
   id: string;
   name: string;
-  cards: GqlTypes.Card[];
+  cards: Gql.Card[];
   onDragStart: (e: DragEvent<HTMLDivElement>, list: string) => void;
   onDrop: (e: DragEvent<HTMLDivElement>, list: string) => void;
 }) => {

@@ -1,7 +1,6 @@
-import React from 'react';
-import {Button, Icon, Text} from '../common';
+import { Button, Icon, Text } from '../common';
 
-const VisibilityBadge = ({visibility}: {visibility: string}) =>
+const VisibilityBadge = ({ visibility }: { visibility: string }) =>
   visibility === 'PRIVATE' ? <Private /> : <Public />;
 
 const Private = () => (

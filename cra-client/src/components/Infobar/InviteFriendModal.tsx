@@ -1,12 +1,11 @@
 import React from 'react';
-import {useTheme} from 'styled-components';
-import {Button, Icon} from '../common';
-import * as GQLTypes from '../../../server/graphql/type';
-
+import { useTheme } from 'styled-components';
+import { Button, Icon } from '../common';
+import { Gql } from '../../../../types';
 import Toggle from '../Toggle';
 import InviteFriend from '../InviteFriend';
 
-const InviteFriendModal = ({friends}: {friends: GQLTypes.User[]}) => {
+const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();
   const ToggleStyle = {
     style: {

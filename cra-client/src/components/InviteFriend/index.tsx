@@ -1,11 +1,11 @@
 import React from 'react';
-import {useTheme} from 'styled-components';
-import {InputGroup, Flow, Text, Button, Icon, Flex} from '../common';
+import { useTheme } from 'styled-components';
+import { InputGroup, Flow, Text, Button, Icon, Flex } from '../common';
 import User from '../User';
 import StyledFriendFlow from './StyledFriendFlow';
-import * as GQLTypes from '../../../server/graphql/type';
+import { Gql } from '../../../../types';
 
-const InviteFriend = ({friends}: {friends: GQLTypes.User[]}) => {
+const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();
   return (
     <Flow space="1em">
@@ -15,7 +15,7 @@ const InviteFriend = ({friends}: {friends: GQLTypes.User[]}) => {
           Search users you want to invite to
         </Text>
       </Flow>
-      <InputGroup props={{placeholder: 'User...'}} width="100%">
+      <InputGroup props={{ placeholder: 'User...' }} width="100%">
         <Button.Squared>
           <Icon.Search />
         </Button.Squared>
@@ -27,8 +27,10 @@ const InviteFriend = ({friends}: {friends: GQLTypes.User[]}) => {
           </Flex>
         ))}
       </StyledFriendFlow>
-      <Flow style={{textAlign: 'center', marginTop: '2em'}}>
-        <Button.Colored style={{padding: '0.75em 1em'}}>Invite</Button.Colored>
+      <Flow style={{ textAlign: 'center', marginTop: '2em' }}>
+        <Button.Colored style={{ padding: '0.75em 1em' }}>
+          Invite
+        </Button.Colored>
       </Flow>
     </Flow>
   );

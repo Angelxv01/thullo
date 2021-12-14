@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Text} from '.';
+import { Text } from '.';
 
 interface IStyledInfoLabel {
   color?: string;
@@ -14,13 +14,13 @@ export const StyledInfoLabel = styled.div<IStyledInfoLabel>`
   gap: 0.25em;
   align-items: center;
   color: hsl(
-    ${({theme, color}) =>
+    ${({ theme, color }) =>
       color && theme.color[color] ? theme.color[color] : theme.color.GRAY4}
   );
 
   & > * {
-    line-height: ${({lineHeight}) => lineHeight || 'inherit'};
-    font-size: ${({theme, fontSize}) => fontSize || theme.font.size[200]};
+    line-height: ${({ lineHeight }) => lineHeight || 'inherit'};
+    font-size: ${({ theme, fontSize }) => fontSize || theme.font.size[200]};
   }
 `;
 

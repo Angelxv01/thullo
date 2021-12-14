@@ -1,5 +1,5 @@
-import {gql} from '@apollo/client';
-import * as GQLTypes from '../../server/graphql/type';
+import { gql } from '@apollo/client';
+import { Gql } from '../../../types';
 export const MASTER = gql`
   query MASTER($id: ID!) {
     authorizedUser {
@@ -93,8 +93,8 @@ export const CARD = gql`
 `;
 
 export interface Data {
-  board: GQLTypes.Board;
-  authorizedUser: GQLTypes.User;
+  board: Gql.Board;
+  authorizedUser: Gql.User;
 }
 
 export interface Var {
