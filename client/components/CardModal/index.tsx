@@ -18,6 +18,7 @@ import useVisibility from '../../hooks/useVisiblity';
 import InviteFriendModal from '../Infobar/InviteFriendModal';
 import {Cover, Labels} from '../Card/Utils';
 import InfoLabel from '../common/InfoLabel';
+import theme from '../../style/theme';
 
 const CardModal = ({
   setVisibility,
@@ -256,10 +257,11 @@ const Comment = ({comment}: {comment: GQLType.Comment}) => {
           <Text>{commentDate}</Text>
         </Flow>
         {/* Actions */}
-        <div style={{alignSelf: 'flex-start'}}>
-          <button>Edit</button>
-          <button>Delete</button>
-        </div>
+        <Flex style={{alignItems: 'center'}} space="0.25em">
+          <Text>Edit</Text>
+          <Text>-</Text>
+          <Text>Delete</Text>
+        </Flex>
         {/* Content */}
       </div>
       <div>
