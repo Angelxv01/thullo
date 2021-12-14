@@ -1,19 +1,19 @@
-import React, {ReactChild, useImperativeHandle, useState} from 'react';
-import {HtmlHTMLAttributes} from 'react';
-import {Absolute, Relative} from '../common';
+import React, { ReactChild, useImperativeHandle, useState } from 'react';
+import { HtmlHTMLAttributes } from 'react';
+import { Absolute, Relative } from '../common';
 
 const Toggle = React.forwardRef(
   (
     {
       children,
       props,
-    }: {children: ReactChild[]; props?: HtmlHTMLAttributes<HTMLDivElement>},
+    }: { children: ReactChild[]; props?: HtmlHTMLAttributes<HTMLDivElement> },
     ref
   ) => {
     const [visible, setVisible] = useState<boolean>(false);
     const [Button, ...Child] = children;
     const toggleVisibility = () => setVisible(state => !state);
-    useImperativeHandle(ref, () => ({toggleVisibility}));
+    useImperativeHandle(ref, () => ({ toggleVisibility }));
 
     return (
       <Relative>

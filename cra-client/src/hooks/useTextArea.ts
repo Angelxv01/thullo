@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface IUseTextArea {
   value: string;
@@ -22,7 +22,7 @@ const useTextArea = (init = ''): IUseTextArea => {
     divRef.current.dataset.replicatedValue = textAreaRef.current.value;
     setValue(e.target.value);
   };
-  return {value, onChange, divRef, textAreaRef};
+  return { value, onChange, divRef, textAreaRef };
 };
 
 export default useTextArea;

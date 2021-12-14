@@ -22,7 +22,7 @@ const Navigation = () => {
 
   return (
     <StyledNavigation>
-      <Logo />
+      {/* <Logo /> */}
 
       {/* Board Name + Back to boards */}
       <Flex space="2rem" style={{ alignItems: 'inherit' }}>

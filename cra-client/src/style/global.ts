@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   *,
@@ -34,16 +34,16 @@ export default createGlobalStyle`
   body {
     font-weight: 500;
     letter-spacing: 0.035em;
-    line-height: ${({theme}) => theme.lineHeight[1]};
+    line-height: ${({ theme }) => theme.lineHeight[1]};
     min-height: 100vh;
-    font-family: ${({theme}) => theme.font.family.normal};
-    font-size: ${({theme}) => theme.font.size[300]};
-    background-color: hsl(${({theme}) => theme.color.BLUE1});
-    color: hsl(${({theme}) => theme.color.GRAY1});
+    font-family: ${({ theme }) => theme.font.family.normal};
+    font-size: ${({ theme }) => theme.font.size[300]};
+    background-color: hsl(${({ theme }) => theme.color.BLUE1});
+    color: hsl(${({ theme }) => theme.color.GRAY1});
   }
 
   ::placeholder { 
-    color: hsl(${({theme}) => theme.color.GRAY4});
+    color: hsl(${({ theme }) => theme.color.GRAY4});
     opacity: 1;
   }
 

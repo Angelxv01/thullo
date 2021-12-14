@@ -1,9 +1,9 @@
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
-import {setContext} from '@apollo/client/link/context';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
-const httpLink = createHttpLink({uri: 'http://localhost:4000/'});
+const httpLink = createHttpLink({ uri: 'http://localhost:4000/' });
 
-const ctx = setContext((_, {headers}) => {
+const ctx = setContext((_, { headers }) => {
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkdlcnRydWRlIiwiaWQiOiI2MTkyNTg0NWNmZjhkMWFlODU1YmE1ZDgiLCJpYXQiOjE2Mzg1MjU5MTl9.q4-g_1DsG5tBiNgN-lvQK6FBEdyjbAcatB_0Ia8bygI';
   // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFuZ2VsIiwiaWQiOiI2MTgyOTA0N2I4ZmVmNDYxNTNkZjQxNDIiLCJpYXQiOjE2MzY5OTI2MjR9.tlRa7J396AHr98KXHAdhFvZeFGQdVAk6n8-EdWguHdg';

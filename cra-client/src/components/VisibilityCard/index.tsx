@@ -1,7 +1,7 @@
 import React from 'react';
-import {useTheme} from 'styled-components';
+import { useTheme } from 'styled-components';
 import Card from './Card';
-import {Flow, Icon, Text} from '../common';
+import { Flow, Icon, Text } from '../common';
 
 const VisibilityCard = () => {
   const theme = useTheme();
