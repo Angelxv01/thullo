@@ -12,7 +12,7 @@ import createDataLoader, { Dataloaders } from './utils/createDataLoaders';
 mongoose
   .connect(MONGODB || '')
   .then(() => Logger.info('connected to MongoDB'))
-  .catch((err) => Logger.error(err));
+  .catch(err => Logger.error(err));
 mongoose.set('debug', true);
 
 export interface Context {
