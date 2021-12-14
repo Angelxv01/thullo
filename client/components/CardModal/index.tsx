@@ -18,7 +18,6 @@ import useVisibility from '../../hooks/useVisiblity';
 import InviteFriendModal from '../Infobar/InviteFriendModal';
 import {Cover, Labels} from '../Card/Utils';
 import InfoLabel from '../common/InfoLabel';
-import theme from '../../style/theme';
 
 const CardModal = ({
   setVisibility,
@@ -111,7 +110,14 @@ const CardModal = ({
               {/* Content */}
               <div className="content">
                 {/* Description */}
-                <TextArea disabled {...descriptionController} />
+                <TextArea
+                  disabled
+                  {...descriptionController}
+                  style={{
+                    color: `hsl(${theme.color.DARK})`,
+                    fontSize: theme.font.size[400],
+                  }}
+                />
                 {/* Attachment */}
                 <Flex>
                   <InfoLabel text="Attachments">
