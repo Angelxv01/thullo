@@ -23,9 +23,7 @@ const Card = ({
         onDragStart={onDragStart}
         onClick={setVisibility}
       >
-        {card.coverId && (
-          <Cover src={`https://source.unsplash.com/${card.coverId}`} />
-        )}
+        {card.coverId && <Cover src={card.coverId} />}
         <Title>{card.title}</Title>
         <Labels>
           {card.labels.map((label) => (

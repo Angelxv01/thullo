@@ -4,3 +4,4 @@ build
 .vscode
 cypress/videos
 cypress/screenshots
+req.rest

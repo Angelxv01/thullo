@@ -88,10 +88,7 @@ const CardModal = ({
                   height: "200px",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  backgroundImage:
-                    "url(" +
-                    `https://source.unsplash.com/${card.coverId}` +
-                    ")",
+                  backgroundImage: `url(${card.coverId})`,
                   borderRadius: "12px",
                 }}
               ></div>
