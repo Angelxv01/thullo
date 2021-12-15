@@ -1,12 +1,12 @@
-import React, { DragEventHandler } from 'react';
-import { Gql } from '../../../../types/';
-import Avatars from '../Avatars';
-import { Button, Flex, Icon, Label } from '../common';
-import { Cover, Labels, StatusBar, Title } from './Utils';
-import StyledCard from './StyledCard';
-import InfoLabel from '../common/InfoLabel';
-import useVisibility from '../../hooks/useVisiblity';
-import CardModal from '../CardModal';
+import React, { DragEventHandler } from "react";
+import { Gql } from "../../../../types/";
+import Avatars from "../Avatars";
+import { Button, Flex, Icon, Label } from "../common";
+import { Cover, Labels, StatusBar, Title } from "./Utils";
+import StyledCard from "./StyledCard";
+import InfoLabel from "../common/InfoLabel";
+import useVisibility from "../../hooks/useVisiblity";
+import CardModal from "../CardModal";
 
 const Card = ({
   card,
@@ -28,7 +28,7 @@ const Card = ({
         )}
         <Title>{card.title}</Title>
         <Labels>
-          {card.labels.map(label => (
+          {card.labels.map((label) => (
             <Label color={label.color} key={label.id}>
               {label.text}
             </Label>

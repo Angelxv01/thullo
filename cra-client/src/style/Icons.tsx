@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes } from 'react';
+import React, { HtmlHTMLAttributes } from "react";
 export const Apps = (props: HtmlHTMLAttributes<HTMLSpanElement>) => (
   <span className="material-icons" {...props}>
     &#xe5c3;

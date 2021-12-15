@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 export interface IUseTextArea {
   value: string;
@@ -7,7 +7,7 @@ export interface IUseTextArea {
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-const useTextArea = (init = ''): IUseTextArea => {
+const useTextArea = (init = ""): IUseTextArea => {
   const [value, setValue] = useState<string>(init);
   const divRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);

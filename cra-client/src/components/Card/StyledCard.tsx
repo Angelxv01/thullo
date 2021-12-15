@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Flow } from '../common';
+import styled from "styled-components";
+import { Flow } from "../common";
 
 export default styled(Flow)`
   background-color: hsl(${({ theme }) => theme.color.WHITE});

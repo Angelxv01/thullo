@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const StyledAvatar = styled.img`
   flex: 1 0 2rem;
@@ -25,8 +25,8 @@ const Avatar = ({ id, username }: { id?: string; username: string }) => {
     return (
       <TextAvatar>
         {username
-          .split(' ')
-          .reduce((acc, word) => (acc += word[0]), '')
+          .split(" ")
+          .reduce((acc, word) => (acc += word[0]), "")
           .substring(0, 2)}
       </TextAvatar>
     );

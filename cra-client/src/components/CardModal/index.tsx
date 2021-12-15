@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react';
-import { useTheme } from 'styled-components';
+import { useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import {
   Avatar,
   Button,
@@ -10,14 +10,14 @@ import {
   Text,
   Flow,
   Flex,
-} from '../common';
-import { CARD, Data, MASTER } from '../../graphql/query';
-import { Gql } from '../../../../types';
-import useTextArea from '../../hooks/useTextArea';
-import useVisibility from '../../hooks/useVisiblity';
-import InviteFriendModal from '../Infobar/InviteFriendModal';
-import { Cover, Labels } from '../Card/Utils';
-import InfoLabel from '../common/InfoLabel';
+} from "../common";
+import { CARD, Data, MASTER } from "../../graphql/query";
+import { Gql } from "../../../../types";
+import useTextArea from "../../hooks/useTextArea";
+import useVisibility from "../../hooks/useVisiblity";
+import InviteFriendModal from "../Infobar/InviteFriendModal";
+import { Cover, Labels } from "../Card/Utils";
+import InfoLabel from "../common/InfoLabel";
 
 const CardModal = ({
   setVisibility,
@@ -31,8 +31,8 @@ const CardModal = ({
     variables: { id },
   });
   const ctx = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id: '6182d8c9bba2b2dfab68119d' },
-    fetchPolicy: 'cache-only',
+    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    fetchPolicy: "cache-only",
   });
 
   const [card, setCard] = useState<Gql.Card | undefined>();
@@ -57,20 +57,20 @@ const CardModal = ({
     <div
       style={{
         backgroundColor: `hsl(${theme.color.DARK} / 0.1)`,
-        backdropFilter: 'blur(1rem)',
-        position: 'fixed',
-        inset: '0',
-        margin: 'auto',
+        backdropFilter: "blur(1rem)",
+        position: "fixed",
+        inset: "0",
+        margin: "auto",
         zIndex: theme.z.CARD,
-        overflowY: 'scroll',
+        overflowY: "scroll",
       }}
     >
       <div
         style={{
-          backgroundColor: 'white',
-          margin: '4em auto',
-          maxWidth: '45%',
-          padding: '2em 1.75em',
+          backgroundColor: "white",
+          margin: "4em auto",
+          maxWidth: "45%",
+          padding: "2em 1.75em",
         }}
       >
         {/* Header */}
@@ -129,26 +129,26 @@ const CardModal = ({
                     <Text>Add</Text>
                   </Button.Icon>
                 </Flex>
-                {card.attachments.map(attachment => (
+                {card.attachments.map((attachment) => (
                   <Attachment key={attachment.title} attachment={attachment} />
                 ))}
               </div>
               {/* Comments */}
               <Flow
                 style={{
-                  textAlign: 'right',
-                  boxShadow: ' 0px 2px 8px rgba(0, 0, 0, 0.1)',
-                  border: '1px solid #E0E0E0',
-                  padding: '1em',
-                  borderRadius: '12px',
+                  textAlign: "right",
+                  boxShadow: " 0px 2px 8px rgba(0, 0, 0, 0.1)",
+                  border: "1px solid #E0E0E0",
+                  padding: "1em",
+                  borderRadius: "12px",
                 }}
               >
                 <div
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'max-content auto',
-                    alignItems: 'start',
-                    gap: '1em',
+                    display: "grid",
+                    gridTemplateColumns: "max-content auto",
+                    alignItems: "start",
+                    gap: "1em",
                   }}
                 >
                   <Avatar
@@ -160,12 +160,12 @@ const CardModal = ({
                     placeholder="Write a comment..."
                   />
                 </div>
-                <Button.Colored style={{ padding: '0.5em 1em' }}>
+                <Button.Colored style={{ padding: "0.5em 1em" }}>
                   Comment
                 </Button.Colored>
               </Flow>
               <Flow className="commentList">
-                {card.comments.map(comment => (
+                {card.comments.map((comment) => (
                   <Comment key={comment.id} comment={comment} />
                 ))}
               </Flow>
@@ -179,7 +179,7 @@ const CardModal = ({
               <Icon.AccountCircle />
             </InfoLabel>
             {/* Members */}
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: "relative" }}>
               <Button.Icon onClick={setShowMember}>
                 <Icon.People />
                 <Text>Members</Text>
@@ -187,7 +187,7 @@ const CardModal = ({
               {showMember && <Member user={ctx.data.authorizedUser} />}
             </div>
             {/* Labels */}
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: "relative" }}>
               <Button.Icon onClick={setShowLabel}>
                 <Icon.Label />
                 <Text>Labels</Text>
@@ -195,7 +195,7 @@ const CardModal = ({
               {showLabel && <LabelModal labels={card.labels} />}
             </div>
             {/* Covers */}
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: "relative" }}>
               <Button.Icon onClick={setShowCover}>
                 <Icon.Image />
                 <Text>Cover</Text>
@@ -210,15 +210,15 @@ const CardModal = ({
 };
 
 const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
-  const date = new Date(attachment.createdAt).toLocaleString('en-GB', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  const date = new Date(attachment.createdAt).toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
   return (
     <Flex>
-      <div style={{ maxWidth: '15%' }}>
+      <div style={{ maxWidth: "15%" }}>
         {attachment.coverId ? (
           <img
             src={`https://source.unsplash.com/${attachment.coverId}`}
@@ -241,20 +241,20 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
 };
 
 const Comment = ({ comment }: { comment: Gql.Comment }) => {
-  const commentDate = new Date(comment.createdAt).toLocaleString('en-GB', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  const commentDate = new Date(comment.createdAt).toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
   return (
     <Flow>
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'max-content auto max-content',
-          alignItems: 'center',
-          gap: '1em',
+          display: "grid",
+          gridTemplateColumns: "max-content auto max-content",
+          alignItems: "center",
+          gap: "1em",
         }}
       >
         {/* Header */}
@@ -264,7 +264,7 @@ const Comment = ({ comment }: { comment: Gql.Comment }) => {
           <Text>{commentDate}</Text>
         </Flow>
         {/* Actions */}
-        <Flex style={{ alignItems: 'center' }} space="0.25em">
+        <Flex style={{ alignItems: "center" }} space="0.25em">
           <Text>Edit</Text>
           <Text>-</Text>
           <Text>Delete</Text>
@@ -283,8 +283,8 @@ const Member = ({ user }: { user: Gql.User }) => {
   return (
     <div
       style={{
-        position: 'absolute',
-        backgroundColor: 'white',
+        position: "absolute",
+        backgroundColor: "white",
         zIndex: 7,
       }}
     >
@@ -300,8 +300,8 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
   return (
     <div
       style={{
-        position: 'absolute',
-        backgroundColor: 'red',
+        position: "absolute",
+        backgroundColor: "red",
         zIndex: 7,
       }}
     >
@@ -313,11 +313,11 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
 
       {/* Labels */}
       <div>
-        <input type="text" style={{ width: '100%' }} />
+        <input type="text" style={{ width: "100%" }} />
         <div
           style={{
-            display: 'grid',
-            grid: 'repeat(3, 2.5rem) / repeat(4, 4rem)',
+            display: "grid",
+            grid: "repeat(3, 2.5rem) / repeat(4, 4rem)",
           }}
         >
           <button></button>
@@ -334,11 +334,11 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
           <button></button>
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <span className="material-icons">&#xe892;</span>
         <Text>Available</Text>
         <Labels>
-          {labels.map(label => (
+          {labels.map((label) => (
             <Label color={label.color} key={label.id}>
               {label.text}
             </Label>

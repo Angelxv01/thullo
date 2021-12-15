@@ -1,6 +1,6 @@
-import React, { ButtonHTMLAttributes } from 'react';
-import styled from 'styled-components';
-import { Flex } from '../../style/Utils';
+import React, { ButtonHTMLAttributes } from "react";
+import styled from "styled-components";
+import { Flex } from "../../style/Utils";
 
 interface Color {
   color?: string;
@@ -59,7 +59,7 @@ const StyledIcon = styled.button`
 
   &,
   & .material-icons {
-    font-size: ${({ theme }) => theme.font.size['300']};
+    font-size: ${({ theme }) => theme.font.size["300"]};
     line-height: ${({ theme }) => theme.lineHeight[0]};
   }
 `;

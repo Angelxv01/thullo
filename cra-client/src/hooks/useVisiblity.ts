@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const useVisibility = (value = false) => {
   const [visibility, setVisibility] = useState<boolean>(value);

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Gql } from '../../../../types';
-import { Avatar, Flex } from '../common';
+import React from "react";
+import { Gql } from "../../../../types";
+import { Avatar, Flex } from "../common";
 
 const Avatars = ({
   members,

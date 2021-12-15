@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface Spacing {
   space?: string;
@@ -6,15 +6,15 @@ interface Spacing {
 
 export const Flex = styled.div<Spacing>`
   display: flex;
-  gap: ${({ space }) => space || '1rem'};
+  gap: ${({ space }) => space || "1rem"};
 `;
 export const Grid = styled.div<Spacing>`
   display: grid;
-  gap: ${({ space }) => space || '1rem'};
+  gap: ${({ space }) => space || "1rem"};
 `;
 export const Flow = styled.div<Spacing>`
   & > *:where(:not(:first-child)) {
-    margin-top: ${({ space }) => space || '1rem'};
+    margin-top: ${({ space }) => space || "1rem"};
   }
 `;
 export const Container = styled.div`
