@@ -10,14 +10,16 @@ import {
   Text,
   Flow,
   Flex,
+  Absolute,
 } from "../common";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import { Gql } from "../../../../types";
 import useTextArea from "../../hooks/useTextArea";
 import useVisibility from "../../hooks/useVisiblity";
-import InviteFriendModal from "../Infobar/InviteFriendModal";
 import { Cover, Labels } from "../Card/Utils";
 import InfoLabel from "../common/InfoLabel";
+import InviteFriend from "../InviteFriend";
+import User from "../User";
 
 const CardModal = ({
   setVisibility,
@@ -42,6 +44,7 @@ const CardModal = ({
   const commentController = useTextArea(card?.description);
 
   const [showMember, setShowMember] = useVisibility();
+  const [showAddMember, setShowAddMember] = useVisibility();
   const [showLabel, setShowLabel] = useVisibility();
   const [showCover, setShowCover] = useVisibility();
 
@@ -57,10 +60,10 @@ const CardModal = ({
     <div
       style={{
         backgroundColor: `hsl(${theme.color.DARK} / 0.1)`,
-        backdropFilter: "blur(1rem)",
         position: "fixed",
         inset: "0",
         margin: "auto",
+        padding: "4em",
         zIndex: theme.z.CARD,
         overflowY: "scroll",
       }}
@@ -68,8 +71,8 @@ const CardModal = ({
       <div
         style={{
           backgroundColor: "white",
-          margin: "4em auto",
-          maxWidth: "45%",
+          margin: "auto",
+          width: "50%",
           padding: "2em 1.75em",
         }}
       >
@@ -95,7 +98,7 @@ const CardModal = ({
         {/* Card Content */}
         <Flex>
           {/* Left hand side */}
-          <div style={{ flex: 4 }}>
+          <div style={{ flex: 3 }}>
             <Flow>
               {/* Subheading */}
               <Flex>
@@ -173,19 +176,49 @@ const CardModal = ({
           </div>
 
           {/* Right hand side */}
-          <Flow>
+          <Flow style={{ flex: 1 }}>
             {/* Label */}
             <InfoLabel text="Actions">
               <Icon.AccountCircle />
             </InfoLabel>
             {/* Members */}
-            <div style={{ position: "relative" }}>
-              <Button.Icon onClick={setShowMember}>
-                <Icon.People />
-                <Text>Members</Text>
-              </Button.Icon>
-              {showMember && <Member user={ctx.data.authorizedUser} />}
-            </div>
+            <Button.Icon onClick={setShowMember}>
+              <Icon.People />
+              <Text>Members</Text>
+            </Button.Icon>
+            {showMember && (
+              <Flow style={{ position: "relative" }}>
+                {card.members.map((member) => (
+                  <Flex key={member.id} className="flex">
+                    <User user={member} />
+                  </Flex>
+                ))}
+                <Button.IconColored onClick={setShowAddMember}>
+                  Assign a member
+                  <Icon.Add />
+                </Button.IconColored>
+                {showAddMember && (
+                  <Absolute
+                    style={{
+                      backgroundColor: "white",
+                      padding: "1em",
+                      width: "23em",
+                      margin: "1em 0",
+                      border: "1px solid #E0E0E0",
+                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+                      borderRadius: "12px",
+                      zIndex: 5,
+                    }}
+                  >
+                    <InviteFriend
+                      friends={ctx.data.board.members.map(
+                        (member) => member.user
+                      )}
+                    />
+                  </Absolute>
+                )}
+              </Flow>
+            )}
             {/* Labels */}
             <div style={{ position: "relative" }}>
               <Button.Icon onClick={setShowLabel}>
@@ -278,24 +311,6 @@ const Comment = ({ comment }: { comment: Gql.Comment }) => {
   );
 };
 
-const Member = ({ user }: { user: Gql.User }) => {
-  const friends = user.friends;
-  return (
-    <div
-      style={{
-        position: "absolute",
-        backgroundColor: "white",
-        zIndex: 7,
-      }}
-    >
-      {/* This card members */}
-      <h4>Members</h4>
-      <h5>Assign members to this card </h5>
-      {/* Invite some people from the board */}
-      <InviteFriendModal friends={friends} />
-    </div>
-  );
-};
 const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
   return (
     <div
@@ -348,18 +363,5 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
     </div>
   );
 };
-// const Cover = () => {
-//   return (
-//     <div
-//       style={{
-//         position: 'absolute',
-//         backgroundColor: 'red',
-//         zIndex: 7,
-//       }}
-//     >
-//       Cover
-//     </div>
-//   );
-// };
 
 export default CardModal;
