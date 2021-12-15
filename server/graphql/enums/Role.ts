@@ -1,4 +1,4 @@
-import {gql} from 'apollo-server';
+import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   enum Role {
@@ -10,4 +10,4 @@ const typeDefs = gql`
 
 const resolvers = {};
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

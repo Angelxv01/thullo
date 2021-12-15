@@ -1,6 +1,6 @@
-import {ApolloError, gql} from 'apollo-server';
-import {ObjectId} from 'mongoose';
-import {UserDocument} from '../../../types';
+import { ApolloError, gql } from 'apollo-server';
+import { ObjectId } from 'mongoose';
+import { UserDocument } from '../../../types';
 import Logger from '../../../utils/Logger';
 import Comment from '../../models/Comment';
 import Card from '../../models/Card';
@@ -26,7 +26,7 @@ const resolvers = {
   Mutation: {
     createComment: async (
       _: never,
-      {commentData}: {commentData: CommentInput},
+      { commentData }: { commentData: CommentInput },
       {
         currentUser,
       }: {
@@ -63,4 +63,4 @@ const resolvers = {
     },
   },
 };
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

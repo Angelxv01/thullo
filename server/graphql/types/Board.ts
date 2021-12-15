@@ -1,6 +1,6 @@
-import {gql} from 'apollo-server';
-import {Context} from '../..';
-import {BoardDocument, Member, Role, Visibility} from '../../../types';
+import { gql } from 'apollo-server';
+import { Context } from '../..';
+import { BoardDocument, Member, Role, Visibility } from '../../../types';
 
 const typeDefs = gql`
   type Member {
@@ -36,8 +36,8 @@ const resolvers = {
   Member: {
     user: async (root: Member, _: never, ctx: Context) =>
       ctx.dataLoader.UserLoader.load(root.id),
-    role: (root: {role: number}) => Role[root.role],
+    role: (root: { role: number }) => Role[root.role],
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

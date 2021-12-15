@@ -1,4 +1,6 @@
-import {ObjectId, Date, Document, Model} from 'mongoose';
+import {
+  ObjectId, Date, Document, Model,
+} from 'mongoose';
 
 export interface ILabel {
   text: string;

@@ -1,5 +1,5 @@
-import {Schema, model, ObjectId} from 'mongoose';
-import {BoardDocument, BoardModel} from '../../types/';
+import { Schema, model, ObjectId } from 'mongoose';
+import { BoardDocument, BoardModel } from '../../types/';
 
 const schema = new Schema<BoardDocument, BoardModel>(
   {
@@ -26,7 +26,7 @@ const schema = new Schema<BoardDocument, BoardModel>(
       },
     ],
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 schema.set('toJSON', {

@@ -1,4 +1,4 @@
-import {gql} from 'apollo-server';
+import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   enum Color {
@@ -19,4 +19,4 @@ const typeDefs = gql`
 
 const resolvers = {};
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

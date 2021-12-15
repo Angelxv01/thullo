@@ -1,14 +1,14 @@
-import {Schema, model, ObjectId} from 'mongoose';
-import {CommentDocument, CommentModel} from '../../types';
+import { Schema, model, ObjectId } from 'mongoose';
+import { CommentDocument, CommentModel } from '../../types';
 
 const schema = new Schema<CommentDocument, CommentModel>(
   {
     text: String,
     user: Schema.Types.ObjectId,
     cardId: Schema.Types.ObjectId,
-    parentId: {type: Schema.Types.ObjectId, ref: 'Comment'},
+    parentId: { type: Schema.Types.ObjectId, ref: 'Comment' },
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 schema.set('toJSON', {

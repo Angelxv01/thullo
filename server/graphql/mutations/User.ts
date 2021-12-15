@@ -1,12 +1,12 @@
-import {gql} from 'apollo-server';
-import {ApolloError, UserInputError} from 'apollo-server-express';
+import { gql } from 'apollo-server';
+import { ApolloError, UserInputError } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
-import {object, string, Asserts} from 'yup';
+import { object, string, Asserts } from 'yup';
 
 import User from '../../models/User';
-import {UserDocument} from '../../../types';
-import {SECRET} from '../../../utils/config';
-import {ObjectId} from 'mongoose';
+import { UserDocument } from '../../../types';
+import { SECRET } from '../../utils/config';
+import { ObjectId } from 'mongoose';
 
 const userSchema = object().shape({
   credentials: object().shape({
@@ -19,7 +19,7 @@ const userSchema = object().shape({
 });
 type UserInput = Asserts<typeof userSchema>;
 
-const addFriendSchema = object().shape({userId: string().trim().required()});
+const addFriendSchema = object().shape({ userId: string().trim().required() });
 type AddFriendInput = Asserts<typeof addFriendSchema>;
 
 const typeDefs = gql`
@@ -38,7 +38,7 @@ const typeDefs = gql`
 const resolvers = {
   Mutation: {
     login: async (_: never, args: unknown) => {
-      const {credentials}: UserInput = await userSchema.validate(args, {
+      const { credentials }: UserInput = await userSchema.validate(args, {
         stripUnknown: false,
       });
       const user = (await User.findOne({
@@ -51,13 +51,13 @@ const resolvers = {
         throw new UserInputError('Invalid credentials');
       }
 
-      const token = {username: user.username, id: user.id as ObjectId};
+      const token = { username: user.username, id: user.id as ObjectId };
       // add this only after development {expiresIn: 60 * 60}
       // bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFuZ2VsIiwiaWQiOiI2MTQwY2NjYWNiZTAxNWNmYzQzMTU2MTgiLCJpYXQiOjE2MzE4MjUzNTZ9.TgXp8KqXIjxdxxz0fAxzrn3bFCSeZ32-hld3r2B1Xl8
-      return {value: jwt.sign(token, SECRET)};
+      return { value: jwt.sign(token, SECRET) };
     },
     createUser: async (_: never, args: unknown) => {
-      const {credentials}: UserInput = await userSchema.validate(args, {
+      const { credentials }: UserInput = await userSchema.validate(args, {
         stripUnknown: false,
       });
       const user: UserDocument = new User({
@@ -71,12 +71,12 @@ const resolvers = {
     addFriend: async (
       _: never,
       args: unknown,
-      {currentUser}: {currentUser: UserDocument}
+      { currentUser }: { currentUser: UserDocument }
     ) => {
       if (!currentUser)
         throw new ApolloError('Only logged user can add friends');
 
-      const {userId}: AddFriendInput = await addFriendSchema.validate(args);
+      const { userId }: AddFriendInput = await addFriendSchema.validate(args);
       const user = await User.findById(userId);
       if (!user) return null;
 
@@ -90,4 +90,4 @@ const resolvers = {
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };

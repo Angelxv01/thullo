@@ -1,4 +1,6 @@
-import {Date, Document, Model, ObjectId} from 'mongoose';
+import {
+  Date, Document, Model, ObjectId,
+} from 'mongoose';
 
 export interface IComment {
   text: string;

@@ -1,5 +1,7 @@
-import {Document, Date, ObjectId, Model} from 'mongoose';
-import {AttachmentDocument} from '.';
+import {
+  Document, Date, ObjectId, Model,
+} from 'mongoose';
+import { AttachmentDocument } from '.';
 
 export interface ICard {
   title: string;

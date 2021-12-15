@@ -1,4 +1,4 @@
-import {Document, Model, ObjectId} from 'mongoose';
+import { Document, Model, ObjectId } from 'mongoose';
 
 export interface IList {
   name: string;

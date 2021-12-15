@@ -1,4 +1,6 @@
-import {Document, ObjectId, Date, Model} from 'mongoose';
+import {
+  Document, ObjectId, Date, Model,
+} from 'mongoose';
 
 export interface IUser {
   username: string;

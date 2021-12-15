@@ -1,4 +1,4 @@
-import {gql} from 'apollo-server';
+import { gql } from 'apollo-server';
 import DataLoader from 'dataloader';
 
 import Board from '../../models/Board';
@@ -15,12 +15,12 @@ const resolvers = {
     allBoards: async () => await Board.find(),
     board: async (
       _root: never,
-      args: {id: String},
+      args: { id: String },
       {
-        dataLoader: {BoardLoader},
-      }: {dataLoader: {BoardLoader: DataLoader<unknown, unknown, unknown>}}
+        dataLoader: { BoardLoader },
+      }: { dataLoader: { BoardLoader: DataLoader<unknown, unknown, unknown> } }
     ) => BoardLoader.load(args.id),
   },
 };
 
-export default {typeDefs, resolvers};
+export default { typeDefs, resolvers };
