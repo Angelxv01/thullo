@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { MASTER } from "../../graphql/query";
 import useInput from "../../hooks/useInput";
 import { useTheme } from "styled-components";
-
+import { ReactComponent as Logo } from "../../assets/Logo.svg";
 import { Avatar, Button, Flex, Icon, InputGroup, Text } from "../common";
 import StyledNavigation from "./StyledNavigation";
 import Separator from "./Separator";
@@ -22,7 +22,7 @@ const Navigation = () => {
 
   return (
     <StyledNavigation>
-      {/* <Logo /> */}
+      <Logo />
 
       {/* Board Name + Back to boards */}
       <Flex space="2rem" style={{ alignItems: "inherit" }}>
