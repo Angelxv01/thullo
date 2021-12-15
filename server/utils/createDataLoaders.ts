@@ -100,6 +100,7 @@ const createDataLoader = () => {
     UserBoard: new DataLoader(batchUserBoard, { cacheKeyFn }),
     ListBoard: boardLoader(List),
     CardBoard: boardLoader(Card),
+    LabelBoard: boardLoader(Label),
     CommentCard: new DataLoader(batchCommentCard, { cacheKeyFn }),
     CommentReply: new DataLoader(batchCommentParent, { cacheKeyFn }),
     CardList: new DataLoader(batchCardList, { cacheKeyFn }),

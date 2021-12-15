@@ -1,5 +1,5 @@
 import React, { DragEventHandler } from "react";
-import { Gql } from "../../../../types/";
+import * as Gql from "../../gqlTypes";
 import Avatars from "../Avatars";
 import { Button, Flex, Icon, Label } from "../common";
 import { Cover, Labels, StatusBar, Title } from "./Utils";

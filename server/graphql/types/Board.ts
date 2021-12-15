@@ -31,7 +31,7 @@ const resolvers = {
     cards: async (root: BoardDocument, _: never, ctx: Context) =>
       ctx.dataLoader.CardBoard.load(root.id),
     labels: async (root: BoardDocument, _: never, ctx: Context) =>
-      ctx.dataLoader.LabelLoader.load(root.id),
+      ctx.dataLoader.LabelBoard.load(root.id),
   },
   Member: {
     user: async (root: Member, _: never, ctx: Context) =>

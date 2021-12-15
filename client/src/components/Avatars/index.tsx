@@ -1,5 +1,5 @@
 import React from "react";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import { Avatar, Flex } from "../common";
 
 const Avatars = ({

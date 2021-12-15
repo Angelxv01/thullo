@@ -3,7 +3,7 @@ import { useTheme } from "styled-components";
 import Toggle from "../Toggle";
 import VisibilityCard from "../VisibilityCard";
 import VisibilityBadge from "./Badge";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 
 const VisibilityModal = ({ visibility }: { visibility: Gql.Visibility }) => {
   const theme = useTheme();

@@ -13,7 +13,7 @@ import {
   TextArea,
 } from "../common";
 import InfoLabel from "../common/InfoLabel";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import User from "../User";
 

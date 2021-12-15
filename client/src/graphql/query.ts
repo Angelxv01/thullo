@@ -18,6 +18,11 @@ export const MASTER = gql`
       description
       visibility
       createdAt
+      labels {
+        color
+        id
+        text
+      }
       lists {
         id
         name

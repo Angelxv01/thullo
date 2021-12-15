@@ -48,7 +48,7 @@ export interface Board extends BaseInterface, TimestampInterface {
   cards: Card[];
   coverId?: string;
   members: Member[];
-  label: Label[];
+  labels: Label[];
 }
 
 export interface Member {

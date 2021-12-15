@@ -3,7 +3,7 @@ import { useTheme } from "styled-components";
 import { InputGroup, Flow, Text, Button, Icon, Flex } from "../common";
 import User from "../User";
 import StyledFriendFlow from "./StyledFriendFlow";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 
 const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();

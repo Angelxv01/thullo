@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Flex, Text } from "../common";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 
 const User = ({ user }: { user: Gql.User }) => {
   return (

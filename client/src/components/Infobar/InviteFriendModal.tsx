@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "styled-components";
 import { Button, Icon } from "../common";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import Toggle from "../Toggle";
 import InviteFriend from "../InviteFriend";
 

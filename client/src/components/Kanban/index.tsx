@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { DragEvent } from "react";
 import { MASTER } from "../../graphql/query";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import List from "../List";
 import StyledKanban from "./StyledKanban";
 import { Button, Icon } from "../common";

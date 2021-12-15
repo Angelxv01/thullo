@@ -1,5 +1,5 @@
 import React, { DragEvent, useState } from "react";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import Card from "../Card";
 import { Button, Flow, Icon } from "../common";
 import Header from "./Header";

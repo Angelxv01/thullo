@@ -8,7 +8,7 @@ import { Button, Flex, Icon, Relative, Text } from "../common";
 
 import Avatars from "../Avatars";
 import StyledInfobar from "./StyledInfobar";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import Menu from "../Menu";
 import useVisibility from "../../hooks/useVisiblity";
 import InviteFriendModal from "./InviteFriendModal";
