@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev index.ts"
+  },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
     "apollo-server": "^3.5.0",
