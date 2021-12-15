@@ -345,8 +345,21 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
       </div>
 
       {/* Labels */}
-
-      <input type="text" style={{ width: "100%" }} />
+      <div style={{ filter: "drop-shadow(rgba(0, 0, 0, 0.1) 0px 4px 12px)" }}>
+        <input
+          type="text"
+          style={{
+            width: "100%",
+            outline: 0,
+            border: 0,
+            padding: "0.5rem 0.75rem",
+            borderRadius: "8px",
+            fontSize: "10px",
+            lineHeight: "15px",
+          }}
+          placeholder="Label..."
+        />
+      </div>
       <div
         style={{
           display: "grid",
@@ -371,13 +384,16 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
         <InfoLabel text="Available">
           <Icon.Label />
         </InfoLabel>
-        <Labels>
+        <Labels style={{ gap: "1em" }}>
           {labels.map((label) => (
             <Label color={label.color} key={label.id}>
               {label.text}
             </Label>
           ))}
         </Labels>
+        <div style={{ textAlign: "center", paddingTop: "1em" }}>
+          <Button.Colored style={{ padding: "0.75em 2em" }}>Add</Button.Colored>
+        </div>
       </Flow>
     </Flow>
   );
