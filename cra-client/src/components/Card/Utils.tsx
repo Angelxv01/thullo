@@ -1,13 +1,13 @@
-import React from 'react';
-import styled, { useTheme } from 'styled-components';
-import { Flex, Text } from '../common/index';
+import React from "react";
+import styled, { useTheme } from "styled-components";
+import { Flex, Text } from "../common/index";
 
 interface Ratio {
   ratio?: string;
 }
 
 export const Cover = styled.img<Ratio>`
-  aspect-ratio: ${({ ratio }) => ratio || '5 / 3'};
+  aspect-ratio: ${({ ratio }) => ratio || "5 / 3"};
   border-radius: ${({ theme }) => theme.border.radius[1]};
 `;
 
@@ -17,7 +17,7 @@ export const Title = ({ children }: { children: React.ReactChild }) => {
     <Text
       fontFamily={theme.font.family.secondary}
       fontWeight="400"
-      fontSize={theme.font.size['500']}
+      fontSize={theme.font.size["500"]}
       lineHeight={theme.lineHeight[2]}
       color="DARK"
     >
