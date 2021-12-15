@@ -1,5 +1,5 @@
-import React, { HTMLAttributes } from 'react';
-import styled from 'styled-components';
+import React, { HTMLAttributes } from "react";
+import styled from "styled-components";
 
 interface Size {
   width?: string;
@@ -15,7 +15,7 @@ const StyledInput = styled.div<Size>`
   filter: drop-shadow(
     0px 4px 12px hsl(${({ theme }) => theme.color.DARK} / 0.1)
   );
-  width: ${({ width }) => width || '33.33%'};
+  width: ${({ width }) => width || "33.33%"};
   display: flex;
 
   & > input {
@@ -34,7 +34,7 @@ const InputGroup = ({
   wrapper,
 }: {
   children?: React.ReactChild;
-  width?: Size['width'];
+  width?: Size["width"];
   props?: HTMLAttributes<HTMLInputElement>;
   wrapper?: HTMLAttributes<HTMLDivElement>;
 }) => {

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Flex } from '../common';
+import styled from "styled-components";
+import { Flex } from "../common";
 
 export default styled(Flex)`
   flex-direction: column;

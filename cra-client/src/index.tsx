@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { ApolloProvider } from '@apollo/client';
+import React from "react";
+import ReactDOM from "react-dom";
+import { ApolloProvider } from "@apollo/client";
 
-import App from './App';
-import { ThemeProvider } from 'styled-components';
-import Global from './style/global';
-import Theme from './style/theme';
-import client from './utils/apolloClient';
+import App from "./App";
+import { ThemeProvider } from "styled-components";
+import Global from "./style/global";
+import Theme from "./style/theme";
+import client from "./utils/apolloClient";
 
 ReactDOM.render(
   <ThemeProvider theme={Theme}>
@@ -15,5 +15,5 @@ ReactDOM.render(
       <App />
     </ApolloProvider>
   </ThemeProvider>,
-  document.querySelector('#root')
+  document.querySelector("#root")
 );

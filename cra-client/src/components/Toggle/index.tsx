@@ -1,6 +1,6 @@
-import React, { ReactChild, useImperativeHandle, useState } from 'react';
-import { HtmlHTMLAttributes } from 'react';
-import { Absolute, Relative } from '../common';
+import React, { ReactChild, useImperativeHandle, useState } from "react";
+import { HtmlHTMLAttributes } from "react";
+import { Absolute, Relative } from "../common";
 
 const Toggle = React.forwardRef(
   (
@@ -12,7 +12,7 @@ const Toggle = React.forwardRef(
   ) => {
     const [visible, setVisible] = useState<boolean>(false);
     const [Button, ...Child] = children;
-    const toggleVisibility = () => setVisible(state => !state);
+    const toggleVisibility = () => setVisible((state) => !state);
     useImperativeHandle(ref, () => ({ toggleVisibility }));
 
     return (
@@ -24,5 +24,5 @@ const Toggle = React.forwardRef(
   }
 );
 
-Toggle.displayName = 'Toggle';
+Toggle.displayName = "Toggle";
 export default Toggle;

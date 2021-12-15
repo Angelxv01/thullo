@@ -1,6 +1,7 @@
-import { useQuery } from '@apollo/client';
-import styled, { useTheme } from 'styled-components';
-import { Data, Var, MASTER } from '../../graphql/query';
+import React from "react";
+import { useQuery } from "@apollo/client";
+import styled, { useTheme } from "styled-components";
+import { Data, Var, MASTER } from "../../graphql/query";
 import {
   Button,
   Flex,
@@ -10,11 +11,11 @@ import {
   Flow,
   Avatar,
   TextArea,
-} from '../common';
-import InfoLabel from '../common/InfoLabel';
-import { Gql } from '../../../../types';
-import useTextArea from '../../hooks/useTextArea';
-import User from '../User';
+} from "../common";
+import InfoLabel from "../common/InfoLabel";
+import { Gql } from "../../../../types";
+import useTextArea from "../../hooks/useTextArea";
+import User from "../User";
 
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
@@ -39,25 +40,27 @@ const StyledSeparator = styled.hr`
 
 const Menu = ({ toggle }: { toggle: () => void }) => {
   const ctx = useQuery<Data, Var>(MASTER, {
-    fetchPolicy: 'cache-only',
-    variables: { id: '6182d8c9bba2b2dfab68119d' },
+    fetchPolicy: "cache-only",
+    variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
 
   if (!ctx.data) {
     return null;
   }
 
-  const owner = ctx.data.board.members.find(member => member.role === 'OWNER');
-  const date = new Date(ctx.data.board.createdAt).toLocaleString('en-GB', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  const owner = ctx.data.board.members.find(
+    (member) => member.role === "OWNER"
+  );
+  const date = new Date(ctx.data.board.createdAt).toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
   return (
     <StyledMenuWrapper>
       <StyledMenu>
-        <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <Flex style={{ justifyContent: "space-between", alignItems: "center" }}>
           <Text fontWeight="600">{ctx.data.board.title}</Text>
           <Button.Squared onClick={toggle}>
             <Icon.Close />
@@ -66,7 +69,7 @@ const Menu = ({ toggle }: { toggle: () => void }) => {
         <StyledSeparator />
         <Flow>
           <MadeBy owner={owner as Gql.Member} date={date} />
-          <Description value={ctx.data.board.description || ''} />
+          <Description value={ctx.data.board.description || ""} />
           <Team />
         </Flow>
       </StyledMenu>
@@ -84,7 +87,7 @@ const MadeBy = ({ owner, date }: { owner: Gql.Member; date: string }) => {
         <Icon.AccountCircle />
       </InfoLabel>
       {/* Owner Info */}
-      <Flex style={{ alignItems: 'center' }}>
+      <Flex style={{ alignItems: "center" }}>
         <Avatar username={owner.user.username} id={owner?.user.avatar} />
         <Flow space="0.125em">
           <Text fontFamily={theme.font.family.secondary} fontWeight="600">
@@ -122,29 +125,29 @@ const Description = ({ value }: { value: string }) => {
 const Team = () => {
   const theme = useTheme();
   const ctx = useQuery<Data, Var>(MASTER, {
-    fetchPolicy: 'cache-only',
-    variables: { id: '6182d8c9bba2b2dfab68119d' },
+    fetchPolicy: "cache-only",
+    variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
   if (!ctx.data) return null;
 
   const user = ctx.data.board.members.find(
-    member => member.user.id === ctx.data?.authorizedUser.id
+    (member) => member.user.id === ctx.data?.authorizedUser.id
   );
-  const isAdmin = user ? user.role !== 'MEMBER' : false;
+  const isAdmin = user ? user.role !== "MEMBER" : false;
 
   return (
     <Flow>
       <InfoLabel text="Team">
         <Icon.Description />
       </InfoLabel>
-      {ctx.data.board.members.map(member => (
+      {ctx.data.board.members.map((member) => (
         <Flex
           key={member.user.id}
-          style={{ justifyContent: 'space-between', alignItems: 'center' }}
+          style={{ justifyContent: "space-between", alignItems: "center" }}
         >
           <User user={member.user} />
-          {member.role === 'MEMBER' && isAdmin ? (
-            <Button.Outline color="RED" style={{ padding: '0.33em 0.75em' }}>
+          {member.role === "MEMBER" && isAdmin ? (
+            <Button.Outline color="RED" style={{ padding: "0.33em 0.75em" }}>
               <Text fontSize={theme.font.size[200]}>Remove</Text>
             </Button.Outline>
           ) : (

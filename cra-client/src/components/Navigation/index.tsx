@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React from 'react';
-import { useQuery } from '@apollo/client';
-import { MASTER } from '../../graphql/query';
-import useInput from '../../hooks/useInput';
-import { useTheme } from 'styled-components';
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { MASTER } from "../../graphql/query";
+import useInput from "../../hooks/useInput";
+import { useTheme } from "styled-components";
 
-import { Avatar, Button, Flex, Icon, InputGroup, Text } from '../common';
-import StyledNavigation from './StyledNavigation';
-import Separator from './Separator';
+import { Avatar, Button, Flex, Icon, InputGroup, Text } from "../common";
+import StyledNavigation from "./StyledNavigation";
+import Separator from "./Separator";
 
 const Navigation = () => {
   const ctx = useQuery(MASTER, {
-    fetchPolicy: 'cache-only',
-    variables: { id: '6182d8c9bba2b2dfab68119d' },
+    fetchPolicy: "cache-only",
+    variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
-  const searchController = useInput('text');
+  const searchController = useInput("text");
   const theme = useTheme();
 
   if (ctx.loading || !ctx.data) return null;
@@ -25,7 +25,7 @@ const Navigation = () => {
       {/* <Logo /> */}
 
       {/* Board Name + Back to boards */}
-      <Flex space="2rem" style={{ alignItems: 'inherit' }}>
+      <Flex space="2rem" style={{ alignItems: "inherit" }}>
         <Text fontSize={theme.font.size[600]} lineHeight={theme.lineHeight[3]}>
           {ctx.data.board.title}
         </Text>
@@ -40,19 +40,19 @@ const Navigation = () => {
       <InputGroup
         props={{
           ...searchController,
-          placeholder: 'Keyword...',
+          placeholder: "Keyword...",
         }}
         width="24rem"
       >
-        <Button.Colored style={{ padding: '0.75em 1.5em' }}>
+        <Button.Colored style={{ padding: "0.75em 1.5em" }}>
           Search
         </Button.Colored>
       </InputGroup>
 
       {/* User */}
-      <Flex style={{ alignItems: 'inherit' }}>
+      <Flex style={{ alignItems: "inherit" }}>
         <Avatar
-          id={ctx.data.authorizedUser.avatar || ''}
+          id={ctx.data.authorizedUser.avatar || ""}
           username={ctx.data.authorizedUser.username}
         />
         <Text

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledHr = styled.hr`
   width: ${({ theme }) => theme.font.size[1]};

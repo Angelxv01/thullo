@@ -8,29 +8,29 @@ interface TimestampInterface {
 }
 
 export enum Visibility {
-  PRIVATE = 'PRIVATE',
-  PUBLIC = 'PUBLIC',
+  PRIVATE = "PRIVATE",
+  PUBLIC = "PUBLIC",
 }
 
 export enum Role {
-  OWNER = 'OWNER',
-  ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER',
+  OWNER = "OWNER",
+  ADMIN = "ADMIN",
+  MEMBER = "MEMBER",
 }
 
 export enum Color {
-  GREEN1 = 'GREEN1',
-  YELLOW = 'YELLOW',
-  ORANGE = 'ORANGE',
-  RED = 'RED',
-  BLUE1 = 'BLUE1',
-  BLUE3 = 'BLUE3',
-  GREEN3 = 'GREEN3',
-  GRAY1 = 'GRAY1',
-  GRAY2 = 'GRAY2',
-  GRAY3 = 'GRAY3',
-  GRAY4 = 'GRAY4',
-  GRAY5 = 'GRAY5',
+  GREEN1 = "GREEN1",
+  YELLOW = "YELLOW",
+  ORANGE = "ORANGE",
+  RED = "RED",
+  BLUE1 = "BLUE1",
+  BLUE3 = "BLUE3",
+  GREEN3 = "GREEN3",
+  GRAY1 = "GRAY1",
+  GRAY2 = "GRAY2",
+  GRAY3 = "GRAY3",
+  GRAY4 = "GRAY4",
+  GRAY5 = "GRAY5",
 }
 
 export interface User extends BaseInterface, TimestampInterface {

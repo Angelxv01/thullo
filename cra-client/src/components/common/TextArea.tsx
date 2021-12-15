@@ -1,6 +1,6 @@
-import React, { TextareaHTMLAttributes } from 'react';
-import styled from 'styled-components';
-import { IUseTextArea } from '../../hooks/useTextArea';
+import React, { TextareaHTMLAttributes } from "react";
+import styled from "styled-components";
+import { IUseTextArea } from "../../hooks/useTextArea";
 
 // https://codepen.io/chriscoyier/pen/XWKEVLy
 // unfortunately this approach woudn't work
@@ -9,7 +9,7 @@ const StyledTextArea = styled.div`
   display: grid;
 
   &::after {
-    content: attr(data-replicated-value) ' ';
+    content: attr(data-replicated-value) " ";
     white-space: pre-wrap;
     visibility: hidden;
   }

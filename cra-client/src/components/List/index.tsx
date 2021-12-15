@@ -1,10 +1,10 @@
-import React, { DragEvent, useState } from 'react';
-import { Gql } from '../../../../types';
-import Card from '../Card';
-import { Button, Flow, Icon } from '../common';
-import Header from './Header';
-import NewCard from './NewCard';
-import StyledList from './StyledList';
+import React, { DragEvent, useState } from "react";
+import { Gql } from "../../../../types";
+import Card from "../Card";
+import { Button, Flow, Icon } from "../common";
+import Header from "./Header";
+import NewCard from "./NewCard";
+import StyledList from "./StyledList";
 
 const List = ({
   id,
@@ -23,20 +23,20 @@ const List = ({
 
   return (
     <StyledList
-      onDragOver={e => e.preventDefault()}
-      onDrop={e => onDrop(e, id)}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => onDrop(e, id)}
     >
       <Flow>
         <Header name={name} />
-        {cards.map(card => (
+        {cards.map((card) => (
           <Card
             key={card.id}
             card={card}
-            onDragStart={e => onDragStart(e, card.id)}
+            onDragStart={(e) => onDragStart(e, card.id)}
           />
         ))}
         {newCard && <NewCard />}
-        <Button.IconColored onClick={() => setNewCard(state => !state)}>
+        <Button.IconColored onClick={() => setNewCard((state) => !state)}>
           Add another card
           <Icon.Add />
         </Button.IconColored>

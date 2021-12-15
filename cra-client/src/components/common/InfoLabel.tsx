@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Text } from '.';
+import React from "react";
+import styled from "styled-components";
+import { Text } from ".";
 
 interface IStyledInfoLabel {
   color?: string;
@@ -19,7 +19,7 @@ export const StyledInfoLabel = styled.div<IStyledInfoLabel>`
   );
 
   & > * {
-    line-height: ${({ lineHeight }) => lineHeight || 'inherit'};
+    line-height: ${({ lineHeight }) => lineHeight || "inherit"};
     font-size: ${({ theme, fontSize }) => fontSize || theme.font.size[200]};
   }
 `;

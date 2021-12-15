@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from 'react';
-import { useQuery } from '@apollo/client';
-import { Data, MASTER, Var } from '../../graphql/query';
-import { Button, Flex, Icon, Relative, Text } from '../common';
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { Data, MASTER, Var } from "../../graphql/query";
+import { Button, Flex, Icon, Relative, Text } from "../common";
 
-import Avatars from '../Avatars';
-import StyledInfobar from './StyledInfobar';
-import { Gql } from '../../../../types';
-import Menu from '../Menu';
-import useVisibility from '../../hooks/useVisiblity';
-import InviteFriendModal from './InviteFriendModal';
-import VisibilityModal from './VisibilityModal';
+import Avatars from "../Avatars";
+import StyledInfobar from "./StyledInfobar";
+import { Gql } from "../../../../types";
+import Menu from "../Menu";
+import useVisibility from "../../hooks/useVisiblity";
+import InviteFriendModal from "./InviteFriendModal";
+import VisibilityModal from "./VisibilityModal";
 
 const Infobar = () => {
   const ctx = useQuery<Data, Var>(MASTER, {
-    fetchPolicy: 'cache-only',
-    variables: { id: '6182d8c9bba2b2dfab68119d' },
+    fetchPolicy: "cache-only",
+    variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
 
   const [visibility, setVisibility] = useVisibility();

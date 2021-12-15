@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Text } from '../common';
-import StyledListOperation from './StyledListOperation';
+import React from "react";
+import styled from "styled-components";
+import { Text } from "../common";
+import StyledListOperation from "./StyledListOperation";
 
 const ListOperation = () => {
   return (

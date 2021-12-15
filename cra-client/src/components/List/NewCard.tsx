@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { useTheme } from 'styled-components';
-import useTextArea from '../../hooks/useTextArea';
-import { Button, Flow, TextArea, Text } from '../common';
+import React from "react";
+import styled, { useTheme } from "styled-components";
+import useTextArea from "../../hooks/useTextArea";
+import { Button, Flow, TextArea, Text } from "../common";
 
 const StyledNewCard = styled(Flow)`
   background-color: hsl(${({ theme }) => theme.color.WHITE});
@@ -19,7 +19,7 @@ const NewCard = () => {
   return (
     <StyledNewCard>
       <TextArea {...controller} placeholder="Enter a title for this card..." />
-      <Button.Colored backgroundColor="GREEN1" style={{ padding: '0.4em 1em' }}>
+      <Button.Colored backgroundColor="GREEN1" style={{ padding: "0.4em 1em" }}>
         <Text
           fontFamily={theme.font.family.secondary}
           fontSize={theme.font.size[200]}

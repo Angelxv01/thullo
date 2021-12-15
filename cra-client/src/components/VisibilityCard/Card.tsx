@@ -1,8 +1,8 @@
-import React from 'react';
-import { useTheme } from 'styled-components';
-import { Text } from '../common';
-import { StyledInfoLabel } from '../common/InfoLabel';
-import StyledCard from './StyledCard';
+import React from "react";
+import { useTheme } from "styled-components";
+import { Text } from "../common";
+import { StyledInfoLabel } from "../common/InfoLabel";
+import StyledCard from "./StyledCard";
 
 const Card = ({
   children,
