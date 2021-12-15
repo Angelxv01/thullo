@@ -13,7 +13,7 @@ import {
   Absolute,
 } from "../common";
 import { CARD, Data, MASTER } from "../../graphql/query";
-import { Gql } from "../../../../types";
+import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import useVisibility from "../../hooks/useVisiblity";
 import { Cover, Labels } from "../Card/Utils";
@@ -59,11 +59,10 @@ const CardModal = ({
   return (
     <div
       style={{
+        margin: "0",
         backgroundColor: `hsl(${theme.color.DARK} / 0.1)`,
         position: "fixed",
         inset: "0",
-        margin: "auto",
-        padding: "4em",
         zIndex: theme.z.CARD,
         overflowY: "scroll",
       }}
@@ -71,7 +70,7 @@ const CardModal = ({
       <div
         style={{
           backgroundColor: "white",
-          margin: "auto",
+          margin: "1em auto",
           width: "50%",
           padding: "2em 1.75em",
         }}
@@ -83,10 +82,23 @@ const CardModal = ({
               <Icon.Close />
             </Button.Squared>
             {card.coverId && (
-              <img
-                src={`https://source.unsplash.com/${card.coverId}/620x130`}
-                alt="cover"
-              />
+              <div
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundImage:
+                    "url(" +
+                    `https://source.unsplash.com/${card.coverId}` +
+                    ")",
+                  borderRadius: "12px",
+                }}
+              ></div>
+              // <img
+              //   src={`https://source.unsplash.com/${card.coverId}`}
+              //   alt="cover"
+              // />
             )}
             <Text>{card.title}</Text>
             <Text>
@@ -225,7 +237,7 @@ const CardModal = ({
                 <Icon.Label />
                 <Text>Labels</Text>
               </Button.Icon>
-              {showLabel && <LabelModal labels={card.labels} />}
+              {showLabel && <LabelModal labels={ctx.data.board.labels} />}
             </div>
             {/* Covers */}
             <div style={{ position: "relative" }}>
@@ -312,46 +324,53 @@ const Comment = ({ comment }: { comment: Gql.Comment }) => {
 };
 
 const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
+  const theme = useTheme();
   return (
-    <div
+    <Flow
       style={{
         position: "absolute",
-        backgroundColor: "red",
+        backgroundColor: "white",
+        padding: "1em",
+        border: "1px solid #E0E0E0",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
         zIndex: 7,
+        borderRadius: "12px",
+        marginTop: "1em",
       }}
     >
       {/* Header */}
       <div>
-        <h4>Label</h4>
-        <h5>Select a name and a color</h5>
+        <Text>Label</Text>
+        <Text>Select a name and a color</Text>
       </div>
 
       {/* Labels */}
-      <div>
-        <input type="text" style={{ width: "100%" }} />
-        <div
-          style={{
-            display: "grid",
-            grid: "repeat(3, 2.5rem) / repeat(4, 4rem)",
-          }}
-        >
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-        </div>
+
+      <input type="text" style={{ width: "100%" }} />
+      <div
+        style={{
+          display: "grid",
+          grid: "repeat(3, 2.5rem) / repeat(4, 4rem)",
+          gap: "0.5em",
+        }}
+      >
+        {Object.keys(Gql.Color).map((color) => (
+          <button
+            key={color}
+            style={{
+              backgroundColor: `hsl(${theme.color[color]})`,
+              outline: 0,
+              border: 0,
+              borderRadius: "4px",
+            }}
+          ></button>
+        ))}
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <span className="material-icons">&#xe892;</span>
-        <Text>Available</Text>
+
+      <Flow style={{ alignItems: "center" }} space="0.5em">
+        <InfoLabel text="Available">
+          <Icon.Label />
+        </InfoLabel>
         <Labels>
           {labels.map((label) => (
             <Label color={label.color} key={label.id}>
@@ -359,8 +378,8 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
             </Label>
           ))}
         </Labels>
-      </div>
-    </div>
+      </Flow>
+    </Flow>
   );
 };
 

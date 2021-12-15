@@ -101,7 +101,7 @@ export const Label = (
   props: HtmlHTMLAttributes<HTMLSpanElement>
 ): JSX.Element => (
   <span className="material-icons" {...props}>
-    &#xe7fb;
+    &#xe892;
   </span>
 );
 export const Image = (
