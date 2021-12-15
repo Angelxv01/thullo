@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Gql } from '../../../types';
+import * as Gql from '../gqlTypes'
 
 export const MASTER = gql`
   query MASTER($id: ID!) {
