@@ -45,15 +45,21 @@ const Header = ({
   const theme = useTheme();
   return (
     <StyledHeader space="0.5em" hasCover={Boolean(coverId)}>
+      {/* Offsettable button */}
       <Button.Squared className="offset-button" onClick={setVisibility}>
         <Icon.Close />
       </Button.Squared>
+
+      {/* Cover Image */}
       {coverId && <Cover url={coverId} />}
+
+      {/* Headers */}
       <Text
         fontSize={theme.font.size[500]}
         fontFamily={theme.font.family.secondary}
         color="DARK"
         lineHeight={theme.lineHeight[2]}
+        as="h1"
       >
         {title}
       </Text>
@@ -62,6 +68,7 @@ const Header = ({
         lineHeight={theme.lineHeight[0]}
         fontWeight="600"
         color="GRAY4"
+        as="h2"
       >
         in list
         <Text as="span" color="DARK">
