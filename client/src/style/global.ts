@@ -76,7 +76,6 @@ export default createGlobalStyle`
   }
 
   .material-icons {
-    font-size: inherit;
     font-weight: inherit;
     font-style: inherit;
     line-height: inherit;

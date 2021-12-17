@@ -13,7 +13,7 @@ const Cover = styled.div<Image>`
   background-size: cover;
   background-position: center;
   background-image: url(${({ url }) => url});
-  borderradius: 12px;
+  border-radius: ${({ theme }) => theme.border.radius[2]};
 `;
 
 const Header = ({
@@ -28,8 +28,17 @@ const Header = ({
   setVisibility: () => void;
 }) => {
   return (
-    <Flow as="header">
-      <Button.Squared onClick={setVisibility}>
+    <Flow as="header" style={{ display: "flex", flexDirection: "column" }}>
+      <Button.Squared
+        onClick={setVisibility}
+        style={{
+          alignSelf: "flex-end",
+          marginBottom: "-3em",
+          marginRight: "-0.5em",
+          zIndex: 5,
+          fontSize: "1em",
+        }}
+      >
         <Icon.Close />
       </Button.Squared>
       {coverId && <Cover url={coverId} />}
