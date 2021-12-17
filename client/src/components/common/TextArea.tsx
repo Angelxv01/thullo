@@ -21,14 +21,12 @@ const StyledTextArea = styled.div`
 
   & > textarea,
   &::after {
-    width: 100%;
     grid-area: 1 / 1 / 2 / 2;
     overflow-wrap: break-word;
-    font-family: ${({ theme }) => theme.font.family.secondary};
     border-radius: ${({ theme }) => theme.border.radius[1]};
     border: 0;
     outline: 0;
-    font-weight: 500;
+    font: inherit;
   }
 `;
 
