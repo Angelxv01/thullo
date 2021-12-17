@@ -1,11 +1,16 @@
 import React from "react";
-import styled, { useTheme } from "styled-components";
+import styled, { css, useTheme } from "styled-components";
 import { Button, Icon, Text, Flex } from "../common";
 
 interface Image {
   id?: string;
   url?: string;
 }
+
+const offset = css`
+  margin-bottom: -3em;
+  margin-right: -0.5em;
+`;
 
 const Cover = styled.div<Image>`
   width: 100%;
@@ -16,14 +21,13 @@ const Cover = styled.div<Image>`
   border-radius: ${({ theme }) => theme.border.radius[2]};
 `;
 
-const StyledHeader = styled(Flex)`
+const StyledHeader = styled(Flex)<{ hasCover?: boolean }>`
   flex-direction: column;
 
   .offset-button {
-    margin-bottom: -3em;
-    margin-right: -0.5em;
     align-self: flex-end;
     z-index: 5;
+    ${({ hasCover }) => hasCover && offset}
   }
 `;
 
@@ -40,7 +44,7 @@ const Header = ({
 }) => {
   const theme = useTheme();
   return (
-    <StyledHeader space="0.5em">
+    <StyledHeader space="0.5em" hasCover={Boolean(coverId)}>
       <Button.Squared className="offset-button" onClick={setVisibility}>
         <Icon.Close />
       </Button.Squared>
