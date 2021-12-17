@@ -433,8 +433,10 @@ const CoverModal = () => {
         zIndex: 100,
         backgroundColor: "white",
         marginTop: "1em",
-        border: "1px solid red",
-        padding: "1em 0.75em",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+        borderRadius: "12px",
+        border: "1px solid #E0E0E0",
+        padding: "1.5em 0.75em",
       }}
     >
       <Flow>
@@ -452,7 +454,6 @@ const CoverModal = () => {
             display: "grid",
             gridTemplateColumns: "repeat(4, 50px)",
             gap: "0.5rem",
-            border: "1px solid blue",
           }}
         >
           {photos.map((photo) => (
