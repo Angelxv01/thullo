@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import { Flow, Button, Icon, Text } from "../common";
+import styled, { useTheme } from "styled-components";
+import { Button, Icon, Text, Flex } from "../common";
 
 interface Image {
   id?: string;
@@ -9,11 +9,22 @@ interface Image {
 
 const Cover = styled.div<Image>`
   width: 100%;
-  height: 200px;
+  height: 130px;
   background-size: cover;
   background-position: center;
   background-image: url(${({ url }) => url});
   border-radius: ${({ theme }) => theme.border.radius[2]};
+`;
+
+const StyledHeader = styled(Flex)`
+  flex-direction: column;
+
+  .offset-button {
+    margin-bottom: -3em;
+    margin-right: -0.5em;
+    align-self: flex-end;
+    z-index: 5;
+  }
 `;
 
 const Header = ({
@@ -27,27 +38,33 @@ const Header = ({
   listName: string;
   setVisibility: () => void;
 }) => {
+  const theme = useTheme();
   return (
-    <Flow as="header" style={{ display: "flex", flexDirection: "column" }}>
-      <Button.Squared
-        onClick={setVisibility}
-        style={{
-          alignSelf: "flex-end",
-          marginBottom: "-3em",
-          marginRight: "-0.5em",
-          zIndex: 5,
-          fontSize: "1em",
-        }}
-      >
+    <StyledHeader space="0.5em">
+      <Button.Squared className="offset-button" onClick={setVisibility}>
         <Icon.Close />
       </Button.Squared>
       {coverId && <Cover url={coverId} />}
-      <Text>{title}</Text>
-      <Text>
-        in list
-        <Text as="span"> {listName}</Text>
+      <Text
+        fontSize={theme.font.size[500]}
+        fontFamily={theme.font.family.secondary}
+        color="DARK"
+        lineHeight={theme.lineHeight[2]}
+      >
+        {title}
       </Text>
-    </Flow>
+      <Text
+        fontSize={theme.font.size[200]}
+        lineHeight={theme.lineHeight[0]}
+        fontWeight="600"
+        color="GRAY4"
+      >
+        in list
+        <Text as="span" color="DARK">
+          {" " + listName}
+        </Text>
+      </Text>
+    </StyledHeader>
   );
 };
 
