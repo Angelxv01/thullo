@@ -1,5 +1,6 @@
+import React from "react";
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import {
   Avatar,
@@ -11,15 +12,18 @@ import {
   Flow,
   Flex,
   Absolute,
+  InputGroup,
 } from "../common";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import useVisibility from "../../hooks/useVisiblity";
-import { Cover, Labels } from "../Card/Utils";
+import { Labels } from "../Card/Utils";
 import InfoLabel from "../common/InfoLabel";
 import InviteFriend from "../InviteFriend";
 import User from "../User";
+import { REACT_APP_UNSPLASH_API } from "../../utils/config";
+import axios, { AxiosRequestConfig } from "axios";
 
 const CardModal = ({
   setVisibility,
@@ -242,7 +246,7 @@ const CardModal = ({
                 <Icon.Image />
                 <Text>Cover</Text>
               </Button.Icon>
-              {showCover && <Cover />}
+              {showCover && <CoverModal />}
             </div>
           </Flow>
         </Flex>
@@ -393,6 +397,79 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
         </div>
       </Flow>
     </Flow>
+  );
+};
+
+type Base = string | number | symbol;
+type Dictionary = Record<string, Base>;
+type ApiResponse = Record<string, Dictionary | Base>;
+
+const CoverModal = () => {
+  const auth = {
+    headers: {
+      "Accept-Version": "v1",
+      Authorization: `Client-ID ${REACT_APP_UNSPLASH_API}`,
+    },
+  };
+  const [photos, setPhotos] = useState<string[]>([]);
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.unsplash.com/photos/random?count=12&content_filter=low",
+        auth as AxiosRequestConfig<unknown>
+      )
+      .then(({ data }) =>
+        setPhotos(
+          (data as unknown as ApiResponse[]).map(
+            (photo) => (photo.urls as Dictionary).regular as string
+          )
+        )
+      );
+  }, []);
+
+  return (
+    <Absolute
+      style={{
+        zIndex: 100,
+        backgroundColor: "white",
+        marginTop: "1em",
+        border: "1px solid red",
+        padding: "1em 0.75em",
+      }}
+    >
+      <Flow>
+        <div>
+          <Text>Photo Search</Text>
+          <Text>Search Unsplash for photos</Text>
+        </div>
+        <InputGroup props={{ placeholder: "Keywords..." }} width="100%">
+          <Button.Squared>
+            <Icon.Search />
+          </Button.Squared>
+        </InputGroup>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 50px)",
+            gap: "0.5rem",
+            border: "1px solid blue",
+          }}
+        >
+          {photos.map((photo) => (
+            <div
+              key={photo}
+              style={{
+                backgroundPosition: "cover",
+                backgroundImage: `url(${photo})`,
+                aspectRatio: "1",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            ></div>
+          ))}
+        </div>
+      </Flow>
+    </Absolute>
   );
 };
 
