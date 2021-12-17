@@ -256,6 +256,7 @@ const CardModal = ({
 };
 
 const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
+  const theme = useTheme();
   const date = new Date(attachment.createdAt).toLocaleString("en-GB", {
     year: "numeric",
     month: "short",
@@ -263,26 +264,58 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
   });
 
   return (
-    <Flex>
-      <div style={{ maxWidth: "15%" }}>
-        {attachment.coverId ? (
-          <img
-            src={`https://source.unsplash.com/${attachment.coverId}`}
-            alt=""
-          />
-        ) : (
-          <div></div>
-        )}
-      </div>
-      <div>
-        <Text>added {date}</Text>
-        <Text>{attachment.title}</Text>
-        <div>
-          <a href={attachment.url}>Download</a>
-          <button>Delete</button>
+    <div
+      style={{ display: "grid", gridTemplateColumns: "80px auto", gap: "1em" }}
+    >
+      {attachment.coverId ? (
+        <div
+          style={{
+            backgroundImage: `url(https://source.unsplash.com/${attachment.coverId})`,
+          }}
+        ></div>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            alignContent: "center",
+            textAlign: "center",
+            backgroundColor: `hsl(${theme.color.GRAY5})`,
+            color: `hsl(${theme.color.GRAY2})`,
+            borderRadius: "8px",
+          }}
+        >
+          {attachment.title
+            .split(" ")
+            .reduce((acc, word) => (acc += word[0]), "")
+            .substring(0, 2)
+            .toUpperCase()}
         </div>
-      </div>
-    </Flex>
+      )}
+
+      <Flow space="0.5em">
+        <div>
+          <Text fontSize={theme.font.size[100]} style={{ lineHeight: "12px" }}>
+            added {date}
+          </Text>
+          <Text
+            fontSize={theme.font.size[200]}
+            lineHeight={theme.lineHeight[0]}
+          >
+            {attachment.title}
+          </Text>
+        </div>
+        <Flex>
+          <a href={attachment.url}>
+            <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
+              Download
+            </Button.Outline>
+          </a>
+          <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
+            Delete
+          </Button.Outline>
+        </Flex>
+      </Flow>
+    </div>
   );
 };
 
