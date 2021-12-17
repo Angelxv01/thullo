@@ -20,6 +20,8 @@ import InviteFriend from "../InviteFriend";
 import User from "../User";
 import CoverModal from "./CoverModal";
 import LabelModal from "./LabelModal";
+import Comment from "./Comment";
+import Attachment from "./Attachment";
 
 const CardModal = ({
   setVisibility,
@@ -253,110 +255,6 @@ const CardModal = ({
         </Flex>
       </div>
     </div>
-  );
-};
-
-const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
-  const theme = useTheme();
-  const date = new Date(attachment.createdAt).toLocaleString("en-GB", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-
-  return (
-    <div
-      style={{ display: "grid", gridTemplateColumns: "80px auto", gap: "1em" }}
-    >
-      {attachment.coverId ? (
-        <div
-          style={{
-            backgroundSize: "cover",
-            borderRadius: "8px",
-            backgroundImage: `url(https://source.unsplash.com/${attachment.coverId})`,
-          }}
-        ></div>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            alignContent: "center",
-            textAlign: "center",
-            backgroundColor: `hsl(${theme.color.GRAY5})`,
-            color: `hsl(${theme.color.GRAY2})`,
-            borderRadius: "8px",
-          }}
-        >
-          {attachment.title
-            .split(" ")
-            .reduce((acc, word) => (acc += word[0]), "")
-            .substring(0, 2)
-            .toUpperCase()}
-        </div>
-      )}
-
-      <Flow space="0.5em">
-        <div>
-          <Text fontSize={theme.font.size[100]} style={{ lineHeight: "12px" }}>
-            added {date}
-          </Text>
-          <Text
-            fontSize={theme.font.size[200]}
-            lineHeight={theme.lineHeight[0]}
-          >
-            {attachment.title}
-          </Text>
-        </div>
-        <Flex>
-          <a href={attachment.url}>
-            <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
-              Download
-            </Button.Outline>
-          </a>
-          <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
-            Delete
-          </Button.Outline>
-        </Flex>
-      </Flow>
-    </div>
-  );
-};
-
-const Comment = ({ comment }: { comment: Gql.Comment }) => {
-  const commentDate = new Date(comment.createdAt).toLocaleString("en-GB", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-
-  return (
-    <Flow>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "max-content auto max-content",
-          alignItems: "center",
-          gap: "1em",
-        }}
-      >
-        {/* Header */}
-        <Avatar id={comment.user.avatar} username={comment.user.username} />
-        <Flow space="0.25em">
-          <Text>{comment.user.username}</Text>
-          <Text>{commentDate}</Text>
-        </Flow>
-        {/* Actions */}
-        <Flex style={{ alignItems: "center" }} space="0.25em">
-          <Text>Edit</Text>
-          <Text>-</Text>
-          <Text>Delete</Text>
-        </Flex>
-        {/* Content */}
-      </div>
-      <div>
-        <Text>{comment.text}</Text>
-      </div>
-    </Flow>
   );
 };
 
