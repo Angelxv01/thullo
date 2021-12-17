@@ -22,6 +22,7 @@ import CoverModal from "./CoverModal";
 import LabelModal from "./LabelModal";
 import Comment from "./Comment";
 import Attachment from "./Attachment";
+import Header from "./Header";
 
 const CardModal = ({
   setVisibility,
@@ -79,35 +80,12 @@ const CardModal = ({
           padding: "2em 1.75em",
         }}
       >
-        {/* Header */}
-        <div className="header">
-          <Flow>
-            <Button.Squared onClick={setVisibility}>
-              <Icon.Close />
-            </Button.Squared>
-            {card.coverId && (
-              <div
-                style={{
-                  width: "100%",
-                  height: "200px",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundImage: `url(${card.coverId})`,
-                  borderRadius: "12px",
-                }}
-              ></div>
-              // <img
-              //   src={`https://source.unsplash.com/${card.coverId}`}
-              //   alt="cover"
-              // />
-            )}
-            <Text>{card.title}</Text>
-            <Text>
-              in list
-              <Text as="span"> {card.list.name}</Text>
-            </Text>
-          </Flow>
-        </div>
+        <Header
+          setVisibility={setVisibility}
+          coverId={card.coverId}
+          title={card.title}
+          listName={card.list.name}
+        />
         {/* Card Content */}
         <Flex>
           {/* Left hand side */}
