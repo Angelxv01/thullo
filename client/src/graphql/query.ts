@@ -94,6 +94,7 @@ export const CARD = gql`
         title
         url
         createdAt
+        coverId
       }
     }
   }

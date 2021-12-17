@@ -270,6 +270,8 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
       {attachment.coverId ? (
         <div
           style={{
+            backgroundSize: "cover",
+            borderRadius: "8px",
             backgroundImage: `url(https://source.unsplash.com/${attachment.coverId})`,
           }}
         ></div>
