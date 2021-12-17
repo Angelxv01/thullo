@@ -1,5 +1,4 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
+import React, { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import {
@@ -7,23 +6,20 @@ import {
   Button,
   Icon,
   TextArea,
-  Label,
   Text,
   Flow,
   Flex,
   Absolute,
-  InputGroup,
 } from "../common";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import useVisibility from "../../hooks/useVisiblity";
-import { Labels } from "../Card/Utils";
 import InfoLabel from "../common/InfoLabel";
 import InviteFriend from "../InviteFriend";
 import User from "../User";
-import { REACT_APP_UNSPLASH_API } from "../../utils/config";
-import axios, { AxiosRequestConfig } from "axios";
+import CoverModal from "./CoverModal";
+import LabelModal from "./LabelModal";
 
 const CardModal = ({
   setVisibility,
@@ -33,7 +29,7 @@ const CardModal = ({
   id: string;
 }) => {
   const theme = useTheme();
-  const data = useQuery<{ card: Gql.Card }, { id: string }>(CARD, {
+  const { data } = useQuery<{ card: Gql.Card }, { id: string }>(CARD, {
     variables: { id },
   });
   const ctx = useQuery<Data, { id: string }>(MASTER, {
@@ -53,10 +49,10 @@ const CardModal = ({
   const [showCover, setShowCover] = useVisibility();
 
   useEffect(() => {
-    if (data.data) {
-      setCard(data.data.card);
+    if (data) {
+      setCard(data.card);
     }
-  }, [data.data]);
+  }, [data]);
 
   if (!(card && ctx.data)) return <div>Loading</div>;
 
@@ -361,156 +357,6 @@ const Comment = ({ comment }: { comment: Gql.Comment }) => {
         <Text>{comment.text}</Text>
       </div>
     </Flow>
-  );
-};
-
-const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
-  const theme = useTheme();
-  return (
-    <Flow
-      style={{
-        position: "absolute",
-        backgroundColor: "white",
-        padding: "1em",
-        border: "1px solid #E0E0E0",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
-        zIndex: 7,
-        borderRadius: "12px",
-        marginTop: "1em",
-      }}
-    >
-      {/* Header */}
-      <div>
-        <Text>Label</Text>
-        <Text>Select a name and a color</Text>
-      </div>
-
-      {/* Labels */}
-      <div style={{ filter: "drop-shadow(rgba(0, 0, 0, 0.1) 0px 4px 12px)" }}>
-        <input
-          type="text"
-          style={{
-            width: "100%",
-            outline: 0,
-            border: 0,
-            padding: "0.5rem 0.75rem",
-            borderRadius: "8px",
-            fontSize: "10px",
-            lineHeight: "15px",
-          }}
-          placeholder="Label..."
-        />
-      </div>
-      <div
-        style={{
-          display: "grid",
-          grid: "repeat(3, 2.5rem) / repeat(4, 4rem)",
-          gap: "0.5em",
-        }}
-      >
-        {Object.keys(Gql.Color).map((color) => (
-          <button
-            key={color}
-            style={{
-              backgroundColor: `hsl(${theme.color[color]})`,
-              outline: 0,
-              border: 0,
-              borderRadius: "4px",
-            }}
-          ></button>
-        ))}
-      </div>
-
-      <Flow style={{ alignItems: "center" }} space="0.5em">
-        <InfoLabel text="Available">
-          <Icon.Label />
-        </InfoLabel>
-        <Labels style={{ gap: "1em" }}>
-          {labels.map((label) => (
-            <Label color={label.color} key={label.id}>
-              {label.text}
-            </Label>
-          ))}
-        </Labels>
-        <div style={{ textAlign: "center", paddingTop: "1em" }}>
-          <Button.Colored style={{ padding: "0.75em 2em" }}>Add</Button.Colored>
-        </div>
-      </Flow>
-    </Flow>
-  );
-};
-
-type Base = string | number | symbol;
-type Dictionary = Record<string, Base>;
-type ApiResponse = Record<string, Dictionary | Base>;
-
-const CoverModal = () => {
-  const auth = {
-    headers: {
-      "Accept-Version": "v1",
-      Authorization: `Client-ID ${REACT_APP_UNSPLASH_API}`,
-    },
-  };
-  const [photos, setPhotos] = useState<string[]>([]);
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.unsplash.com/photos/random?count=12&content_filter=low",
-        auth as AxiosRequestConfig<unknown>
-      )
-      .then(({ data }) =>
-        setPhotos(
-          (data as unknown as ApiResponse[]).map(
-            (photo) => (photo.urls as Dictionary).thumb as string
-          )
-        )
-      );
-  }, []);
-
-  return (
-    <Absolute
-      style={{
-        zIndex: 100,
-        backgroundColor: "white",
-        marginTop: "1em",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
-        borderRadius: "12px",
-        border: "1px solid #E0E0E0",
-        padding: "1.5em 0.75em",
-      }}
-    >
-      <Flow>
-        <div>
-          <Text>Photo Search</Text>
-          <Text>Search Unsplash for photos</Text>
-        </div>
-        <InputGroup props={{ placeholder: "Keywords..." }} width="100%">
-          <Button.Squared>
-            <Icon.Search />
-          </Button.Squared>
-        </InputGroup>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 50px)",
-            gap: "0.5rem",
-          }}
-        >
-          {photos.map((photo) => (
-            <div
-              key={photo}
-              style={{
-                backgroundPosition: "cover",
-                backgroundImage: `url(${photo})`,
-                aspectRatio: "1",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            ></div>
-          ))}
-        </div>
-      </Flow>
-    </Absolute>
   );
 };
 
