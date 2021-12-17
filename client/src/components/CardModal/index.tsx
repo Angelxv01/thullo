@@ -80,6 +80,7 @@ const CardModal = ({
           padding: "2em 1.75em",
         }}
       >
+        {/* Header */}
         <Header
           setVisibility={setVisibility}
           coverId={card.coverId}
@@ -97,8 +98,8 @@ const CardModal = ({
                   <Icon.Description />
                 </InfoLabel>
                 <Button.Outline color="GRAY3" style={{ padding: "0.25em 1em" }}>
-                  <Icon.Edit />
-                  <Text>Edit</Text>
+                  <Icon.Edit style={{ fontSize: "1em" }} />
+                  <Text fontSize={theme.font.size[200]}>Edit</Text>
                 </Button.Outline>
               </Flex>
 
