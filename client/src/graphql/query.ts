@@ -62,6 +62,7 @@ export const MASTER = gql`
 export const CARD = gql`
   query CARD($id: ID!) {
     card(id: $id) {
+      description
       list {
         id
       }

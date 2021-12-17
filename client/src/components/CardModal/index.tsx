@@ -45,7 +45,7 @@ const CardModal = ({
   const descriptionController = useTextArea(
     card?.description || "There's no description yet"
   );
-  const commentController = useTextArea(card?.description);
+  const commentController = useTextArea();
 
   const [showMember, setShowMember] = useVisibility();
   const [showAddMember, setShowAddMember] = useVisibility();
@@ -73,6 +73,8 @@ const CardModal = ({
     >
       <div
         style={{
+          borderRadius: "8px",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
           backgroundColor: "white",
           margin: "1em auto",
           width: "50%",
@@ -118,10 +120,10 @@ const CardModal = ({
                 <InfoLabel text="Description">
                   <Icon.Description />
                 </InfoLabel>
-                <Button.Icon>
+                <Button.Outline color="GRAY3" style={{ padding: "0.25em 1em" }}>
                   <Icon.Edit />
                   <Text>Edit</Text>
-                </Button.Icon>
+                </Button.Outline>
               </Flex>
 
               {/* Content */}
@@ -140,10 +142,13 @@ const CardModal = ({
                   <InfoLabel text="Attachments">
                     <Icon.AttachFile />
                   </InfoLabel>
-                  <Button.Icon>
+                  <Button.Outline
+                    color="GRAY3"
+                    style={{ padding: "0.25em 1em" }}
+                  >
                     <Icon.Add />
                     <Text>Add</Text>
-                  </Button.Icon>
+                  </Button.Outline>
                 </Flex>
                 {card.attachments.map((attachment) => (
                   <Attachment key={attachment.title} attachment={attachment} />

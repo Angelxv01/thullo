@@ -30,6 +30,11 @@ export const Colored = styled.button<Color>`
 `;
 
 export const Outline = styled(Colored)`
+  font-size: 10px;
+  gap: 0.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   border-radius: ${({ theme }) => theme.border.radius[1]};
   color: hsl(${({ theme }) => theme.color.WHITE});

@@ -31,6 +31,10 @@ export default createGlobalStyle`
     font-weight: 500;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   body {
     font-weight: 500;
     letter-spacing: 0.035em;
@@ -72,6 +76,7 @@ export default createGlobalStyle`
   }
 
   .material-icons {
+    font-size: inherit;
     font-weight: inherit;
     font-style: inherit;
     line-height: inherit;

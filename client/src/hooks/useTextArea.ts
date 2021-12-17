@@ -13,8 +13,9 @@ const useTextArea = (init = ""): IUseTextArea => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (divRef.current) {
+    if (divRef.current && textAreaRef.current) {
       divRef.current.dataset.replicatedValue = init;
+      textAreaRef.current.value = init;
     }
   }, [init]);
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
