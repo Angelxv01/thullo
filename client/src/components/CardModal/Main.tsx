@@ -66,12 +66,20 @@ const DescriptionSection = ({ description }: { description: string }) => {
 
 const StyledCommentForm = styled.div`
   display: grid;
-  grid-template-columns: max-content auto;
-  grid-template-rows: auto max-content;
+  grid-template:
+    [row1-start] "a b" max-content[row1-end]
+    [row2-start] ". c" [row2-end] / max-content auto;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid ${({ theme }) => theme.color.GRAY5};
+  border: 1px solid hsl(${({ theme }) => theme.color.GRAY5});
   padding: 1em;
   border-radius: 12px;
+  column-gap: 1em;
+
+  & > .button-colored {
+    padding: 0.5em 1em;
+    grid-area: c;
+    justify-self: end;
+  }
 `;
 
 const CommentSection = ({
@@ -84,13 +92,11 @@ const CommentSection = ({
   const commentController = useTextArea();
 
   return (
-    <div>
+    <Flow>
       <StyledCommentForm>
         <Avatar id={me.avatar} username={me.username} />
         <TextArea {...commentController} placeholder="Write a comment..." />
-        <Button.Colored style={{ padding: "0.5em 1em" }}>
-          Comment
-        </Button.Colored>
+        <Button.Colored className="button-colored">Comment</Button.Colored>
       </StyledCommentForm>
       <Flow>
         {comments.map((comment, i) => (
@@ -100,7 +106,7 @@ const CommentSection = ({
           </>
         ))}
       </Flow>
-    </div>
+    </Flow>
   );
 };
 
@@ -110,7 +116,7 @@ const AttachmentSection = ({
   attachments: Gql.Attachment[];
 }) => {
   return (
-    <div>
+    <Flow>
       <Flex>
         <InfoLabel text="Attachments">
           <Icon.AttachFile />
@@ -123,7 +129,7 @@ const AttachmentSection = ({
       {attachments.map((attachment) => (
         <Attachment key={attachment.title} attachment={attachment} />
       ))}
-    </div>
+    </Flow>
   );
 };
 

@@ -1,28 +1,17 @@
 import React, { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
-import {
-  Avatar,
-  Button,
-  Icon,
-  TextArea,
-  Text,
-  Flow,
-  Flex,
-  Absolute,
-} from "../common";
+import { Button, Icon, Text, Flow, Flex, Absolute } from "../common";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
-import useTextArea from "../../hooks/useTextArea";
 import useVisibility from "../../hooks/useVisiblity";
 import InfoLabel from "../common/InfoLabel";
 import InviteFriend from "../InviteFriend";
 import User from "../User";
 import CoverModal from "./CoverModal";
 import LabelModal from "./LabelModal";
-import Comment from "./Comment";
-import Attachment from "./Attachment";
 import Header from "./Header";
+import Main from "./Main";
 
 const CardModal = ({
   setVisibility,
@@ -41,10 +30,6 @@ const CardModal = ({
   });
 
   const [card, setCard] = useState<Gql.Card | undefined>();
-  const descriptionController = useTextArea(
-    card?.description || "There's no description yet"
-  );
-  const commentController = useTextArea();
 
   const [showMember, setShowMember] = useVisibility();
   const [showAddMember, setShowAddMember] = useVisibility();
@@ -90,86 +75,7 @@ const CardModal = ({
         {/* Card Content */}
         <Flex>
           {/* Left hand side */}
-          <div style={{ flex: 3 }}>
-            <Flow>
-              {/* Subheading */}
-              <Flex>
-                <InfoLabel text="Description">
-                  <Icon.Description />
-                </InfoLabel>
-                <Button.Outline color="GRAY3" style={{ padding: "0.25em 1em" }}>
-                  <Icon.Edit style={{ fontSize: "1em" }} />
-                  <Text fontSize={theme.font.size[200]}>Edit</Text>
-                </Button.Outline>
-              </Flex>
-
-              {/* Content */}
-              <div className="content">
-                {/* Description */}
-                <TextArea
-                  disabled
-                  {...descriptionController}
-                  style={{
-                    color: `hsl(${theme.color.DARK})`,
-                    fontSize: theme.font.size[400],
-                  }}
-                />
-                {/* Attachment */}
-                <Flex>
-                  <InfoLabel text="Attachments">
-                    <Icon.AttachFile />
-                  </InfoLabel>
-                  <Button.Outline
-                    color="GRAY3"
-                    style={{ padding: "0.25em 1em" }}
-                  >
-                    <Icon.Add />
-                    <Text>Add</Text>
-                  </Button.Outline>
-                </Flex>
-                {card.attachments.map((attachment) => (
-                  <Attachment key={attachment.title} attachment={attachment} />
-                ))}
-              </div>
-              {/* Comments */}
-              <Flow
-                style={{
-                  textAlign: "right",
-                  boxShadow: " 0px 2px 8px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid #E0E0E0",
-                  padding: "1em",
-                  borderRadius: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "max-content auto",
-                    alignItems: "start",
-                    gap: "1em",
-                  }}
-                >
-                  <Avatar
-                    id={ctx.data?.authorizedUser.avatar}
-                    username={ctx.data?.authorizedUser.username}
-                  />
-                  <TextArea
-                    {...commentController}
-                    placeholder="Write a comment..."
-                  />
-                </div>
-                <Button.Colored style={{ padding: "0.5em 1em" }}>
-                  Comment
-                </Button.Colored>
-              </Flow>
-              <Flow className="commentList">
-                {card.comments.map((comment) => (
-                  <Comment key={comment.id} comment={comment} />
-                ))}
-              </Flow>
-            </Flow>
-          </div>
-
+          <Main card={card} me={ctx.data.authorizedUser} />
           {/* Right hand side */}
           <Flow style={{ flex: 1 }}>
             {/* Label */}
