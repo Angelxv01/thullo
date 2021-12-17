@@ -421,7 +421,7 @@ const CoverModal = () => {
       .then(({ data }) =>
         setPhotos(
           (data as unknown as ApiResponse[]).map(
-            (photo) => (photo.urls as Dictionary).regular as string
+            (photo) => (photo.urls as Dictionary).thumb as string
           )
         )
       );
