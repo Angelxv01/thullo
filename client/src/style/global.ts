@@ -39,7 +39,6 @@ export default createGlobalStyle`
     font-weight: 500;
     letter-spacing: 0.035em;
     line-height: ${({ theme }) => theme.lineHeight[1]};
-    min-height: 100vh;
     font-family: ${({ theme }) => theme.font.family.normal};
     font-size: ${({ theme }) => theme.font.size[300]};
     background-color: hsl(${({ theme }) => theme.color.BLUE1});
