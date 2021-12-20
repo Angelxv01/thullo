@@ -105,6 +105,7 @@ const MadeBy = ({ owner, date }: { owner: Gql.Member; date: string }) => {
 };
 
 const Description = ({ value }: { value: string }) => {
+  const theme = useTheme();
   const controller = useTextArea(value);
   return (
     <Flow>
@@ -112,10 +113,10 @@ const Description = ({ value }: { value: string }) => {
         <InfoLabel text="Description">
           <Icon.Description />
         </InfoLabel>
-        <Button.IconColored>
-          <Icon.Edit />
-          <Text>Edit</Text>
-        </Button.IconColored>
+        <Button.Outline color="GRAY3" style={{ padding: "0.25em 1em" }}>
+          <Icon.Edit style={{ fontSize: theme.font.size[200] }} />
+          <Text fontSize={theme.font.size[200]}>Edit</Text>
+        </Button.Outline>
       </Flex>
       <TextArea {...controller} />
     </Flow>

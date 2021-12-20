@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "styled-components";
 import * as Gql from "../../gqlTypes";
 import { Flow, Flex, Icon, Button, Text } from "../common";
 import InfoLabel from "../common/InfoLabel";
@@ -9,6 +10,7 @@ const AttachmentSection = ({
 }: {
   attachments: Gql.Attachment[];
 }) => {
+  const theme = useTheme();
   return (
     <Flow>
       <Flex>
@@ -16,7 +18,7 @@ const AttachmentSection = ({
           <Icon.AttachFile />
         </InfoLabel>
         <Button.Outline color="GRAY3" style={{ padding: "0.25em 1em" }}>
-          <Icon.Add />
+          <Icon.Add style={{ fontSize: theme.font.size[200] }} />
           <Text>Add</Text>
         </Button.Outline>
       </Flex>
