@@ -26,8 +26,6 @@ const CoverModal = () => {
       );
   }, []);
 
-  console.log(photos);
-
   return (
     <Absolute
       style={{
