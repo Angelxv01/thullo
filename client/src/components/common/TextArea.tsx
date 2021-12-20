@@ -1,11 +1,20 @@
 import React, { TextareaHTMLAttributes } from "react";
-import styled from "styled-components";
+import styled, {
+  DefaultTheme,
+  FlattenInterpolation,
+  ThemeProps,
+} from "styled-components";
 import { IUseTextArea } from "../../hooks/useTextArea";
 
 // https://codepen.io/chriscoyier/pen/XWKEVLy
 // unfortunately this approach woudn't work
 // if the word is really long
-const StyledTextArea = styled.div`
+
+interface StyleManipulation {
+  copy?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+}
+
+const StyledTextArea = styled.div<StyleManipulation>`
   display: grid;
 
   &::after {
@@ -22,20 +31,24 @@ const StyledTextArea = styled.div`
   & > textarea,
   &::after {
     grid-area: 1 / 1 / 2 / 2;
-    overflow-wrap: break-word;
-    border-radius: ${({ theme }) => theme.border.radius[1]};
     border: 0;
-    outline: 0;
     font: inherit;
+    letter-spacing: inherit;
+    padding: 0;
+    outline: 0;
+    ${({ copy }) => copy && copy}
   }
 `;
 
 const TextArea = (
-  props: IUseTextArea & TextareaHTMLAttributes<HTMLTextAreaElement>
+  props: IUseTextArea &
+    TextareaHTMLAttributes<HTMLTextAreaElement> & {
+      specialStyle?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+    }
 ) => {
-  const { divRef, textAreaRef, ...other } = props;
+  const { divRef, textAreaRef, specialStyle, ...other } = props;
   return (
-    <StyledTextArea ref={divRef}>
+    <StyledTextArea ref={divRef} copy={specialStyle}>
       <textarea ref={textAreaRef} {...other} />
     </StyledTextArea>
   );

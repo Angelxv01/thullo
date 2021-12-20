@@ -7,7 +7,7 @@ import Attachment from "./Attachment";
 import Comment from "./Comment";
 import * as Gql from "../../gqlTypes";
 import useVisibility from "../../hooks/useVisiblity";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Main = ({ card, me }: { card: Gql.Card; me: Gql.User }) => {
   return (
@@ -20,10 +20,14 @@ const Main = ({ card, me }: { card: Gql.Card; me: Gql.User }) => {
 };
 
 const DescriptionSection = ({ description }: { description: string }) => {
-  const descriptionValue = description || "There's no description yet";
   const descriptionController = useTextArea(
     description || "There's no description yet"
   );
+
+  const descriptionStyle = css`
+    color: hsl(${({ theme }) => theme.color.DARK});
+    fontsize: ${({ theme }) => theme.font.size[400]};
+  `;
 
   const [edit, setEdit] = useVisibility();
 
@@ -46,20 +50,11 @@ const DescriptionSection = ({ description }: { description: string }) => {
 
       {/* Content */}
 
-      {edit ? (
-        <TextArea
-          disabled
-          {...descriptionController}
-          style={{
-            color: `hsl(${theme.color.DARK})`,
-            fontSize: theme.font.size[400],
-          }}
-        />
-      ) : (
-        <Text fontSize={theme.font.size[400]} color="DARK">
-          {descriptionValue}
-        </Text>
-      )}
+      <TextArea
+        disabled={edit}
+        {...descriptionController}
+        specialStyle={descriptionStyle}
+      />
     </Flow>
   );
 };
