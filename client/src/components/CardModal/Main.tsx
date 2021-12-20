@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 const Main = ({ card, me }: { card: Gql.Card; me: Gql.User }) => {
   return (
-    <Flow space="2em">
+    <Flow space="2em" style={{ flex: "3" }}>
       <DescriptionSection description={card.description} />
       <AttachmentSection attachments={card.attachments} />
       <CommentSection comments={card.comments} me={me} />
