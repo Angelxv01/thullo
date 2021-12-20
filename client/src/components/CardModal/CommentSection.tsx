@@ -4,6 +4,8 @@ import useTextArea from "../../hooks/useTextArea";
 import { Flow, Avatar, TextArea, Button } from "../common";
 import Comment from "./Comment";
 import * as Gql from "../../gqlTypes";
+import { useQuery } from "@apollo/client";
+import { Data, MASTER } from "../../graphql/query";
 
 const StyledCommentForm = styled.div`
   display: grid;
@@ -29,19 +31,22 @@ const StyledCommentFlow = styled(Flow)`
   }
 `;
 
-const CommentSection = ({
-  me,
-  comments,
-}: {
-  me: Gql.User;
-  comments: Gql.Comment[];
-}) => {
+const CommentSection = ({ comments }: { comments: Gql.Comment[] }) => {
   const commentController = useTextArea();
+  const { data } = useQuery<Data, { id: string }>(MASTER, {
+    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    fetchPolicy: "cache-only",
+  });
+
+  if (!data) return null;
 
   return (
     <Flow>
       <StyledCommentForm>
-        <Avatar id={me.avatar} username={me.username} />
+        <Avatar
+          id={data.authorizedUser.avatar}
+          username={data.authorizedUser.username}
+        />
         <TextArea {...commentController} placeholder="Write a comment..." />
         <Button.Colored className="button-colored">Comment</Button.Colored>
       </StyledCommentForm>

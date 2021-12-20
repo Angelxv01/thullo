@@ -75,7 +75,7 @@ const CardModal = ({
         {/* Card Content */}
         <Flex>
           {/* Left hand side */}
-          <Main card={card} me={ctx.data.authorizedUser} />
+          <Main card={card} />
           {/* Right hand side */}
           <Flow style={{ flex: 1 }}>
             {/* Label */}
