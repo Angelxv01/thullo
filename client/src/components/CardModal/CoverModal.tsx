@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { REACT_APP_UNSPLASH_API } from "../../utils/config";
 import { Absolute, Button, Flow, Icon, InputGroup, Text } from "../common";
 
-type Base = string | number | symbol;
-type Dictionary = Record<string, Base>;
-type ApiResponse = Record<string, Dictionary | Base>;
+interface ApiResult {
+  urls: Record<string, string>;
+}
 
 const CoverModal = () => {
   const auth = {
@@ -14,21 +14,19 @@ const CoverModal = () => {
       Authorization: `Client-ID ${REACT_APP_UNSPLASH_API}`,
     },
   };
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [photos, setPhotos] = useState<ApiResult["urls"][]>([]);
   useEffect(() => {
     axios
       .get(
         "https://api.unsplash.com/photos/random?count=12&content_filter=low",
         auth as AxiosRequestConfig<unknown>
       )
-      .then(({ data }) =>
-        setPhotos(
-          (data as unknown as ApiResponse[]).map(
-            (photo) => (photo.urls as Dictionary).thumb as string
-          )
-        )
+      .then(({ data }: { data: ApiResult[] }) =>
+        setPhotos(data.map((obj) => obj.urls))
       );
   }, []);
+
+  console.log(photos);
 
   return (
     <Absolute
@@ -61,10 +59,10 @@ const CoverModal = () => {
         >
           {photos.map((photo) => (
             <div
-              key={photo}
+              key={photo.thumb}
               style={{
                 backgroundPosition: "cover",
-                backgroundImage: `url(${photo})`,
+                backgroundImage: `url(${photo.thumb as string})`,
                 aspectRatio: "1",
                 borderRadius: "4px",
                 cursor: "pointer",
