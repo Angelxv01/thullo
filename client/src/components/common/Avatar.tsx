@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { getAbbreviation } from "../../utils/formatting";
 
 const StyledAvatar = styled.img`
-  flex: 1 0 2rem;
   width: 2rem;
   aspect-ratio: 1;
   border-radius: ${({ theme }) => theme.border.radius[1]};

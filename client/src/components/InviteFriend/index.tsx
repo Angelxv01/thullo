@@ -8,7 +8,7 @@ import * as Gql from "../../gqlTypes";
 const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();
   return (
-    <Flow space="1em">
+    <Flow space="1em" style={{ minWidth: "20em" }}>
       <Flow space="1px">
         <Text color="GRAY2">Invite to Board</Text>
         <Text color="GRAY3" fontFamily={theme.font.family.secondary}>
