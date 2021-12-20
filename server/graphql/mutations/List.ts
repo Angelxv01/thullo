@@ -41,7 +41,7 @@ const resolvers = {
         throw new ApolloError('Only logged user can create a Board');
       }
 
-      const newList = new List({ name: list.name, board_id: list.boardId });
+      const newList = new List({ name: list.name, boardId: list.boardId });
       const board: BoardDocument = (await dataLoader.BoardLoader.load(
         list.boardId
       )) as BoardDocument;

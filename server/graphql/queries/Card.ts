@@ -35,8 +35,10 @@ const resolvers = {
       }
 
       const boards = await Board.find({ 'members.id': user.id });
+      const ids = boards.map(board => board.id);
       const cards = await Card.find({
         title: { $regex: args.data.keyword, $options: 'i' },
+        boardId: { $in: ids },
       }).limit(5);
 
       return cards;
