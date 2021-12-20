@@ -17,3 +17,22 @@ export const CHANGE_LIST = gql`
     }
   }
 `;
+
+export const CREATE_CARD = gql`
+  mutation ($cardData: CreateCardInput) {
+    createCard(cardData: $cardData) {
+      title
+    }
+  }
+`;
+
+export interface CreateCardInput {
+  cardData: {
+    title?: string;
+    description?: string;
+    boardId?: string;
+    listId?: string;
+    members?: string[];
+    coverId?: string;
+  };
+}

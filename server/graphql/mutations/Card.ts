@@ -27,7 +27,7 @@ const typeDefs = gql`
     description: String
     boardId: ID
     listId: ID
-    members: [ID!]!
+    members: [ID!]
     coverId: String
   }
   input CreateAttachmentInput {

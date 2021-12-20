@@ -1,5 +1,6 @@
-import React, { DragEvent, useState } from "react";
+import React, { DragEvent } from "react";
 import * as Gql from "../../gqlTypes";
+import useVisibility from "../../hooks/useVisiblity";
 import Card from "../Card";
 import { Button, Flow, Icon } from "../common";
 import Header from "./Header";
@@ -19,7 +20,7 @@ const List = ({
   onDragStart: (e: DragEvent<HTMLDivElement>, list: string) => void;
   onDrop: (e: DragEvent<HTMLDivElement>, list: string) => void;
 }) => {
-  const [newCard, setNewCard] = useState<boolean>(false);
+  const [newCard, setNewCard] = useVisibility();
 
   return (
     <StyledList
@@ -35,8 +36,8 @@ const List = ({
             onDragStart={(e) => onDragStart(e, card.id)}
           />
         ))}
-        {newCard && <NewCard />}
-        <Button.IconColored onClick={() => setNewCard((state) => !state)}>
+        {newCard && <NewCard listId={id} setVisibility={setNewCard} />}
+        <Button.IconColored onClick={setNewCard}>
           Add another card
           <Icon.Add />
         </Button.IconColored>
