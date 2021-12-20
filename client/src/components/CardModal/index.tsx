@@ -83,7 +83,12 @@ const CardModal = ({
               <Icon.AccountCircle />
             </InfoLabel>
             {/* Members */}
-            <Button.Icon onClick={setShowMember}>
+            <Button.Icon
+              onClick={setShowMember}
+              style={{
+                width: "100%",
+              }}
+            >
               <Icon.People />
               <Text>Members</Text>
             </Button.Icon>
@@ -122,7 +127,12 @@ const CardModal = ({
             )}
             {/* Labels */}
             <div style={{ position: "relative" }}>
-              <Button.Icon onClick={setShowLabel}>
+              <Button.Icon
+                onClick={setShowLabel}
+                style={{
+                  width: "100%",
+                }}
+              >
                 <Icon.Label />
                 <Text>Labels</Text>
               </Button.Icon>
@@ -130,7 +140,12 @@ const CardModal = ({
             </div>
             {/* Covers */}
             <div style={{ position: "relative" }}>
-              <Button.Icon onClick={setShowCover}>
+              <Button.Icon
+                onClick={setShowCover}
+                style={{
+                  width: "100%",
+                }}
+              >
                 <Icon.Image />
                 <Text>Cover</Text>
               </Button.Icon>
