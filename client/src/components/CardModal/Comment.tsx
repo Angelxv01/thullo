@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import * as Gql from "../../gqlTypes";
-import { formatDate } from "../../utils/Date";
+import { formatDate } from "../../utils/formatting";
 import { Avatar, Flex, Flow, Text } from "../common";
 
 const StyledComment = styled.div`

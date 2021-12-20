@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { getAbbreviation } from "../../utils/formatting";
 
 const StyledAvatar = styled.img`
   flex: 1 0 2rem;
@@ -21,15 +22,7 @@ const TextAvatar = styled.div`
 `;
 
 const Avatar = ({ id, username }: { id?: string; username: string }) => {
-  if (!id)
-    return (
-      <TextAvatar>
-        {username
-          .split(" ")
-          .reduce((acc, word) => (acc += word[0]), "")
-          .substring(0, 2)}
-      </TextAvatar>
-    );
+  if (!id) return <TextAvatar>{getAbbreviation(username)}</TextAvatar>;
   return <StyledAvatar src={`https://source.unsplash.com/${id}/150x150`} />;
 };
 

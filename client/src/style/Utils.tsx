@@ -22,7 +22,6 @@ export const Container = styled.div`
   max-width: 80%;
   border-radius: ${({ theme }) => theme.border.radius[1]};
   background-color: hsl(${({ theme }) => theme.color.WHITE});
-  min-height: 100vh;
 `;
 export const ReaderOnly = styled.div`
   position: absolute;

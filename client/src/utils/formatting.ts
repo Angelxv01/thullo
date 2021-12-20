@@ -10,3 +10,11 @@ export const formatDate = (input: unknown) =>
         day: "numeric",
       })
     : "";
+export const getAbbreviation = (input: unknown) =>
+  isString(input)
+    ? input
+        .split(" ")
+        .reduce((acc, word) => (acc += word[0]), "")
+        .substring(0, 2)
+        .toUpperCase()
+    : "";
