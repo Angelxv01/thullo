@@ -17,7 +17,7 @@ interface BoardInput {
 
 interface InviteUserInput {
   data: {
-    userId: ObjectId;
+    userId: ObjectId[];
     boardId: ObjectId;
   };
 }
@@ -46,7 +46,7 @@ const typeDefs = gql`
   }
 
   input InviteUserInput {
-    userId: ID!
+    userId: [ID!]!
     boardId: ID!
   }
 
@@ -122,16 +122,18 @@ const resolvers = {
       if (!ctx.currentUser) throw new ApolloError('Logged User Only');
       const board = await Board.findById(args.data.boardId);
       if (!board) throw new ApolloError('Invalid Resource');
-      const canInvite = board.members.find(
-        member => member.id === ctx.currentUser.id
-      );
-      const existOnBoard = board.members.find(
-        member => member.id === args.data.userId
-      );
 
-      if (!canInvite && existOnBoard)
-        throw new ApolloError('Unable to invite your friend');
-      board.members.push({ id: args.data.userId, role: Role.MEMBER });
+      const canInvite = board.members.find(
+        member => String(member.id) === String(ctx.currentUser.id)
+      );
+      if (!canInvite) throw new ApolloError('Unable to invite your friend');
+
+      const existOnBoard = (id: ObjectId) =>
+        !board.members.find(member => member.id === id);
+      const members = args.data.userId.filter(existOnBoard);
+      const pushMember = (id: ObjectId) =>
+        board.members.push({ id, role: Role.MEMBER });
+      args.data.userId.map(pushMember);
       await board.save();
 
       return board;
