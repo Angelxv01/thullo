@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import * as Gql from "../gqlTypes";
 
 export interface Var {
   data: {
@@ -48,6 +49,26 @@ export const CREATE_LIST = gql`
     createList(list: $list) {
       name
       id
+    }
+  }
+`;
+
+export interface BoardInput {
+  boardData: {
+    id?: string;
+    title?: string;
+    visibility?: Gql.Visibility;
+    description?: string;
+    coverId?: string;
+    members?: string[];
+  };
+}
+
+export const CHANGE_VISIBILITY = gql`
+  mutation ($boardData: CreateBoardInput) {
+    createBoard(boardData: $boardData) {
+      title
+      visibility
     }
   }
 `;

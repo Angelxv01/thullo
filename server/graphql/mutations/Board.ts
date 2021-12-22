@@ -98,7 +98,7 @@ const resolvers = {
 
       let board: BoardDocument | undefined;
       if (id) {
-        board = (await Board.findByIdAndUpdate(args.boardData.id, out, {
+        board = (await Board.findByIdAndUpdate(id, out, {
           new: true,
         })) as unknown as BoardDocument;
       } else {

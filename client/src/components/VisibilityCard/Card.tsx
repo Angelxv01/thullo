@@ -7,13 +7,15 @@ import StyledCard from "./StyledCard";
 const Card = ({
   children,
   description,
+  onClick,
 }: {
   children: React.ReactNode;
   description: string;
+  onClick: () => Promise<void>;
 }) => {
   const theme = useTheme();
   return (
-    <StyledCard space="0.25em">
+    <StyledCard space="0.25em" onClick={onClick}>
       <StyledInfoLabel color="GRAY2" fontSize={theme.font.size[300]}>
         {children}
       </StyledInfoLabel>
