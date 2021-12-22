@@ -38,8 +38,17 @@ const List = ({
         ))}
         {newCard && <NewCard listId={id} setVisibility={setNewCard} />}
         <Button.IconColored onClick={setNewCard}>
-          Add another card
-          <Icon.Add />
+          {newCard ? (
+            <>
+              Close
+              <Icon.Close />
+            </>
+          ) : (
+            <>
+              Add another card
+              <Icon.Add />
+            </>
+          )}
         </Button.IconColored>
       </Flow>
     </StyledList>

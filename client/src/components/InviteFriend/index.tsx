@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "styled-components";
 import { InputGroup, Flow, Text, Button, Icon, Flex } from "../common";
 import User from "../User";
@@ -7,6 +7,14 @@ import * as Gql from "../../gqlTypes";
 
 const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();
+
+  const [selected, setSelected] = useState<string[]>([]);
+  const handleSelectUser = (id: string) =>
+    setSelected(
+      selected.indexOf(id) > -1
+        ? selected.filter((obj) => obj !== id)
+        : [...selected, id]
+    );
   return (
     <Flow space="1em" style={{ minWidth: "20em" }}>
       <Flow space="1px">
@@ -22,8 +30,12 @@ const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
       </InputGroup>
       <StyledFriendFlow>
         {friends.map((friend) => (
-          <Flex key={friend.id} className="flex">
-            <User user={friend} />
+          <Flex key={friend.id}>
+            <User
+              user={friend}
+              selected={selected.indexOf(friend.id) > -1}
+              onClick={() => handleSelectUser(friend.id)}
+            />
           </Flex>
         ))}
       </StyledFriendFlow>
