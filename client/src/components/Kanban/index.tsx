@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useMutation, useQuery } from "@apollo/client";
 import React, { DragEvent } from "react";
 import { MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import List from "../List";
 import StyledKanban from "./StyledKanban";
-import { Button, Icon } from "../common";
+import { Absolute, Button, Icon, InputGroup, Relative } from "../common";
 import { CHANGE_LIST } from "../../graphql/mutation";
+import useVisibility from "../../hooks/useVisiblity";
 
 const Kanban = () => {
   const ctx = useQuery(MASTER, {
@@ -25,6 +24,8 @@ const Kanban = () => {
       },
     ],
   });
+
+  const [visible, setVisible] = useVisibility();
 
   const onDragStart = (e: DragEvent<HTMLDivElement>, card: string) => {
     e.dataTransfer.setData("card", card);
@@ -44,13 +45,35 @@ const Kanban = () => {
           onDrop={onDrop}
         />
       ))}
-      <div style={{ minWidth: "20em" }}>
-        <Button.IconColored>
-          Add another List
-          <Icon.Add />
+      <Relative style={{ minWidth: "20em" }}>
+        <Button.IconColored onClick={setVisible}>
+          {visible ? (
+            <>
+              Close
+              <Icon.Close />
+            </>
+          ) : (
+            <>
+              Add another List
+              <Icon.Add />
+            </>
+          )}
         </Button.IconColored>
-      </div>
+        {visible && <NewList />}
+      </Relative>
     </StyledKanban>
+  );
+};
+
+const NewList = () => {
+  return (
+    <Absolute style={{ width: "100%", marginTop: "1em" }}>
+      <InputGroup width="100%">
+        <Button.Squared>
+          <Icon.Add />
+        </Button.Squared>
+      </InputGroup>
+    </Absolute>
   );
 };
 
