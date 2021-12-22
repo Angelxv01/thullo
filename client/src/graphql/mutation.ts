@@ -18,14 +18,6 @@ export const CHANGE_LIST = gql`
   }
 `;
 
-export const CREATE_CARD = gql`
-  mutation ($cardData: CreateCardInput) {
-    createCard(cardData: $cardData) {
-      title
-    }
-  }
-`;
-
 export interface CreateCardInput {
   cardData: {
     title?: string;
@@ -36,3 +28,26 @@ export interface CreateCardInput {
     coverId?: string;
   };
 }
+export const CREATE_CARD = gql`
+  mutation ($cardData: CreateCardInput) {
+    createCard(cardData: $cardData) {
+      title
+    }
+  }
+`;
+
+export interface CreateListInput {
+  list: {
+    name: string;
+    boardId: string;
+  };
+}
+
+export const CREATE_LIST = gql`
+  mutation ($list: CreateListInput) {
+    createList(list: $list) {
+      name
+      id
+    }
+  }
+`;

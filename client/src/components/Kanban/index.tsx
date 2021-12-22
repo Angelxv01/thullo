@@ -4,9 +4,10 @@ import { MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import List from "../List";
 import StyledKanban from "./StyledKanban";
-import { Absolute, Button, Icon, InputGroup, Relative } from "../common";
+import { Button, Icon, Relative } from "../common";
 import { CHANGE_LIST } from "../../graphql/mutation";
 import useVisibility from "../../hooks/useVisiblity";
+import NewList from "./NewList";
 
 const Kanban = () => {
   const ctx = useQuery(MASTER, {
@@ -59,21 +60,9 @@ const Kanban = () => {
             </>
           )}
         </Button.IconColored>
-        {visible && <NewList />}
+        {visible && <NewList setVisible={setVisible} />}
       </Relative>
     </StyledKanban>
-  );
-};
-
-const NewList = () => {
-  return (
-    <Absolute style={{ width: "100%", marginTop: "1em" }}>
-      <InputGroup width="100%">
-        <Button.Squared>
-          <Icon.Add />
-        </Button.Squared>
-      </InputGroup>
-    </Absolute>
   );
 };
 
