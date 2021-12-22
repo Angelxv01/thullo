@@ -20,16 +20,21 @@ import User from "../User";
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
   align-items: center;
-  background-color: hsl(${({ theme }) => theme.color.WHITE});
   padding: 2em 1.5em;
+  margin-bottom: 1em;
+  max-height: 85vh;
+  overflow-y: scroll;
+  border-radius: ${({ theme }) => theme.border.radius[2]};
 `;
 
 const StyledMenuWrapper = styled(Absolute)`
   width: 33%;
   top: 0;
   right: 0;
-  padding: 0 2em;
   z-index: ${({ theme }) => theme.z.MENU};
+  border: 1px solid #e0e0e0;
+  background-color: hsl(${({ theme }) => theme.color.WHITE});
+  border-radius: ${({ theme }) => theme.border.radius[2]};
 `;
 
 const StyledSeparator = styled.hr`
@@ -62,9 +67,7 @@ const Menu = ({ toggle }: { toggle: () => void }) => {
       <StyledMenu>
         <Flex style={{ justifyContent: "space-between", alignItems: "center" }}>
           <Text fontWeight="600">{ctx.data.board.title}</Text>
-          <Button.Squared onClick={toggle}>
-            <Icon.Close />
-          </Button.Squared>
+          <Icon.Close onClick={toggle} />
         </Flex>
         <StyledSeparator />
         <Flow>
@@ -118,7 +121,7 @@ const Description = ({ value }: { value: string }) => {
           <Text fontSize={theme.font.size[200]}>Edit</Text>
         </Button.Outline>
       </Flex>
-      <TextArea {...controller} />
+      <TextArea {...controller} disabled />
     </Flow>
   );
 };

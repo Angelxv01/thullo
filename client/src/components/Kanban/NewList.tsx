@@ -35,7 +35,10 @@ const NewList = ({ setVisible }: { setVisible: () => void }) => {
 
   return (
     <Absolute style={{ width: "100%", marginTop: "1em" }}>
-      <InputGroup width="100%" props={inputController}>
+      <InputGroup
+        width="100%"
+        props={{ ...inputController, style: { fontSize: "1.25em" } }}
+      >
         <Button.Squared onClick={createListHandler}>
           <Icon.Add />
         </Button.Squared>
