@@ -1,18 +1,28 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
+import { Visibility } from "../../gqlTypes";
 import { Button, Icon, Text } from "../common";
 
-const VisibilityBadge = ({ visibility }: { visibility: string }) =>
-  visibility === "PRIVATE" ? <Private /> : <Public />;
+const VisibilityBadge = (
+  props: HTMLAttributes<HTMLButtonElement> & { visibility: string }
+) => {
+  const { visibility, ...prop } = props;
 
-const Private = () => (
-  <Button.Icon>
+  return visibility === Visibility.PRIVATE ? (
+    <Private {...prop} />
+  ) : (
+    <Public {...prop} />
+  );
+};
+
+const Private = (props: HTMLAttributes<HTMLButtonElement>) => (
+  <Button.Icon {...props}>
     <Icon.Lock />
     <Text>Private</Text>
   </Button.Icon>
 );
 
-const Public = () => (
-  <Button.Icon>
+const Public = (props: HTMLAttributes<HTMLButtonElement>) => (
+  <Button.Icon {...props}>
     <Icon.Public />
     <Text>Public</Text>
   </Button.Icon>

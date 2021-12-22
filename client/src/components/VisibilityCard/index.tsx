@@ -7,7 +7,7 @@ import { BoardInput, CHANGE_VISIBILITY } from "../../graphql/mutation";
 import { MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 
-const VisibilityCard = () => {
+const VisibilityCard = ({ setVisible }: { setVisible: () => void }) => {
   const theme = useTheme();
   const boardId = "6182d8c9bba2b2dfab68119d";
 
@@ -33,7 +33,7 @@ const VisibilityCard = () => {
       },
     });
 
-    return;
+    setVisible();
   };
 
   return (
