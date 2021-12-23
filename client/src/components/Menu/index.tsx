@@ -17,6 +17,7 @@ import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import User from "../User";
 import { DeleteUserInput, DELETE_USER } from "../../graphql/mutation";
+import useVisibility from "../../hooks/useVisiblity";
 
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
@@ -111,18 +112,43 @@ const MadeBy = ({ owner, date }: { owner: Gql.Member; date: string }) => {
 const Description = ({ value }: { value: string }) => {
   const theme = useTheme();
   const controller = useTextArea(value);
+  const [edit, setEdit] = useVisibility();
   return (
     <Flow>
       <Flex>
         <InfoLabel text="Description">
           <Icon.Description />
         </InfoLabel>
-        <Button.Outline color="GRAY3" style={{ padding: "0.25em 1em" }}>
-          <Icon.Edit style={{ fontSize: theme.font.size[200] }} />
-          <Text fontSize={theme.font.size[200]}>Edit</Text>
-        </Button.Outline>
+        {!edit && (
+          <Button.Outline
+            color="GRAY3"
+            style={{ padding: "0.25em 1em" }}
+            onClick={setEdit}
+          >
+            <Icon.Edit style={{ fontSize: theme.font.size[200] }} />
+            <Text fontSize={theme.font.size[200]}>Edit</Text>
+          </Button.Outline>
+        )}
       </Flex>
-      <TextArea {...controller} disabled />
+      <Flow>
+        <TextArea {...controller} disabled={!edit} />
+        {edit && (
+          <Flex style={{ alignItems: "center" }}>
+            <Button.Colored
+              backgroundColor="GREEN1"
+              style={{ padding: "0.4em 1em" }}
+            >
+              <Text
+                fontFamily={theme.font.family.secondary}
+                fontSize={theme.font.size[200]}
+              >
+                Save
+              </Text>
+            </Button.Colored>
+            <Text style={{ cursor: "pointer" }}>Edit</Text>
+          </Flex>
+        )}
+      </Flow>
     </Flow>
   );
 };
