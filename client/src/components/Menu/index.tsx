@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import styled, { useTheme } from "styled-components";
 import { Data, Var, MASTER } from "../../graphql/query";
 import {
@@ -16,6 +16,7 @@ import InfoLabel from "../common/InfoLabel";
 import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import User from "../User";
+import { DeleteUserInput, DELETE_USER } from "../../graphql/mutation";
 
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
@@ -132,12 +133,27 @@ const Team = () => {
     fetchPolicy: "cache-only",
     variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
+  const [deleteUser] = useMutation<{ deleteUser: Gql.Board }, DeleteUserInput>(
+    DELETE_USER,
+    {
+      refetchQueries: [
+        {
+          query: MASTER,
+          variables: { id: "6182d8c9bba2b2dfab68119d" },
+        },
+      ],
+    }
+  );
   if (!ctx.data) return null;
 
   const user = ctx.data.board.members.find(
     (member) => member.user.id === ctx.data?.authorizedUser.id
   );
   const isAdmin = user ? user.role !== "MEMBER" : false;
+  const deleteUserHandler = async (id: string) =>
+    await deleteUser({
+      variables: { data: { boardId: "6182d8c9bba2b2dfab68119d", userId: id } },
+    });
 
   return (
     <Flow>
@@ -151,7 +167,11 @@ const Team = () => {
         >
           <User user={member.user} />
           {member.role === "MEMBER" && isAdmin ? (
-            <Button.Outline color="RED" style={{ padding: "0.33em 0.75em" }}>
+            <Button.Outline
+              color="RED"
+              style={{ padding: "0.33em 0.75em" }}
+              onClick={() => deleteUserHandler(member.user.id)}
+            >
               <Text fontSize={theme.font.size[200]}>Remove</Text>
             </Button.Outline>
           ) : (

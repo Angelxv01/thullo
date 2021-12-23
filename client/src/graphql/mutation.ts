@@ -72,3 +72,22 @@ export const CHANGE_VISIBILITY = gql`
     }
   }
 `;
+
+export interface DeleteUserInput {
+  data: {
+    userId: string;
+    boardId: string;
+  };
+}
+
+export const DELETE_USER = gql`
+  mutation DELETE_USER($data: DeleteUserInput) {
+    deleteUser(data: $data) {
+      members {
+        user {
+          username
+        }
+      }
+    }
+  }
+`;

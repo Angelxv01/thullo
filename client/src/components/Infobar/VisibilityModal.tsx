@@ -19,7 +19,6 @@ const StyledVisibilityModal = styled(Absolute)`
 
 const VisibilityModal = ({ visibility }: { visibility: Gql.Visibility }) => {
   const [visible, setVisible] = useVisibility();
-  console.log(visible);
   return (
     <Relative>
       <VisibilityBadge visibility={visibility} onClick={setVisible} />
