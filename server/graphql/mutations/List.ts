@@ -6,8 +6,7 @@ import List from '../../models/List';
 import { Context } from '../..';
 
 interface ChangeListNameInput {
-  name: string;
-  listId: ObjectId;
+  data: { name: string; listId: ObjectId };
 }
 
 const typeDefs = gql`
@@ -78,7 +77,14 @@ const resolvers = {
       ctx: Context
     ) => {
       if (!ctx.currentUser) throw new ApolloError('Logged User Only');
-      await List.findByIdAndUpdate(args.listId, { name: args.name });
+      const list = await List.findByIdAndUpdate(
+        args.data.listId,
+        { name: args.data.name },
+        { new: true }
+      );
+      if (!list) throw new ApolloError('Invalid list');
+      await list.save();
+      return list;
     },
   },
 };
