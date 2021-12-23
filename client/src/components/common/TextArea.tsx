@@ -33,6 +33,8 @@ const StyledTextArea = styled.div<StyleManipulation>`
     grid-area: 1 / 1 / 2 / 2;
     border: 0;
     font: inherit;
+    font-size: ${({ theme }) => theme.font.size[400]};
+    color: hsl(${({ theme }) => theme.color.DARK});
     letter-spacing: inherit;
     padding: 0;
     outline: 0;

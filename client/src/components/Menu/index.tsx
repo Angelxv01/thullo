@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import styled, { useTheme } from "styled-components";
+import styled, { css, useTheme } from "styled-components";
 import { Data, Var, MASTER, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
 import {
   Button,
@@ -49,6 +49,16 @@ const StyledSeparator = styled.hr`
   border: 0;
   height: ${({ theme }) => theme.font.size[1]};
   background-color: hsl(${({ theme }) => theme.color.GRAY5});
+`;
+
+const EditTextArea = css`
+  border: 1px solid #bdbdbd;
+  border-radius: ${({ theme }) => theme.border.radius[1]};
+  padding: 1em;
+`;
+
+const NormalTextArea = css`
+  font-family: ${({ theme }) => theme.font.family.secondary};
 `;
 
 const Menu = ({ toggle }: { toggle: () => void }) => {
@@ -159,7 +169,11 @@ const Description = ({ value }: { value: string }) => {
         )}
       </Flex>
       <Flow>
-        <TextArea {...textAreaController} disabled={!edit} />
+        <TextArea
+          {...textAreaController}
+          disabled={!edit}
+          specialStyle={edit ? EditTextArea : NormalTextArea}
+        />
         {edit && (
           <Flex style={{ alignItems: "center" }}>
             <Button.Colored
