@@ -101,7 +101,7 @@ const resolvers = {
     deleteList: async (_: never, args: DeleteListInput, ctx: Context) => {
       if (!ctx.currentUser) throw new ApolloError('Logged User Only');
       const list = await List.findByIdAndDelete(args.data.id);
-      return Boolean(list) && list?.$isDeleted;
+      return !list || !list.$isDeleted;
     },
   },
 };
