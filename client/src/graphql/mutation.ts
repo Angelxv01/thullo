@@ -130,3 +130,15 @@ export const CHANGE_LIST_NAME = gql`
     }
   }
 `;
+
+export interface DeleteListInput {
+  data: {
+    id: string;
+  };
+}
+
+export const DELETE_LIST = gql`
+  mutation DELETE_LIST($data: DeleteListInput) {
+    deleteList(data: $data)
+  }
+`;

@@ -1,7 +1,12 @@
 import { useMutation } from "@apollo/client";
 import React from "react";
 import styled from "styled-components";
-import { ChangeListNameInput, CHANGE_LIST_NAME } from "../../graphql/mutation";
+import {
+  ChangeListNameInput,
+  CHANGE_LIST_NAME,
+  DeleteListInput,
+  DELETE_LIST,
+} from "../../graphql/mutation";
 import { MASTER } from "../../graphql/query";
 import useVisibility from "../../hooks/useVisiblity";
 import { Absolute, Button, InputGroup, Relative, Text, Icon } from "../common";
@@ -20,6 +25,14 @@ const ListOperation = ({ list }: { list: Gql.List }) => {
       { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
     ],
   });
+  const [deleteList] = useMutation<{ deleteList: boolean }, DeleteListInput>(
+    DELETE_LIST,
+    {
+      refetchQueries: [
+        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+      ],
+    }
+  );
 
   const handleChangeListName = async () => {
     await changeListName({
@@ -32,6 +45,9 @@ const ListOperation = ({ list }: { list: Gql.List }) => {
     });
     setRename();
   };
+
+  const handleDeleteList = async () =>
+    deleteList({ variables: { data: { id: list.id } } });
 
   return (
     <StyledListOperation space="0.25em">
@@ -51,7 +67,7 @@ const ListOperation = ({ list }: { list: Gql.List }) => {
         )}
       </Relative>
       <StyledSeparator />
-      <GrayText>Delete this list</GrayText>
+      <GrayText onClick={handleDeleteList}>Delete this list</GrayText>
     </StyledListOperation>
   );
 };
