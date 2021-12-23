@@ -3,8 +3,9 @@ import { useTheme } from "styled-components";
 import { Icon } from "../common";
 import ListOperation from "../ListOperation";
 import Toggle from "../Toggle";
+import * as Gql from "../../gqlTypes";
 
-const ListOperationModal = () => {
+const ListOperationModal = ({ list }: { list: Gql.List }) => {
   const theme = useTheme();
   const ToggleStyle = {
     style: {
@@ -20,7 +21,7 @@ const ListOperationModal = () => {
   return (
     <Toggle props={ToggleStyle}>
       <Icon.MoreHoriz />
-      <ListOperation />
+      <ListOperation list={list} />
     </Toggle>
   );
 };

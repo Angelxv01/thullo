@@ -8,15 +8,11 @@ import NewCard from "./NewCard";
 import StyledList from "./StyledList";
 
 const List = ({
-  id,
-  name,
-  cards,
+  list,
   onDragStart,
   onDrop,
 }: {
-  id: string;
-  name: string;
-  cards: Gql.Card[];
+  list: Gql.List;
   onDragStart: (e: DragEvent<HTMLDivElement>, list: string) => void;
   onDrop: (e: DragEvent<HTMLDivElement>, list: string) => void;
 }) => {
@@ -25,18 +21,18 @@ const List = ({
   return (
     <StyledList
       onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => onDrop(e, id)}
+      onDrop={(e) => onDrop(e, list.id)}
     >
       <Flow>
-        <Header name={name} />
-        {cards.map((card) => (
+        <Header list={list} />
+        {list.cards.map((card) => (
           <Card
             key={card.id}
             card={card}
             onDragStart={(e) => onDragStart(e, card.id)}
           />
         ))}
-        {newCard && <NewCard listId={id} setVisibility={setNewCard} />}
+        {newCard && <NewCard listId={list.id} setVisibility={setNewCard} />}
         <Button.IconColored onClick={setNewCard}>
           {newCard ? (
             <>

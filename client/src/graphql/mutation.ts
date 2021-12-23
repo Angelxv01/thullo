@@ -118,3 +118,15 @@ export const INVITE_USER = gql`
     }
   }
 `;
+
+export interface ChangeListNameInput {
+  data: { name: string; listId: string };
+}
+
+export const CHANGE_LIST_NAME = gql`
+  mutation CHANGE_LIST_NAME($data: ChangeListNameInput) {
+    changeListName(data: $data) {
+      name
+    }
+  }
+`;

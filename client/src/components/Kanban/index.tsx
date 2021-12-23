@@ -41,7 +41,7 @@ const Kanban = () => {
       {ctx.data.board.lists.map((list: Gql.List) => (
         <List
           key={list.id}
-          {...list}
+          list={list}
           onDragStart={onDragStart}
           onDrop={onDrop}
         />

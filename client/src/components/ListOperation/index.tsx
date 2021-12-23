@@ -1,12 +1,55 @@
+import { useMutation } from "@apollo/client";
 import React from "react";
 import styled from "styled-components";
-import { Text } from "../common";
+import { ChangeListNameInput, CHANGE_LIST_NAME } from "../../graphql/mutation";
+import { MASTER } from "../../graphql/query";
+import useVisibility from "../../hooks/useVisiblity";
+import { Absolute, Button, InputGroup, Relative, Text, Icon } from "../common";
 import StyledListOperation from "./StyledListOperation";
+import * as Gql from "../../gqlTypes";
+import useInput from "../../hooks/useInput";
 
-const ListOperation = () => {
+const ListOperation = ({ list }: { list: Gql.List }) => {
+  const [rename, setRename] = useVisibility();
+  const controller = useInput("text");
+  const [changeListName] = useMutation<
+    { changeListName: Gql.List },
+    ChangeListNameInput
+  >(CHANGE_LIST_NAME, {
+    refetchQueries: [
+      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+    ],
+  });
+
+  const handleChangeListName = async () => {
+    await changeListName({
+      variables: {
+        data: {
+          name: controller.value,
+          listId: list.id,
+        },
+      },
+    });
+    setRename();
+  };
+
   return (
     <StyledListOperation space="0.25em">
-      <GrayText>Rename</GrayText>
+      <Relative>
+        <GrayText onClick={setRename}>Rename</GrayText>
+        {rename && (
+          <Absolute style={{ marginTop: "1em" }}>
+            <InputGroup
+              width="100%"
+              props={{ ...controller, style: { fontSize: "1.25em" } }}
+            >
+              <Button.Squared onClick={handleChangeListName}>
+                <Icon.Edit />
+              </Button.Squared>
+            </InputGroup>
+          </Absolute>
+        )}
+      </Relative>
       <StyledSeparator />
       <GrayText>Delete this list</GrayText>
     </StyledListOperation>
