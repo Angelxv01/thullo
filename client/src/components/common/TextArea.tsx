@@ -46,7 +46,8 @@ const TextArea = (
       specialStyle?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
     }
 ) => {
-  const { divRef, textAreaRef, specialStyle, ...other } = props;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { divRef, textAreaRef, specialStyle, setValue, ...other } = props;
   return (
     <StyledTextArea ref={divRef} copy={specialStyle}>
       <textarea ref={textAreaRef} {...other} />

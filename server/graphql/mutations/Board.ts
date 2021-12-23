@@ -84,12 +84,14 @@ const resolvers = {
       }
 
       const { id, ...data } = args.boardData;
-      if (!data.visibility) {
+      if (!id && !data.visibility) {
         throw new ApolloError('Required Visibility');
       }
       const out = {
         ...data,
-        visibility: Visibility[data.visibility] as unknown as Visibility,
+        visibility:
+          data.visibility &&
+          (Visibility[data.visibility] as unknown as Visibility),
         members: args.boardData.members?.map(id => ({
           id,
           role: Role.MEMBER,

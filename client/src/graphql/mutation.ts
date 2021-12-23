@@ -73,6 +73,14 @@ export const CHANGE_VISIBILITY = gql`
   }
 `;
 
+export const CHANGE_DESCRIPTION = gql`
+  mutation CHANGE_DESCRIPTION($boardData: CreateBoardInput) {
+    createBoard(boardData: $boardData) {
+      description
+    }
+  }
+`;
+
 export interface DeleteUserInput {
   data: {
     userId: string;

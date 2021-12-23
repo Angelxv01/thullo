@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export interface IUseTextArea {
   value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   divRef: React.RefObject<HTMLDivElement>;
   textAreaRef: React.RefObject<HTMLTextAreaElement>;
@@ -17,13 +18,15 @@ const useTextArea = (init = ""): IUseTextArea => {
       divRef.current.dataset.replicatedValue = init;
       textAreaRef.current.value = init;
     }
-  }, [init]);
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (!(divRef.current && textAreaRef.current)) return;
     divRef.current.dataset.replicatedValue = textAreaRef.current.value;
     setValue(e.target.value);
   };
-  return { value, onChange, divRef, textAreaRef };
+
+  return { value, setValue, onChange, divRef, textAreaRef };
 };
 
 export default useTextArea;

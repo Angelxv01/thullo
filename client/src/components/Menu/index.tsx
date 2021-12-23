@@ -16,8 +16,14 @@ import InfoLabel from "../common/InfoLabel";
 import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";
 import User from "../User";
-import { DeleteUserInput, DELETE_USER } from "../../graphql/mutation";
+import {
+  CHANGE_DESCRIPTION,
+  DeleteUserInput,
+  DELETE_USER,
+} from "../../graphql/mutation";
 import useVisibility from "../../hooks/useVisiblity";
+import useContent from "../../hooks/useContent";
+import { formatDate } from "../../utils/formatting";
 
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
@@ -51,30 +57,24 @@ const Menu = ({ toggle }: { toggle: () => void }) => {
     variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
 
-  if (!ctx.data) {
-    return null;
-  }
-
-  const owner = ctx.data.board.members.find(
+  const owner = ctx.data?.board.members.find(
     (member) => member.role === "OWNER"
   );
-  const date = new Date(ctx.data.board.createdAt).toLocaleString("en-GB", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const date = formatDate(ctx.data?.board.createdAt);
 
   return (
     <StyledMenuWrapper>
       <StyledMenu>
         <Flex style={{ justifyContent: "space-between", alignItems: "center" }}>
-          <Text fontWeight="600">{ctx.data.board.title}</Text>
+          <Text fontWeight="600">{ctx.data?.board.title}</Text>
           <Icon.Close onClick={toggle} />
         </Flex>
         <StyledSeparator />
         <Flow>
           <MadeBy owner={owner as Gql.Member} date={date} />
-          <Description value={ctx.data.board.description || ""} />
+          <Description
+            value={ctx.data?.board.description || "No description yet"}
+          />
           <Team />
         </Flow>
       </StyledMenu>
@@ -111,8 +111,36 @@ const MadeBy = ({ owner, date }: { owner: Gql.Member; date: string }) => {
 
 const Description = ({ value }: { value: string }) => {
   const theme = useTheme();
-  const controller = useTextArea(value);
+  const contentController = useContent(value);
+  const textAreaController = useTextArea(value);
   const [edit, setEdit] = useVisibility();
+
+  const [changeDescription] = useMutation<{
+    createBoard: Gql.Board;
+  }>(CHANGE_DESCRIPTION, {
+    refetchQueries: [
+      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+    ],
+  });
+
+  const onCancel = () => {
+    textAreaController.setValue(contentController.onCancel());
+    setEdit();
+  };
+
+  const onSave = async () => {
+    await changeDescription({
+      variables: {
+        boardData: {
+          description: textAreaController.value,
+          id: "6182d8c9bba2b2dfab68119d",
+        },
+      },
+    });
+
+    setEdit();
+  };
+
   return (
     <Flow>
       <Flex>
@@ -131,12 +159,13 @@ const Description = ({ value }: { value: string }) => {
         )}
       </Flex>
       <Flow>
-        <TextArea {...controller} disabled={!edit} />
+        <TextArea {...textAreaController} disabled={!edit} />
         {edit && (
           <Flex style={{ alignItems: "center" }}>
             <Button.Colored
               backgroundColor="GREEN1"
               style={{ padding: "0.4em 1em" }}
+              onClick={onSave}
             >
               <Text
                 fontFamily={theme.font.family.secondary}
@@ -145,7 +174,9 @@ const Description = ({ value }: { value: string }) => {
                 Save
               </Text>
             </Button.Colored>
-            <Text style={{ cursor: "pointer" }}>Edit</Text>
+            <Text style={{ cursor: "pointer" }} onClick={onCancel}>
+              Cancel
+            </Text>
           </Flex>
         )}
       </Flow>
@@ -174,9 +205,8 @@ const Team = () => {
       ],
     }
   );
-  if (!ctx.data) return null;
 
-  const user = ctx.data.board.members.find(
+  const user = ctx.data?.board.members.find(
     (member) => member.user.id === ctx.data?.authorizedUser.id
   );
   const isAdmin = user ? user.role !== "MEMBER" : false;
@@ -190,7 +220,7 @@ const Team = () => {
       <InfoLabel text="Team">
         <Icon.Description />
       </InfoLabel>
-      {ctx.data.board.members.map((member) => (
+      {ctx.data?.board.members.map((member) => (
         <Flex
           key={member.user.id}
           style={{ justifyContent: "space-between", alignItems: "center" }}
