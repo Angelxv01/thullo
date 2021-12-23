@@ -1,18 +1,29 @@
 import { ApolloError, gql } from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose, { ObjectId } from 'mongoose';
-import { BoardDocument, IUser } from '../../../types';
+import { BoardDocument, CardDocument, ICard, IUser } from '../../../types';
 import List from '../../models/List';
 import { Context } from '../..';
+import { Card } from '../../models';
 
 interface ChangeListNameInput {
   data: { name: string; listId: ObjectId };
+}
+
+interface DeleteListInput {
+  data: {
+    id: ObjectId;
+  };
 }
 
 const typeDefs = gql`
   input CreateListInput {
     name: String!
     boardId: ID!
+  }
+
+  input DeleteListInput {
+    id: ID!
   }
 
   input ChangeListNameInput {
@@ -23,6 +34,7 @@ const typeDefs = gql`
   extend type Mutation {
     createList(list: CreateListInput): List
     changeListName(data: ChangeListNameInput): List
+    deleteList(data: DeleteListInput): Boolean
   }
 `;
 const resolvers = {
@@ -85,6 +97,11 @@ const resolvers = {
       if (!list) throw new ApolloError('Invalid list');
       await list.save();
       return list;
+    },
+    deleteList: async (_: never, args: DeleteListInput, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      const list = await List.findByIdAndDelete(args.data.id);
+      return Boolean(list) && list?.$isDeleted;
     },
   },
 };
