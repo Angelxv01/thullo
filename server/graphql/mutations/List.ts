@@ -1,16 +1,29 @@
 import { ApolloError, gql } from 'apollo-server';
 import DataLoader from 'dataloader';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { BoardDocument, IUser } from '../../../types';
 import List from '../../models/List';
+import { Context } from '../..';
+
+interface ChangeListNameInput {
+  name: string;
+  listId: ObjectId;
+}
 
 const typeDefs = gql`
   input CreateListInput {
     name: String!
     boardId: ID!
   }
+
+  input ChangeListNameInput {
+    name: String!
+    listId: ID!
+  }
+
   extend type Mutation {
     createList(list: CreateListInput): List
+    changeListName(data: ChangeListNameInput): List
   }
 `;
 const resolvers = {
@@ -58,6 +71,14 @@ const resolvers = {
       }
 
       return dataLoader.ListLoader.load(newList.id);
+    },
+    changeListName: async (
+      _: never,
+      args: ChangeListNameInput,
+      ctx: Context
+    ) => {
+      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      await List.findByIdAndUpdate(args.listId, { name: args.name });
     },
   },
 };
