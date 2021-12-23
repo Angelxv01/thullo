@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import styled, { useTheme } from "styled-components";
-import { Data, Var, MASTER } from "../../graphql/query";
+import { Data, Var, MASTER, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
 import {
   Button,
   Flex,
@@ -141,6 +141,10 @@ const Team = () => {
           query: MASTER,
           variables: { id: "6182d8c9bba2b2dfab68119d" },
         },
+        {
+          query: FRIENDS_NOT_IN_BOARD,
+          variables: { id: "6182d8c9bba2b2dfab68119d" },
+        },
       ],
     }
   );
@@ -151,7 +155,7 @@ const Team = () => {
   );
   const isAdmin = user ? user.role !== "MEMBER" : false;
   const deleteUserHandler = async (id: string) =>
-    await deleteUser({
+    deleteUser({
       variables: { data: { boardId: "6182d8c9bba2b2dfab68119d", userId: id } },
     });
 

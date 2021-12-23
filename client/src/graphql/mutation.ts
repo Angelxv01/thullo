@@ -91,3 +91,22 @@ export const DELETE_USER = gql`
     }
   }
 `;
+
+export interface InviteUserInput {
+  data: {
+    userId: string[];
+    boardId: string;
+  };
+}
+
+export const INVITE_USER = gql`
+  mutation INVITE_USER($data: InviteUserInput) {
+    inviteUser(data: $data) {
+      members {
+        user {
+          username
+        }
+      }
+    }
+  }
+`;

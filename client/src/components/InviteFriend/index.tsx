@@ -4,17 +4,44 @@ import { InputGroup, Flow, Text, Button, Icon, Flex } from "../common";
 import User from "../User";
 import StyledFriendFlow from "./StyledFriendFlow";
 import * as Gql from "../../gqlTypes";
+import { useMutation } from "@apollo/client";
+import { InviteUserInput, INVITE_USER } from "../../graphql/mutation";
+import { FRIENDS_NOT_IN_BOARD, MASTER } from "../../graphql/query";
 
 const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();
 
   const [selected, setSelected] = useState<string[]>([]);
+  const [inviteUser] = useMutation<{ inviteUser: Gql.Board }, InviteUserInput>(
+    INVITE_USER,
+    {
+      refetchQueries: [
+        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+        {
+          query: FRIENDS_NOT_IN_BOARD,
+          variables: { id: "6182d8c9bba2b2dfab68119d" },
+        },
+      ],
+    }
+  );
+
   const handleSelectUser = (id: string) =>
     setSelected(
       selected.indexOf(id) > -1
         ? selected.filter((obj) => obj !== id)
         : [...selected, id]
     );
+
+  const inviteUserHandler = async () =>
+    inviteUser({
+      variables: {
+        data: {
+          userId: selected,
+          boardId: "6182d8c9bba2b2dfab68119d",
+        },
+      },
+    });
+
   return (
     <Flow space="1em" style={{ minWidth: "20em" }}>
       <Flow space="1px">
@@ -29,6 +56,7 @@ const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
         </Button.Squared>
       </InputGroup>
       <StyledFriendFlow>
+        {friends.length === 0 && <Text>All your friends are here!</Text>}
         {friends.map((friend) => (
           <Flex key={friend.id}>
             <User
@@ -40,7 +68,10 @@ const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
         ))}
       </StyledFriendFlow>
       <Flow style={{ textAlign: "center", marginTop: "2em" }}>
-        <Button.Colored style={{ padding: "0.75em 1em" }}>
+        <Button.Colored
+          style={{ padding: "0.75em 1em" }}
+          onClick={inviteUserHandler}
+        >
           Invite
         </Button.Colored>
       </Flow>

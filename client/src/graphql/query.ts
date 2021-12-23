@@ -113,6 +113,7 @@ export interface Var {
 export const FRIENDS_NOT_IN_BOARD = gql`
   query FRIENDS_NOT_IN_BOARD($id: ID) {
     friendsNotInBoard(id: $id) {
+      id
       username
       avatar
     }
