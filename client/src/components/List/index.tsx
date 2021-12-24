@@ -1,4 +1,5 @@
-import React, { DragEvent } from "react";
+import React from "react";
+import { Droppable } from "react-beautiful-dnd";
 import * as Gql from "../../gqlTypes";
 import useVisibility from "../../hooks/useVisiblity";
 import Card from "../Card";
@@ -7,31 +8,24 @@ import Header from "./Header";
 import NewCard from "./NewCard";
 import StyledList from "./StyledList";
 
-const List = ({
-  list,
-  onDragStart,
-  onDrop,
-}: {
-  list: Gql.List;
-  onDragStart: (e: DragEvent<HTMLDivElement>, list: string) => void;
-  onDrop: (e: DragEvent<HTMLDivElement>, list: string) => void;
-}) => {
+const List = ({ list }: { list: Gql.List }) => {
   const [newCard, setNewCard] = useVisibility();
 
   return (
-    <StyledList
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => onDrop(e, list.id)}
-    >
+    <StyledList>
       <Flow>
         <Header list={list} />
-        {list.cards.map((card) => (
-          <Card
-            key={card.id}
-            card={card}
-            onDragStart={(e) => onDragStart(e, card.id)}
-          />
-        ))}
+        <Droppable droppableId={list.id}>
+          {(provided) => (
+            <Flow ref={provided.innerRef} {...provided.droppableProps}>
+              {list.cards.map((card, index) => (
+                <Card key={card.id} card={card} index={index} />
+              ))}
+              {provided.placeholder}
+            </Flow>
+          )}
+        </Droppable>
+
         {newCard && <NewCard listId={list.id} setVisibility={setNewCard} />}
         <Button.IconColored onClick={setNewCard}>
           {newCard ? (

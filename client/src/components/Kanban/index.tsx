@@ -8,6 +8,7 @@ import { Button, Icon, Relative } from "../common";
 import { CHANGE_LIST } from "../../graphql/mutation";
 import useVisibility from "../../hooks/useVisiblity";
 import NewList from "./NewList";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 const Kanban = () => {
   const ctx = useQuery(MASTER, {
@@ -29,41 +30,38 @@ const Kanban = () => {
   const [visible, setVisible] = useVisibility();
 
   const onDragStart = (e: DragEvent<HTMLDivElement>, card: string) => {
-    e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("card", card);
   };
-  const onDrop = async (e: DragEvent<HTMLDivElement>, list: string) => {
-    const card = e.dataTransfer.getData("card");
-    await changeList({ variables: { data: { cardId: card, listId: list } } });
+  const onDrop = async (result: DropResult) => {
+    const { draggableId: cardId, destination } = result;
+    const listId = destination?.droppableId || "";
+    await changeList({ variables: { data: { cardId, listId } } });
   };
 
   return (
-    <StyledKanban>
-      {ctx.data.board.lists.map((list: Gql.List) => (
-        <List
-          key={list.id}
-          list={list}
-          onDragStart={onDragStart}
-          onDrop={onDrop}
-        />
-      ))}
-      <Relative style={{ minWidth: "20em" }}>
-        <Button.IconColored onClick={setVisible}>
-          {visible ? (
-            <>
-              Close
-              <Icon.Close />
-            </>
-          ) : (
-            <>
-              Add another List
-              <Icon.Add />
-            </>
-          )}
-        </Button.IconColored>
-        {visible && <NewList setVisible={setVisible} />}
-      </Relative>
-    </StyledKanban>
+    <DragDropContext onDragEnd={onDrop}>
+      <StyledKanban>
+        {ctx.data.board.lists.map((list: Gql.List) => (
+          <List key={list.id} list={list} />
+        ))}
+        <Relative style={{ minWidth: "20em" }}>
+          <Button.IconColored onClick={setVisible}>
+            {visible ? (
+              <>
+                Close
+                <Icon.Close />
+              </>
+            ) : (
+              <>
+                Add another List
+                <Icon.Add />
+              </>
+            )}
+          </Button.IconColored>
+          {visible && <NewList setVisible={setVisible} />}
+        </Relative>
+      </StyledKanban>
+    </DragDropContext>
   );
 };
 
