@@ -1,5 +1,5 @@
+import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import React, { DragEvent } from "react";
 import { MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import List from "../List";
@@ -29,9 +29,6 @@ const Kanban = () => {
 
   const [visible, setVisible] = useVisibility();
 
-  const onDragStart = (e: DragEvent<HTMLDivElement>, card: string) => {
-    e.dataTransfer.setData("card", card);
-  };
   const onDrop = async (result: DropResult) => {
     const { draggableId: cardId, destination } = result;
     const listId = destination?.droppableId || "";
