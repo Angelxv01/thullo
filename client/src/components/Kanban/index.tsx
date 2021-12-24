@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { MASTER } from "../../graphql/query";
+import { MASTER, Var } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import List from "../List";
 import StyledKanban from "./StyledKanban";
@@ -11,19 +11,17 @@ import NewList from "./NewList";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 const Kanban = () => {
-  const ctx = useQuery(MASTER, {
+  const { data: ctx } = useQuery<{ board: Gql.Board }, Var>(MASTER, {
     fetchPolicy: "cache-and-network",
     variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
+
   const [changeList] = useMutation<
     { changeList: Gql.Card },
     { data: { cardId: string; listId: string } }
   >(CHANGE_LIST, {
     refetchQueries: [
-      {
-        query: MASTER,
-        variables: { id: "6182d8c9bba2b2dfab68119d" },
-      },
+      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
     ],
   });
 
@@ -38,7 +36,7 @@ const Kanban = () => {
   return (
     <DragDropContext onDragEnd={onDrop}>
       <StyledKanban>
-        {ctx.data.board.lists.map((list: Gql.List) => (
+        {ctx?.board.lists.map((list: Gql.List) => (
           <List key={list.id} list={list} />
         ))}
         <Relative style={{ minWidth: "20em" }}>
