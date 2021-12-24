@@ -29,6 +29,7 @@ const Kanban = () => {
   const [visible, setVisible] = useVisibility();
 
   const onDragStart = (e: DragEvent<HTMLDivElement>, card: string) => {
+    e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("card", card);
   };
   const onDrop = async (e: DragEvent<HTMLDivElement>, list: string) => {

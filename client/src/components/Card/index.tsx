@@ -1,4 +1,4 @@
-import React, { DragEventHandler } from "react";
+import React, { DragEventHandler, useState } from "react";
 import * as Gql from "../../gqlTypes";
 import Avatars from "../Avatars";
 import { Button, Flex, Icon, Label } from "../common";
@@ -16,8 +16,19 @@ const Card = ({
   onDragStart: DragEventHandler<HTMLDivElement>;
 }) => {
   const [visibility, setVisibility] = useVisibility();
+  const [leave, setLeave] = useState<boolean>(false);
+
+  const style = leave
+    ? {
+        background: "#E2E8F6",
+        border: "1px dashed #2F80ED",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
+        borderRadius: "12px",
+      }
+    : {};
+
   return (
-    <>
+    <div style={style}>
       <StyledCard
         draggable={true}
         onDragStart={onDragStart}
@@ -56,7 +67,7 @@ const Card = ({
         </StatusBar>
       </StyledCard>
       {visibility && <CardModal setVisibility={setVisibility} id={card.id} />}
-    </>
+    </div>
   );
 };
 
