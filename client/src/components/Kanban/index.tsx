@@ -29,7 +29,8 @@ const Kanban = () => {
 
   const onDrop = async (result: DropResult) => {
     const { draggableId: cardId, destination } = result;
-    const listId = destination?.droppableId || "";
+    const listId = destination?.droppableId;
+    if (!listId) return;
     await changeList({ variables: { data: { cardId, listId } } });
   };
 

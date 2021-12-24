@@ -3,24 +3,35 @@ import * as Gql from "../../gqlTypes";
 import Avatars from "../Avatars";
 import { Button, Flex, Icon, Label } from "../common";
 import { Cover, Labels, StatusBar, Title } from "./Utils";
-import StyledCard from "./StyledCard";
+import StyledCard, { IDraggingStyle } from "./StyledCard";
 import InfoLabel from "../common/InfoLabel";
 import useVisibility from "../../hooks/useVisiblity";
 import CardModal from "../CardModal";
 import { Draggable } from "react-beautiful-dnd";
+import styled, { css } from "styled-components";
+
+const draggingStyle = css`
+  // background-color: blue;
+`;
+
+const CardWrapper = styled.div<IDraggingStyle>`
+  ${({ isDragging }) => isDragging && draggingStyle}
+`;
 
 const Card = ({ card, index }: { card: Gql.Card; index: number }) => {
   const [visibility, setVisibility] = useVisibility();
 
   return (
     <Draggable draggableId={card.id} index={index}>
-      {(provided) => (
-        <div
+      {(provided, snapshot) => (
+        <CardWrapper
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          onClick={setVisibility}
+          isDragging={snapshot.isDragging}
         >
-          <StyledCard draggable={true} onClick={setVisibility}>
+          <StyledCard isDragging={snapshot.isDragging}>
             {card.coverId && <Cover src={card.coverId} />}
             <Title>{card.title}</Title>
             <Labels>
@@ -56,7 +67,7 @@ const Card = ({ card, index }: { card: Gql.Card; index: number }) => {
           {visibility && (
             <CardModal setVisibility={setVisibility} id={card.id} />
           )}
-        </div>
+        </CardWrapper>
       )}
     </Draggable>
   );
