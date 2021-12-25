@@ -24,6 +24,7 @@ interface IChangeList {
 
 const typeDefs = gql`
   input CreateCardInput {
+    id: ID
     title: String
     description: String
     boardId: ID
@@ -66,7 +67,7 @@ const resolvers = {
 
       let card: CardDocument;
       if (id) {
-        card = (await Card.findByIdAndUpdate(newData, {
+        card = (await Card.findByIdAndUpdate(id, newData, {
           new: true,
         })) as CardDocument;
       } else {
