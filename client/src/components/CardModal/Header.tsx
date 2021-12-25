@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styled, { useTheme } from "styled-components";
 import { Button, Icon, Text, Flex, Flow } from "../common";
 
@@ -39,6 +39,8 @@ const Header = ({
   setVisibility: () => void;
 }) => {
   const theme = useTheme();
+  const handleTitleChange = (e: ChangeEvent<HTMLParagraphElement>) =>
+    console.log(e.target.outerText);
   return (
     <StyledHeader space="0.5em" hasCover={Boolean(coverId)}>
       {/* Offsettable button */}
@@ -57,6 +59,9 @@ const Header = ({
           color="DARK"
           lineHeight={theme.lineHeight[2]}
           as="h1"
+          contentEditable
+          suppressContentEditableWarning
+          onBlur={handleTitleChange}
         >
           {title}
         </Text>

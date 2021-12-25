@@ -1,5 +1,5 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
+import React, { ChangeEvent } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import { Data, MASTER, Var } from "../../graphql/query";
 import useInput from "../../hooks/useInput";
 import { useTheme } from "styled-components";
@@ -7,6 +7,8 @@ import { ReactComponent as Logo } from "../../assets/Logo.svg";
 import { Avatar, Button, Flex, Icon, InputGroup, Text } from "../common";
 import StyledNavigation from "./StyledNavigation";
 import Separator from "./Separator";
+import * as Gql from "../../gqlTypes";
+import { BoardInput, CHANGE_TITLE } from "../../graphql/mutation";
 
 const Navigation = () => {
   const { data: ctx } = useQuery<Data, Var>(MASTER, {
@@ -15,6 +17,24 @@ const Navigation = () => {
   });
   const searchController = useInput("text");
   const theme = useTheme();
+  const [changeTitle] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
+    CHANGE_TITLE,
+    {
+      refetchQueries: [
+        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+      ],
+    }
+  );
+
+  const handleTitleChange = async (e: ChangeEvent<HTMLParagraphElement>) =>
+    changeTitle({
+      variables: {
+        boardData: {
+          title: e.target.outerText,
+          id: "6182d8c9bba2b2dfab68119d",
+        },
+      },
+    });
 
   return (
     <StyledNavigation>
@@ -22,7 +42,14 @@ const Navigation = () => {
 
       {/* Board Name + Back to boards */}
       <Flex space="2rem" style={{ alignItems: "inherit" }}>
-        <Text fontSize={theme.font.size[600]} lineHeight={theme.lineHeight[3]}>
+        <Text
+          style={{ outline: 0 }}
+          fontSize={theme.font.size[600]}
+          lineHeight={theme.lineHeight[3]}
+          contentEditable
+          suppressContentEditableWarning
+          onBlur={handleTitleChange}
+        >
           {ctx?.board.title}
         </Text>
         <Separator />
