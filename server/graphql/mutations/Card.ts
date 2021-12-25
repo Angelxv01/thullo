@@ -2,12 +2,13 @@ import { ApolloError, gql } from 'apollo-server';
 import { ObjectId } from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, { Attachment } from '../../models/Card';
-import { IUser, AttachmentDocument } from '../../../types';
+import { IUser, AttachmentDocument, CardDocument } from '../../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
 import { Context } from '../..';
 
 interface CreateCardInput {
+  id?: ObjectId;
   title?: string;
   description?: string;
   boardId?: ObjectId;
@@ -61,8 +62,18 @@ const resolvers = {
         : true;
       if (!(boardExist && listExist))
         throw new ApolloError('Invalid Board or List ID');
+      const { id, ...newData } = cardData;
 
-      const card = new Card(cardData);
+      let card: CardDocument;
+      if (id) {
+        card = (await Card.findByIdAndUpdate(newData, {
+          new: true,
+        })) as CardDocument;
+      } else {
+        card = new Card(newData);
+      }
+
+      if (!card) return;
       await card.save();
 
       return card.toJSON();
