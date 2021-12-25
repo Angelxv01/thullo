@@ -17,7 +17,7 @@ const Main = ({ card }: { card: Gql.Card }) => {
 
   return (
     <Flow space="2em" style={{ flex: "3" }}>
-      <DescriptionSection description={card.description} />
+      <DescriptionSection card={card} />
       <AttachmentSection attachments={card.attachments} />
       <CommentSection comments={card.comments} />
     </Flow>

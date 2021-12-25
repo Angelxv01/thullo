@@ -1,17 +1,43 @@
+import { useMutation } from "@apollo/client";
 import React from "react";
 import { css } from "styled-components";
+import { CreateCardInput, CREATE_CARD } from "../../graphql/mutation";
+import { MASTER } from "../../graphql/query";
 import useTextArea from "../../hooks/useTextArea";
 import useVisibility from "../../hooks/useVisiblity";
 import theme from "../../style/theme";
 import { Flow, Flex, Icon, Button, TextArea, Text } from "../common";
 import InfoLabel from "../common/InfoLabel";
+import * as Gql from "../../gqlTypes";
 
-const DescriptionSection = ({ description }: { description: string }) => {
+const DescriptionSection = ({ card }: { card: Gql.Card }) => {
   const [edit, setEdit] = useVisibility();
   const descriptionController = useTextArea(
-    description || "There's no description yet"
+    card.description || "There's no description yet"
   );
-
+  const [changeDescription] = useMutation<
+    { createCard: Gql.Card },
+    CreateCardInput
+  >(CREATE_CARD, {
+    refetchQueries: [
+      {
+        query: MASTER,
+        fetchPolicy: "network-only",
+        variables: { id: "6182d8c9bba2b2dfab68119d" },
+      },
+    ],
+  });
+  const handleDescriptionChange = async () =>
+    changeDescription({
+      variables: {
+        cardData: {
+          listId: card.list.id,
+          boardId: "6182d8c9bba2b2dfab68119d",
+          id: card.id,
+          description: descriptionController.value,
+        },
+      },
+    });
   const descriptionStyle = css`
     color: hsl(${({ theme }) => theme.color.DARK});
     fontsize: ${({ theme }) => theme.font.size[400]};
@@ -36,6 +62,7 @@ const DescriptionSection = ({ description }: { description: string }) => {
 
       {/* Content */}
       <TextArea
+        onBlur={handleDescriptionChange}
         disabled={edit}
         {...descriptionController}
         specialStyle={descriptionStyle}
