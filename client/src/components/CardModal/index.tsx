@@ -56,12 +56,7 @@ const CardModal = ({
         }}
       >
         {/* Header */}
-        <Header
-          setVisibility={setVisibility}
-          coverId={card.coverId}
-          title={card.title}
-          listName={card.list.name}
-        />
+        <Header setVisibility={setVisibility} card={card} />
         {/* Card Content */}
         <Flex>
           <Main card={card} />

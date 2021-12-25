@@ -75,6 +75,7 @@ export const CARD = gql`
       members {
         username
         avatar
+        id
       }
       labels {
         id

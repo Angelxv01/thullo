@@ -3,20 +3,14 @@ import * as Gql from "../../gqlTypes";
 import Avatars from "../Avatars";
 import { Button, Flex, Icon, Label } from "../common";
 import { Cover, Labels, StatusBar, Title } from "./Utils";
-import StyledCard, { IDraggingStyle } from "./StyledCard";
+import StyledCard from "./StyledCard";
 import InfoLabel from "../common/InfoLabel";
 import useVisibility from "../../hooks/useVisiblity";
 import CardModal from "../CardModal";
 import { Draggable } from "react-beautiful-dnd";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-const draggingStyle = css`
-  // background-color: blue;
-`;
-
-const CardWrapper = styled.div<IDraggingStyle>`
-  ${({ isDragging }) => isDragging && draggingStyle}
-`;
+const CardWrapper = styled.div``;
 
 const Card = ({ card, index }: { card: Gql.Card; index: number }) => {
   const [visibility, setVisibility] = useVisibility();
@@ -30,7 +24,6 @@ const Card = ({ card, index }: { card: Gql.Card; index: number }) => {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             onClick={setVisibility}
-            isDragging={snapshot.isDragging}
           >
             <StyledCard isDragging={snapshot.isDragging}>
               {card.coverId && <Cover src={card.coverId} />}

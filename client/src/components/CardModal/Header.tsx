@@ -1,6 +1,10 @@
+import { useMutation } from "@apollo/client";
 import React, { ChangeEvent } from "react";
 import styled, { useTheme } from "styled-components";
+import { CreateCardInput, CREATE_CARD } from "../../graphql/mutation";
+import { MASTER } from "../../graphql/query";
 import { Button, Icon, Text, Flex, Flow } from "../common";
+import * as Gql from "../../gqlTypes";
 
 interface Image {
   id?: string;
@@ -28,28 +32,46 @@ const StyledHeader = styled(Flex)<{ hasCover?: boolean }>`
 `;
 
 const Header = ({
-  coverId,
-  title,
-  listName,
+  card,
   setVisibility,
 }: {
-  coverId?: string;
-  title: string;
-  listName: string;
+  card: Gql.Card;
   setVisibility: () => void;
 }) => {
   const theme = useTheme();
-  const handleTitleChange = (e: ChangeEvent<HTMLParagraphElement>) =>
-    console.log(e.target.outerText);
+  const [changeTitle] = useMutation<{ createCard: Gql.Card }, CreateCardInput>(
+    CREATE_CARD,
+    {
+      refetchQueries: [
+        {
+          query: MASTER,
+          fetchPolicy: "network-only",
+          variables: { id: "6182d8c9bba2b2dfab68119d" },
+        },
+      ],
+    }
+  );
+  const handleTitleChange = async (e: ChangeEvent<HTMLParagraphElement>) =>
+    changeTitle({
+      variables: {
+        cardData: {
+          listId: card.list.id,
+          boardId: "6182d8c9bba2b2dfab68119d",
+          id: card.id,
+          title: e.target.outerText,
+        },
+      },
+    });
+  // console.log(e.target.outerText);
   return (
-    <StyledHeader space="0.5em" hasCover={Boolean(coverId)}>
+    <StyledHeader space="0.5em" hasCover={Boolean(card.coverId)}>
       {/* Offsettable button */}
       <Button.Squared className="offset-button" onClick={setVisibility}>
         <Icon.Close />
       </Button.Squared>
 
       {/* Cover Image */}
-      {coverId && <Cover url={coverId} />}
+      {card.coverId && <Cover url={card.coverId} />}
 
       {/* Headings */}
       <Flow space="0.5em">
@@ -63,7 +85,7 @@ const Header = ({
           suppressContentEditableWarning
           onBlur={handleTitleChange}
         >
-          {title}
+          {card.title}
         </Text>
         <Text
           fontSize={theme.font.size[200]}
@@ -74,7 +96,7 @@ const Header = ({
         >
           in list
           <Text as="span" color="DARK">
-            {" " + listName}
+            {" " + card.list.name}
           </Text>
         </Text>
       </Flow>

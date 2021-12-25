@@ -21,6 +21,7 @@ export const CHANGE_LIST = gql`
 
 export interface CreateCardInput {
   cardData: {
+    id?: string;
     title?: string;
     description?: string;
     boardId?: string;
