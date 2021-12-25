@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { MASTER } from "../../graphql/query";
+import { Data, MASTER, Var } from "../../graphql/query";
 import useInput from "../../hooks/useInput";
 import { useTheme } from "styled-components";
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
@@ -11,14 +9,12 @@ import StyledNavigation from "./StyledNavigation";
 import Separator from "./Separator";
 
 const Navigation = () => {
-  const ctx = useQuery(MASTER, {
+  const { data: ctx } = useQuery<Data, Var>(MASTER, {
     fetchPolicy: "cache-only",
     variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
   const searchController = useInput("text");
   const theme = useTheme();
-
-  if (ctx.loading || !ctx.data) return null;
 
   return (
     <StyledNavigation>
@@ -27,7 +23,7 @@ const Navigation = () => {
       {/* Board Name + Back to boards */}
       <Flex space="2rem" style={{ alignItems: "inherit" }}>
         <Text fontSize={theme.font.size[600]} lineHeight={theme.lineHeight[3]}>
-          {ctx.data.board.title}
+          {ctx?.board.title}
         </Text>
         <Separator />
         <Button.Icon>
@@ -52,15 +48,15 @@ const Navigation = () => {
       {/* User */}
       <Flex style={{ alignItems: "inherit" }}>
         <Avatar
-          id={ctx.data.authorizedUser.avatar || ""}
-          username={ctx.data.authorizedUser.username}
+          id={ctx?.authorizedUser.avatar || ""}
+          username={ctx?.authorizedUser.username || ""}
         />
         <Text
           fontFamily={theme.font.family.secondary}
           fontWeight="bold"
           lineHeight={theme.lineHeight[0]}
         >
-          {ctx.data.authorizedUser.username}
+          {ctx?.authorizedUser.username}
         </Text>
         <Icon.ArrowDropDown />
       </Flex>

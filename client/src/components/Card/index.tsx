@@ -22,54 +22,54 @@ const Card = ({ card, index }: { card: Gql.Card; index: number }) => {
   const [visibility, setVisibility] = useVisibility();
 
   return (
-    <Draggable draggableId={card.id} index={index}>
-      {(provided, snapshot) => (
-        <CardWrapper
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          onClick={setVisibility}
-          isDragging={snapshot.isDragging}
-        >
-          <StyledCard isDragging={snapshot.isDragging}>
-            {card.coverId && <Cover src={card.coverId} />}
-            <Title>{card.title}</Title>
-            <Labels>
-              {card.labels.map((label) => (
-                <Label color={label.color} key={label.id}>
-                  {label.text}
-                </Label>
-              ))}
-            </Labels>
+    <div>
+      <Draggable draggableId={card.id} index={index}>
+        {(provided, snapshot) => (
+          <CardWrapper
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            onClick={setVisibility}
+            isDragging={snapshot.isDragging}
+          >
+            <StyledCard isDragging={snapshot.isDragging}>
+              {card.coverId && <Cover src={card.coverId} />}
+              <Title>{card.title}</Title>
+              <Labels>
+                {card.labels.map((label) => (
+                  <Label color={label.color} key={label.id}>
+                    {label.text}
+                  </Label>
+                ))}
+              </Labels>
 
-            <StatusBar>
-              {/* Avatars */}
-              <Avatars members={card.members}>
-                <Button.Squared>
-                  <Icon.Add />
-                </Button.Squared>
-              </Avatars>
-              {/* InfoLabel */}
-              <Flex space="0.5rem">
-                {card.comments.length > 0 && (
-                  <InfoLabel text={card.comments.length}>
-                    <Icon.Comment />
-                  </InfoLabel>
-                )}
-                {card.attachments.length > 0 && (
-                  <InfoLabel text={card.attachments.length}>
-                    <Icon.AttachFile />
-                  </InfoLabel>
-                )}
-              </Flex>
-            </StatusBar>
-          </StyledCard>
-          {visibility && (
-            <CardModal setVisibility={setVisibility} id={card.id} />
-          )}
-        </CardWrapper>
-      )}
-    </Draggable>
+              <StatusBar>
+                {/* Avatars */}
+                <Avatars members={card.members}>
+                  <Button.Squared>
+                    <Icon.Add />
+                  </Button.Squared>
+                </Avatars>
+                {/* InfoLabel */}
+                <Flex space="0.5rem">
+                  {card.comments.length > 0 && (
+                    <InfoLabel text={card.comments.length}>
+                      <Icon.Comment />
+                    </InfoLabel>
+                  )}
+                  {card.attachments.length > 0 && (
+                    <InfoLabel text={card.attachments.length}>
+                      <Icon.AttachFile />
+                    </InfoLabel>
+                  )}
+                </Flex>
+              </StatusBar>
+            </StyledCard>
+          </CardWrapper>
+        )}
+      </Draggable>
+      {visibility && <CardModal setVisibility={setVisibility} id={card.id} />}
+    </div>
   );
 };
 
