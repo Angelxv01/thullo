@@ -1,7 +1,7 @@
 import { ApolloError, gql } from 'apollo-server';
 import DataLoader from 'dataloader';
 import mongoose, { ObjectId } from 'mongoose';
-import { BoardDocument, CardDocument, ICard, IUser } from '../../../types';
+import { BoardDocument, CardDocument, ICard, IUser } from '../../types';
 import List from '../../models/List';
 import { Context } from '../..';
 import { Card } from '../../models';

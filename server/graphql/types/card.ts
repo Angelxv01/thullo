@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server';
 import { Context } from '../..';
-import { CardDocument, Color, LabelDocument } from '../../../types';
+import { CardDocument, Color, LabelDocument } from '../../types';
 
 const typeDefs = gql`
   type Attachment {
@@ -25,6 +25,7 @@ const typeDefs = gql`
     comments: [Comment!]!
     labels: [Label!]!
     attachments: [Attachment!]!
+    author: User
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -40,6 +41,8 @@ const resolvers = {
       ctx.dataLoader.UserLoader.loadMany(root.members),
     list: async (root: CardDocument, _: never, ctx: Context) =>
       ctx.dataLoader.ListLoader.load(root.listId),
+    author: async (root: CardDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.UserLoader.load(root.author),
   },
   Label: {
     color: (root: LabelDocument) => Color[root.color],

@@ -2,7 +2,7 @@ import { ApolloError, gql } from 'apollo-server';
 import { ObjectId } from 'mongoose';
 import Logger from '../../../utils/Logger';
 import Card, { Attachment } from '../../models/Card';
-import { IUser, AttachmentDocument, CardDocument } from '../../../types';
+import { IUser, AttachmentDocument, CardDocument } from '../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
 import { Context } from '../..';
@@ -54,9 +54,9 @@ const resolvers = {
     createCard: async (
       _root: never,
       { cardData }: { cardData: CreateCardInput },
-      { currentUser }: { currentUser: IUser | undefined }
+      ctx: Context
     ) => {
-      if (!currentUser) throw new ApolloError('Login to create');
+      if (!ctx.currentUser) throw new ApolloError('Login to create');
       const boardExist = await Board.findById(cardData.boardId);
       const listExist = cardData.listId
         ? await List.findById(cardData.listId)
@@ -71,7 +71,7 @@ const resolvers = {
           new: true,
         })) as CardDocument;
       } else {
-        card = new Card(newData);
+        card = new Card({ ...newData, author: ctx.currentUser.id });
       }
 
       if (!card) return;

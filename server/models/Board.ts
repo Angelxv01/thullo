@@ -1,5 +1,5 @@
 import { Schema, model, ObjectId } from 'mongoose';
-import { BoardDocument, BoardModel } from '../../types/';
+import { BoardDocument, BoardModel } from '../types';
 
 const schema = new Schema<BoardDocument, BoardModel>(
   {

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { object, string, Asserts } from 'yup';
 
 import User from '../../models/User';
-import { UserDocument } from '../../../types';
+import { UserDocument } from '../../types';
 import { SECRET } from '../../utils/config';
 import { ObjectId } from 'mongoose';
 

@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 import Card from '../../models/Card';
 import { ObjectId } from 'mongoose';
-import { ListDocument } from '../../../types';
+import { ListDocument } from '../../types';
 import { Context } from '../..';
 
 const typeDefs = gql`

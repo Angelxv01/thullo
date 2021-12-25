@@ -1,7 +1,7 @@
 import { Schema, model, ObjectId } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { SALT_ROUND } from '../utils/config';
-import { UserDocument, UserModel } from '../../types';
+import { UserDocument, UserModel } from '../types';
 
 const schema = new Schema<UserDocument, UserModel>(
   {

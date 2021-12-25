@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server';
 import { Context } from '../..';
-import { BoardDocument, Member, Role, Visibility } from '../../../types';
+import { BoardDocument, Member, Role, Visibility } from '../../types';
 
 const typeDefs = gql`
   type Member {

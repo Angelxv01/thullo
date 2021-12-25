@@ -4,7 +4,7 @@ import {
   AttachmentModel,
   CardDocument,
   CardModel,
-} from '../../types';
+} from '../types';
 
 const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
   {
@@ -26,6 +26,7 @@ const schema = new Schema<CardDocument, CardModel>(
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     labels: [{ type: Schema.Types.ObjectId, ref: 'Label' }],
     attachments: [attachmentSchema],
+    author: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }
 );

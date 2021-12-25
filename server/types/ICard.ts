@@ -1,6 +1,4 @@
-import {
-  Document, Date, ObjectId, Model,
-} from 'mongoose';
+import { Document, Date, ObjectId, Model } from 'mongoose';
 import { AttachmentDocument } from '.';
 
 export interface ICard {
@@ -13,6 +11,7 @@ export interface ICard {
   comments: ObjectId[];
   labels: ObjectId[];
   attachments: AttachmentDocument[];
+  author: ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }

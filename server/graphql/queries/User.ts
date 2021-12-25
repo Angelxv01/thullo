@@ -1,7 +1,7 @@
 import { ApolloError, gql } from 'apollo-server';
 import { ObjectId } from 'mongoose';
 import { Context } from '../..';
-import { BoardDocument, IUser, UserDocument } from '../../../types';
+import { BoardDocument, IUser, UserDocument } from '../../types';
 import User from '../../models/User';
 
 interface FriendsNotInBoardArgs {

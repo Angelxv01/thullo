@@ -6,7 +6,7 @@ import Logger from '../utils/Logger';
 import { MONGODB, SECRET } from './utils/config';
 import schema from './graphql/schema';
 import User from './models/User';
-import { UserDocument } from '../types';
+import { UserDocument } from './types';
 import createDataLoader, { Dataloaders } from './utils/createDataLoaders';
 
 mongoose

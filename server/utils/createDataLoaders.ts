@@ -7,7 +7,7 @@ import List from '../models/List';
 import Card from '../models/Card';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
-import { BoardDocument, CommentDocument, IBoard, IComment } from '../../types';
+import { BoardDocument, CommentDocument, IBoard, IComment } from '../types';
 
 type Unknown = mongoose.Document<unknown> & {
   _id: mongoose.Types.ObjectId;

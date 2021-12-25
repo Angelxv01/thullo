@@ -1,8 +1,8 @@
 import { ApolloError, gql } from 'apollo-server';
 import DataLoader from 'dataloader';
-import { BoardDocument, Member, Role, UserDocument } from '../../../types';
+import { BoardDocument, Member, Role, UserDocument } from '../../types';
 import Board from '../../models/Board';
-import { Visibility } from '../../../types';
+import { Visibility } from '../../types';
 import { ObjectId } from 'mongoose';
 import { User } from '../../models';
 

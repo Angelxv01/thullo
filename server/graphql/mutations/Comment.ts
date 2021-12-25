@@ -1,6 +1,6 @@
 import { ApolloError, gql } from 'apollo-server';
 import { ObjectId } from 'mongoose';
-import { UserDocument } from '../../../types';
+import { UserDocument } from '../../types';
 import Logger from '../../../utils/Logger';
 import Comment from '../../models/Comment';
 import Card from '../../models/Card';
