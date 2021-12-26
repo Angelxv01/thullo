@@ -32,7 +32,7 @@ export interface CreateCardInput {
 }
 export const CREATE_CARD = gql`
   mutation ($data: CreateCardInput) {
-    createCard(data: $data) {
+    createCard(cardData: $data) {
       title
     }
   }

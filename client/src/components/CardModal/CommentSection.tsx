@@ -5,7 +5,7 @@ import { Flow, Avatar, TextArea, Button } from "../common";
 import Comment from "./Comment";
 import * as Gql from "../../gqlTypes";
 import { useMutation, useQuery } from "@apollo/client";
-import { Data, MASTER } from "../../graphql/query";
+import { CARD, Data, MASTER } from "../../graphql/query";
 import { CREATE_COMMENT, CommentInput } from "../../graphql/mutation";
 
 const StyledCommentForm = styled.div`
@@ -48,9 +48,7 @@ const CommentSection = ({
     { createComment: Gql.Comment },
     CommentInput
   >(CREATE_COMMENT, {
-    refetchQueries: [
-      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-    ],
+    refetchQueries: [{ query: CARD, variables: { id: cardId } }],
   });
 
   const createCommentHandler = async () => {
@@ -70,7 +68,12 @@ const CommentSection = ({
           username={data.authorizedUser.username}
         />
         <TextArea {...commentController} placeholder="Write a comment..." />
-        <Button.Colored className="button-colored">Comment</Button.Colored>
+        <Button.Colored
+          className="button-colored"
+          onClick={createCommentHandler}
+        >
+          Comment
+        </Button.Colored>
       </StyledCommentForm>
       <StyledCommentFlow>
         {comments.map((comment) => (

@@ -11,7 +11,7 @@ import InfoLabel from "../common/InfoLabel";
 import * as Gql from "../../gqlTypes";
 
 const DescriptionSection = ({ card }: { card: Gql.Card }) => {
-  const [edit, setEdit] = useVisibility();
+  const [edit, setEdit] = useVisibility(true);
   const descriptionController = useTextArea(
     card.description || "There's no description yet"
   );
@@ -22,7 +22,6 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
     refetchQueries: [
       {
         query: MASTER,
-        fetchPolicy: "network-only",
         variables: { id: "6182d8c9bba2b2dfab68119d" },
       },
     ],
@@ -40,7 +39,7 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
     });
   const descriptionStyle = css`
     color: hsl(${({ theme }) => theme.color.DARK});
-    fontsize: ${({ theme }) => theme.font.size[400]};
+    font-size: ${({ theme }) => theme.font.size[400]};
   `;
 
   return (
