@@ -42,7 +42,7 @@ const NewCard = ({
   const createCard = async () => {
     await create({
       variables: {
-        cardData: {
+        data: {
           title: controller.value,
           listId,
           boardId: "6182d8c9bba2b2dfab68119d",

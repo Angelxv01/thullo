@@ -9,7 +9,7 @@ const StyledComment = styled.div`
   display: grid;
   grid-template-columns: max-content auto max-content;
   grid-template-areas:
-    ". . ."
+    "header header header"
     "comment comment comment";
   align-items: center;
   gap: 1em;

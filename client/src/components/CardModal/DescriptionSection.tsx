@@ -30,7 +30,7 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
   const handleDescriptionChange = async () =>
     changeDescription({
       variables: {
-        cardData: {
+        data: {
           listId: card.list.id,
           boardId: "6182d8c9bba2b2dfab68119d",
           id: card.id,

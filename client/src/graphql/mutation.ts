@@ -20,7 +20,7 @@ export const CHANGE_LIST = gql`
 `;
 
 export interface CreateCardInput {
-  cardData: {
+  data: {
     id?: string;
     title?: string;
     description?: string;
@@ -31,23 +31,23 @@ export interface CreateCardInput {
   };
 }
 export const CREATE_CARD = gql`
-  mutation ($cardData: CreateCardInput) {
-    createCard(cardData: $cardData) {
+  mutation ($data: CreateCardInput) {
+    createCard(data: $data) {
       title
     }
   }
 `;
 
 export interface CreateListInput {
-  list: {
+  data: {
     name: string;
     boardId: string;
   };
 }
 
 export const CREATE_LIST = gql`
-  mutation ($list: CreateListInput) {
-    createList(list: $list) {
+  mutation ($data: CreateListInput) {
+    createList(list: $data) {
       name
       id
     }
@@ -55,7 +55,7 @@ export const CREATE_LIST = gql`
 `;
 
 export interface BoardInput {
-  boardData: {
+  data: {
     id?: string;
     title?: string;
     visibility?: Gql.Visibility;
@@ -66,8 +66,8 @@ export interface BoardInput {
 }
 
 export const CHANGE_VISIBILITY = gql`
-  mutation ($boardData: CreateBoardInput) {
-    createBoard(boardData: $boardData) {
+  mutation ($data: CreateBoardInput) {
+    createBoard(boardData: $data) {
       title
       visibility
     }
@@ -75,16 +75,16 @@ export const CHANGE_VISIBILITY = gql`
 `;
 
 export const CHANGE_DESCRIPTION = gql`
-  mutation CHANGE_DESCRIPTION($boardData: CreateBoardInput) {
-    createBoard(boardData: $boardData) {
+  mutation CHANGE_DESCRIPTION($data: CreateBoardInput) {
+    createBoard(boardData: $data) {
       description
     }
   }
 `;
 
 export const CHANGE_TITLE = gql`
-  mutation CHANGE_TITLE($boardData: CreateBoardInput) {
-    createBoard(boardData: $boardData) {
+  mutation CHANGE_TITLE($data: CreateBoardInput) {
+    createBoard(boardData: $data) {
       title
     }
   }
@@ -149,5 +149,20 @@ export interface DeleteListInput {
 export const DELETE_LIST = gql`
   mutation DELETE_LIST($data: DeleteListInput) {
     deleteList(data: $data)
+  }
+`;
+
+export interface CommentInput {
+  data: { commentId?: string; cardId?: string; text: string };
+}
+
+export const CREATE_COMMENT = gql`
+  mutation CREATE_COMMENT($data: CreateComment) {
+    createComment(commentData: $data) {
+      text
+      user {
+        username
+      }
+    }
   }
 `;

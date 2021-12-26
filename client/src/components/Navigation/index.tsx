@@ -29,7 +29,7 @@ const Navigation = () => {
   const handleTitleChange = async (e: ChangeEvent<HTMLParagraphElement>) =>
     changeTitle({
       variables: {
-        boardData: {
+        data: {
           title: e.target.outerText,
           id: "6182d8c9bba2b2dfab68119d",
         },

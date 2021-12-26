@@ -4,8 +4,9 @@ import useTextArea from "../../hooks/useTextArea";
 import { Flow, Avatar, TextArea, Button } from "../common";
 import Comment from "./Comment";
 import * as Gql from "../../gqlTypes";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Data, MASTER } from "../../graphql/query";
+import { CREATE_COMMENT, CommentInput } from "../../graphql/mutation";
 
 const StyledCommentForm = styled.div`
   display: grid;
@@ -31,12 +32,33 @@ const StyledCommentFlow = styled(Flow)`
   }
 `;
 
-const CommentSection = ({ comments }: { comments: Gql.Comment[] }) => {
+const CommentSection = ({
+  comments,
+  cardId,
+}: {
+  comments: Gql.Comment[];
+  cardId: string;
+}) => {
   const commentController = useTextArea();
   const { data } = useQuery<Data, { id: string }>(MASTER, {
     variables: { id: "6182d8c9bba2b2dfab68119d" },
     fetchPolicy: "cache-only",
   });
+  const [createComment] = useMutation<
+    { createComment: Gql.Comment },
+    CommentInput
+  >(CREATE_COMMENT, {
+    refetchQueries: [
+      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+    ],
+  });
+
+  const createCommentHandler = async () => {
+    await createComment({
+      variables: { data: { text: commentController.value, cardId } },
+    });
+    commentController.setValue("");
+  };
 
   if (!data) return null;
 

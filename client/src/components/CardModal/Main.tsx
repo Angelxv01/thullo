@@ -19,7 +19,7 @@ const Main = ({ card }: { card: Gql.Card }) => {
     <Flow space="2em" style={{ flex: "3" }}>
       <DescriptionSection card={card} />
       <AttachmentSection attachments={card.attachments} />
-      <CommentSection comments={card.comments} />
+      <CommentSection cardId={card.id} comments={card.comments} />
     </Flow>
   );
 };

@@ -24,7 +24,7 @@ const NewList = ({ setVisible }: { setVisible: () => void }) => {
   const createListHandler = async () => {
     await createList({
       variables: {
-        list: {
+        data: {
           name: inputController.value,
           boardId: "6182d8c9bba2b2dfab68119d",
         },

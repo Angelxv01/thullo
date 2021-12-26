@@ -54,7 +54,7 @@ const Header = ({
   const handleTitleChange = async (e: ChangeEvent<HTMLParagraphElement>) =>
     changeTitle({
       variables: {
-        cardData: {
+        data: {
           listId: card.list.id,
           boardId: "6182d8c9bba2b2dfab68119d",
           id: card.id,
