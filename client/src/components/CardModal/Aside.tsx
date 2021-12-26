@@ -103,11 +103,9 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
     fetchPolicy: "cache-only",
   });
 
-  if (!data) return null;
-
   return (
     <Flow>
-      {card.members.map((member) => (
+      {[...card.members, card.author].map((member: Gql.User) => (
         <User user={member} key={member.id} />
       ))}
       <Button.IconColored onClick={setShowAddMember}>
@@ -117,7 +115,7 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
       {showAddMember && (
         <StyledInviteMemberWrapper>
           <InviteFriend
-            friends={data.board.members.map((member) => member.user)}
+            friends={data?.board.members.map((member) => member.user) || []}
           />
         </StyledInviteMemberWrapper>
       )}
