@@ -26,7 +26,7 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
       },
     ],
   });
-  const handleDescriptionChange = async () =>
+  const handleDescriptionChange = async () => {
     changeDescription({
       variables: {
         data: {
@@ -37,6 +37,8 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
         },
       },
     });
+    setEdit();
+  };
   const descriptionStyle = css`
     color: hsl(${({ theme }) => theme.color.DARK});
     font-size: ${({ theme }) => theme.font.size[400]};
@@ -49,14 +51,16 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
         <InfoLabel text="Description">
           <Icon.Description />
         </InfoLabel>
-        <Button.Outline
-          color="GRAY3"
-          style={{ padding: "0.25em 1em" }}
-          onClick={setEdit}
-        >
-          <Icon.Edit style={{ fontSize: theme.font.size[200] }} />
-          <Text fontSize={theme.font.size[200]}>Edit</Text>
-        </Button.Outline>
+        {edit && (
+          <Button.Outline
+            color="GRAY3"
+            style={{ padding: "0.25em 1em" }}
+            onClick={setEdit}
+          >
+            <Icon.Edit style={{ fontSize: theme.font.size[200] }} />
+            <Text fontSize={theme.font.size[200]}>Edit</Text>
+          </Button.Outline>
+        )}
       </Flex>
 
       {/* Content */}

@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
-import { Flex } from "../common";
+import { Flex, Flow } from "../common";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
 import Header from "./Header";
@@ -45,7 +45,8 @@ const CardModal = ({
         overflowY: "scroll",
       }}
     >
-      <div
+      <Flow
+        space="0.5em"
         style={{
           borderRadius: "8px",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
@@ -62,7 +63,7 @@ const CardModal = ({
           <Main card={card} />
           <Aside card={card} />
         </Flex>
-      </div>
+      </Flow>
     </div>
   );
 };
