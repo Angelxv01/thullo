@@ -102,7 +102,11 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
     variables: { id: "6182d8c9bba2b2dfab68119d" },
     fetchPolicy: "cache-only",
   });
-
+  const memberIds = [...card.members, card.author].map((member) => member.id);
+  const memberNotInCard = data?.board.members
+    .filter((member) => memberIds.indexOf(member.user.id) === -1)
+    .map((member) => member.user);
+  console.log(memberIds, memberNotInCard);
   return (
     <Flow>
       {[...card.members, card.author].map((member: Gql.User) => (
@@ -114,9 +118,7 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
       </Button.IconColored>
       {showAddMember && (
         <StyledInviteMemberWrapper>
-          <InviteFriend
-            friends={data?.board.members.map((member) => member.user) || []}
-          />
+          <InviteFriend friends={memberNotInCard || []} />
         </StyledInviteMemberWrapper>
       )}
     </Flow>

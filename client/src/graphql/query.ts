@@ -100,6 +100,8 @@ export const CARD = gql`
       }
       author {
         id
+        avatar
+        username
       }
     }
   }
