@@ -28,16 +28,18 @@ const StyledCommentForm = styled.div`
 
 const StyledCommentFlow = styled(Flow)`
   & > *:where(:not(:first-child)) {
-    border-top: 2px solid steelblue;
+    border-top: 1px solid #f2f2f2;
   }
 `;
 
 const CommentSection = ({
   comments,
   cardId,
+  cardAuthor,
 }: {
   comments: Gql.Comment[];
   cardId: string;
+  cardAuthor: string;
 }) => {
   const commentController = useTextArea();
   const { data } = useQuery<Data, { id: string }>(MASTER, {
@@ -59,6 +61,7 @@ const CommentSection = ({
   };
 
   if (!data) return null;
+  const isAuthor = data.authorizedUser.id === cardAuthor;
 
   return (
     <Flow>
@@ -77,7 +80,7 @@ const CommentSection = ({
       </StyledCommentForm>
       <StyledCommentFlow>
         {comments.map((comment) => (
-          <Comment comment={comment} key={comment.id} />
+          <Comment comment={comment} key={comment.id} isAuthor={isAuthor} />
         ))}
       </StyledCommentFlow>
     </Flow>

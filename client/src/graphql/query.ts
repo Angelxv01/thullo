@@ -98,6 +98,9 @@ export const CARD = gql`
         createdAt
         coverId
       }
+      author {
+        id
+      }
     }
   }
 `;

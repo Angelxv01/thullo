@@ -12,7 +12,13 @@ const StyledComment = styled.div`
   gap: 1em;
 `;
 
-const Comment = ({ comment }: { comment: Gql.Comment }) => {
+const Comment = ({
+  comment,
+  isAuthor,
+}: {
+  comment: Gql.Comment;
+  isAuthor: boolean;
+}) => {
   const commentDate = formatDate(comment.createdAt);
 
   return (
@@ -25,11 +31,14 @@ const Comment = ({ comment }: { comment: Gql.Comment }) => {
           <Text>{commentDate}</Text>
         </Flow>
         {/* Actions */}
-        <Flex style={{ alignItems: "center" }} space="0.25em">
-          <Text>Edit</Text>
-          <Text>-</Text>
-          <Text>Delete</Text>
-        </Flex>
+
+        {isAuthor && (
+          <Flex style={{ alignItems: "center" }} space="0.25em">
+            <Text>Edit</Text>
+            <Text>-</Text>
+            <Text>Delete</Text>
+          </Flex>
+        )}
       </StyledComment>
       {/* Content */}
       <Text className="comment-text">{comment.text}</Text>
