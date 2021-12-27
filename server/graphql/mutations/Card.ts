@@ -191,12 +191,23 @@ const resolvers = {
 
       return card.toJSON();
     },
+    // !!! This mutation is a toggle, not an add
     addLabel: async (_: never, args: AddLabelInput, ctx: Context) => {
       if (!ctx.currentUser) throw new ApolloError('Logged User Only');
       const label = await Label.findById(args.data.id);
       const card = await Card.findById(args.data.cardId);
       if (!(card && label)) throw new ApolloError('Invalid resources');
-      card.labels.push(label.id);
+
+      const isLabelInCard = card.labels.find(
+        label => String(label) === String(args.data.id)
+      );
+      if (isLabelInCard) {
+        card.labels = card.labels.filter(
+          label => String(label) !== String(args.data.id)
+        );
+      } else {
+        card.labels.push(label.id);
+      }
       await card.save();
       return card;
     },
