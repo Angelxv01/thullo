@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useTheme } from "styled-components";
 import * as Gql from "../../gqlTypes";
 import {
@@ -25,7 +25,8 @@ const AttachmentSection = ({
   >(CREATE_FILE_ATTACHMENT);
   const [state, setState] = useState<File | null>();
   const theme = useTheme();
-  const uploadHandler = () =>
+
+  const handleUploadFile = () =>
     createAttachment({
       variables: {
         data: {
@@ -34,6 +35,9 @@ const AttachmentSection = ({
         },
       },
     });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    e.target.validity.valid && setState(e.target.files?.item(0));
+
   return (
     <Flow>
       <Flex>
@@ -59,11 +63,8 @@ const AttachmentSection = ({
                 }}
               >
                 Hello world
-                <input
-                  onChange={(e) => setState(e.target.files?.item(0))}
-                  type="file"
-                />
-                <button onClick={uploadHandler}>Halo</button>
+                <input type="file" onChange={onChange} />
+                <button onClick={handleUploadFile}>Halo</button>
               </div>
             </Absolute>
           )}

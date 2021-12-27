@@ -9,7 +9,8 @@ import { Context } from '../..';
 import User from '../types/User';
 import { Label } from '../../models';
 import { createWriteStream } from 'fs';
-import { join, extname } from 'path';
+import { join } from 'path';
+import { finished } from 'stream/promises';
 
 interface CreateCardInput {
   id?: ObjectId;
@@ -172,12 +173,12 @@ const resolvers = {
     createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
       const { createReadStream, filename, mimetype, encoding } = await args.data
         .file;
-      console.log(filename, encoding, mimetype);
-      // const attachment = new Attachment();
-      // const stream = createReadStream();
-      // const out = createWriteStream(
-      //   join(__dirname, 'public', `${filename}_${attachment.id}`)
-      // );
+      const attachment = new Attachment();
+      const stream = createReadStream();
+      const str = join('./public', `${attachment.id}_${filename}`);
+      const out = createWriteStream(str);
+      stream.pipe(out);
+      await finished(stream);
     },
     changeList: async (
       _: never,

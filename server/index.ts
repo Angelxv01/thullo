@@ -16,7 +16,7 @@ mongoose
   .connect(MONGODB || '')
   .then(() => Logger.info('connected to MongoDB'))
   .catch(err => Logger.error(err));
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 export interface Context {
   currentUser?: UserDocument;
