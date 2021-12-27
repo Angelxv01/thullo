@@ -166,3 +166,20 @@ export const CREATE_COMMENT = gql`
     }
   }
 `;
+
+export interface AddMemberInput {
+  data: {
+    members: string[];
+    cardId: string;
+  };
+}
+
+export const ADD_MEMBER = gql`
+  mutation ADD_MEMBER($data: AddMemberInput) {
+    addMember(data: $data) {
+      members {
+        username
+      }
+    }
+  }
+`;

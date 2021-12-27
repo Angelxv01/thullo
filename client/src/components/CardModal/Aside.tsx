@@ -7,9 +7,10 @@ import User from "../User";
 import CoverModal from "./CoverModal";
 import LabelModal from "./LabelModal";
 import * as Gql from "../../gqlTypes";
-import { useQuery } from "@apollo/client";
-import { Data, MASTER } from "../../graphql/query";
+import { useMutation, useQuery } from "@apollo/client";
+import { CARD, Data, MASTER } from "../../graphql/query";
 import styled from "styled-components";
+import { AddMemberInput, ADD_MEMBER } from "../../graphql/mutation";
 
 const Aside = ({ card }: { card: Gql.Card }) => {
   const [showLabel, setShowLabel] = useVisibility();
@@ -102,13 +103,24 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
     variables: { id: "6182d8c9bba2b2dfab68119d" },
     fetchPolicy: "cache-only",
   });
+  const [addMember] = useMutation<{ addMember: Gql.Card }, AddMemberInput>(
+    ADD_MEMBER,
+    {
+      refetchQueries: [{ query: CARD, variables: { id: card.id } }],
+    }
+  );
+
+  const addMemberHandler = (ids: string[]) => {
+    addMember({ variables: { data: { cardId: card.id, members: ids } } });
+    setShowAddMember();
+  };
   const memberIds = card.members.map((member) => member.id);
   const memberNotInCard = data?.board.members
     .filter((member) => memberIds.indexOf(member.user.id) === -1)
     .map((member) => member.user);
   return (
     <Flow>
-      {[...card.members, card.author].map((member: Gql.User) => (
+      {card.members.map((member: Gql.User) => (
         <User user={member} key={member.id} />
       ))}
       <Button.IconColored onClick={setShowAddMember}>
@@ -119,7 +131,7 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
         <StyledInviteMemberWrapper>
           <InviteFriend
             friends={memberNotInCard || []}
-            action={() => console.log("hello")}
+            action={addMemberHandler}
           />
         </StyledInviteMemberWrapper>
       )}
