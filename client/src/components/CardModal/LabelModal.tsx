@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useTheme } from "styled-components";
 import * as Gql from "../../gqlTypes";
 import { AddLabelInput, ADD_LABEL } from "../../graphql/mutation";
 import { Labels } from "../Card/Utils";
-import { Flow, Icon, Label, Button, Text } from "../common";
+import { Flow, Icon, Label, Button, Text, Flex } from "../common";
 import InfoLabel from "../common/InfoLabel";
 import { CARD } from "../../graphql/query";
 
@@ -22,7 +22,10 @@ const LabelModal = ({
     ADD_LABEL,
     { refetchQueries: [{ query: CARD, variables: { id: cardId } }] }
   );
-
+  const [preview, setPreview] = useState<{
+    text: string;
+    color: Gql.Color;
+  }>({ text: "New label", color: Gql.Color.BLUE1 });
   const addLabelHandler = (id: string) => {
     addLabel({ variables: { data: { id, cardId } } });
   };
@@ -46,6 +49,18 @@ const LabelModal = ({
         <Text>Select a name and a color</Text>
       </div>
 
+      {/* Label previewer */}
+      {preview.text.length > 0 && (
+        <div>
+          <InfoLabel text="Preview">
+            <Icon.Label />
+          </InfoLabel>
+          <Flex>
+            <Label color={preview.color}>{preview.text}</Label>
+          </Flex>
+        </div>
+      )}
+
       {/* Labels */}
       <div style={{ filter: "drop-shadow(rgba(0, 0, 0, 0.1) 0px 4px 12px)" }}>
         <input
@@ -60,6 +75,10 @@ const LabelModal = ({
             lineHeight: "15px",
           }}
           placeholder="Label..."
+          onChange={({ target }) =>
+            setPreview({ ...preview, text: target.value })
+          }
+          value={preview.text}
         />
       </div>
       <div
@@ -78,6 +97,12 @@ const LabelModal = ({
               border: 0,
               borderRadius: "4px",
             }}
+            onClick={() =>
+              setPreview({
+                ...preview,
+                color: color as Gql.Color,
+              })
+            }
           ></button>
         ))}
       </div>
