@@ -10,7 +10,12 @@ import * as Gql from "../../gqlTypes";
 import { useMutation, useQuery } from "@apollo/client";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import styled from "styled-components";
-import { AddMemberInput, ADD_MEMBER } from "../../graphql/mutation";
+import {
+  AddMemberInput,
+  ADD_MEMBER,
+  CreateCardInput,
+  CREATE_CARD,
+} from "../../graphql/mutation";
 
 const Aside = ({ card }: { card: Gql.Card }) => {
   const [showLabel, setShowLabel] = useVisibility();
@@ -25,6 +30,23 @@ const Aside = ({ card }: { card: Gql.Card }) => {
   const availableLabels = data?.board.labels.filter(
     (label) => labelIds.indexOf(label.id) === -1
   );
+  const [addCover] = useMutation<{ createCard: Gql.Card }, CreateCardInput>(
+    CREATE_CARD,
+    { refetchQueries: [{ query: CARD, variables: { id: card.id } }] }
+  );
+
+  const addCoverHandler = (photo: string) => {
+    addCover({
+      variables: {
+        data: {
+          id: card.id,
+          listId: card.list.id,
+          boardId: "6182d8c9bba2b2dfab68119d",
+          coverId: photo,
+        },
+      },
+    });
+  };
 
   return (
     <Flow style={{ flex: 1 }}>
@@ -64,7 +86,7 @@ const Aside = ({ card }: { card: Gql.Card }) => {
           <Icon.Image />
           <Text>Cover</Text>
         </Button.Icon>
-        {showCover && <CoverModal />}
+        {showCover && <CoverModal addCover={addCoverHandler} />}
       </div>
     </Flow>
   );

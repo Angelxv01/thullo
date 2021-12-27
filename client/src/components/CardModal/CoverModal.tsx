@@ -7,13 +7,14 @@ interface ApiResult {
   urls: Record<string, string>;
 }
 
-const CoverModal = () => {
+const CoverModal = ({ addCover }: { addCover: (photo: string) => void }) => {
   const auth = {
     headers: {
       "Accept-Version": "v1",
       Authorization: `Client-ID ${REACT_APP_UNSPLASH_API}`,
     },
   };
+
   const [photos, setPhotos] = useState<ApiResult["urls"][]>([]);
   useEffect(() => {
     axios
@@ -57,6 +58,7 @@ const CoverModal = () => {
         >
           {photos.map((photo) => (
             <div
+              onClick={() => addCover(photo.raw)}
               key={photo.thumb}
               style={{
                 backgroundPosition: "cover",
