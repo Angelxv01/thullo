@@ -216,3 +216,22 @@ export const CREATE_LABEL = gql`
     }
   }
 `;
+
+export interface CreateAttachmentInput {
+  data: {
+    cardId?: string;
+    url?: string;
+    title?: string;
+    coverId?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    file?: File | null;
+  };
+}
+
+export const CREATE_FILE_ATTACHMENT = gql`
+  mutation CREATE_FILE_ATTACHMENT($data: CreateAttachmentInput) {
+    createFileAttachment(data: $data) {
+      title
+    }
+  }
+`;
