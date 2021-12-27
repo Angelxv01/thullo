@@ -2,6 +2,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { mergeResolvers } from '@graphql-tools/merge';
 import { gql } from 'apollo-server';
 import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
+import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload';
 
 // TYPES
 import Card from './types/Card';
@@ -29,6 +30,8 @@ import CommentMutation from './mutations/Comment';
 import LabelMutation from './mutations/Label';
 
 const rootTypeDefs = gql`
+  scalar Upload
+
   type Query {
     root: String
   }
@@ -61,6 +64,7 @@ const typeDefs = [
 ];
 
 const resolvers = mergeResolvers([
+  { Upload: GraphQLUpload },
   { DateTime: DateTimeResolver },
   Card.resolvers,
   List.resolvers,

@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
@@ -8,6 +8,9 @@ import schema from './graphql/schema';
 import User from './models/User';
 import { UserDocument } from './types';
 import createDataLoader, { Dataloaders } from './utils/createDataLoaders';
+
+import express from 'express';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 mongoose
   .connect(MONGODB || '')
@@ -20,20 +23,29 @@ export interface Context {
   dataLoader: ReturnType<Dataloaders>;
 }
 
-const server = new ApolloServer({
-  schema,
-  context: async ({ req }) => {
-    const auth = req ? req.headers.authorization : null;
-    const dataLoader = createDataLoader();
-    if (auth && auth.toLowerCase().startsWith('bearer ')) {
-      const { id } = jwt.verify(auth.substr(7), SECRET) as Record<
-        string,
-        string
-      >;
-      const currentUser = await User.findById(id);
-      return { currentUser, dataLoader };
-    }
-    return { dataLoader };
-  },
-});
-void server.listen().then(({ url }) => Logger.info(`Server ready at ${url}`));
+async function startServer() {
+  const server = new ApolloServer({
+    schema,
+    context: async ({ req }) => {
+      const auth = req ? req.headers.authorization : null;
+      const dataLoader = createDataLoader();
+      if (auth && auth.toLowerCase().startsWith('bearer ')) {
+        const { id } = jwt.verify(auth.substr(7), SECRET) as Record<
+          string,
+          string
+        >;
+        const currentUser = await User.findById(id);
+        return { currentUser, dataLoader };
+      }
+      return { dataLoader };
+    },
+  });
+
+  await server.start();
+  const app = express();
+  app.use(graphqlUploadExpress());
+  server.applyMiddleware({ app });
+  await new Promise<void>(r => app.listen({ port: 4000 }, r));
+  console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);
+}
+startServer();
