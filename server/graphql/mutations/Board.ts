@@ -129,13 +129,13 @@ const resolvers = {
         member => String(member.id) === String(ctx.currentUser.id)
       );
       if (!canInvite) throw new ApolloError('Unable to invite your friend');
-
-      const existOnBoard = (id: ObjectId) =>
-        !board.members.find(member => member.id === id);
-      const members = args.data.userId.filter(existOnBoard);
+      const memberIds = board.members.map(member => String(member.id));
+      const members = args.data.userId.filter(
+        id => memberIds.indexOf(String(id)) === -1
+      );
       const pushMember = (id: ObjectId) =>
         board.members.push({ id, role: Role.MEMBER });
-      args.data.userId.map(pushMember);
+      members.map(pushMember);
       await board.save();
 
       return board;
