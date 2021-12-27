@@ -6,6 +6,7 @@ import { IUser, AttachmentDocument, CardDocument } from '../../types';
 import Board from '../../models/Board';
 import List from '../../models/List';
 import { Context } from '../..';
+import User from '../types/User';
 
 interface CreateCardInput {
   id?: ObjectId;
@@ -20,6 +21,10 @@ interface CreateCardInput {
 interface IChangeList {
   cardId: ObjectId;
   listId: ObjectId;
+}
+
+interface AddMemberInput {
+  data: { members: ObjectId[]; cardId: ObjectId };
 }
 
 const typeDefs = gql`
@@ -42,10 +47,15 @@ const typeDefs = gql`
     cardId: ID!
     listId: ID!
   }
+  input AddMemberInput {
+    members: [ID!]!
+    cardId: ID!
+  }
   extend type Mutation {
     createCard(cardData: CreateCardInput): Card
     createAttachment(attachment: CreateAttachmentInput): Attachment
     changeList(data: ChangeList): Card
+    addMember(data: AddMemberInput): Card
   }
 `;
 
@@ -71,7 +81,11 @@ const resolvers = {
           new: true,
         })) as CardDocument;
       } else {
-        card = new Card({ ...newData, author: ctx.currentUser.id });
+        card = new Card({
+          ...newData,
+          author: ctx.currentUser.id,
+        });
+        card.members.push(ctx.currentUser.id);
       }
 
       if (!card) return;
@@ -146,6 +160,23 @@ const resolvers = {
       await cardExists.save();
 
       return cardExists.toJSON();
+    },
+    addMember: async (_: never, args: AddMemberInput, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      const card = await Card.findById(args.data.cardId);
+      if (!card) throw new ApolloError('Invalid resource');
+      const isAuthor = String(card.author) === String(ctx.currentUser.id);
+      if (!isAuthor) throw new ApolloError('Unauthorized');
+
+      const memberIds = card.members.map(member => String(member));
+      const users = args.data.members.filter(
+        id => memberIds.indexOf(String(id)) === -1
+      );
+
+      users.forEach(user => card.members.push(user));
+      card.save();
+
+      return card.toJSON();
     },
   },
 };
