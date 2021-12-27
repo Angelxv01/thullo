@@ -7,6 +7,7 @@ const typeDefs = gql`
     url: String!
     title: String
     coverId: String
+    metaData: Upload
     createdAt: DateTime!
     updatedAt: DateTime!
   }

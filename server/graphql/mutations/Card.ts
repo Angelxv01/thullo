@@ -8,6 +8,8 @@ import List from '../../models/List';
 import { Context } from '../..';
 import User from '../types/User';
 import { Label } from '../../models';
+import { createWriteStream } from 'fs';
+import { join, extname } from 'path';
 
 interface CreateCardInput {
   id?: ObjectId;
@@ -35,6 +37,16 @@ interface AddLabelInput {
   };
 }
 
+interface CreateAttachmentInput {
+  data: {
+    cardId: ObjectId;
+    url: string;
+    title: string;
+    coverId: string;
+    file: any;
+  };
+}
+
 const typeDefs = gql`
   input CreateCardInput {
     id: ID
@@ -46,10 +58,11 @@ const typeDefs = gql`
     coverId: String
   }
   input CreateAttachmentInput {
-    cardId: ID!
-    title: String!
+    cardId: ID
+    title: String
     coverId: String
-    url: String!
+    url: String
+    file: Upload
   }
   input ChangeList {
     cardId: ID!
@@ -69,6 +82,7 @@ const typeDefs = gql`
     changeList(data: ChangeList): Card
     addMember(data: AddMemberInput): Card
     addLabel(data: AddLabelInput): Card
+    createFileAttachment(data: CreateAttachmentInput): Attachment
   }
 `;
 
@@ -154,6 +168,16 @@ const resolvers = {
       return card.attachments.find(
         attachment => attachment.id === newAttachment.id
       );
+    },
+    createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
+      const { createReadStream, filename, mimetype, encoding } = await args.data
+        .file;
+      console.log(filename, encoding, mimetype);
+      // const attachment = new Attachment();
+      // const stream = createReadStream();
+      // const out = createWriteStream(
+      //   join(__dirname, 'public', `${filename}_${attachment.id}`)
+      // );
     },
     changeList: async (
       _: never,

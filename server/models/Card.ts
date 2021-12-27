@@ -11,6 +11,7 @@ const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
     url: String,
     title: String,
     coverId: String,
+    metaData: Object,
   },
   { timestamps: true }
 );

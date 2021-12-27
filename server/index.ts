@@ -30,7 +30,7 @@ async function startServer() {
       const auth = req ? req.headers.authorization : null;
       const dataLoader = createDataLoader();
       if (auth && auth.toLowerCase().startsWith('bearer ')) {
-        const { id } = jwt.verify(auth.substr(7), SECRET) as Record<
+        const { id } = jwt.verify(auth.substring(7), SECRET) as Record<
           string,
           string
         >;
@@ -43,7 +43,7 @@ async function startServer() {
 
   await server.start();
   const app = express();
-  app.use(graphqlUploadExpress());
+  app.use(graphqlUploadExpress({ maxFileSize: 5000000, maxFiles: 1 }));
   server.applyMiddleware({ app });
   await new Promise<void>(r => app.listen({ port: 4000 }, r));
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);

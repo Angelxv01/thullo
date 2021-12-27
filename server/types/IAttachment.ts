@@ -4,6 +4,7 @@ export interface IAttachment {
   url: string;
   title: string;
   coverId: string;
+  metaData: Object;
   createdAt: Date;
   updatedAt: Date;
 }
