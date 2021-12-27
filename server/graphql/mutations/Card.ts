@@ -7,6 +7,7 @@ import Board from '../../models/Board';
 import List from '../../models/List';
 import { Context } from '../..';
 import User from '../types/User';
+import { Label } from '../../models';
 
 interface CreateCardInput {
   id?: ObjectId;
@@ -25,6 +26,13 @@ interface IChangeList {
 
 interface AddMemberInput {
   data: { members: ObjectId[]; cardId: ObjectId };
+}
+
+interface AddLabelInput {
+  data: {
+    id: ObjectId;
+    cardId: ObjectId;
+  };
 }
 
 const typeDefs = gql`
@@ -51,11 +59,16 @@ const typeDefs = gql`
     members: [ID!]!
     cardId: ID!
   }
+  input AddLabelInput {
+    id: ID!
+    cardId: ID!
+  }
   extend type Mutation {
     createCard(cardData: CreateCardInput): Card
     createAttachment(attachment: CreateAttachmentInput): Attachment
     changeList(data: ChangeList): Card
     addMember(data: AddMemberInput): Card
+    addLabel(data: AddLabelInput): Card
   }
 `;
 
@@ -177,6 +190,15 @@ const resolvers = {
       card.save();
 
       return card.toJSON();
+    },
+    addLabel: async (_: never, args: AddLabelInput, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      const label = await Label.findById(args.data.id);
+      const card = await Card.findById(args.data.cardId);
+      if (!(card && label)) throw new ApolloError('Invalid resources');
+      card.labels.push(label.id);
+      await card.save();
+      return card;
     },
   },
 };
