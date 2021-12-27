@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import * as Gql from "../gqlTypes";
+import { Color } from "../gqlTypes";
 
 export interface Var {
   data: {
@@ -195,6 +196,23 @@ export const ADD_LABEL = gql`
   mutation ($data: AddLabelInput) {
     addLabel(data: $data) {
       id
+    }
+  }
+`;
+
+export interface CreateLabelInput {
+  data: {
+    boardId?: string;
+    cardId?: string;
+    text?: string;
+    color?: Color;
+  };
+}
+
+export const CREATE_LABEL = gql`
+  mutation CREATE_LABEL($data: createLabelInput) {
+    createLabel(labelData: $data) {
+      text
     }
   }
 `;

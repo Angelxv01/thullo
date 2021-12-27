@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useTheme } from "styled-components";
 import * as Gql from "../../gqlTypes";
-import { AddLabelInput, ADD_LABEL } from "../../graphql/mutation";
+import {
+  AddLabelInput,
+  ADD_LABEL,
+  CreateLabelInput,
+  CREATE_LABEL,
+} from "../../graphql/mutation";
 import { Labels } from "../Card/Utils";
 import { Flow, Icon, Label, Button, Text, Flex } from "../common";
 import InfoLabel from "../common/InfoLabel";
 import { CARD } from "../../graphql/query";
+
+const previewDefault = { text: "New label", color: Gql.Color.BLUE1 };
 
 const LabelModal = ({
   cardId,
@@ -22,12 +29,28 @@ const LabelModal = ({
     ADD_LABEL,
     { refetchQueries: [{ query: CARD, variables: { id: cardId } }] }
   );
+  const [createLabel] = useMutation<
+    { createLabel: Gql.Label },
+    CreateLabelInput
+  >(CREATE_LABEL, {
+    refetchQueries: [{ query: CARD, variables: { id: cardId } }],
+  });
+
   const [preview, setPreview] = useState<{
     text: string;
     color: Gql.Color;
-  }>({ text: "New label", color: Gql.Color.BLUE1 });
+  }>(previewDefault);
   const addLabelHandler = (id: string) => {
     addLabel({ variables: { data: { id, cardId } } });
+  };
+
+  const createLabelHandler = () => {
+    createLabel({
+      variables: {
+        data: { boardId: "6182d8c9bba2b2dfab68119d", cardId, ...preview },
+      },
+    });
+    setPreview(previewDefault);
   };
 
   return (
@@ -145,7 +168,12 @@ const LabelModal = ({
           </>
         )}
         <div style={{ textAlign: "center", paddingTop: "1em" }}>
-          <Button.Colored style={{ padding: "0.75em 2em" }}>Add</Button.Colored>
+          <Button.Colored
+            style={{ padding: "0.75em 2em" }}
+            onClick={createLabelHandler}
+          >
+            Add
+          </Button.Colored>
         </div>
       </Flow>
     </Flow>
