@@ -8,13 +8,11 @@ import Infobar from "./components/Infobar";
 import Kanban from "./components/Kanban";
 
 const App = () => {
-  // const theme = useTheme();
   const ctx = useQuery<Data, Var>(MASTER, {
     variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
 
-  if (!ctx.data) return null;
-  // console.log(ctx.data);
+  if (!ctx) return null;
 
   return (
     <Container>

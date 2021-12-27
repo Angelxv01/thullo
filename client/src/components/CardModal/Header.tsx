@@ -62,7 +62,6 @@ const Header = ({
         },
       },
     });
-  // console.log(e.target.outerText);
   return (
     <StyledHeader space="0.5em" hasCover={Boolean(card.coverId)}>
       {/* Offsettable button */}
