@@ -23,8 +23,8 @@ const VisibilityCard = ({ setVisible }: { setVisible: () => void }) => {
     }
   );
 
-  const handleChangeVisibility = async (visibility: Gql.Visibility) => {
-    await changeVisibility({
+  const handleChangeVisibility = (visibility: Gql.Visibility) => {
+    changeVisibility({
       variables: {
         data: {
           id: boardId,

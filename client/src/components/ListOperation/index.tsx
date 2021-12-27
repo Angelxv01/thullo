@@ -34,8 +34,8 @@ const ListOperation = ({ list }: { list: Gql.List }) => {
     }
   );
 
-  const handleChangeListName = async () => {
-    await changeListName({
+  const handleChangeListName = () => {
+    changeListName({
       variables: {
         data: {
           name: controller.value,
@@ -46,7 +46,7 @@ const ListOperation = ({ list }: { list: Gql.List }) => {
     setRename();
   };
 
-  const handleDeleteList = async () =>
+  const handleDeleteList = () =>
     deleteList({ variables: { data: { id: list.id } } });
 
   return (

@@ -27,11 +27,11 @@ const Kanban = () => {
 
   const [visible, setVisible] = useVisibility();
 
-  const onDrop = async (result: DropResult) => {
+  const onDrop = (result: DropResult) => {
     const { draggableId: cardId, destination } = result;
     const listId = destination?.droppableId;
     if (!listId) return;
-    await changeList({ variables: { data: { cardId, listId } } });
+    changeList({ variables: { data: { cardId, listId } } });
   };
 
   return (

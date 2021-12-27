@@ -4,6 +4,9 @@ import { Button, Icon } from "../common";
 import * as Gql from "../../gqlTypes";
 import Toggle from "../Toggle";
 import InviteFriend from "../InviteFriend";
+import { useMutation } from "@apollo/client";
+import { InviteUserInput, INVITE_USER } from "../../graphql/mutation";
+import { MASTER, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
 
 const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
   const theme = useTheme();
@@ -19,13 +22,38 @@ const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
       borderRadius: theme.border.radius[2],
     },
   };
+
+  const [inviteUser] = useMutation<{ inviteUser: Gql.Board }, InviteUserInput>(
+    INVITE_USER,
+    {
+      refetchQueries: [
+        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+        {
+          query: FRIENDS_NOT_IN_BOARD,
+          variables: { id: "6182d8c9bba2b2dfab68119d" },
+        },
+      ],
+    }
+  );
+
+  const inviteUserHandler = (selected: string[]) => {
+    inviteUser({
+      variables: {
+        data: {
+          userId: selected,
+          boardId: "6182d8c9bba2b2dfab68119d",
+        },
+      },
+    });
+  };
+
   return (
     <Toggle props={ToggleStyle}>
       {/* Button */}
       <Button.Squared>
         <Icon.Add />
       </Button.Squared>
-      <InviteFriend friends={friends} />
+      <InviteFriend friends={friends} action={inviteUserHandler} />
     </Toggle>
   );
 };

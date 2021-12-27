@@ -51,7 +51,7 @@ const Header = ({
       ],
     }
   );
-  const handleTitleChange = async (e: ChangeEvent<HTMLParagraphElement>) =>
+  const handleTitleChange = (e: ChangeEvent<HTMLParagraphElement>) =>
     changeTitle({
       variables: {
         data: {

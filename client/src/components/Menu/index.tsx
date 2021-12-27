@@ -138,8 +138,8 @@ const Description = ({ value }: { value: string }) => {
     setEdit();
   };
 
-  const onSave = async () => {
-    await changeDescription({
+  const onSave = () => {
+    changeDescription({
       variables: {
         boardData: {
           description: textAreaController.value,
@@ -224,7 +224,7 @@ const Team = () => {
     (member) => member.user.id === ctx.data?.authorizedUser.id
   );
   const isAdmin = user ? user.role !== "MEMBER" : false;
-  const deleteUserHandler = async (id: string) =>
+  const deleteUserHandler = (id: string) =>
     deleteUser({
       variables: { data: { boardId: "6182d8c9bba2b2dfab68119d", userId: id } },
     });

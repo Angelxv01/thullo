@@ -11,7 +11,7 @@ const Card = ({
 }: {
   children: React.ReactNode;
   description: string;
-  onClick: () => Promise<void>;
+  onClick: () => void;
 }) => {
   const theme = useTheme();
   return (

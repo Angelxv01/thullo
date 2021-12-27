@@ -26,7 +26,7 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
       },
     ],
   });
-  const handleDescriptionChange = async () => {
+  const handleDescriptionChange = () => {
     changeDescription({
       variables: {
         data: {

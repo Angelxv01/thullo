@@ -53,8 +53,8 @@ const CommentSection = ({
     refetchQueries: [{ query: CARD, variables: { id: cardId } }],
   });
 
-  const createCommentHandler = async () => {
-    await createComment({
+  const createCommentHandler = () => {
+    createComment({
       variables: { data: { text: commentController.value, cardId } },
     });
     commentController.setValue("");

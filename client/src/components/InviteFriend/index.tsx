@@ -4,26 +4,17 @@ import { InputGroup, Flow, Text, Button, Icon, Flex } from "../common";
 import User from "../User";
 import StyledFriendFlow from "./StyledFriendFlow";
 import * as Gql from "../../gqlTypes";
-import { useMutation } from "@apollo/client";
-import { InviteUserInput, INVITE_USER } from "../../graphql/mutation";
-import { FRIENDS_NOT_IN_BOARD, MASTER } from "../../graphql/query";
 
-const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
+const InviteFriend = ({
+  friends,
+  action,
+}: {
+  friends: Gql.User[];
+  action: (ids: string[]) => void;
+}) => {
   const theme = useTheme();
 
   const [selected, setSelected] = useState<string[]>([]);
-  const [inviteUser] = useMutation<{ inviteUser: Gql.Board }, InviteUserInput>(
-    INVITE_USER,
-    {
-      refetchQueries: [
-        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-        {
-          query: FRIENDS_NOT_IN_BOARD,
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
-        },
-      ],
-    }
-  );
 
   const handleSelectUser = (id: string) =>
     setSelected(
@@ -32,15 +23,9 @@ const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
         : [...selected, id]
     );
 
-  const inviteUserHandler = async () =>
-    inviteUser({
-      variables: {
-        data: {
-          userId: selected,
-          boardId: "6182d8c9bba2b2dfab68119d",
-        },
-      },
-    });
+  const clickHandler = () => {
+    action(selected);
+  };
 
   return (
     <Flow space="1em" style={{ minWidth: "20em" }}>
@@ -70,7 +55,7 @@ const InviteFriend = ({ friends }: { friends: Gql.User[] }) => {
       <Flow style={{ textAlign: "center", marginTop: "2em" }}>
         <Button.Colored
           style={{ padding: "0.75em 1em" }}
-          onClick={inviteUserHandler}
+          onClick={clickHandler}
         >
           Invite
         </Button.Colored>

@@ -39,8 +39,8 @@ const NewCard = ({
     }
   );
 
-  const createCard = async () => {
-    await create({
+  const createCard = () => {
+    create({
       variables: {
         data: {
           title: controller.value,

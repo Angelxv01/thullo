@@ -118,7 +118,10 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
       </Button.IconColored>
       {showAddMember && (
         <StyledInviteMemberWrapper>
-          <InviteFriend friends={memberNotInCard || []} />
+          <InviteFriend
+            friends={memberNotInCard || []}
+            action={() => console.log("hello")}
+          />
         </StyledInviteMemberWrapper>
       )}
     </Flow>
