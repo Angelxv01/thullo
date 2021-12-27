@@ -6,17 +6,21 @@ import { AddLabelInput, ADD_LABEL } from "../../graphql/mutation";
 import { Labels } from "../Card/Utils";
 import { Flow, Icon, Label, Button, Text } from "../common";
 import InfoLabel from "../common/InfoLabel";
+import { CARD } from "../../graphql/query";
 
 const LabelModal = ({
-  labels,
   cardId,
+  available,
+  active,
 }: {
-  labels: Gql.Label[];
+  available: Gql.Label[];
+  active: Gql.Label[];
   cardId: string;
 }) => {
   const theme = useTheme();
   const [addLabel] = useMutation<{ addLabel: Gql.Card }, AddLabelInput>(
-    ADD_LABEL
+    ADD_LABEL,
+    { refetchQueries: [{ query: CARD, variables: { id: cardId } }] }
   );
 
   const addLabelHandler = (id: string) => {
@@ -79,20 +83,42 @@ const LabelModal = ({
       </div>
 
       <Flow style={{ alignItems: "center" }} space="0.5em">
-        <InfoLabel text="Available">
-          <Icon.Label />
-        </InfoLabel>
-        <Labels style={{ gap: "1em" }}>
-          {labels.map((label) => (
-            <Label
-              color={label.color}
-              key={label.id}
-              onClick={() => addLabelHandler(label.id)}
-            >
-              {label.text}
-            </Label>
-          ))}
-        </Labels>
+        {available.length > 0 && (
+          <>
+            <InfoLabel text="Available">
+              <Icon.Label />
+            </InfoLabel>
+            <Labels style={{ gap: "1em" }}>
+              {available.map((label) => (
+                <Label
+                  color={label.color}
+                  key={label.id}
+                  onClick={() => addLabelHandler(label.id)}
+                >
+                  {label.text}
+                </Label>
+              ))}
+            </Labels>
+          </>
+        )}
+        {active.length > 0 && (
+          <>
+            <InfoLabel text="Active">
+              <Icon.Label />
+            </InfoLabel>
+            <Labels style={{ gap: "1em" }}>
+              {active.map((label) => (
+                <Label
+                  color={label.color}
+                  key={label.id}
+                  onClick={() => addLabelHandler(label.id)}
+                >
+                  {label.text}
+                </Label>
+              ))}
+            </Labels>
+          </>
+        )}
         <div style={{ textAlign: "center", paddingTop: "1em" }}>
           <Button.Colored style={{ padding: "0.75em 2em" }}>Add</Button.Colored>
         </div>

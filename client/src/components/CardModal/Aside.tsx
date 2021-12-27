@@ -20,8 +20,11 @@ const Aside = ({ card }: { card: Gql.Card }) => {
     variables: { id: "6182d8c9bba2b2dfab68119d" },
     fetchPolicy: "cache-only",
   });
-
   if (!data) return null;
+  const labelIds = card.labels.map((label) => label.id);
+  const availableLabels = data?.board.labels.filter(
+    (label) => labelIds.indexOf(label.id) === -1
+  );
 
   return (
     <Flow style={{ flex: 1 }}>
@@ -43,7 +46,11 @@ const Aside = ({ card }: { card: Gql.Card }) => {
           <Text>Labels</Text>
         </Button.Icon>
         {showLabel && (
-          <LabelModal cardId={card.id} labels={data.board.labels} />
+          <LabelModal
+            cardId={card.id}
+            available={availableLabels}
+            active={card.labels}
+          />
         )}
       </div>
       {/* Covers */}
