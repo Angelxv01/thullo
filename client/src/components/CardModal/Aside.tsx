@@ -42,7 +42,9 @@ const Aside = ({ card }: { card: Gql.Card }) => {
           <Icon.Label />
           <Text>Labels</Text>
         </Button.Icon>
-        {showLabel && <LabelModal labels={data.board.labels} />}
+        {showLabel && (
+          <LabelModal cardId={card.id} labels={data.board.labels} />
+        )}
       </div>
       {/* Covers */}
       <div style={{ position: "relative" }}>

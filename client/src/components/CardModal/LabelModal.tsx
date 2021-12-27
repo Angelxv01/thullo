@@ -1,12 +1,28 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import { useTheme } from "styled-components";
 import * as Gql from "../../gqlTypes";
+import { AddLabelInput, ADD_LABEL } from "../../graphql/mutation";
 import { Labels } from "../Card/Utils";
 import { Flow, Icon, Label, Button, Text } from "../common";
 import InfoLabel from "../common/InfoLabel";
 
-const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
+const LabelModal = ({
+  labels,
+  cardId,
+}: {
+  labels: Gql.Label[];
+  cardId: string;
+}) => {
   const theme = useTheme();
+  const [addLabel] = useMutation<{ addLabel: Gql.Card }, AddLabelInput>(
+    ADD_LABEL
+  );
+
+  const addLabelHandler = (id: string) => {
+    addLabel({ variables: { data: { id, cardId } } });
+  };
+
   return (
     <Flow
       style={{
@@ -68,7 +84,11 @@ const LabelModal = ({ labels }: { labels: Gql.Label[] }) => {
         </InfoLabel>
         <Labels style={{ gap: "1em" }}>
           {labels.map((label) => (
-            <Label color={label.color} key={label.id}>
+            <Label
+              color={label.color}
+              key={label.id}
+              onClick={() => addLabelHandler(label.id)}
+            >
               {label.text}
             </Label>
           ))}

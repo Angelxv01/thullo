@@ -183,3 +183,18 @@ export const ADD_MEMBER = gql`
     }
   }
 `;
+
+export interface AddLabelInput {
+  data: {
+    id: string;
+    cardId: string;
+  };
+}
+
+export const ADD_LABEL = gql`
+  mutation ($data: AddLabelInput) {
+    addLabel(data: $data) {
+      id
+    }
+  }
+`;
