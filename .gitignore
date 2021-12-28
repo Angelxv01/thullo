@@ -1,7 +1,0 @@
-node_modules
-.env
-build
-.vscode
-cypress/videos
-cypress/screenshots
-req.rest
