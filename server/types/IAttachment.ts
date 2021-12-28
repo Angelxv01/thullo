@@ -1,7 +1,6 @@
-import { Document, Model, ObjectId } from 'mongoose';
+import { Document, Model, ObjectId } from "mongoose";
 
 export interface IAttachment {
-  url: string;
   title: string;
   coverId: string;
   cardId: ObjectId;

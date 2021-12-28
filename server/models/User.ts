@@ -1,7 +1,7 @@
-import { Schema, model, ObjectId } from 'mongoose';
-import bcrypt from 'bcryptjs';
-import { SALT_ROUND } from '../utils/config';
-import { UserDocument, UserModel } from '../types';
+import { Schema, model, ObjectId } from "mongoose";
+import bcrypt from "bcryptjs";
+import { SALT_ROUND } from "../utils/config";
+import { UserDocument, UserModel } from "../types";
 
 const schema = new Schema<UserDocument, UserModel>(
   {
@@ -15,7 +15,7 @@ const schema = new Schema<UserDocument, UserModel>(
     email: String,
     avatar: String,
     passwordHash: String,
-    friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -27,8 +27,8 @@ schema.methods.comparePasswords = async function (
   return bcrypt.compare(password, this.passwordHash);
 };
 
-schema.pre<UserDocument>('save', async function (next: () => void) {
-  if (this.isNew || this.isModified('passwordHash')) {
+schema.pre<UserDocument>("save", async function (next: () => void) {
+  if (this.isNew || this.isModified("passwordHash")) {
     this.passwordHash = await bcrypt.hash(
       this.passwordHash,
       Number(SALT_ROUND)
@@ -37,7 +37,7 @@ schema.pre<UserDocument>('save', async function (next: () => void) {
   next();
 });
 
-schema.set('toJSON', {
+schema.set("toJSON", {
   versionKey: false,
   transform: (_, ret: Partial<UserDocument>) => {
     ret.id = ret._id as ObjectId;
@@ -46,4 +46,4 @@ schema.set('toJSON', {
   },
 });
 
-export default model<UserDocument, UserModel>('User', schema);
+export default model<UserDocument, UserModel>("User", schema);

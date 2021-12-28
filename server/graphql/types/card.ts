@@ -9,7 +9,6 @@ import {
 
 const typeDefs = gql`
   type Attachment {
-    url: String!
     title: String
     coverId: String
     path: String
@@ -54,9 +53,6 @@ const resolvers = {
   },
   Label: {
     color: (root: LabelDocument) => Color[root.color],
-  },
-  Attachment: {
-    url: (root: AttachmentDocument) => new URL(root.path, new URL("./public")),
   },
 };
 

@@ -1,17 +1,16 @@
-import { Schema, model, ObjectId } from 'mongoose';
+import { Schema, model, ObjectId } from "mongoose";
 import {
   AttachmentDocument,
   AttachmentModel,
   CardDocument,
   CardModel,
-} from '../types';
+} from "../types";
 
 const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
   {
-    url: String,
     title: String,
     coverId: String,
-    cardId: { type: Schema.Types.ObjectId, ref: 'Card' },
+    cardId: { type: Schema.Types.ObjectId, ref: "Card" },
     path: String,
   },
   { timestamps: true }
@@ -21,18 +20,18 @@ const schema = new Schema<CardDocument, CardModel>(
   {
     title: String,
     description: String,
-    boardId: { type: Schema.Types.ObjectId, ref: 'Board' },
-    listId: { type: Schema.Types.ObjectId, ref: 'List' },
-    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    boardId: { type: Schema.Types.ObjectId, ref: "Board" },
+    listId: { type: Schema.Types.ObjectId, ref: "List" },
+    members: [{ type: Schema.Types.ObjectId, ref: "User" }],
     coverId: String,
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-    labels: [{ type: Schema.Types.ObjectId, ref: 'Label' }],
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    labels: [{ type: Schema.Types.ObjectId, ref: "Label" }],
+    author: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
 
-schema.set('toJSON', {
+schema.set("toJSON", {
   versionKey: false,
   transform: (_doc, ret: Partial<CardDocument>) => {
     ret.id = ret._id as ObjectId;
@@ -41,7 +40,7 @@ schema.set('toJSON', {
 });
 
 export const Attachment = model<AttachmentDocument, AttachmentModel>(
-  'Attachment',
+  "Attachment",
   attachmentSchema
 );
-export default model<CardDocument, CardModel>('Card', schema);
+export default model<CardDocument, CardModel>("Card", schema);
