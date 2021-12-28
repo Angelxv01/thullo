@@ -1,9 +1,8 @@
-import { ApolloError, gql } from 'apollo-server';
-import { ObjectId } from 'mongoose';
-import { UserDocument } from '../../types';
-import Logger from '../../../utils/Logger';
-import Comment from '../../models/Comment';
-import Card from '../../models/Card';
+import { ApolloError, gql } from "apollo-server";
+import { ObjectId } from "mongoose";
+import { UserDocument } from "../../types";
+import Comment from "../../models/Comment";
+import Card from "../../models/Card";
 
 interface CommentInput {
   commentId?: ObjectId;
@@ -34,15 +33,15 @@ const resolvers = {
       }
     ) => {
       if (!currentUser) {
-        throw new ApolloError('Only logged user can create Comment');
+        throw new ApolloError("Only logged user can create Comment");
       }
 
       try {
         const card = await Card.findById(commentData.cardId);
         if (!(card || commentData.commentId))
-          throw new ApolloError('Invalid Card');
+          throw new ApolloError("Invalid Card");
       } catch (error) {
-        throw new ApolloError('Invalid Card');
+        throw new ApolloError("Invalid Card");
       }
 
       const comment = new Comment({
@@ -55,8 +54,8 @@ const resolvers = {
       try {
         await comment.save();
       } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Cannot save the comment');
+        console.error(error);
+        throw new ApolloError("Cannot save the comment");
       }
 
       return comment;

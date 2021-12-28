@@ -1,22 +1,21 @@
-import { ApolloServer } from 'apollo-server-express';
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
+import { ApolloServer } from "apollo-server-express";
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
-import Logger from '../utils/Logger';
-import { MONGODB, SECRET } from './utils/config';
-import schema from './graphql/schema';
-import User from './models/User';
-import { UserDocument } from './types';
-import createDataLoader, { Dataloaders } from './utils/createDataLoaders';
+import { MONGODB, SECRET } from "./utils/config";
+import schema from "./graphql/schema";
+import User from "./models/User";
+import { UserDocument } from "./types";
+import createDataLoader, { Dataloaders } from "./utils/createDataLoaders";
 
-import express, { Request } from 'express';
-import { graphqlUploadExpress } from 'graphql-upload';
-import { existsSync } from 'fs';
+import express, { Request } from "express";
+import { graphqlUploadExpress } from "graphql-upload";
+import { existsSync } from "fs";
 
 mongoose
-  .connect(MONGODB || '')
-  .then(() => Logger.info('connected to MongoDB'))
-  .catch(err => Logger.error(err));
+  .connect(MONGODB || "")
+  .then(() => console.log("connected to MongoDB"))
+  .catch((err) => console.error(err));
 // mongoose.set('debug', true);
 
 export interface Context {
@@ -30,7 +29,7 @@ async function startServer() {
     context: async ({ req }) => {
       const auth = req ? req.headers.authorization : null;
       const dataLoader = createDataLoader();
-      if (auth && auth.toLowerCase().startsWith('bearer ')) {
+      if (auth && auth.toLowerCase().startsWith("bearer ")) {
         const { id } = jwt.verify(auth.substring(7), SECRET) as Record<
           string,
           string
@@ -46,12 +45,12 @@ async function startServer() {
   const app = express();
   app.use(graphqlUploadExpress({ maxFileSize: 5000000, maxFiles: 1 }));
   app.use(express.json());
-  app.post('/download', (req: Request<{}, {}, { path: string }>, res) => {
+  app.post("/download", (req: Request<{}, {}, { path: string }>, res) => {
     if (existsSync(req.path)) return res.download(req.path);
     return res.status(400);
   });
   server.applyMiddleware({ app });
-  await new Promise<void>(r => app.listen({ port: 4000 }, r));
+  await new Promise<void>((r) => app.listen({ port: 4000 }, r));
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 startServer();

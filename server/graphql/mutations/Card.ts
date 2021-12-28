@@ -1,16 +1,15 @@
-import { ApolloError, gql } from 'apollo-server';
-import { ObjectId } from 'mongoose';
-import Logger from '../../../utils/Logger';
-import Card, { Attachment } from '../../models/Card';
-import { IUser, AttachmentDocument, CardDocument } from '../../types';
-import Board from '../../models/Board';
-import List from '../../models/List';
-import { Context } from '../..';
-import User from '../types/User';
-import { Label } from '../../models';
-import { createWriteStream } from 'fs';
-import { join, parse } from 'path';
-import { finished } from 'stream/promises';
+import { ApolloError, gql } from "apollo-server";
+import { ObjectId } from "mongoose";
+import Card, { Attachment } from "../../models/Card";
+import { IUser, AttachmentDocument, CardDocument } from "../../types";
+import Board from "../../models/Board";
+import List from "../../models/List";
+import { Context } from "../..";
+import User from "../types/User";
+import { Label } from "../../models";
+import { createWriteStream } from "fs";
+import { join, parse } from "path";
+import { finished } from "stream/promises";
 
 interface CreateCardInput {
   id?: ObjectId;
@@ -94,13 +93,13 @@ const resolvers = {
       { cardData }: { cardData: CreateCardInput },
       ctx: Context
     ) => {
-      if (!ctx.currentUser) throw new ApolloError('Login to create');
+      if (!ctx.currentUser) throw new ApolloError("Login to create");
       const boardExist = await Board.findById(cardData.boardId);
       const listExist = cardData.listId
         ? await List.findById(cardData.listId)
         : true;
       if (!(boardExist && listExist))
-        throw new ApolloError('Invalid Board or List ID');
+        throw new ApolloError("Invalid Board or List ID");
       const { id, ...newData } = cardData;
 
       let card: CardDocument;
@@ -172,12 +171,12 @@ const resolvers = {
     // },
     createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
       const card = await Card.findById(args.data.cardId);
-      if (!card) throw new ApolloError('Invalid resources');
+      if (!card) throw new ApolloError("Invalid resources");
       const { createReadStream, filename, mimetype, encoding } = await args.data
         .file;
       const attachment = new Attachment({ cardId: args.data.cardId });
       const stream = createReadStream();
-      const str = join('./public', `${attachment.id}_${filename}`);
+      const str = join("./public", `${attachment.id}_${filename}`);
       attachment.path = str;
       attachment.title = parse(filename).name;
       const out = createWriteStream(str);
@@ -191,14 +190,14 @@ const resolvers = {
       { data }: { data: IChangeList },
       ctx: Context
     ) => {
-      if (!ctx.currentUser) throw new ApolloError('Unauthorized');
+      if (!ctx.currentUser) throw new ApolloError("Unauthorized");
       const cardExists = await Card.findById(data.cardId);
       const listExists = await List.findById(data.listId);
       if (
         !(cardExists && listExists) ||
         String(cardExists.boardId) !== String(listExists.boardId)
       ) {
-        throw new ApolloError('Invalid operation');
+        throw new ApolloError("Invalid operation");
       }
       cardExists.listId = listExists.id as ObjectId;
       await cardExists.save();
@@ -206,35 +205,35 @@ const resolvers = {
       return cardExists.toJSON();
     },
     addMember: async (_: never, args: AddMemberInput, ctx: Context) => {
-      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
       const card = await Card.findById(args.data.cardId);
-      if (!card) throw new ApolloError('Invalid resource');
+      if (!card) throw new ApolloError("Invalid resource");
       const isAuthor = String(card.author) === String(ctx.currentUser.id);
-      if (!isAuthor) throw new ApolloError('Unauthorized');
+      if (!isAuthor) throw new ApolloError("Unauthorized");
 
-      const memberIds = card.members.map(member => String(member));
+      const memberIds = card.members.map((member) => String(member));
       const users = args.data.members.filter(
-        id => memberIds.indexOf(String(id)) === -1
+        (id) => memberIds.indexOf(String(id)) === -1
       );
 
-      users.forEach(user => card.members.push(user));
+      users.forEach((user) => card.members.push(user));
       card.save();
 
       return card.toJSON();
     },
     // !!! This mutation is a toggle, not an add
     addLabel: async (_: never, args: AddLabelInput, ctx: Context) => {
-      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
       const label = await Label.findById(args.data.id);
       const card = await Card.findById(args.data.cardId);
-      if (!(card && label)) throw new ApolloError('Invalid resources');
+      if (!(card && label)) throw new ApolloError("Invalid resources");
 
       const isLabelInCard = card.labels.find(
-        label => String(label) === String(args.data.id)
+        (label) => String(label) === String(args.data.id)
       );
       if (isLabelInCard) {
         card.labels = card.labels.filter(
-          label => String(label) !== String(args.data.id)
+          (label) => String(label) !== String(args.data.id)
         );
       } else {
         card.labels.push(label.id);
