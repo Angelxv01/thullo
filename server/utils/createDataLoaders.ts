@@ -4,10 +4,16 @@ import mongoose, { ObjectId } from 'mongoose';
 import User from '../models/User';
 import Board from '../models/Board';
 import List from '../models/List';
-import Card from '../models/Card';
+import Card, { Attachment } from '../models/Card';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
-import { BoardDocument, CommentDocument, IBoard, IComment } from '../types';
+import {
+  AttachmentDocument,
+  BoardDocument,
+  CommentDocument,
+  IBoard,
+  IComment,
+} from '../types';
 
 type Unknown = mongoose.Document<unknown> & {
   _id: mongoose.Types.ObjectId;
@@ -67,6 +73,17 @@ const batchCommentCard = async (keys: readonly ObjectId[]) => {
   );
 };
 
+const batchAttachmentCard = async (keys: readonly ObjectId[]) => {
+  const data = await Attachment.find({
+    cardId: { $in: keys as unknown as ObjectId[] },
+  });
+  const result = data.map(obj => obj.toJSON()) as AttachmentDocument[];
+
+  return keys.map(key =>
+    result.filter(obj => String(obj.cardId) === String(key))
+  );
+};
+
 const batchCommentParent = async (keys: readonly ObjectId[]) => {
   const data = await Comment.find({
     parentId: { $in: keys as unknown as ObjectId[] },
@@ -102,6 +119,7 @@ const createDataLoader = () => {
     CardBoard: boardLoader(Card),
     LabelBoard: boardLoader(Label),
     CommentCard: new DataLoader(batchCommentCard, { cacheKeyFn }),
+    AttachmentCard: new DataLoader(batchAttachmentCard, { cacheKeyFn }),
     CommentReply: new DataLoader(batchCommentParent, { cacheKeyFn }),
     CardList: new DataLoader(batchCardList, { cacheKeyFn }),
   } as const;

@@ -7,7 +7,7 @@ const typeDefs = gql`
     url: String!
     title: String
     coverId: String
-    metaData: Upload
+    path: String
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -44,6 +44,8 @@ const resolvers = {
       ctx.dataLoader.ListLoader.load(root.listId),
     author: async (root: CardDocument, _: never, ctx: Context) =>
       ctx.dataLoader.UserLoader.load(root.author),
+    attachments: async (root: CardDocument, _: never, ctx: Context) =>
+      ctx.dataLoader.AttachmentCard.load(root.id),
   },
   Label: {
     color: (root: LabelDocument) => Color[root.color],

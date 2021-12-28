@@ -11,7 +11,7 @@ const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
     url: String,
     title: String,
     coverId: String,
-    cardId: String,
+    cardId: { type: Schema.Types.ObjectId, ref: 'Card' },
     path: String,
   },
   { timestamps: true }

@@ -9,7 +9,7 @@ import { Context } from '../..';
 import User from '../types/User';
 import { Label } from '../../models';
 import { createWriteStream } from 'fs';
-import { join } from 'path';
+import { join, parse } from 'path';
 import { finished } from 'stream/promises';
 
 interface CreateCardInput {
@@ -121,55 +121,55 @@ const resolvers = {
 
       return card.toJSON();
     },
-    createAttachment: async (
-      _root: never,
-      args: {
-        attachment: {
-          cardId: ObjectId;
-          url: string;
-          title: string;
-          coverId: string;
-        };
-      },
-      {
-        currentUser,
-      }: {
-        currentUser: IUser;
-      }
-    ) => {
-      if (!currentUser) {
-        throw new ApolloError(
-          'Only logged user can add an attachment to this Card'
-        );
-      }
+    // createAttachment: async (
+    //   _root: never,
+    //   args: {
+    //     attachment: {
+    //       cardId: ObjectId;
+    //       url: string;
+    //       title: string;
+    //       coverId: string;
+    //     };
+    //   },
+    //   {
+    //     currentUser,
+    //   }: {
+    //     currentUser: IUser;
+    //   }
+    // ) => {
+    //   if (!currentUser) {
+    //     throw new ApolloError(
+    //       'Only logged user can add an attachment to this Card'
+    //     );
+    //   }
 
-      const { cardId, ...props } = args.attachment;
+    //   const { cardId, ...props } = args.attachment;
 
-      let card;
+    //   let card;
 
-      try {
-        card = await Card.findById(cardId);
-        if (!card) throw new ApolloError('Invalid card');
-      } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Invalid Card');
-      }
+    //   try {
+    //     card = await Card.findById(cardId);
+    //     if (!card) throw new ApolloError('Invalid card');
+    //   } catch (error) {
+    //     Logger.error(error);
+    //     throw new ApolloError('Invalid Card');
+    //   }
 
-      const newAttachment: AttachmentDocument = new Attachment(
-        props
-      ) as AttachmentDocument;
-      card.attachments.push(newAttachment);
+    //   const newAttachment: AttachmentDocument = new Attachment(
+    //     props
+    //   ) as AttachmentDocument;
+    //   card.attachments.push(newAttachment);
 
-      try {
-        await card.save();
-      } catch (error) {
-        Logger.error(error);
-        throw new ApolloError('Unable to save the attachment');
-      }
-      return card.attachments.find(
-        attachment => attachment.id === newAttachment.id
-      );
-    },
+    //   try {
+    //     await card.save();
+    //   } catch (error) {
+    //     Logger.error(error);
+    //     throw new ApolloError('Unable to save the attachment');
+    //   }
+    //   return card.attachments.find(
+    //     attachment => attachment.id === newAttachment.id
+    //   );
+    // },
     createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
       const card = await Card.findById(args.data.cardId);
       if (!card) throw new ApolloError('Invalid resources');
@@ -179,7 +179,8 @@ const resolvers = {
       const stream = createReadStream();
       const str = join('./public', `${attachment.id}_${filename}`);
       attachment.path = str;
-      const out = createWriteStream(str, encoding);
+      attachment.title = parse(filename).name;
+      const out = createWriteStream(str);
       stream.pipe(out);
       await finished(stream);
       await attachment.save();

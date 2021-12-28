@@ -1,10 +1,10 @@
-import { Document, Model } from 'mongoose';
+import { Document, Model, ObjectId } from 'mongoose';
 
 export interface IAttachment {
   url: string;
   title: string;
   coverId: string;
-  cardId: string;
+  cardId: ObjectId;
   path: string;
   createdAt: Date;
   updatedAt: Date;
