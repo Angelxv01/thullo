@@ -1,6 +1,11 @@
 import { gql } from 'apollo-server';
 import { Context } from '../..';
-import { CardDocument, Color, LabelDocument } from '../../types';
+import {
+  AttachmentDocument,
+  CardDocument,
+  Color,
+  LabelDocument,
+} from '../../types';
 
 const typeDefs = gql`
   type Attachment {
@@ -49,6 +54,10 @@ const resolvers = {
   },
   Label: {
     color: (root: LabelDocument) => Color[root.color],
+  },
+  Attachment: {
+    url: (root: AttachmentDocument) =>
+      new URL(root.path, new URL('./public', import.meta.url)),
   },
 };
 
