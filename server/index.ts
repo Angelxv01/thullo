@@ -9,8 +9,9 @@ import User from './models/User';
 import { UserDocument } from './types';
 import createDataLoader, { Dataloaders } from './utils/createDataLoaders';
 
-import express from 'express';
+import express, { Request } from 'express';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { existsSync } from 'fs';
 
 mongoose
   .connect(MONGODB || '')
@@ -45,6 +46,10 @@ async function startServer() {
   const app = express();
   app.use(graphqlUploadExpress({ maxFileSize: 5000000, maxFiles: 1 }));
   app.use(express.json());
+  app.post('/download', (req: Request<{}, {}, { path: string }>, res) => {
+    if (existsSync(req.path)) return res.download(req.path);
+    return res.status(400);
+  });
   server.applyMiddleware({ app });
   await new Promise<void>(r => app.listen({ port: 4000 }, r));
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);
