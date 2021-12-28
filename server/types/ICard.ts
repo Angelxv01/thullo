@@ -10,7 +10,6 @@ export interface ICard {
   coverId: string;
   comments: ObjectId[];
   labels: ObjectId[];
-  attachments: AttachmentDocument[];
   author: ObjectId;
   createdAt: Date;
   updatedAt: Date;

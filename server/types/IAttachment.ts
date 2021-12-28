@@ -4,7 +4,8 @@ export interface IAttachment {
   url: string;
   title: string;
   coverId: string;
-  metaData: Object;
+  cardId: string;
+  path: string;
   createdAt: Date;
   updatedAt: Date;
 }

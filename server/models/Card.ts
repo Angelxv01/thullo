@@ -11,7 +11,8 @@ const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
     url: String,
     title: String,
     coverId: String,
-    metaData: Object,
+    cardId: String,
+    path: String,
   },
   { timestamps: true }
 );
@@ -26,7 +27,6 @@ const schema = new Schema<CardDocument, CardModel>(
     coverId: String,
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     labels: [{ type: Schema.Types.ObjectId, ref: 'Label' }],
-    attachments: [attachmentSchema],
     author: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }

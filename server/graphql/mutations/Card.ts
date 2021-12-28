@@ -171,14 +171,19 @@ const resolvers = {
       );
     },
     createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
+      const card = await Card.findById(args.data.cardId);
+      if (!card) throw new ApolloError('Invalid resources');
       const { createReadStream, filename, mimetype, encoding } = await args.data
         .file;
-      const attachment = new Attachment();
+      const attachment = new Attachment({ cardId: args.data.cardId });
       const stream = createReadStream();
       const str = join('./public', `${attachment.id}_${filename}`);
-      const out = createWriteStream(str);
+      attachment.path = str;
+      const out = createWriteStream(str, encoding);
       stream.pipe(out);
       await finished(stream);
+      await attachment.save();
+      return attachment;
     },
     changeList: async (
       _: never,
