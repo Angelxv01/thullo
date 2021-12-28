@@ -7,5 +7,5 @@ export const download = async (path: string) => {
   link.href = url;
   link.setAttribute("download", "dumb.ts");
   document.body.appendChild(link);
-  // link.click();
+  link.click();
 };

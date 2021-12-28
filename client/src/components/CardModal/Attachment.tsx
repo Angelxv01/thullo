@@ -35,7 +35,7 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
           <Button.Outline
             color="GRAY3"
             style={{ padding: "0.25em 0.5em" }}
-            onClick={() => download(attachment.path)}
+            onClick={() => download(attachment.filename)}
           >
             Download
           </Button.Outline>
