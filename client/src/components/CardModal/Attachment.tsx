@@ -31,13 +31,7 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
           </Text>
         </div>
         <Flex>
-          <Button.Outline
-            as="a"
-            href={attachment.url}
-            target="_blank"
-            color="GRAY3"
-            style={{ padding: "0.25em 0.5em" }}
-          >
+          <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
             Download
           </Button.Outline>
           <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>

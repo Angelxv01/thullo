@@ -94,7 +94,6 @@ export const CARD = gql`
       }
       attachments {
         title
-        url
         createdAt
         coverId
       }

@@ -32,6 +32,7 @@ const CardModal = ({
     }
   }, [data]);
 
+  console.log(data, ctx.data);
   if (!(card && ctx.data)) return null;
 
   return (
