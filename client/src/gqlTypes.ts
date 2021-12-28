@@ -60,6 +60,7 @@ export interface Attachment extends BaseInterface, TimestampInterface {
   url: string;
   title: string;
   coverId: string;
+  filename: string;
 }
 
 export interface Label extends BaseInterface {

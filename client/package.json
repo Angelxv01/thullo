@@ -56,5 +56,6 @@
     "apollo-upload-client": "^17.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1"
-  }
+  },
+  "proxy": "http://localhost:4000/"
 }

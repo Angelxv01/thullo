@@ -40,8 +40,6 @@ interface AddLabelInput {
 interface CreateAttachmentInput {
   data: {
     cardId: ObjectId;
-    url: string;
-    title: string;
     coverId: string;
     file: any;
   };
@@ -78,7 +76,6 @@ const typeDefs = gql`
   }
   extend type Mutation {
     createCard(cardData: CreateCardInput): Card
-    createAttachment(attachment: CreateAttachmentInput): Attachment
     changeList(data: ChangeList): Card
     addMember(data: AddMemberInput): Card
     addLabel(data: AddLabelInput): Card
@@ -120,68 +117,37 @@ const resolvers = {
 
       return card.toJSON();
     },
-    // createAttachment: async (
-    //   _root: never,
-    //   args: {
-    //     attachment: {
-    //       cardId: ObjectId;
-    //       url: string;
-    //       title: string;
-    //       coverId: string;
-    //     };
-    //   },
-    //   {
-    //     currentUser,
-    //   }: {
-    //     currentUser: IUser;
-    //   }
-    // ) => {
-    //   if (!currentUser) {
-    //     throw new ApolloError(
-    //       'Only logged user can add an attachment to this Card'
-    //     );
-    //   }
-
-    //   const { cardId, ...props } = args.attachment;
-
-    //   let card;
-
-    //   try {
-    //     card = await Card.findById(cardId);
-    //     if (!card) throw new ApolloError('Invalid card');
-    //   } catch (error) {
-    //     Logger.error(error);
-    //     throw new ApolloError('Invalid Card');
-    //   }
-
-    //   const newAttachment: AttachmentDocument = new Attachment(
-    //     props
-    //   ) as AttachmentDocument;
-    //   card.attachments.push(newAttachment);
-
-    //   try {
-    //     await card.save();
-    //   } catch (error) {
-    //     Logger.error(error);
-    //     throw new ApolloError('Unable to save the attachment');
-    //   }
-    //   return card.attachments.find(
-    //     attachment => attachment.id === newAttachment.id
-    //   );
-    // },
     createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
+      // I receive a file and some data
+      // {file: Upload, ...others}
+      // Upload has properties like filename and createReadStream
+      // I have to:
+      // - create a unique name for the file
+      // - create the pathname to save the file
+      // - pipe the file
+
       const card = await Card.findById(args.data.cardId);
       if (!card) throw new ApolloError("Invalid resources");
-      const { createReadStream, filename, mimetype, encoding } = await args.data
-        .file;
+
+      // create the resource
       const attachment = new Attachment({ cardId: args.data.cardId });
+
+      // get the file
+      const { createReadStream, filename } = await args.data.file;
+
+      // get the file details
+      const name = `${attachment.id}_${filename}`;
+      const path = join("./public", name);
+      attachment.filename = name;
+      attachment.title = parse(name).name;
+
+      // pipe the file
       const stream = createReadStream();
-      const str = join("./public", `${attachment.id}_${filename}`);
-      attachment.path = str;
-      attachment.title = parse(filename).name;
-      const out = createWriteStream(str);
+      const out = createWriteStream(path);
       stream.pipe(out);
       await finished(stream);
+
+      // after making sure the file is saved, save the resource
       await attachment.save();
       return attachment;
     },

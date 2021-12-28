@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
-import { MONGODB, SECRET } from "./utils/config";
+import { MONGODB, SECRET, UPLOAD_URL } from "./utils/config";
 import schema from "./graphql/schema";
 import User from "./models/User";
 import { UserDocument } from "./types";
@@ -11,6 +11,7 @@ import createDataLoader, { Dataloaders } from "./utils/createDataLoaders";
 import express, { Request } from "express";
 import { graphqlUploadExpress } from "graphql-upload";
 import { existsSync } from "fs";
+import { join } from "path";
 
 mongoose
   .connect(MONGODB || "")
@@ -46,7 +47,9 @@ async function startServer() {
   app.use(graphqlUploadExpress({ maxFileSize: 5000000, maxFiles: 1 }));
   app.use(express.json());
   app.post("/download", (req: Request<{}, {}, { path: string }>, res) => {
-    if (existsSync(req.path)) return res.download(req.path);
+    // console.log(req.body);
+    const path = join(UPLOAD_URL.href, "public", req.body.path);
+    if (existsSync(path)) return res.download(path, req.body.path);
     return res.status(400);
   });
   server.applyMiddleware({ app });

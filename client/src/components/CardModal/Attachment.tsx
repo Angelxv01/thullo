@@ -4,6 +4,7 @@ import styled, { useTheme } from "styled-components";
 import { Flow, Flex, Button, Text } from "../common";
 import { formatDate } from "../../utils/formatting";
 import AttachmentCover from "./AttachmentCover";
+import { download } from "../../utils/downloader";
 
 const StyledAttachment = styled.div`
   display: grid;
@@ -31,7 +32,11 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
           </Text>
         </div>
         <Flex>
-          <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
+          <Button.Outline
+            color="GRAY3"
+            style={{ padding: "0.25em 0.5em" }}
+            onClick={() => download(attachment.path)}
+          >
             Download
           </Button.Outline>
           <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>

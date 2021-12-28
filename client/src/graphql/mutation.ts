@@ -220,10 +220,7 @@ export const CREATE_LABEL = gql`
 export interface CreateAttachmentInput {
   data: {
     cardId?: string;
-    url?: string;
-    title?: string;
     coverId?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     file?: File | null;
   };
 }

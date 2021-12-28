@@ -4,7 +4,7 @@ export interface IAttachment {
   title: string;
   coverId: string;
   cardId: ObjectId;
-  path: string;
+  filename: string;
   createdAt: Date;
   updatedAt: Date;
 }

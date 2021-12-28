@@ -11,7 +11,7 @@ const typeDefs = gql`
   type Attachment {
     title: String
     coverId: String
-    path: String
+    filename: String
     createdAt: DateTime!
     updatedAt: DateTime!
   }

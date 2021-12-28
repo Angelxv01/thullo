@@ -27,5 +27,6 @@
     "@types/jsonwebtoken": "^8.5.6",
     "ts-node-dev": "^1.1.8"
   },
-  "module": "esnext"
+  "module": "esnext",
+  "type": "module"
 }

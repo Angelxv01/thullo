@@ -93,6 +93,7 @@ export const CARD = gql`
         createdAt
       }
       attachments {
+        path
         title
         createdAt
         coverId

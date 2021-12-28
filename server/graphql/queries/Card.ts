@@ -4,6 +4,7 @@ import { Context } from "../..";
 import { Board, Card } from "../../models";
 import Label from "../../models/Label";
 import { promises } from "fs";
+import { UPLOAD_URL } from "../../utils/config";
 
 interface FindCardInput {
   keyword: string;
@@ -46,7 +47,9 @@ const resolvers = {
       return cards;
     },
     labels: async () => Label.find(),
-    getAllAttachments: () => promises.readdir("./public"),
+    getAllAttachments: () => {
+      console.log(UPLOAD_URL);
+    },
   },
 };
 
