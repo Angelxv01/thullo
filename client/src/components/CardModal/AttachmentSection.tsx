@@ -6,6 +6,7 @@ import {
   CreateAttachmentInput,
   CREATE_FILE_ATTACHMENT,
 } from "../../graphql/mutation";
+import { CARD } from "../../graphql/query";
 import useVisibility from "../../hooks/useVisiblity";
 import { Flow, Flex, Icon, Button, Text, Relative } from "../common";
 import { Color } from "../common/Button";
@@ -50,7 +51,9 @@ const AttachmentSection = ({
   const [createAttachment] = useMutation<
     { createFileAttachment: Gql.Attachment },
     CreateAttachmentInput
-  >(CREATE_FILE_ATTACHMENT);
+  >(CREATE_FILE_ATTACHMENT, {
+    refetchQueries: [{ query: CARD, variables: { id: cardId } }],
+  });
   const [state, setState] = useState<File | null>();
   const theme = useTheme();
 
@@ -63,6 +66,7 @@ const AttachmentSection = ({
         },
       },
     });
+    setVisibility();
     setState(null);
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
