@@ -16,6 +16,14 @@ const attachmentSchema = new Schema<AttachmentDocument, AttachmentModel>(
   { timestamps: true }
 );
 
+attachmentSchema.set("toJSON", {
+  versionKey: false,
+  transform: (_doc, ret: Partial<AttachmentDocument>) => {
+    ret.id = ret._id as ObjectId;
+    delete ret._id;
+  },
+});
+
 const schema = new Schema<CardDocument, CardModel>(
   {
     title: String,

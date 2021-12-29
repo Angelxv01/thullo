@@ -10,6 +10,7 @@ import { Label } from "../../models";
 import { createWriteStream } from "fs";
 import { join, parse } from "path";
 import { finished } from "stream/promises";
+import fs from "fs";
 
 interface CreateCardInput {
   id?: ObjectId;
@@ -80,6 +81,7 @@ const typeDefs = gql`
     addMember(data: AddMemberInput): Card
     addLabel(data: AddLabelInput): Card
     createFileAttachment(data: CreateAttachmentInput): Attachment
+    removeAttachment(id: ID!): Boolean
   }
 `;
 
@@ -150,6 +152,18 @@ const resolvers = {
       // after making sure the file is saved, save the resource
       await attachment.save();
       return attachment;
+    },
+    removeAttachment: async (
+      _root: never,
+      { id }: { id: string },
+      ctx: Context
+    ) => {
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
+      const attachment = await Attachment.findByIdAndDelete(id);
+      if (!attachment) return false;
+      fs.unlinkSync(join("./public", attachment.filename));
+
+      return attachment ? attachment.$isDeleted : false;
     },
     changeList: async (
       _: never,

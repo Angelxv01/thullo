@@ -1,7 +1,6 @@
 import axios from "axios";
-
+// https://gist.github.com/Tomassito/a5b4d29f459b9383dc3daa313ae5f73b
 export const download = async (path: string) => {
-  console.log(path);
   const response = await axios({
     url: "/download",
     method: "POST",

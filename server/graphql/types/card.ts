@@ -9,6 +9,7 @@ import {
 
 const typeDefs = gql`
   type Attachment {
+    id: ID!
     title: String
     coverId: String
     filename: String
