@@ -111,13 +111,14 @@ export const IconColored = styled.button<Color>`
   cursor: pointer;
   border: 0;
   padding: 0.5em 1em;
-  background-color: hsl(
-    ${({ backgroundColor, theme }) =>
-        backgroundColor && theme.color[backgroundColor]
-          ? theme.color[backgroundColor]
-          : theme.color.BLUE1} / 0.2
-  );
   border-radius: ${({ theme }) => theme.border.radius[1]};
+  background-color: hsl(
+    ${({ theme, backgroundColor }) =>
+      backgroundColor && theme.color[backgroundColor]
+        ? theme.color[backgroundColor] + "/ 0.2"
+        : theme.color.BLUE1 + "/ 0.2"}
+  );
+
   &,
   & > * {
     color: hsl(
