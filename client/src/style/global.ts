@@ -37,15 +37,12 @@ export default createGlobalStyle`
 
   body {
     font-weight: 500;
-    letter-spacing: 0.035em;
+    letter-spacing: -0.035em;
     line-height: ${({ theme }) => theme.lineHeight[1]};
     font-family: ${({ theme }) => theme.font.family.normal};
     font-size: ${({ theme }) => theme.font.size[300]};
     background-color: hsl(${({ theme }) => theme.color.BLUE1});
     color: hsl(${({ theme }) => theme.color.GRAY1});
-    display: grid;
-    margin: 0 auto;
-    place-items: center;
   }
 
   ::placeholder { 

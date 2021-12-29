@@ -17,19 +17,6 @@ export const Flow = styled.div<Spacing>`
     margin-top: ${({ space }) => space || "1rem"};
   }
 `;
-export const Container = styled.div`
-  margin: 2em auto;
-  width: 80vw;
-  border-radius: ${({ theme }) => theme.border.radius[1]};
-  background-color: hsl(${({ theme }) => theme.color.WHITE});
-`;
-export const LoginContainer = styled.div`
-  margin: 2em auto;
-  display: grid;
-  place-items: center;
-  border-radius: ${({ theme }) => theme.border.radius[1]};
-  background-color: hsl(${({ theme }) => theme.color.WHITE});
-`;
 export const ReaderOnly = styled.div`
   position: absolute;
   width: 1px;
