@@ -39,7 +39,6 @@ const Login = () => {
   const usernameController = useInput("text");
   const passwordController = useInput("password");
   const [error, setError] = useState(false);
-  console.log(error);
   let id: NodeJS.Timeout;
 
   const showError = () => {

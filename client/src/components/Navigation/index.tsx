@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { Data, MASTER, Var } from "../../graphql/query";
 import useInput from "../../hooks/useInput";
 import { useTheme } from "styled-components";
@@ -9,14 +9,23 @@ import StyledNavigation from "./StyledNavigation";
 import Separator from "./Separator";
 import * as Gql from "../../gqlTypes";
 import { BoardInput, CHANGE_TITLE } from "../../graphql/mutation";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { removeState } from "../../utils/localStorage";
 
 const Navigation = () => {
+  const apolloClient = useApolloClient();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data: ctx } = useQuery<Data, Var>(MASTER, {
     fetchPolicy: "cache-only",
     variables: { id: "6182d8c9bba2b2dfab68119d" },
   });
+  const logout = () => {
+    removeState("token");
+    apolloClient.resetStore();
+    navigate("login");
+  };
+
   const searchController = useInput("text");
   const theme = useTheme();
   const [changeTitle] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
@@ -96,7 +105,7 @@ const Navigation = () => {
         >
           {ctx?.authorizedUser.username}
         </Text>
-        <Icon.Logout style={{ fontSize: "1.5em" }} />
+        <Icon.Logout style={{ fontSize: "1.5em" }} onClick={logout} />
       </Flex>
     </StyledNavigation>
   );
