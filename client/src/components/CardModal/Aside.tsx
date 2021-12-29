@@ -88,6 +88,10 @@ const Aside = ({ card }: { card: Gql.Card }) => {
         </Button.Icon>
         {showCover && <CoverModal addCover={addCoverHandler} />}
       </div>
+      <Button.IconColored backgroundColor="RED" color="RED">
+        Delete
+        <Icon.Delete />
+      </Button.IconColored>
     </Flow>
   );
 };

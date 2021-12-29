@@ -111,3 +111,10 @@ export const Image = (
     &#xe3f4;
   </span>
 );
+export const Delete = (
+  props: HtmlHTMLAttributes<HTMLSpanElement>
+): JSX.Element => (
+  <span className="material-icons" {...props}>
+    &#xe872;
+  </span>
+);
