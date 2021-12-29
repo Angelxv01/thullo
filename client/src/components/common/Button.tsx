@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import styled from "styled-components";
 import { Flex } from "../../style/Utils";
 
-interface Color {
+export interface Color {
   color?: string;
   backgroundColor?: string;
 }
