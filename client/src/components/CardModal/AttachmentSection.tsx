@@ -71,7 +71,11 @@ const AttachmentSection = ({
         </Relative>
       </Flex>
       {attachments.map((attachment) => (
-        <Attachment key={attachment.title} attachment={attachment} />
+        <Attachment
+          key={attachment.title}
+          attachment={attachment}
+          cardId={cardId}
+        />
       ))}
     </Flow>
   );

@@ -232,3 +232,9 @@ export const CREATE_FILE_ATTACHMENT = gql`
     }
   }
 `;
+
+export const REMOVE_ATTACHMENT = gql`
+  mutation REMOVE_ATTACHMENT($id: ID) {
+    removeAttachment(id: $id)
+  }
+`;

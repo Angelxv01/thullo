@@ -5,6 +5,9 @@ import { Flow, Flex, Button, Text } from "../common";
 import { formatDate } from "../../utils/formatting";
 import AttachmentCover from "./AttachmentCover";
 import { download } from "../../utils/downloader";
+import { useMutation } from "@apollo/client";
+import { REMOVE_ATTACHMENT } from "../../graphql/mutation";
+import { CARD } from "../../graphql/query";
 
 const StyledAttachment = styled.div`
   display: grid;
@@ -12,9 +15,22 @@ const StyledAttachment = styled.div`
   gap: 1em;
 `;
 
-const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
+const Attachment = ({
+  attachment,
+  cardId,
+}: {
+  attachment: Gql.Attachment;
+  cardId: string;
+}) => {
   const theme = useTheme();
   const date = formatDate(attachment.createdAt);
+  const [removeAttachment] = useMutation(REMOVE_ATTACHMENT, {
+    refetchQueries: [{ query: CARD, variables: { id: cardId } }],
+  });
+
+  const removeAttachmentHandler = () => {
+    removeAttachment({ variables: { id: attachment.id } });
+  };
 
   return (
     <StyledAttachment>
@@ -42,7 +58,11 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
           >
             Download
           </Button.Outline>
-          <Button.Outline color="GRAY3" style={{ padding: "0.25em 0.5em" }}>
+          <Button.Outline
+            color="GRAY3"
+            style={{ padding: "0.25em 0.5em" }}
+            onClick={removeAttachmentHandler}
+          >
             Delete
           </Button.Outline>
         </Flex>

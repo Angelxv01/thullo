@@ -81,7 +81,7 @@ const typeDefs = gql`
     addMember(data: AddMemberInput): Card
     addLabel(data: AddLabelInput): Card
     createFileAttachment(data: CreateAttachmentInput): Attachment
-    removeAttachment(id: ID!): Boolean
+    removeAttachment(id: ID): Boolean
   }
 `;
 
@@ -163,7 +163,7 @@ const resolvers = {
       if (!attachment) return false;
       fs.unlinkSync(join("./public", attachment.filename));
 
-      return attachment ? attachment.$isDeleted : false;
+      return true;
     },
     changeList: async (
       _: never,
