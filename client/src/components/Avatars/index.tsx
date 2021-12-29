@@ -9,7 +9,7 @@ const Avatars = ({
   members: Gql.User[];
   children?: React.ReactChild;
 }) => (
-  <Flex space="0.5rem">
+  <Flex space="0.5rem" style={{ alignItems: "center" }}>
     {members.map(({ username, avatar }) => (
       <Avatar key={username} username={username} id={avatar} />
     ))}

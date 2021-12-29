@@ -134,3 +134,20 @@ export const FRIENDS_NOT_IN_BOARD = gql`
     }
   }
 `;
+
+export const ALL_BOARDS = gql`
+  query ALL_BOARDS {
+    allBoards {
+      id
+      coverId
+      title
+      members {
+        user {
+          avatar
+          id
+          username
+        }
+      }
+    }
+  }
+`;
