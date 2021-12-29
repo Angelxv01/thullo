@@ -238,3 +238,9 @@ export const REMOVE_ATTACHMENT = gql`
     removeAttachment(id: $id)
   }
 `;
+
+export const REMOVE_CARD = gql`
+  mutation REMOVE_CARD($id: ID) {
+    removeCard(id: $id)
+  }
+`;

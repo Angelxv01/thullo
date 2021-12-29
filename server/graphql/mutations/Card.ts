@@ -77,6 +77,7 @@ const typeDefs = gql`
   }
   extend type Mutation {
     createCard(cardData: CreateCardInput): Card
+    removeCard(id: ID): Boolean
     changeList(data: ChangeList): Card
     addMember(data: AddMemberInput): Card
     addLabel(data: AddLabelInput): Card
@@ -118,6 +119,18 @@ const resolvers = {
       await card.save();
 
       return card.toJSON();
+    },
+    removeCard: async (_root: never, { id }: { id: string }, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
+      const cardToDelete = await Card.findById(id);
+      if (
+        !cardToDelete ||
+        String(cardToDelete.author) !== String(ctx.currentUser.id)
+      )
+        throw new ApolloError("Unauthorized");
+
+      await Card.findByIdAndDelete(id);
+      return true;
     },
     createFileAttachment: async (_root: never, args: CreateAttachmentInput) => {
       // I receive a file and some data

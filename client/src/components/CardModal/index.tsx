@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import { Flex, Flow } from "../common";
@@ -7,6 +7,7 @@ import * as Gql from "../../gqlTypes";
 import Header from "./Header";
 import Main from "./Main";
 import Aside from "./Aside";
+import { REMOVE_CARD } from "../../graphql/mutation";
 
 const CardModal = ({
   setVisibility,
@@ -25,6 +26,16 @@ const CardModal = ({
   });
 
   const [card, setCard] = useState<Gql.Card | undefined>();
+  const [removeCard] = useMutation(REMOVE_CARD, {
+    refetchQueries: [
+      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+    ],
+  });
+
+  const removeCardHandler = (id: string) => {
+    removeCard({ variables: { id } });
+    setVisibility();
+  };
 
   useEffect(() => {
     if (data) {
@@ -61,7 +72,7 @@ const CardModal = ({
         {/* Card Content */}
         <Flex>
           <Main card={card} />
-          <Aside card={card} />
+          <Aside card={card} removeCardHandler={removeCardHandler} />
         </Flex>
       </Flow>
     </div>

@@ -17,7 +17,13 @@ import {
   CREATE_CARD,
 } from "../../graphql/mutation";
 
-const Aside = ({ card }: { card: Gql.Card }) => {
+const Aside = ({
+  card,
+  removeCardHandler,
+}: {
+  card: Gql.Card;
+  removeCardHandler: (id: string) => void;
+}) => {
   const [showLabel, setShowLabel] = useVisibility();
   const [showCover, setShowCover] = useVisibility();
 
@@ -88,7 +94,11 @@ const Aside = ({ card }: { card: Gql.Card }) => {
         </Button.Icon>
         {showCover && <CoverModal addCover={addCoverHandler} />}
       </div>
-      <Button.IconColored backgroundColor="RED" color="RED">
+      <Button.IconColored
+        backgroundColor="RED"
+        color="RED"
+        onClick={() => removeCardHandler(card.id)}
+      >
         Delete
         <Icon.Delete />
       </Button.IconColored>

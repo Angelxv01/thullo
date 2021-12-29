@@ -22,9 +22,9 @@ const CoverModal = ({ addCover }: { addCover: (photo: string) => void }) => {
         "https://api.unsplash.com/photos/random?count=12&content_filter=low",
         auth as AxiosRequestConfig<unknown>
       )
-      .then(({ data }: { data: ApiResult[] }) =>
-        setPhotos(data.map((obj) => obj.urls))
-      );
+      .then(({ data }: { data: ApiResult[] }) => {
+        setPhotos(data.map((obj) => obj.urls));
+      });
   }, []);
 
   return (
@@ -58,7 +58,7 @@ const CoverModal = ({ addCover }: { addCover: (photo: string) => void }) => {
         >
           {photos.map((photo) => (
             <div
-              onClick={() => addCover(photo.raw)}
+              onClick={() => addCover(photo.regular)}
               key={photo.thumb}
               style={{
                 backgroundPosition: "cover",
