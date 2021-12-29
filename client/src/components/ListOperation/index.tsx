@@ -72,7 +72,7 @@ const ListOperation = ({ list }: { list: Gql.List }) => {
   );
 };
 
-const GrayText = styled(Text)`
+export const GrayText = styled(Text)`
   color: hsl(${({ theme }) => theme.color.GRAY3});
   font-size: ${({ theme }) => theme.font.size[200]};
   line-height: ${({ theme }) => theme.lineHeight[0]};

@@ -118,3 +118,10 @@ export const Delete = (
     &#xe872;
   </span>
 );
+export const Logout = (
+  props: HtmlHTMLAttributes<HTMLSpanElement>
+): JSX.Element => (
+  <span className="material-icons" {...props}>
+    &#xe9ba;
+  </span>
+);

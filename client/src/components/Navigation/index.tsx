@@ -96,7 +96,7 @@ const Navigation = () => {
         >
           {ctx?.authorizedUser.username}
         </Text>
-        <Icon.ArrowDropDown />
+        <Icon.Logout style={{ fontSize: "1.5em" }} />
       </Flex>
     </StyledNavigation>
   );
