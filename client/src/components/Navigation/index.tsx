@@ -9,8 +9,10 @@ import StyledNavigation from "./StyledNavigation";
 import Separator from "./Separator";
 import * as Gql from "../../gqlTypes";
 import { BoardInput, CHANGE_TITLE } from "../../graphql/mutation";
+import { useParams } from "react-router-dom";
 
 const Navigation = () => {
+  const { id } = useParams();
   const { data: ctx } = useQuery<Data, Var>(MASTER, {
     fetchPolicy: "cache-only",
     variables: { id: "6182d8c9bba2b2dfab68119d" },
@@ -41,23 +43,25 @@ const Navigation = () => {
       <Logo className="navigation-logo" />
 
       {/* Board Name + Back to boards */}
-      <Flex space="1em" className="navigation-info">
-        <Text
-          style={{ outline: 0 }}
-          fontSize={theme.font.size[600]}
-          lineHeight={theme.lineHeight[3]}
-          contentEditable
-          suppressContentEditableWarning
-          onBlur={handleTitleChange}
-        >
-          {ctx?.board.title}
-        </Text>
-        <Separator />
-        <Button.Icon>
-          <Icon.Apps />
-          <Text>All boards</Text>
-        </Button.Icon>
-      </Flex>
+      {id && (
+        <Flex space="1em" className="navigation-info">
+          <Text
+            style={{ outline: 0 }}
+            fontSize={theme.font.size[600]}
+            lineHeight={theme.lineHeight[3]}
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={handleTitleChange}
+          >
+            {ctx?.board.title}
+          </Text>
+          <Separator />
+          <Button.Icon>
+            <Icon.Apps />
+            <Text>All boards</Text>
+          </Button.Icon>
+        </Flex>
+      )}
 
       {/* Search bar */}
       <InputGroup
@@ -69,6 +73,7 @@ const Navigation = () => {
           className: "navigation-input",
           style: {
             justifySelf: "end",
+            gridColumn: "3",
           },
         }}
         width="30em"
