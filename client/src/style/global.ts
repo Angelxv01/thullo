@@ -43,6 +43,9 @@ export default createGlobalStyle`
     font-size: ${({ theme }) => theme.font.size[300]};
     background-color: hsl(${({ theme }) => theme.color.BLUE1});
     color: hsl(${({ theme }) => theme.color.GRAY1});
+    display: grid;
+    margin: 0 auto;
+    place-items: center;
   }
 
   ::placeholder { 

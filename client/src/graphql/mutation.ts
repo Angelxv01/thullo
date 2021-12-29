@@ -244,3 +244,11 @@ export const REMOVE_CARD = gql`
     removeCard(id: $id)
   }
 `;
+
+export const LOGIN = gql`
+  mutation LOGIN($data: UserInput) {
+    login(credentials: $data) {
+      value
+    }
+  }
+`;

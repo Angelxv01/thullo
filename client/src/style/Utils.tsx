@@ -19,7 +19,14 @@ export const Flow = styled.div<Spacing>`
 `;
 export const Container = styled.div`
   margin: 2em auto;
-  max-width: 80%;
+  width: 80vw;
+  border-radius: ${({ theme }) => theme.border.radius[1]};
+  background-color: hsl(${({ theme }) => theme.color.WHITE});
+`;
+export const LoginContainer = styled.div`
+  margin: 2em auto;
+  display: grid;
+  place-items: center;
   border-radius: ${({ theme }) => theme.border.radius[1]};
   background-color: hsl(${({ theme }) => theme.color.WHITE});
 `;
