@@ -7,7 +7,6 @@ import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graphql/mutation";
 import { saveState } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import useVisibility from "../hooks/useVisiblity";
 
 export const LoginContainer = styled(Flow)`
   margin: 10em auto;

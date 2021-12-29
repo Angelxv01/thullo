@@ -6,6 +6,7 @@ import { loadState } from "./utils/localStorage";
 import Board from "./pages/Board";
 import Login from "./pages/Login";
 import { useNavigate } from "react-router-dom";
+import Home from "./pages/Home";
 
 const App = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<div>Hello</div>} />
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/halo" element={<Board />} />
     </Routes>

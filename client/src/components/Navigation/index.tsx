@@ -38,10 +38,10 @@ const Navigation = () => {
 
   return (
     <StyledNavigation>
-      <Logo />
+      <Logo className="navigation-logo" />
 
       {/* Board Name + Back to boards */}
-      <Flex space="2rem" style={{ alignItems: "inherit" }}>
+      <Flex space="1em" className="navigation-info">
         <Text
           style={{ outline: 0 }}
           fontSize={theme.font.size[600]}
@@ -65,7 +65,13 @@ const Navigation = () => {
           ...searchController,
           placeholder: "Keyword...",
         }}
-        width="24rem"
+        wrapper={{
+          className: "navigation-input",
+          style: {
+            justifySelf: "end",
+          },
+        }}
+        width="30em"
       >
         <Button.Colored style={{ padding: "0.75em 1.5em" }}>
           Search
@@ -73,7 +79,7 @@ const Navigation = () => {
       </InputGroup>
 
       {/* User */}
-      <Flex style={{ alignItems: "inherit" }}>
+      <Flex space="0.25em" className="navigation-user">
         <Avatar
           id={ctx?.authorizedUser.avatar || ""}
           username={ctx?.authorizedUser.username || ""}
