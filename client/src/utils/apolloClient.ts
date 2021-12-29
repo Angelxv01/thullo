@@ -4,14 +4,10 @@ import { createUploadLink } from "apollo-upload-client";
 import { loadState } from "./localStorage";
 
 const uploadLink = createUploadLink({ uri: "http://localhost:4000/graphql" });
-// const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
 
 const ctx = setContext((_, { headers }) => {
   const token = loadState("token");
-  if (!token || !Object.prototype.hasOwnProperty.call(token, "value"))
-    return {
-      headers,
-    };
+  if (!token) return { headers };
   return {
     headers: {
       ...headers,
