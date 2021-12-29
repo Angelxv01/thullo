@@ -18,7 +18,10 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
 
   return (
     <StyledAttachment>
-      <AttachmentCover coverId={attachment.coverId} title={attachment.title} />
+      <AttachmentCover
+        coverId={attachment.coverId}
+        title={attachment.title || "Untitled"}
+      />
       <Flow space="0.5em">
         <div>
           <Text fontSize={theme.font.size[100]} style={{ lineHeight: "12px" }}>
@@ -28,7 +31,7 @@ const Attachment = ({ attachment }: { attachment: Gql.Attachment }) => {
             fontSize={theme.font.size[200]}
             lineHeight={theme.lineHeight[0]}
           >
-            {attachment.title}
+            {attachment.title || "Untitled"}
           </Text>
         </div>
         <Flex>

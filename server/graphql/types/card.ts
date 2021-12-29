@@ -54,6 +54,9 @@ const resolvers = {
   Label: {
     color: (root: LabelDocument) => Color[root.color],
   },
+  Attachment: {
+    title: (root: AttachmentDocument) => root.title.replace(/^.*_/, ""),
+  },
 };
 
 export default { typeDefs, resolvers };
