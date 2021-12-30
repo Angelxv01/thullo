@@ -1,10 +1,10 @@
-import { ApolloError, gql } from 'apollo-server';
-import DataLoader from 'dataloader';
-import { BoardDocument, Member, Role, UserDocument } from '../../types';
-import Board from '../../models/Board';
-import { Visibility } from '../../types';
-import { ObjectId } from 'mongoose';
-import { User } from '../../models';
+import { ApolloError, gql } from "apollo-server";
+import DataLoader from "dataloader";
+import { BoardDocument, Member, Role, UserDocument } from "../../types";
+import Board from "../../models/Board";
+import { Visibility } from "../../types";
+import { ObjectId } from "mongoose";
+import { User } from "../../models";
 
 interface BoardInput {
   id?: ObjectId;
@@ -80,19 +80,19 @@ const resolvers = {
       }
     ) => {
       if (!currentUser) {
-        throw new ApolloError('Only logged user can create a Board');
+        throw new ApolloError("Only logged user can create a Board");
       }
 
       const { id, ...data } = args.boardData;
       if (!id && !data.visibility) {
-        throw new ApolloError('Required Visibility');
+        throw new ApolloError("Required Visibility");
       }
       const out = {
         ...data,
         visibility:
           data.visibility &&
           (Visibility[data.visibility] as unknown as Visibility),
-        members: args.boardData.members?.map(id => ({
+        members: args.boardData.members?.map((id) => ({
           id,
           role: Role.MEMBER,
         })) as Member[],
@@ -104,7 +104,11 @@ const resolvers = {
           new: true,
         })) as unknown as BoardDocument;
       } else {
-        board = new Board(out);
+        // assuming on creating members is list with only one member, the owner
+        board = new Board({
+          ...out,
+          members: [{ ...out.members[0], role: Role.OWNER }],
+        });
       }
 
       if (!board) {
@@ -121,17 +125,17 @@ const resolvers = {
         currentUser: UserDocument;
       }
     ) => {
-      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
       const board = await Board.findById(args.data.boardId);
-      if (!board) throw new ApolloError('Invalid Resource');
+      if (!board) throw new ApolloError("Invalid Resource");
 
       const canInvite = board.members.find(
-        member => String(member.id) === String(ctx.currentUser.id)
+        (member) => String(member.id) === String(ctx.currentUser.id)
       );
-      if (!canInvite) throw new ApolloError('Unable to invite your friend');
-      const memberIds = board.members.map(member => String(member.id));
+      if (!canInvite) throw new ApolloError("Unable to invite your friend");
+      const memberIds = board.members.map((member) => String(member.id));
       const members = args.data.userId.filter(
-        id => memberIds.indexOf(String(id)) === -1
+        (id) => memberIds.indexOf(String(id)) === -1
       );
       const pushMember = (id: ObjectId) =>
         board.members.push({ id, role: Role.MEMBER });
@@ -146,20 +150,21 @@ const resolvers = {
       ctx: { currentUser: UserDocument }
     ) => {
       if (!ctx.currentUser) {
-        throw new ApolloError('Only logged user can remove members');
+        throw new ApolloError("Only logged user can remove members");
       }
 
       const userToRemove = await User.findById(args.data.userId);
       const board = await Board.findById(args.data.boardId);
       if (!(userToRemove && board)) {
-        throw new ApolloError('Invalid input');
+        throw new ApolloError("Invalid input");
       }
 
       const userBelongToBoard = board?.members.find(
-        member => String(member.id) === userToRemove.id && member.role === 2
+        (member) => String(member.id) === userToRemove.id && member.role === 2
       );
       const isCurrentAdmin = board?.members.find(
-        member => String(member.id) === ctx.currentUser.id && member.role !== 2
+        (member) =>
+          String(member.id) === ctx.currentUser.id && member.role !== 2
       );
       if (!(userBelongToBoard && isCurrentAdmin)) {
         console.log({
@@ -167,11 +172,11 @@ const resolvers = {
           toFind: userBelongToBoard,
           current: isCurrentAdmin,
         } as Record<string, unknown>);
-        throw new ApolloError('Invalid operation');
+        throw new ApolloError("Invalid operation");
       }
 
       board.members = board.members.filter(
-        member => String(member.id) !== String(args.data.userId)
+        (member) => String(member.id) !== String(args.data.userId)
       );
 
       await board.save();
