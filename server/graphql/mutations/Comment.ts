@@ -31,7 +31,7 @@ const typeDefs = gql`
   extend type Mutation {
     createComment(commentData: CreateComment): Comment
     editComment(data: EditComment): Comment
-    deleteComment(id: ID): Comment
+    deleteComment(id: ID): Boolean
   }
 `;
 
@@ -74,10 +74,33 @@ const resolvers = {
 
       return comment;
     },
-    editComment: (_: never, args: EditCommentInput, ctx: Context) => {
+    editComment: async (_: never, args: EditCommentInput, ctx: Context) => {
       if (!ctx.currentUser) throw new ApolloError("Logged User Only");
+      const comment = await Comment.findById(args.data.commentId);
+      const card = await Card.findById(comment?.cardId);
+
+      if (!(comment && card)) throw new ApolloError("Invalid resources");
+
+      if (String(card.author) !== String(ctx.currentUser.id))
+        throw new ApolloError("Unauthorized");
+
+      comment.text = args.data.text || comment.text;
+      await comment.save();
+
+      return comment.toJSON();
     },
-    deleteComment: (_: never) => {},
+    deleteComment: async (_: never, { id }: { id: ObjectId }, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
+      const comment = await Comment.findById(id);
+      const card = await Card.findById(comment?.cardId);
+
+      if (!(comment && card)) throw new ApolloError("Invalid resources");
+
+      if (String(card.author) !== String(ctx.currentUser.id))
+        throw new ApolloError("Unauthorized");
+      await comment.remove();
+      return true;
+    },
   },
 };
 export default { typeDefs, resolvers };
