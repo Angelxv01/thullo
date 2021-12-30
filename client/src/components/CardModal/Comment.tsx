@@ -1,6 +1,13 @@
-import React from "react";
+import { useMutation } from "@apollo/client";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 import * as Gql from "../../gqlTypes";
+import {
+  DELETE_COMMENT,
+  EditCommentInput,
+  EDIT_COMMENT,
+} from "../../graphql/mutation";
+import useVisibility from "../../hooks/useVisiblity";
 import { formatDate } from "../../utils/formatting";
 import { Avatar, Flex, Flow, Text } from "../common";
 
@@ -20,6 +27,27 @@ const Comment = ({
   isAuthor: boolean;
 }) => {
   const commentDate = formatDate(comment.createdAt);
+  const [edit, setEdit] = useVisibility();
+
+  const [editComment] = useMutation<
+    { editComment: Gql.Comment },
+    EditCommentInput
+  >(EDIT_COMMENT);
+  const [deleteComment] = useMutation<Record<string, unknown>, { id: string }>(
+    DELETE_COMMENT
+  );
+
+  const editCommentHandler = (e: ChangeEvent<HTMLParagraphElement>) => {
+    editComment({
+      variables: {
+        data: {
+          commentId: comment.id,
+          text: e.target.outerText,
+        },
+      },
+    });
+    setEdit();
+  };
 
   return (
     <div>
@@ -32,16 +60,29 @@ const Comment = ({
         </Flow>
         {/* Actions */}
 
-        {isAuthor && (
+        {isAuthor && !edit && (
           <Flex style={{ alignItems: "center" }} space="0.25em">
-            <Text>Edit</Text>
+            <Text style={{ cursor: "pointer" }}>Edit</Text>
             <Text>-</Text>
-            <Text>Delete</Text>
+            <Text
+              style={{ cursor: "pointer" }}
+              onClick={() => deleteComment({ variables: { id: comment.id } })}
+            >
+              Delete
+            </Text>
           </Flex>
         )}
       </StyledComment>
       {/* Content */}
-      <Text className="comment-text">{comment.text}</Text>
+      <Text
+        className="comment-text"
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={editCommentHandler}
+        onFocus={setEdit}
+      >
+        {comment.text}
+      </Text>
     </div>
   );
 };
