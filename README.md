@@ -1,8 +1,6 @@
-<!-- Please update value in the {}  -->
+<h1 align="center">Thullo</h1>
 
-<h1 align="center">{Your project name}</h1>
-
-<div align="center">
+<!--<div align="center">
    Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
 </div>
 
@@ -21,7 +19,7 @@
     </a>
   </h3>
 </div>
-
+-->
 <!-- TABLE OF CONTENTS -->
 
 ## Table of Contents
@@ -39,26 +37,49 @@
 
 ![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
 
-Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
-
 - Where can I see your demo?
 - What was your experience?
 - What have you learned/improved?
 - Your wisdom? :)
 
+At the moment the demo is not available.
+
+This is the first time I build a complex application like this and I got to admit, I struggled a lot. 
+The main goal was to learn as much as possible: I experiment a lot. This means I had to find my way out, there's not a *wrong* way of doing but the only way I found. 
+
+There are obviously anti-pattern, inconsistencies and **a lot** bad practices. This is due to my limited experience, and this is the point. I've learned it's ok to be bad, so there's room for improvement.
+
+I've learned how to communicate effectively to myself and potentially to others, creating a *project agenda(?)* where I fix my goals and **try** to achieve them, find solution to problems which doesn't mean I find the best, but one of them. I've learned decision making which **sometimes** lead me to rewrite everything. I've learned not to overengineering and keep the stuff simple and just do my project... the time to refactor is not at the begininning. This means also I had to prioritize my goals and going against my ego.
+
+> What you've learned and seen during your experience should push you out of your limits.
+> Sometimes, this means you'll have to **fail several** times.
+
 ### Built With
 
-<!-- This section should list any major frameworks that you built your project using. Here are a few examples.-->
+##### Whole project
 
-- [React](https://reactjs.org/)
-- [Vue.js](https://vuejs.org/)
-- [Tailwind](https://tailwindcss.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Apollo GraphQL](https://www.apollographql.com/docs/)
+
+##### Frontend
+
+- [React(Typescript)](https://reactjs.org/)
+- [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
+
+##### Backend
+
+- [Mongoose](https://mongoosejs.com/)
+- [dataloader](https://github.com/graphql/dataloader)
 
 ## Features
 
 <!-- List the features of your application or follow the template. Don't share the figma file here :) -->
 
 This application/site was created as a submission to a [DevChallenges](https://devchallenges.io/challenges) challenge. The [challenge](https://devchallenges.io/challenges/wP0LbGgEeKhpFHUpPpDh) was to build an application to complete the given user stories.
+
+Login to the application and and get started with your ideas! You can "easily" (UX and accessibility not considered at the moment) jump in and create and organize you're ideas: create a board, add lists and put some ideas on the board!
+
+Add friends to the board, play with them, add bright and colorful images to your ideas, tag your ideas and comment on your friends'. 
 
 ## How To Use
 
@@ -81,12 +102,21 @@ $ npm start
 
 <!-- This section should list any articles or add-ons/plugins that helps you to complete the project. This is optional but it will help you in the future. For example: -->
 
-- [Steps to replicate a design with only HTML and CSS](https://devchallenges-blogs.web.app/how-to-replicate-design/)
-- [Node.js](https://nodejs.org/)
-- [Marked - a markdown parser](https://github.com/chjj/marked)
+### Best course
+
+- [How to become a Full Stack Developer](https://fullstackopen.com/en/)
+
+### Frontend
+
+- [Autogrow textarea](https://codepen.io/chriscoyier/pen/XWKEVLy)
+
+### Backend
+
+- [Download file from web](https://stackoverflow.com/questions/7288814/download-a-file-from-nodejs-server-using-express)
+- [Upload file to server](https://github.com/jaydenseric/graphql-upload)
 
 ## Contact
 
 - Website [your-website.com](https://{your-web-site-link})
-- GitHub [@your-username](https://{github.com/your-usermame})
-- Twitter [@your-twitter](https://{twitter.com/your-username})
+- GitHub [@Angelxv01](https://github.com/Angelxv01)
+- Twitter [@Angelxv01](https://twitter.com/Angelxv01)
