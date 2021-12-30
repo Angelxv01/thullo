@@ -260,3 +260,24 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export interface EditCommentInput {
+  data: {
+    commentId?: string;
+    text?: string;
+  };
+}
+
+export const EDIT_COMMENT = gql`
+  mutation EDIT_COMMENT($data: EditComment) {
+    editComment(data: $data) {
+      text
+    }
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation DELETE_COMMENT($id: ID) {
+    deleteComment(id: $id)
+  }
+`;
