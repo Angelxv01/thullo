@@ -6,10 +6,11 @@ import { useMutation } from "@apollo/client";
 import { BoardInput, CHANGE_VISIBILITY } from "../../graphql/mutation";
 import { MASTER } from "../../graphql/query";
 import * as Gql from "../../gqlTypes";
+import { useParams } from "react-router-dom";
 
 const VisibilityCard = ({ setVisible }: { setVisible: () => void }) => {
+  const { id } = useParams();
   const theme = useTheme();
-  const boardId = "6182d8c9bba2b2dfab68119d";
 
   const [changeVisibility] = useMutation<{ creteBoard: Gql.Board }, BoardInput>(
     CHANGE_VISIBILITY,
@@ -17,22 +18,14 @@ const VisibilityCard = ({ setVisible }: { setVisible: () => void }) => {
       refetchQueries: [
         {
           query: MASTER,
-          variables: { id: boardId },
+          variables: { id },
         },
       ],
     }
   );
 
   const handleChangeVisibility = (visibility: Gql.Visibility) => {
-    changeVisibility({
-      variables: {
-        data: {
-          id: boardId,
-          visibility,
-        },
-      },
-    });
-
+    changeVisibility({ variables: { data: { id, visibility } } });
     setVisible();
   };
 

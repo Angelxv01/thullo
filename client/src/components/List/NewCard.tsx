@@ -6,6 +6,7 @@ import { MASTER } from "../../graphql/query";
 import useTextArea from "../../hooks/useTextArea";
 import { Button, Flow, TextArea, Text } from "../common";
 import * as Gql from "../../gqlTypes";
+import { useParams } from "react-router-dom";
 
 const StyledNewCard = styled(Flow)`
   background-color: hsl(${({ theme }) => theme.color.WHITE});
@@ -24,6 +25,8 @@ const NewCard = ({
   listId: string;
   setVisibility: () => void;
 }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const theme = useTheme();
   const controller = useTextArea();
   const [create] = useMutation<{ createCard: Gql.Card }, CreateCardInput>(
@@ -33,7 +36,7 @@ const NewCard = ({
         {
           query: MASTER,
           fetchPolicy: "network-only",
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
+          variables: { id },
         },
       ],
     }
@@ -45,7 +48,7 @@ const NewCard = ({
         data: {
           title: controller.value,
           listId,
-          boardId: "6182d8c9bba2b2dfab68119d",
+          boardId: id,
         },
       },
     });

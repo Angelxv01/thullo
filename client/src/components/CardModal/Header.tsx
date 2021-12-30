@@ -5,6 +5,7 @@ import { CreateCardInput, CREATE_CARD } from "../../graphql/mutation";
 import { MASTER } from "../../graphql/query";
 import { Button, Icon, Text, Flex, Flow } from "../common";
 import * as Gql from "../../gqlTypes";
+import { useParams } from "react-router-dom";
 
 interface Image {
   id?: string;
@@ -38,6 +39,8 @@ const Header = ({
   card: Gql.Card;
   setVisibility: () => void;
 }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const theme = useTheme();
   const [changeTitle] = useMutation<{ createCard: Gql.Card }, CreateCardInput>(
     CREATE_CARD,
@@ -46,7 +49,7 @@ const Header = ({
         {
           query: MASTER,
           fetchPolicy: "network-only",
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
+          variables: { id },
         },
       ],
     }
@@ -56,7 +59,7 @@ const Header = ({
       variables: {
         data: {
           listId: card.list.id,
-          boardId: "6182d8c9bba2b2dfab68119d",
+          boardId: id,
           id: card.id,
           title: e.target.outerText,
         },

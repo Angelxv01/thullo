@@ -13,24 +13,23 @@ import { Absolute, Button, InputGroup, Relative, Text, Icon } from "../common";
 import StyledListOperation from "./StyledListOperation";
 import * as Gql from "../../gqlTypes";
 import useInput from "../../hooks/useInput";
+import { useParams } from "react-router-dom";
 
 const ListOperation = ({ list }: { list: Gql.List }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const [rename, setRename] = useVisibility();
   const controller = useInput("text");
   const [changeListName] = useMutation<
     { changeListName: Gql.List },
     ChangeListNameInput
   >(CHANGE_LIST_NAME, {
-    refetchQueries: [
-      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-    ],
+    refetchQueries: [{ query: MASTER, variables: { id } }],
   });
   const [deleteList] = useMutation<{ deleteList: boolean }, DeleteListInput>(
     DELETE_LIST,
     {
-      refetchQueries: [
-        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-      ],
+      refetchQueries: [{ query: MASTER, variables: { id } }],
     }
   );
 

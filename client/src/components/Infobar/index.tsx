@@ -21,7 +21,7 @@ const Infobar = () => {
   });
   const { data } = useQuery<{ friendsNotInBoard: Gql.User[] }, Var>(
     FRIENDS_NOT_IN_BOARD,
-    { variables: { id: "6182d8c9bba2b2dfab68119d" } }
+    { variables: { id } }
   );
 
   const [visibility, setVisibility] = useVisibility();

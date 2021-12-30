@@ -7,8 +7,11 @@ import InviteFriend from "../InviteFriend";
 import { useMutation } from "@apollo/client";
 import { InviteUserInput, INVITE_USER } from "../../graphql/mutation";
 import { MASTER, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
+import { useParams } from "react-router-dom";
 
 const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const theme = useTheme();
   const ToggleStyle = {
     style: {
@@ -27,10 +30,10 @@ const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
     INVITE_USER,
     {
       refetchQueries: [
-        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
+        { query: MASTER, variables: { id } },
         {
           query: FRIENDS_NOT_IN_BOARD,
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
+          variables: { id },
         },
       ],
     }
@@ -41,7 +44,7 @@ const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
       variables: {
         data: {
           userId: selected,
-          boardId: "6182d8c9bba2b2dfab68119d",
+          boardId: id,
         },
       },
     });

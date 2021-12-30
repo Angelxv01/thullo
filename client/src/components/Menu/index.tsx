@@ -24,6 +24,7 @@ import {
 import useVisibility from "../../hooks/useVisiblity";
 import useContent from "../../hooks/useContent";
 import { formatDate } from "../../utils/formatting";
+import { useParams } from "react-router-dom";
 
 const StyledMenu = styled(Flow)`
   justify-content: space-between;
@@ -62,9 +63,11 @@ const NormalTextArea = css`
 `;
 
 const Menu = ({ toggle }: { toggle: () => void }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const ctx = useQuery<Data, Var>(MASTER, {
     fetchPolicy: "cache-only",
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id },
   });
 
   const owner = ctx.data?.board.members.find(
@@ -120,6 +123,8 @@ const MadeBy = ({ owner, date }: { owner: Gql.Member; date: string }) => {
 };
 
 const Description = ({ value }: { value: string }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const theme = useTheme();
   const contentController = useContent(value);
   const textAreaController = useTextArea(value);
@@ -128,9 +133,7 @@ const Description = ({ value }: { value: string }) => {
   const [changeDescription] = useMutation<{
     createBoard: Gql.Board;
   }>(CHANGE_DESCRIPTION, {
-    refetchQueries: [
-      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-    ],
+    refetchQueries: [{ query: MASTER, variables: { id } }],
   });
 
   const onCancel = () => {
@@ -143,7 +146,7 @@ const Description = ({ value }: { value: string }) => {
       variables: {
         boardData: {
           description: textAreaController.value,
-          id: "6182d8c9bba2b2dfab68119d",
+          id,
         },
       },
     });
@@ -199,10 +202,12 @@ const Description = ({ value }: { value: string }) => {
 };
 
 const Team = () => {
+  const { id: boardId } = useParams();
+  if (!boardId) return null;
   const theme = useTheme();
   const ctx = useQuery<Data, Var>(MASTER, {
     fetchPolicy: "cache-only",
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id: boardId },
   });
   const [deleteUser] = useMutation<{ deleteUser: Gql.Board }, DeleteUserInput>(
     DELETE_USER,
@@ -210,11 +215,11 @@ const Team = () => {
       refetchQueries: [
         {
           query: MASTER,
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
+          variables: { id: boardId },
         },
         {
           query: FRIENDS_NOT_IN_BOARD,
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
+          variables: { id: boardId },
         },
       ],
     }
@@ -226,7 +231,7 @@ const Team = () => {
   const isAdmin = user ? user.role !== "MEMBER" : false;
   const deleteUserHandler = (id: string) =>
     deleteUser({
-      variables: { data: { boardId: "6182d8c9bba2b2dfab68119d", userId: id } },
+      variables: { data: { boardId, userId: id } },
     });
 
   return (

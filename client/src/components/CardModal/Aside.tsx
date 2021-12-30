@@ -16,6 +16,7 @@ import {
   CreateCardInput,
   CREATE_CARD,
 } from "../../graphql/mutation";
+import { useParams } from "react-router-dom";
 
 const Aside = ({
   card,
@@ -24,11 +25,14 @@ const Aside = ({
   card: Gql.Card;
   removeCardHandler: (id: string) => void;
 }) => {
+  const { id } = useParams();
+  if (!id) return null;
+
   const [showLabel, setShowLabel] = useVisibility();
   const [showCover, setShowCover] = useVisibility();
 
   const { data } = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id },
     fetchPolicy: "cache-only",
   });
   if (!data) return null;
@@ -47,7 +51,7 @@ const Aside = ({
         data: {
           id: card.id,
           listId: card.list.id,
-          boardId: "6182d8c9bba2b2dfab68119d",
+          boardId: id,
           coverId: photo,
         },
       },
@@ -107,9 +111,11 @@ const Aside = ({
 };
 
 const Members = ({ card }: { card: Gql.Card }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const [showMember, setShowMember] = useVisibility();
   const { data } = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id },
     fetchPolicy: "cache-only",
   });
 
@@ -143,9 +149,11 @@ const StyledInviteMemberWrapper = styled(Absolute)`
 `;
 
 const CardMemberList = ({ card }: { card: Gql.Card }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const [showAddMember, setShowAddMember] = useVisibility();
   const { data } = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id },
     fetchPolicy: "cache-only",
   });
   const [addMember] = useMutation<{ addMember: Gql.Card }, AddMemberInput>(

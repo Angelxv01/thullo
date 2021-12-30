@@ -7,6 +7,7 @@ import * as Gql from "../../gqlTypes";
 import { useMutation, useQuery } from "@apollo/client";
 import { CARD, Data, MASTER } from "../../graphql/query";
 import { CREATE_COMMENT, CommentInput } from "../../graphql/mutation";
+import { useParams } from "react-router-dom";
 
 const StyledCommentForm = styled.div`
   display: grid;
@@ -41,9 +42,11 @@ const CommentSection = ({
   cardId: string;
   cardAuthor: string;
 }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const commentController = useTextArea();
   const { data } = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id },
     fetchPolicy: "cache-only",
   });
   const [createComment] = useMutation<

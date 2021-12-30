@@ -9,8 +9,11 @@ import theme from "../../style/theme";
 import { Flow, Flex, Icon, Button, TextArea, Text } from "../common";
 import InfoLabel from "../common/InfoLabel";
 import * as Gql from "../../gqlTypes";
+import { useParams } from "react-router-dom";
 
 const DescriptionSection = ({ card }: { card: Gql.Card }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const [edit, setEdit] = useVisibility(true);
   const descriptionController = useTextArea(
     card.description || "There's no description yet"
@@ -22,7 +25,7 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
     refetchQueries: [
       {
         query: MASTER,
-        variables: { id: "6182d8c9bba2b2dfab68119d" },
+        variables: { id },
       },
     ],
   });
@@ -31,7 +34,7 @@ const DescriptionSection = ({ card }: { card: Gql.Card }) => {
       variables: {
         data: {
           listId: card.list.id,
-          boardId: "6182d8c9bba2b2dfab68119d",
+          boardId: id,
           id: card.id,
           description: descriptionController.value,
         },

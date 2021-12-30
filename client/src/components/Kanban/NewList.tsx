@@ -5,8 +5,11 @@ import { MASTER } from "../../graphql/query";
 import useInput from "../../hooks/useInput";
 import { Absolute, InputGroup, Button, Icon } from "../common";
 import * as Gql from "../../gqlTypes";
+import { useParams } from "react-router-dom";
 
 const NewList = ({ setVisible }: { setVisible: () => void }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const inputController = useInput("text");
 
   const [createList] = useMutation<{ createList: Gql.List }, CreateListInput>(
@@ -15,7 +18,7 @@ const NewList = ({ setVisible }: { setVisible: () => void }) => {
       refetchQueries: [
         {
           query: MASTER,
-          variables: { id: "6182d8c9bba2b2dfab68119d" },
+          variables: { id },
         },
       ],
     }
@@ -26,7 +29,7 @@ const NewList = ({ setVisible }: { setVisible: () => void }) => {
       variables: {
         data: {
           name: inputController.value,
-          boardId: "6182d8c9bba2b2dfab68119d",
+          boardId: id,
         },
       },
     });

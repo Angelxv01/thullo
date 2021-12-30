@@ -12,6 +12,7 @@ import { Labels } from "../Card/Utils";
 import { Flow, Icon, Label, Button, Text, Flex } from "../common";
 import InfoLabel from "../common/InfoLabel";
 import { CARD } from "../../graphql/query";
+import { useParams } from "react-router-dom";
 
 const previewDefault = { text: "New label", color: Gql.Color.BLUE1 };
 
@@ -24,6 +25,8 @@ const LabelModal = ({
   active: Gql.Label[];
   cardId: string;
 }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const theme = useTheme();
   const [addLabel] = useMutation<{ addLabel: Gql.Card }, AddLabelInput>(
     ADD_LABEL,
@@ -47,7 +50,7 @@ const LabelModal = ({
   const createLabelHandler = () => {
     createLabel({
       variables: {
-        data: { boardId: "6182d8c9bba2b2dfab68119d", cardId, ...preview },
+        data: { boardId: id, cardId, ...preview },
       },
     });
     setPreview(previewDefault);

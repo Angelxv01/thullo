@@ -34,9 +34,7 @@ const Navigation = () => {
   const [changeTitle] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
     CHANGE_TITLE,
     {
-      refetchQueries: [
-        { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-      ],
+      refetchQueries: [{ query: MASTER, variables: { id } }],
     }
   );
 
@@ -45,7 +43,7 @@ const Navigation = () => {
       variables: {
         data: {
           title: e.target.outerText,
-          id: "6182d8c9bba2b2dfab68119d",
+          id,
         },
       },
     });

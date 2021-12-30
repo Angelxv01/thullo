@@ -8,6 +8,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Aside from "./Aside";
 import { REMOVE_CARD } from "../../graphql/mutation";
+import { useParams } from "react-router-dom";
 
 const CardModal = ({
   setVisibility,
@@ -16,20 +17,20 @@ const CardModal = ({
   setVisibility: () => void;
   id: string;
 }) => {
+  const { id: boardId } = useParams();
+  if (!boardId) return null;
   const theme = useTheme();
   const { data } = useQuery<{ card: Gql.Card }, { id: string }>(CARD, {
     variables: { id },
   });
   const ctx = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id: boardId },
     fetchPolicy: "cache-only",
   });
 
   const [card, setCard] = useState<Gql.Card | undefined>();
   const [removeCard] = useMutation(REMOVE_CARD, {
-    refetchQueries: [
-      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-    ],
+    refetchQueries: [{ query: MASTER, variables: { id: boardId } }],
   });
 
   const removeCardHandler = (id: string) => {

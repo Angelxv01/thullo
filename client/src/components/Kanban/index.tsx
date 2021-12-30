@@ -9,20 +9,21 @@ import { CHANGE_LIST } from "../../graphql/mutation";
 import useVisibility from "../../hooks/useVisiblity";
 import NewList from "./NewList";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
 
 const Kanban = () => {
+  const { id } = useParams();
+  if (!id) return null;
   const { data: ctx } = useQuery<{ board: Gql.Board }, Var>(MASTER, {
     fetchPolicy: "cache-and-network",
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    variables: { id },
   });
 
   const [changeList] = useMutation<
     { changeList: Gql.Card },
     { data: { cardId: string; listId: string } }
   >(CHANGE_LIST, {
-    refetchQueries: [
-      { query: MASTER, variables: { id: "6182d8c9bba2b2dfab68119d" } },
-    ],
+    refetchQueries: [{ query: MASTER, variables: { id } }],
   });
 
   const [visible, setVisible] = useVisibility();
