@@ -11,7 +11,7 @@ interface Image {
   url?: string;
 }
 
-const Cover = styled.div<Image>`
+export const Cover = styled.div<Image>`
   width: 100%;
   height: 130px;
   background-size: cover;
@@ -20,11 +20,11 @@ const Cover = styled.div<Image>`
   border-radius: ${({ theme }) => theme.border.radius[2]};
 `;
 
-const StyledHeader = styled(Flex)<{ hasCover?: boolean }>`
+export const StyledHeader = styled(Flex)<{ hasCover?: boolean }>`
   flex-direction: column;
   gap: 2em;
 
-  .offset-button {
+  & .offset-button {
     align-self: flex-end;
     z-index: 6;
     ${({ hasCover }) => hasCover && "margin: -1em -0.5em -3.5em 0;"}

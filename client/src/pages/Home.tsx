@@ -1,88 +1,159 @@
 import { useQuery } from "@apollo/client";
-import React from "react";
-import { useTheme } from "styled-components";
-import { Button, Flex, Flow, Icon, Text } from "../components/common";
+import React, { useEffect, useState } from "react";
+import styled, { useTheme } from "styled-components";
+import {
+  Button,
+  Flex,
+  Flow,
+  Icon,
+  Text,
+  Absolute,
+  InputGroup,
+} from "../components/common";
 import Navigation from "../components/Navigation";
 import { ALL_BOARDS } from "../graphql/query";
 import { Container } from "./Board";
 import * as Gql from "../gqlTypes";
-import { Cover } from "../components/Card/Utils";
-import Avatars from "../components/Avatars";
-import { useNavigate } from "react-router-dom";
+import Board from "../components/Board";
+import useVisibility from "../hooks/useVisiblity";
+import { Cover, StyledHeader } from "../components/CardModal/Header";
+import CoverModal from "../components/CardModal/CoverModal";
+import useInput from "../hooks/useInput";
+import VisibilityBadge from "../components/Infobar/Badge";
 
 const Home = () => {
-  const navigate = useNavigate();
   const theme = useTheme();
   const { data } = useQuery<{ allBoards: Gql.Board[] }>(ALL_BOARDS);
+  const [visible, setVisibility] = useVisibility(true);
 
   return (
-    <Container>
-      <Navigation />
-      <Flow
+    <>
+      <Container
         style={{
-          width: "calc(80% + 2em)",
-          margin: "1em auto",
-          padding: "2em",
-          borderRadius: "12px",
-          backgroundColor: `hsl(${theme.color.WHITE1})`,
+          pointerEvents: visible ? "none" : "initial",
         }}
       >
-        <Flex
+        <Navigation />
+        <Flow
           style={{
-            justifyContent: "space-between",
-            alignItems: "center",
+            width: "calc(80% + 2em)",
+            margin: "1em auto",
+            padding: "2em",
+            borderRadius: "12px",
+            backgroundColor: `hsl(${theme.color.WHITE1})`,
+            minHeight: "80vh",
+            position: "relative",
           }}
         >
-          <Text fontSize={theme.font.size[600]}>All Boards</Text>
+          <Flex
+            style={{
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text fontSize={theme.font.size[600]}>All Boards</Text>
+            <Button.IconColored
+              color="WHITE"
+              style={{ backgroundColor: `hsl(${theme.color.BLUE1})` }}
+              onClick={setVisibility}
+            >
+              <Icon.Add />
+              Add
+            </Button.IconColored>
+          </Flex>
+          <Flex>
+            {data?.allBoards.map((board) => (
+              <Board key={board.id} board={board} />
+            ))}
+          </Flex>
+        </Flow>
+      </Container>
+      {visible && <CreateBoardModal setVisibility={setVisibility} />}
+    </>
+  );
+};
+
+const StyledCreateBoardModal = styled(Absolute)`
+  position: fixed;
+  inset: 0;
+  background-color: hsl(${({ theme }) => theme.color.DARK} / 0.1);
+
+  & .container {
+    background-color: hsl(${({ theme }) => theme.color.WHITE});
+    width: 25%;
+    margin: 10em auto;
+    padding: 2em;
+    border-radius: ${({ theme }) => theme.border.radius[1]};
+  }
+`;
+
+const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
+  const theme = useTheme();
+  const [showCover, setShowCover] = useVisibility();
+  const [cover, setCover] = useState<string>("");
+  const titleController = useInput("text");
+  const [boardVisibility, setBoardVisibility] = useState<Gql.Visibility>(
+    Gql.Visibility.PUBLIC
+  );
+
+  const toggleVisibility = () => {
+    if (boardVisibility === Gql.Visibility.PRIVATE)
+      setBoardVisibility(Gql.Visibility.PUBLIC);
+    else setBoardVisibility(Gql.Visibility.PRIVATE);
+  };
+
+  const handleCreateBoard = () => {
+    console.log(boardVisibility, cover, titleController.value);
+  };
+
+  return (
+    <StyledCreateBoardModal>
+      <StyledHeader className="container" hasCover={Boolean(cover)}>
+        <Button.Squared className="offset-button" onClick={setVisibility}>
+          <Icon.Close />
+        </Button.Squared>
+        {cover && <Cover url={cover} />}
+
+        <InputGroup
+          width="100%"
+          props={{
+            ...titleController,
+            placeholder: "Add board title",
+          }}
+          wrapper={{
+            style: {
+              border: "1px solid #E0E0E0",
+            },
+          }}
+        />
+        <Flex>
+          <div style={{ position: "relative", flex: "1" }}>
+            <Button.Icon onClick={setShowCover} style={{ width: "100%" }}>
+              <Icon.Image />
+              <Text>Cover</Text>
+            </Button.Icon>
+            {showCover && <CoverModal addCover={(url) => setCover(url)} />}
+          </div>
+          <div style={{ position: "relative", flex: "1" }}>
+            <VisibilityBadge
+              visibility={boardVisibility}
+              onClick={toggleVisibility}
+            />
+          </div>
+        </Flex>
+        <Flex style={{ alignItems: "center", justifyContent: "flex-end" }}>
+          <Text onClick={setVisibility}>Cancel</Text>
           <Button.IconColored
             color="WHITE"
             style={{ backgroundColor: `hsl(${theme.color.BLUE1})` }}
+            onClick={handleCreateBoard}
           >
-            <Icon.Add />
-            Add
+            <Icon.Add style={{ fontSize: "1.5em" }} />
+            <Text>Create</Text>
           </Button.IconColored>
         </Flex>
-        <Flex>
-          {data?.allBoards.map((board) => (
-            <Flex
-              key={board.id}
-              style={{
-                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
-                borderRadius: "12px",
-                border: "1px #ededed solid",
-                width: "20em",
-                padding: "1em",
-                flexDirection: "column",
-                justifyContent: "flex-end",
-                cursor: "pointer",
-              }}
-              onClick={() => navigate(`./${board.id}`)}
-            >
-              {board.coverId && <Cover src={board.coverId} />}
-              <Text
-                fontSize={theme.font.size[500]}
-                fontFamily={theme.font.family.secondary}
-              >
-                {board.title}
-              </Text>
-              {board.members.length < 4 ? (
-                <Avatars members={board.members.map((member) => member.user)} />
-              ) : (
-                <Avatars
-                  members={board.members
-                    .slice(0, 3)
-                    .map((member) => member.user)}
-                >
-                  <Text color="GRAY4" fontFamily={theme.font.family.secondary}>
-                    + {board.members.length - 3} others
-                  </Text>
-                </Avatars>
-              )}
-            </Flex>
-          ))}
-        </Flex>
-      </Flow>
-    </Container>
+      </StyledHeader>
+    </StyledCreateBoardModal>
   );
 };
 

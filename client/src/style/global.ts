@@ -63,6 +63,10 @@ export default createGlobalStyle`
     font: inherit;
   }
 
+  svg {
+    cursor: pointer;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
