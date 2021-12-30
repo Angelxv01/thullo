@@ -26,7 +26,7 @@ const Navigation = () => {
   const logout = () => {
     removeState("token");
     apolloClient.resetStore();
-    navigate("login");
+    navigate("../login");
   };
   const user = useUser();
   const searchController = useInput("text");
