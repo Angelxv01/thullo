@@ -12,7 +12,7 @@ const App = () => {
   useEffect(() => {
     const token = loadState("token");
     if (!token) navigate("login");
-  }, []);
+  }, [navigate]);
 
   return (
     <Routes>

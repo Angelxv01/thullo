@@ -151,3 +151,18 @@ export const ALL_BOARDS = gql`
     }
   }
 `;
+
+export const ME = gql`
+  query ME {
+    authorizedUser {
+      id
+      avatar
+      username
+      friends {
+        username
+        id
+        avatar
+      }
+    }
+  }
+`;
