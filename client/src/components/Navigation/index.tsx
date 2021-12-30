@@ -13,13 +13,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { removeState } from "../../utils/localStorage";
 
 const Navigation = () => {
+  const { id } = useParams();
   const apolloClient = useApolloClient();
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { data: ctx } = useQuery<Data, Var>(MASTER, {
-    fetchPolicy: "cache-only",
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
-  });
+  const ctx = id
+    ? useQuery<Data, Var>(MASTER, {
+        fetchPolicy: "cache-and-network",
+        variables: { id },
+      })
+    : undefined;
   const logout = () => {
     removeState("token");
     apolloClient.resetStore();
@@ -47,9 +49,10 @@ const Navigation = () => {
       },
     });
 
+  // if (!ctx || !ctx.data) return null;
   return (
     <StyledNavigation>
-      <Logo className="navigation-logo" />
+      <Logo className="navigation-logo" onClick={() => navigate("/")} />
 
       {/* Board Name + Back to boards */}
       {id && (
@@ -62,7 +65,7 @@ const Navigation = () => {
             suppressContentEditableWarning
             onBlur={handleTitleChange}
           >
-            {ctx?.board.title}
+            {ctx?.data?.board.title}
           </Text>
           <Separator />
           <Button.Icon onClick={() => navigate("/")}>
@@ -95,15 +98,15 @@ const Navigation = () => {
       {/* User */}
       <Flex space="0.25em" className="navigation-user">
         <Avatar
-          id={ctx?.authorizedUser.avatar || ""}
-          username={ctx?.authorizedUser.username || ""}
+          id={ctx?.data?.authorizedUser.avatar || ""}
+          username={ctx?.data?.authorizedUser.username || ""}
         />
         <Text
           fontFamily={theme.font.family.secondary}
           fontWeight="bold"
           lineHeight={theme.lineHeight[0]}
         >
-          {ctx?.authorizedUser.username}
+          {ctx?.data?.authorizedUser.username}
         </Text>
         <Icon.Logout style={{ fontSize: "1.5em" }} onClick={logout} />
       </Flex>

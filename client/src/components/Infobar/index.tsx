@@ -10,11 +10,14 @@ import Menu from "../Menu";
 import useVisibility from "../../hooks/useVisiblity";
 import InviteFriendModal from "./InviteFriendModal";
 import VisibilityModal from "./VisibilityModal";
+import { useParams } from "react-router-dom";
 
 const Infobar = () => {
+  const { id } = useParams();
+  if (!id) return null;
   const ctx = useQuery<Data, Var>(MASTER, {
-    fetchPolicy: "cache-only",
-    variables: { id: "6182d8c9bba2b2dfab68119d" },
+    fetchPolicy: "cache-and-network",
+    variables: { id },
   });
   const { data } = useQuery<{ friendsNotInBoard: Gql.User[] }, Var>(
     FRIENDS_NOT_IN_BOARD,
