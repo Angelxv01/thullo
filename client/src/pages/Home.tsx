@@ -8,8 +8,10 @@ import { Container } from "./Board";
 import * as Gql from "../gqlTypes";
 import { Cover } from "../components/Card/Utils";
 import Avatars from "../components/Avatars";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { data } = useQuery<{ allBoards: Gql.Board[] }>(ALL_BOARDS);
 
@@ -52,7 +54,9 @@ const Home = () => {
                 padding: "1em",
                 flexDirection: "column",
                 justifyContent: "flex-end",
+                cursor: "pointer",
               }}
+              onClick={() => navigate("./board/hello")}
             >
               {board.coverId && <Cover src={board.coverId} />}
               <Text

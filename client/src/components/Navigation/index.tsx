@@ -65,7 +65,7 @@ const Navigation = () => {
             {ctx?.board.title}
           </Text>
           <Separator />
-          <Button.Icon>
+          <Button.Icon onClick={() => navigate("/")}>
             <Icon.Apps />
             <Text>All boards</Text>
           </Button.Icon>
