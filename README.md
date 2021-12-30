@@ -37,11 +37,6 @@
 
 ![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
 
-- Where can I see your demo?
-- What was your experience?
-- What have you learned/improved?
-- Your wisdom? :)
-
 At the moment the demo is not available.
 
 This is the first time I build a complex application like this and I got to admit, I struggled a lot. 
