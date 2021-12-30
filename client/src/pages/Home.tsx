@@ -56,7 +56,7 @@ const Home = () => {
                 justifyContent: "flex-end",
                 cursor: "pointer",
               }}
-              onClick={() => navigate(`./board/${board.id}`)}
+              onClick={() => navigate(`./${board.id}`)}
             >
               {board.coverId && <Cover src={board.coverId} />}
               <Text
