@@ -8,4 +8,6 @@ export default styled.main`
   overflow-x: scroll;
   background-color: hsl(${({ theme }) => theme.color.WHITE1});
   border-radius: ${({ theme }) => theme.border.radius[3]};
+  flex: 1;
+  margin-bottom: 1em;
 `;

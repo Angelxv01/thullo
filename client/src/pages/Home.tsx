@@ -157,6 +157,7 @@ const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
             <VisibilityBadge
               visibility={boardVisibility}
               onClick={toggleVisibility}
+              style={{ width: "100%" }}
             />
           </div>
         </Flex>

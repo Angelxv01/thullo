@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import React, { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce/lib";
+import useInput from "../../hooks/useInput";
 import { REACT_APP_UNSPLASH_API } from "../../utils/config";
 import { Absolute, Button, Flow, Icon, InputGroup, Text } from "../common";
 
@@ -8,6 +10,8 @@ interface ApiResult {
 }
 
 const CoverModal = ({ addCover }: { addCover: (photo: string) => void }) => {
+  const photoFilterController = useInput("text");
+  const [value] = useDebounce(photoFilterController.value, 500);
   const auth = {
     headers: {
       "Accept-Version": "v1",
@@ -17,15 +21,16 @@ const CoverModal = ({ addCover }: { addCover: (photo: string) => void }) => {
 
   const [photos, setPhotos] = useState<ApiResult["urls"][]>([]);
   useEffect(() => {
+    console.log("trigger");
     axios
       .get(
-        "https://api.unsplash.com/photos/random?count=12&content_filter=low",
+        `https://api.unsplash.com/photos/random?count=12&content_filter=low&query=${value}`,
         auth as AxiosRequestConfig<unknown>
       )
       .then(({ data }: { data: ApiResult[] }) => {
         setPhotos(data.map((obj) => obj.urls));
       });
-  }, []);
+  }, [value[0]]);
 
   return (
     <Absolute
@@ -44,7 +49,10 @@ const CoverModal = ({ addCover }: { addCover: (photo: string) => void }) => {
           <Text>Photo Search</Text>
           <Text>Search Unsplash for photos</Text>
         </div>
-        <InputGroup props={{ placeholder: "Keywords..." }} width="100%">
+        <InputGroup
+          props={{ placeholder: "Keywords...", ...photoFilterController }}
+          width="100%"
+        >
           <Button.Squared>
             <Icon.Search />
           </Button.Squared>

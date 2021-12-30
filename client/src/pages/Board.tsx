@@ -7,8 +7,11 @@ import Navigation from "../components/Navigation";
 export const Container = styled.div`
   margin: 2em auto;
   width: 80vw;
+  min-height: 80vh;
   border-radius: ${({ theme }) => theme.border.radius[1]};
   background-color: hsl(${({ theme }) => theme.color.WHITE});
+  display: flex;
+  flex-direction: column;
 `;
 
 const Board = () => {
