@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { Data, FRIENDS_NOT_IN_BOARD, MASTER, Var } from "../../graphql/query";
+import { Data, MASTER, Var } from "../../graphql/query";
 import { Button, Flex, Icon, Relative, Text } from "../common";
 
 import Avatars from "../Avatars";
@@ -19,14 +19,10 @@ const Infobar = () => {
     fetchPolicy: "cache-and-network",
     variables: { id },
   });
-  const { data } = useQuery<{ friendsNotInBoard: Gql.User[] }, Var>(
-    FRIENDS_NOT_IN_BOARD,
-    { variables: { id } }
-  );
 
   const [visibility, setVisibility] = useVisibility();
 
-  if (!(ctx.data && data)) return null;
+  if (!ctx.data) return null;
 
   return (
     <Relative>
@@ -40,7 +36,7 @@ const Infobar = () => {
             )}
           >
             {/* Append this at the end of the 'mapping' */}
-            <InviteFriendModal friends={data?.friendsNotInBoard} />
+            <InviteFriendModal />
           </Avatars>
         </Flex>
         {/* Right hand side */}

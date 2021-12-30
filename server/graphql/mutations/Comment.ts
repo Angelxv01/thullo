@@ -3,11 +3,19 @@ import { ObjectId } from "mongoose";
 import { UserDocument } from "../../types";
 import Comment from "../../models/Comment";
 import Card from "../../models/Card";
+import { Context } from "../..";
 
 interface CommentInput {
   commentId?: ObjectId;
   cardId?: ObjectId;
   text: string;
+}
+
+interface EditCommentInput {
+  data: {
+    commentId?: ObjectId;
+    text?: string;
+  };
 }
 
 const typeDefs = gql`
@@ -16,8 +24,14 @@ const typeDefs = gql`
     cardId: ID
     text: String
   }
+  input EditComment {
+    commentId: ID
+    text: String
+  }
   extend type Mutation {
     createComment(commentData: CreateComment): Comment
+    editComment(data: EditComment): Comment
+    deleteComment(id: ID): Comment
   }
 `;
 
@@ -60,6 +74,10 @@ const resolvers = {
 
       return comment;
     },
+    editComment: (_: never, args: EditCommentInput, ctx: Context) => {
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
+    },
+    deleteComment: (_: never) => {},
   },
 };
 export default { typeDefs, resolvers };

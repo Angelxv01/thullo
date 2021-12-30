@@ -152,10 +152,6 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
   const { id } = useParams();
   if (!id) return null;
   const [showAddMember, setShowAddMember] = useVisibility();
-  const { data } = useQuery<Data, { id: string }>(MASTER, {
-    variables: { id },
-    fetchPolicy: "cache-only",
-  });
   const [addMember] = useMutation<{ addMember: Gql.Card }, AddMemberInput>(
     ADD_MEMBER,
     {
@@ -167,10 +163,6 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
     addMember({ variables: { data: { cardId: card.id, members: ids } } });
     setShowAddMember();
   };
-  const memberIds = card.members.map((member) => member.id);
-  const memberNotInCard = data?.board.members
-    .filter((member) => memberIds.indexOf(member.user.id) === -1)
-    .map((member) => member.user);
   return (
     <Flow>
       {card.members.map((member: Gql.User) => (
@@ -182,10 +174,7 @@ const CardMemberList = ({ card }: { card: Gql.Card }) => {
       </Button.IconColored>
       {showAddMember && (
         <StyledInviteMemberWrapper>
-          <InviteFriend
-            friends={memberNotInCard || []}
-            action={addMemberHandler}
-          />
+          <InviteFriend action={addMemberHandler} />
         </StyledInviteMemberWrapper>
       )}
     </Flow>

@@ -9,7 +9,7 @@ import { InviteUserInput, INVITE_USER } from "../../graphql/mutation";
 import { MASTER, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
 import { useParams } from "react-router-dom";
 
-const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
+const InviteFriendModal = () => {
   const { id } = useParams();
   if (!id) return null;
   const theme = useTheme();
@@ -56,7 +56,7 @@ const InviteFriendModal = ({ friends }: { friends: Gql.User[] }) => {
       <Button.Squared>
         <Icon.Add />
       </Button.Squared>
-      <InviteFriend friends={friends} action={inviteUserHandler} />
+      <InviteFriend action={inviteUserHandler} />
     </Toggle>
   );
 };

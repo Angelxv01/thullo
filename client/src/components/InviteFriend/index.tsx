@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import { InputGroup, Flow, Text, Button, Icon, Flex } from "../common";
 import User from "../User";
 import StyledFriendFlow from "./StyledFriendFlow";
 import * as Gql from "../../gqlTypes";
+import { useLazyQuery } from "@apollo/client";
+import { Var, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
+import { useParams } from "react-router-dom";
 
-const InviteFriend = ({
-  friends,
-  action,
-}: {
-  friends: Gql.User[];
-  action: (ids: string[]) => void;
-}) => {
+const InviteFriend = ({ action }: { action: (ids: string[]) => void }) => {
+  const { id } = useParams();
+  if (!id) return null;
   const theme = useTheme();
 
   const [selected, setSelected] = useState<string[]>([]);
+  const [getFriends, { data, loading, error }] = useLazyQuery<
+    { friendsNotInBoard: Gql.User[] },
+    Var
+  >(FRIENDS_NOT_IN_BOARD, { variables: { id } });
+
+  useEffect(() => {
+    if (!data) {
+      getFriends();
+    }
+  }, []);
 
   const handleSelectUser = (id: string) =>
     setSelected(
@@ -27,6 +36,7 @@ const InviteFriend = ({
     action(selected);
   };
 
+  if (!data || !data.friendsNotInBoard || loading || error) return null;
   return (
     <Flow space="1em" style={{ minWidth: "20em" }}>
       <Flow space="1px">
@@ -41,8 +51,10 @@ const InviteFriend = ({
         </Button.Squared>
       </InputGroup>
       <StyledFriendFlow>
-        {friends.length === 0 && <Text>All your friends are here!</Text>}
-        {friends.map((friend) => (
+        {data.friendsNotInBoard.length === 0 && (
+          <Text>All your friends are here!</Text>
+        )}
+        {data.friendsNotInBoard.map((friend) => (
           <Flex key={friend.id}>
             <User
               user={friend}
