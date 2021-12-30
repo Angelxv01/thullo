@@ -11,6 +11,7 @@ import * as Gql from "../../gqlTypes";
 import { BoardInput, CHANGE_TITLE } from "../../graphql/mutation";
 import { useNavigate, useParams } from "react-router-dom";
 import { removeState } from "../../utils/localStorage";
+import useUser from "../../hooks/useUser";
 
 const Navigation = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ const Navigation = () => {
     apolloClient.resetStore();
     navigate("login");
   };
-
+  const user = useUser();
   const searchController = useInput("text");
   const theme = useTheme();
   const [changeTitle] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
@@ -96,20 +97,19 @@ const Navigation = () => {
       </InputGroup>
 
       {/* User */}
-      <Flex space="0.25em" className="navigation-user">
-        <Avatar
-          id={ctx?.data?.authorizedUser.avatar || ""}
-          username={ctx?.data?.authorizedUser.username || ""}
-        />
-        <Text
-          fontFamily={theme.font.family.secondary}
-          fontWeight="bold"
-          lineHeight={theme.lineHeight[0]}
-        >
-          {ctx?.data?.authorizedUser.username}
-        </Text>
-        <Icon.Logout style={{ fontSize: "1.5em" }} onClick={logout} />
-      </Flex>
+      {user && (
+        <Flex space="0.25em" className="navigation-user">
+          <Avatar id={user.avatar || ""} username={user.username || ""} />
+          <Text
+            fontFamily={theme.font.family.secondary}
+            fontWeight="bold"
+            lineHeight={theme.lineHeight[0]}
+          >
+            {user.username}
+          </Text>
+          <Icon.Logout style={{ fontSize: "1.5em" }} onClick={logout} />
+        </Flex>
+      )}
     </StyledNavigation>
   );
 };
