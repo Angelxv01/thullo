@@ -83,7 +83,12 @@ const CommentSection = ({
       </StyledCommentForm>
       <StyledCommentFlow>
         {comments.map((comment) => (
-          <Comment comment={comment} key={comment.id} isAuthor={isAuthor} />
+          <Comment
+            comment={comment}
+            key={comment.id}
+            isAuthor={isAuthor}
+            cardId={cardId}
+          />
         ))}
       </StyledCommentFlow>
     </Flow>

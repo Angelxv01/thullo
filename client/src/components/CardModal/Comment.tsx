@@ -7,6 +7,7 @@ import {
   EditCommentInput,
   EDIT_COMMENT,
 } from "../../graphql/mutation";
+import { CARD } from "../../graphql/query";
 import useVisibility from "../../hooks/useVisiblity";
 import { formatDate } from "../../utils/formatting";
 import { Avatar, Flex, Flow, Text } from "../common";
@@ -22,9 +23,11 @@ const StyledComment = styled.div`
 const Comment = ({
   comment,
   isAuthor,
+  cardId,
 }: {
   comment: Gql.Comment;
   isAuthor: boolean;
+  cardId: string;
 }) => {
   const commentDate = formatDate(comment.createdAt);
   const [edit, setEdit] = useVisibility();
@@ -32,9 +35,12 @@ const Comment = ({
   const [editComment] = useMutation<
     { editComment: Gql.Comment },
     EditCommentInput
-  >(EDIT_COMMENT);
+  >(EDIT_COMMENT, {
+    refetchQueries: [{ query: CARD, variables: { id: cardId } }],
+  });
   const [deleteComment] = useMutation<Record<string, unknown>, { id: string }>(
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    { refetchQueries: [{ query: CARD, variables: { id: cardId } }] }
   );
 
   const editCommentHandler = (e: ChangeEvent<HTMLParagraphElement>) => {
