@@ -91,6 +91,14 @@ export const CHANGE_TITLE = gql`
   }
 `;
 
+export const CREATE_BOARD = gql`
+  mutation CREATE_BOARD($data: CreateBoardInput) {
+    createBoard(boardData: $data) {
+      title
+    }
+  }
+`;
+
 export interface DeleteUserInput {
   data: {
     userId: string;

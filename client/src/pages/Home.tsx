@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useState } from "react";
 import styled, { useTheme } from "styled-components";
 import {
   Button,
@@ -20,11 +20,13 @@ import { Cover, StyledHeader } from "../components/CardModal/Header";
 import CoverModal from "../components/CardModal/CoverModal";
 import useInput from "../hooks/useInput";
 import VisibilityBadge from "../components/Infobar/Badge";
+import { BoardInput, CREATE_BOARD } from "../graphql/mutation";
+import useUser from "../hooks/useUser";
 
 const Home = () => {
   const theme = useTheme();
   const { data } = useQuery<{ allBoards: Gql.Board[] }>(ALL_BOARDS);
-  const [visible, setVisibility] = useVisibility(true);
+  const [visible, setVisibility] = useVisibility();
 
   return (
     <>
@@ -61,7 +63,7 @@ const Home = () => {
               Add
             </Button.IconColored>
           </Flex>
-          <Flex>
+          <Flex style={{ flexWrap: "wrap", justifyContent: "center" }}>
             {data?.allBoards.map((board) => (
               <Board key={board.id} board={board} />
             ))}
@@ -95,6 +97,13 @@ const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
   const [boardVisibility, setBoardVisibility] = useState<Gql.Visibility>(
     Gql.Visibility.PUBLIC
   );
+  const user = useUser();
+  const [createBoard] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
+    CREATE_BOARD,
+    {
+      refetchQueries: [{ query: ALL_BOARDS }],
+    }
+  );
 
   const toggleVisibility = () => {
     if (boardVisibility === Gql.Visibility.PRIVATE)
@@ -103,7 +112,17 @@ const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
   };
 
   const handleCreateBoard = () => {
-    console.log(boardVisibility, cover, titleController.value);
+    createBoard({
+      variables: {
+        data: {
+          visibility: boardVisibility,
+          coverId: cover,
+          members: user ? [user.id] : undefined,
+          title: titleController.value,
+        },
+      },
+    });
+    setVisibility();
   };
 
   return (

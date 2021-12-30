@@ -10,7 +10,7 @@ const StyledBoard = styled(Flex)`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   border: 1px #ededed solid;
-  width: 20em;
+  width: 17em;
   padding: 1em;
   flex-direction: column;
   justify-content: flex-end;
