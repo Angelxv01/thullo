@@ -63,7 +63,7 @@ const Home = () => {
               Add
             </Button.IconColored>
           </Flex>
-          <Flex style={{ flexWrap: "wrap", justifyContent: "center" }}>
+          <Flex style={{ flexWrap: "wrap", justifyContent: "space-between" }}>
             {data?.allBoards.map((board) => (
               <Board key={board.id} board={board} />
             ))}
