@@ -1,0 +1,20 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+  jobs:
+    deployment_pipeline:
+      runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14",
+      - name: Build frontend
+        run: cd client | npm install | npm build
+      - run: echo "Done"
