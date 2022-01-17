@@ -7,14 +7,12 @@ on:
   pull_request:
     branches: [master]
     types: [opened, synchronize]
-  jobs:
-    deployment_pipeline:
-      runs-on: ubuntu-latest
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - name: Build frontend
-        run: cd client | npm install | npm build
-      - run: echo "Done"
