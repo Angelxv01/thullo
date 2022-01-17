@@ -9,6 +9,8 @@ interface Ratio {
 export const Cover = styled.img<Ratio>`
   aspect-ratio: ${({ ratio }) => ratio || "5 / 3"};
   border-radius: ${({ theme }) => theme.border.radius[1]};
+  object-position: center;
+  object-fit: cover;
 `;
 
 export const Title = ({ children }: { children: React.ReactChild }) => {
