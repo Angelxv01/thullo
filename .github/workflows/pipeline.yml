@@ -18,18 +18,15 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - run: pwd
-      - run: npm i yarn
+      - run: npm i
       - name: Create Client Build
         working-directory: ./client
         run: |
-          pwd
           yarn install
           yarn build
       - name: Create Server Build
         working-directory: ./server
         run: |
-          pwd
           yarn install
           yarn build
       - name: Deploy
