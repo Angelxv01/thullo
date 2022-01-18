@@ -9,12 +9,18 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
-    runs-on: ubuntu-18.04
+  Setup:
+    name: Setup
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
-      - name: Build frontend
-        run: cd client | npm install | npm build
+          node-version: "14"
+      - run: cd client
+      - run: npm install
+      - run: npm build
+      - run: cd ../server
+      - run: npm install
+      - run: npm build
+      - run: echo "Hello world"
