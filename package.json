@@ -6,6 +6,6 @@
   "author": "angelxv01 <angeloxv@outlook.it>",
   "license": "MIT",
   "scripts": {
-    "start": "cd server && yarn start"
+    "start": "node ./server/build"
   }
 }
