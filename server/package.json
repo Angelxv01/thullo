@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./build",
+    "start": "NODE_ENV=production node ./build",
     "dev": "ts-node-dev index.ts",
     "build": "tsc"
   },

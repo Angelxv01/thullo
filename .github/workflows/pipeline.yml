@@ -32,4 +32,10 @@ jobs:
           pwd
           yarn install
           yarn build
-      - run: echo "Done"
+      - name: Deploy
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "angelxv-thullo" #Must be unique in Heroku
+          heroku_email: "angeloxv@outlook.it"
+          rollbackonhealthcheckfailed: true
