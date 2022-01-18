@@ -9,8 +9,9 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  Setup:
-    name: Setup
+  Build and deploy:
+    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#build') }}
+    name: Build and deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
