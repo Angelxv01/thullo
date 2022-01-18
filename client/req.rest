@@ -1,8 +1,0 @@
-GET https://api.unsplash.com/photos/bCXa87fQd7Y
-Accept-Version: v1
-Authorization: Client-ID fScNiPlIVsAH8l3J4KDmsaf8sh_Ky-21NfawQLD-Xds
-###
-
-GET https://api.unsplash.com/photos/random?count=9&content_filter=low
-Accept-Version: v1
-Authorization: Client-ID fScNiPlIVsAH8l3J4KDmsaf8sh_Ky-21NfawQLD-Xds
