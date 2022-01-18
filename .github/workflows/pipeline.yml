@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  Build and deploy:
+  build_and_deploy:
     if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#build') }}
     name: Build and deploy
     runs-on: ubuntu-latest
