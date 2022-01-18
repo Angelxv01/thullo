@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
-import { MONGODB, SECRET, UPLOAD_URL } from "./utils/config";
+import { MONGODB, PORT, SECRET, UPLOAD_URL } from "./utils/config";
 import schema from "./graphql/schema";
 import User from "./models/User";
 import { UserDocument } from "./types";
@@ -54,7 +54,7 @@ async function startServer() {
     return res.status(400);
   });
   server.applyMiddleware({ app });
-  await new Promise<void>((r) => app.listen({ port: 4000 }, r));
+  await new Promise<void>((r) => app.listen({ port: PORT || 4000 }, r));
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 startServer();

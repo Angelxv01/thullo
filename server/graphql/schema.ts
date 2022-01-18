@@ -2,7 +2,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { mergeResolvers } from '@graphql-tools/merge';
 import { gql } from 'apollo-server';
 import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
-import { GraphQLUpload, graphqlUploadExpress } from 'graphql-upload';
+import { GraphQLUpload } from 'graphql-upload';
 
 // TYPES
 import Card from './types/Card';
