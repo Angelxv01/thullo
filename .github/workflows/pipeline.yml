@@ -14,13 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v1
         with:
-          node-version: "14"
+          node-version: "12.x"
+      - run: npm i yarn
       - run: cd client
-      - run: npm install
-      - run: npm build
+      - run: pwd
+      - run: yarn install
+      - run: yarn build
       - run: cd ../server
-      - run: npm install
-      - run: npm build
-      - run: echo "Hello world"
+      - run: pwd
+      - run: yarn install
+      - run: yarn build
+      - run: echo "Done"
