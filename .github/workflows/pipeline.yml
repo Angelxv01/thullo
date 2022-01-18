@@ -24,14 +24,12 @@ jobs:
           yarn install
           yarn build
       - name: Create Server Build
-        working-directory: ./server
         run: |
           yarn install
           yarn build
       - name: Deploy
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          working-directory: ./server
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "angelxv-thullo" #Must be unique in Heroku
           heroku_email: "angeloxv@outlook.it"

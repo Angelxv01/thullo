@@ -2,11 +2,13 @@ import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
-import { MONGODB, PORT, SECRET, UPLOAD_URL } from "./utils/config";
-import schema from "./graphql/schema";
-import User from "./models/User";
-import { UserDocument } from "./types";
-import createDataLoader, { Dataloaders } from "./utils/createDataLoaders";
+import { MONGODB, PORT, SECRET, UPLOAD_URL } from "./server/utils/config";
+import schema from "./server/graphql/schema";
+import User from "./server/models/User";
+import { UserDocument } from "./server/types";
+import createDataLoader, {
+  Dataloaders,
+} from "./server/utils/createDataLoaders";
 
 import express, { Request } from "express";
 import { graphqlUploadExpress } from "graphql-upload";
@@ -44,7 +46,7 @@ async function startServer() {
 
   await server.start();
   const app = express();
-  app.use(express.static("../client/build"));
+  app.use(express.static("client/build"));
   app.use(graphqlUploadExpress({ maxFileSize: 5000000, maxFiles: 1 }));
   app.use(express.json());
   app.post("/download", (req: Request<{}, {}, { path: string }>, res) => {

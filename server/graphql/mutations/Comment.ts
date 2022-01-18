@@ -3,7 +3,7 @@ import { ObjectId } from "mongoose";
 import { UserDocument } from "../../types";
 import Comment from "../../models/Comment";
 import Card from "../../models/Card";
-import { Context } from "../..";
+import { Context } from "../../..";
 
 interface CommentInput {
   commentId?: ObjectId;

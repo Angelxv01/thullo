@@ -1,10 +1,10 @@
-import { ApolloError, gql } from 'apollo-server';
-import DataLoader from 'dataloader';
-import mongoose, { ObjectId } from 'mongoose';
-import { BoardDocument, CardDocument, ICard, IUser } from '../../types';
-import List from '../../models/List';
-import { Context } from '../..';
-import { Card } from '../../models';
+import { ApolloError, gql } from "apollo-server";
+import DataLoader from "dataloader";
+import mongoose, { ObjectId } from "mongoose";
+import { BoardDocument, CardDocument, ICard, IUser } from "../../types";
+import List from "../../models/List";
+import { Context } from "../../..";
+import { Card } from "../../models";
 
 interface ChangeListNameInput {
   data: { name: string; listId: ObjectId };
@@ -62,7 +62,7 @@ const resolvers = {
       }
     ) => {
       if (!currentUser) {
-        throw new ApolloError('Only logged user can create a Board');
+        throw new ApolloError("Only logged user can create a Board");
       }
 
       const newList = new List({ name: list.name, boardId: list.boardId });
@@ -71,14 +71,14 @@ const resolvers = {
       )) as BoardDocument;
 
       if (!board) {
-        throw new ApolloError('Invalid Board Id');
+        throw new ApolloError("Invalid Board Id");
       }
 
       try {
         await newList.save();
       } catch (error) {
         console.log((error as Error).message);
-        throw new ApolloError('Cannot save the List');
+        throw new ApolloError("Cannot save the List");
       }
 
       return dataLoader.ListLoader.load(newList.id);
@@ -88,18 +88,18 @@ const resolvers = {
       args: ChangeListNameInput,
       ctx: Context
     ) => {
-      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
       const list = await List.findByIdAndUpdate(
         args.data.listId,
         { name: args.data.name },
         { new: true }
       );
-      if (!list) throw new ApolloError('Invalid list');
+      if (!list) throw new ApolloError("Invalid list");
       await list.save();
       return list;
     },
     deleteList: async (_: never, args: DeleteListInput, ctx: Context) => {
-      if (!ctx.currentUser) throw new ApolloError('Logged User Only');
+      if (!ctx.currentUser) throw new ApolloError("Logged User Only");
       const list = await List.findByIdAndDelete(args.data.id);
       return !list || !list.$isDeleted;
     },

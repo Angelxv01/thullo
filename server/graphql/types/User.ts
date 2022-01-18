@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server';
-import { Context } from '../..';
-import { UserDocument } from '../../types';
+import { gql } from "apollo-server";
+import { Context } from "../../..";
+import { UserDocument } from "../../types";
 
 const typeDefs = gql`
   type User {

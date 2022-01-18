@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server';
-import { Context } from '../..';
-import { CommentDocument } from '../../types';
+import { gql } from "apollo-server";
+import { Context } from "../../..";
+import { CommentDocument } from "../../types";
 
 const typeDefs = gql`
   type Comment {

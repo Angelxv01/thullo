@@ -1,6 +1,6 @@
 import { ApolloError, gql } from "apollo-server";
 import DataLoader from "dataloader";
-import { Context } from "../..";
+import { Context } from "../../..";
 import { Board, Card } from "../../models";
 import Label from "../../models/Label";
 import { promises } from "fs";

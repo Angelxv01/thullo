@@ -1,12 +1,12 @@
-import { gql } from 'apollo-server';
-import { ApolloError, UserInputError } from 'apollo-server-express';
-import jwt from 'jsonwebtoken';
-import { object, string, Asserts } from 'yup';
+import { gql } from "apollo-server";
+import { ApolloError, UserInputError } from "apollo-server-express";
+import jwt from "jsonwebtoken";
+import { object, string, Asserts } from "yup";
 
-import User from '../../models/User';
-import { UserDocument } from '../../types';
-import { SECRET } from '../../utils/config';
-import { ObjectId } from 'mongoose';
+import User from "../../models/User";
+import { UserDocument } from "../../types";
+import { SECRET } from "../../utils/config";
+import { ObjectId } from "mongoose";
 
 const userSchema = object().shape({
   credentials: object().shape({
@@ -14,7 +14,7 @@ const userSchema = object().shape({
     password: string()
       .trim()
       .required()
-      .min(8, 'Password should be long at least 8'),
+      .min(8, "Password should be long at least 8"),
   }),
 });
 type UserInput = Asserts<typeof userSchema>;
@@ -48,7 +48,7 @@ const resolvers = {
         ? await user.comparePasswords(credentials.password)
         : false;
       if (!(user && isPasswordValid)) {
-        throw new UserInputError('Invalid credentials');
+        throw new UserInputError("Invalid credentials");
       }
 
       const token = { username: user.username, id: user.id as ObjectId };
@@ -74,7 +74,7 @@ const resolvers = {
       { currentUser }: { currentUser: UserDocument }
     ) => {
       if (!currentUser)
-        throw new ApolloError('Only logged user can add friends');
+        throw new ApolloError("Only logged user can add friends");
 
       const { userId }: AddFriendInput = await addFriendSchema.validate(args);
       const user = await User.findById(userId);

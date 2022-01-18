@@ -1,10 +1,10 @@
-import { gql, ApolloError } from 'apollo-server';
-import { ObjectId } from 'mongoose';
-import Label from '../../models/Label';
+import { gql, ApolloError } from "apollo-server";
+import { ObjectId } from "mongoose";
+import Label from "../../models/Label";
 
-import { Color } from '../../types/ILabel';
-import { Board, Card } from '../../models';
-import { UserDocument } from '../../types';
+import { Color } from "../../types/ILabel";
+import { Board, Card } from "../../models";
+import { UserDocument } from "../../types";
 
 interface LabelInput {
   boardId: ObjectId;
@@ -41,11 +41,11 @@ const resolvers = {
       }
     ) => {
       if (!currentUser) {
-        throw new ApolloError('Only logged user can create a List');
+        throw new ApolloError("Only logged user can create a List");
       }
 
       const board = await Board.findById(labelData.boardId);
-      if (!board) throw new ApolloError('Invalid board');
+      if (!board) throw new ApolloError("Invalid board");
 
       const label = new Label({
         text: labelData.text,
@@ -57,7 +57,7 @@ const resolvers = {
       if (!labelData.cardId) return label.toJSON();
 
       const card = await Card.findById(labelData.cardId);
-      if (!card) throw new ApolloError('Invalid Card');
+      if (!card) throw new ApolloError("Invalid Card");
       card.labels.push(label.id);
       await card.save();
 

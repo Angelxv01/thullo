@@ -1,19 +1,19 @@
-import DataLoader from 'dataloader';
-import mongoose, { ObjectId } from 'mongoose';
+import DataLoader from "dataloader";
+import mongoose, { ObjectId } from "mongoose";
 
-import User from '../models/User';
-import Board from '../models/Board';
-import List from '../models/List';
-import Card, { Attachment } from '../models/Card';
-import Comment from '../models/Comment';
-import Label from '../models/Label';
+import User from "../models/User";
+import Board from "../models/Board";
+import List from "../models/List";
+import Card, { Attachment } from "../models/Card";
+import Comment from "../models/Comment";
+import Label from "../models/Label";
 import {
   AttachmentDocument,
   BoardDocument,
   CommentDocument,
   IBoard,
   IComment,
-} from '../types';
+} from "../types";
 
 type Unknown = mongoose.Document<unknown> & {
   _id: mongoose.Types.ObjectId;
@@ -27,17 +27,17 @@ const dataLoader = (Model: mongoose.Model<any>) =>
   new DataLoader(
     async (keys: readonly ObjectId[]) => {
       const result = await Model.find({ _id: { $in: keys } });
-      return keys.map(key => result.find(obj => obj.id === String(key)));
+      return keys.map((key) => result.find((obj) => obj.id === String(key)));
     },
     { cacheKeyFn }
   );
 
 const batchUserBoard = async (keys: readonly ObjectId[]) => {
-  const data = (await Board.find({ 'members.id': keys })) as BoardDocument[];
-  const results = data.map(obj => obj.toJSON()) as IBoard[];
-  return keys.map(key =>
-    results.filter(obj =>
-      obj.members.find(value => String(value.id) === String(key))
+  const data = (await Board.find({ "members.id": keys })) as BoardDocument[];
+  const results = data.map((obj) => obj.toJSON()) as IBoard[];
+  return keys.map((key) =>
+    results.filter((obj) =>
+      obj.members.find((value) => String(value.id) === String(key))
     )
   );
 };
@@ -50,10 +50,12 @@ const boardLoader = (Model: mongoose.Model<any>) =>
   new DataLoader(
     async (keys: readonly ObjectId[]) => {
       const data = await Model.find({ boardId: { $in: keys } });
-      const result = data.map(obj => obj.toJSON()) as UnknownWithBoard[];
+      const result = data.map((obj) => obj.toJSON()) as UnknownWithBoard[];
 
       const out = keys.reduce((acc: UnknownWithBoard[][], key) => {
-        const find = result.filter(obj => String(obj.boardId) === String(key));
+        const find = result.filter(
+          (obj) => String(obj.boardId) === String(key)
+        );
         acc.push(find);
         return acc;
       }, []);
@@ -66,10 +68,10 @@ const batchCommentCard = async (keys: readonly ObjectId[]) => {
   const data = await Comment.find({
     cardId: { $in: keys as unknown as ObjectId[] },
   });
-  const result = data.map(obj => obj.toJSON()) as CommentDocument[];
+  const result = data.map((obj) => obj.toJSON()) as CommentDocument[];
 
-  return keys.map(key =>
-    result.filter(obj => String(obj.cardId) === String(key))
+  return keys.map((key) =>
+    result.filter((obj) => String(obj.cardId) === String(key))
   );
 };
 
@@ -77,10 +79,10 @@ const batchAttachmentCard = async (keys: readonly ObjectId[]) => {
   const data = await Attachment.find({
     cardId: { $in: keys as unknown as ObjectId[] },
   });
-  const result = data.map(obj => obj.toJSON()) as AttachmentDocument[];
+  const result = data.map((obj) => obj.toJSON()) as AttachmentDocument[];
 
-  return keys.map(key =>
-    result.filter(obj => String(obj.cardId) === String(key))
+  return keys.map((key) =>
+    result.filter((obj) => String(obj.cardId) === String(key))
   );
 };
 
@@ -88,10 +90,10 @@ const batchCommentParent = async (keys: readonly ObjectId[]) => {
   const data = await Comment.find({
     parentId: { $in: keys as unknown as ObjectId[] },
   });
-  const result = data.map(obj => obj.toJSON());
+  const result = data.map((obj) => obj.toJSON());
 
-  return keys.map(key =>
-    result.filter(obj => String(obj.parentId) === String(key))
+  return keys.map((key) =>
+    result.filter((obj) => String(obj.parentId) === String(key))
   );
 };
 
@@ -99,10 +101,10 @@ const batchCardList = async (keys: readonly ObjectId[]) => {
   const data = await Card.find({
     listId: { $in: keys as unknown as ObjectId[] },
   });
-  const result = data.map(obj => obj.toJSON());
+  const result = data.map((obj) => obj.toJSON());
 
-  return keys.map(key =>
-    result.filter(obj => String(obj.listId) === String(key))
+  return keys.map((key) =>
+    result.filter((obj) => String(obj.listId) === String(key))
   );
 };
 

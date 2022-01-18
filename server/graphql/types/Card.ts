@@ -1,5 +1,5 @@
 import { gql } from "apollo-server";
-import { Context } from "../..";
+import { Context } from "../../..";
 import {
   AttachmentDocument,
   CardDocument,

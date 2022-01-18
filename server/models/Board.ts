@@ -1,5 +1,5 @@
-import { Schema, model, ObjectId } from 'mongoose';
-import { BoardDocument, BoardModel } from '../types';
+import { Schema, model, ObjectId } from "mongoose";
+import { BoardDocument, BoardModel } from "../types";
 
 const schema = new Schema<BoardDocument, BoardModel>(
   {
@@ -16,7 +16,7 @@ const schema = new Schema<BoardDocument, BoardModel>(
         _id: false,
         id: {
           type: Schema.Types.ObjectId,
-          ref: 'User',
+          ref: "User",
         },
         role: {
           type: Number,
@@ -29,7 +29,7 @@ const schema = new Schema<BoardDocument, BoardModel>(
   { timestamps: true }
 );
 
-schema.set('toJSON', {
+schema.set("toJSON", {
   versionKey: false,
   transform: (_doc, ret: Partial<BoardDocument>) => {
     ret.id = ret._id as ObjectId;
@@ -37,4 +37,4 @@ schema.set('toJSON', {
   },
 });
 
-export default model<BoardDocument, BoardModel>('Board', schema);
+export default model<BoardDocument, BoardModel>("Board", schema);

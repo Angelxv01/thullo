@@ -4,7 +4,7 @@ import Card, { Attachment } from "../../models/Card";
 import { IUser, AttachmentDocument, CardDocument } from "../../types";
 import Board from "../../models/Board";
 import List from "../../models/List";
-import { Context } from "../..";
+import { Context } from "../../..";
 import User from "../types/User";
 import { Label } from "../../models";
 import { createWriteStream } from "fs";

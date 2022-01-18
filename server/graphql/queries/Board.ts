@@ -1,7 +1,7 @@
-import { gql } from 'apollo-server';
-import DataLoader from 'dataloader';
+import { gql } from "apollo-server";
+import DataLoader from "dataloader";
 
-import Board from '../../models/Board';
+import Board from "../../models/Board";
 
 const typeDefs = gql`
   extend type Query {
