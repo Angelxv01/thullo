@@ -106,10 +106,10 @@ const MadeBy = ({ owner, date }: { owner: Gql.Member; date: string }) => {
       </InfoLabel>
       {/* Owner Info */}
       <Flex style={{ alignItems: "center" }}>
-        <Avatar username={owner.user.username} id={owner?.user.avatar} />
+        <Avatar username={owner?.user.username} id={owner?.user.avatar} />
         <Flow space="0.125em">
           <Text fontFamily={theme.font.family.secondary} fontWeight="600">
-            {owner.user.username}
+            {owner?.user.username}
           </Text>
           <Text
             color="GRAY4"
