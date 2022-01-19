@@ -4,7 +4,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { loadState } from "./localStorage";
 
 const uploadLink = createUploadLink({
-  uri: `http://localhost:${process.env.PORT || 4000}/graphql`,
+  uri: "/graphql",
 });
 
 const ctx = setContext((_, { headers }) => {
