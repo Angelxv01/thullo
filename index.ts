@@ -46,7 +46,7 @@ async function startServer() {
 
   await server.start();
   const app = express();
-  app.use(express.static("client/build"));
+  // app.use(express.static("client/build"));
   app.use(graphqlUploadExpress({ maxFileSize: 5000000, maxFiles: 1 }));
   app.use(express.json());
   app.post("/download", (req: Request<{}, {}, { path: string }>, res) => {
