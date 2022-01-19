@@ -35,3 +35,4 @@ jobs:
           heroku_email: "angeloxv@outlook.it"
         env:
           APOLLO_KEY: ${{secrets.APOLLO_KEY}}
+          APOLLO_GRAPH_REF: ${{secrets.APOLLO_GRAPH_REF}}

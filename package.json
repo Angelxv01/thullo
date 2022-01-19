@@ -1,10 +1,10 @@
 {
-  "name": "thullo_server",
+  "name": "thullo",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node build",
     "dev": "ts-node-dev index.ts",
     "build": "cross-env NODE_ENV=production tsc"
   },
