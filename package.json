@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node build",
     "dev": "ts-node-dev index.ts",
-    "build": "cross-env NODE_ENV=production tsc"
+    "build:client": "cd ./client && yarn install && yarn build",
+    "build": "yarn build:client && pwd && cross-env NODE_ENV=production tsc"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -33,6 +34,6 @@
   "module": "esnext",
   "type": "commonjs",
   "engines": {
-    "node": "16.10.0"
+    "node": "16.x"
   }
 }
