@@ -31,3 +31,7 @@ jobs:
         env:
           APOLLO_KEY: ${{secrets.APOLLO_KEY}}
           APOLLO_GRAPH_REF: ${{secrets.APOLLO_GRAPH_REF}}
+          MONGODB: ${{secrets.MONGODB}}
+          SECRET: ${{secrets.SECRET}}
+          SALT_ROUND: ${{secrets.SALT_ROUND}}
+          REACT_APP_UNSPLASH_API: ${{secrets.REACT_APP_UNSPLASH_API}}
