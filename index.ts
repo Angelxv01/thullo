@@ -55,10 +55,10 @@ async function startServer() {
     if (existsSync(path)) return res.download(path, req.body.path);
     return res.status(400);
   });
+  server.applyMiddleware({ app });
   app.get("*", (_, res) =>
     res.sendFile(path.resolve("client", "build", "index.html"))
   );
-  server.applyMiddleware({ app });
   await new Promise<void>((r) => app.listen({ port: PORT || 4000 }, r));
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);
 }
