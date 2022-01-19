@@ -9,4 +9,5 @@ export default styled.main`
   background-color: hsl(${({ theme }) => theme.color.WHITE1});
   border-radius: ${({ theme }) => theme.border.radius[3]};
   margin-bottom: 1em;
+  flex: 1;
 `;

@@ -64,7 +64,7 @@ const Home = () => {
             </Button.IconColored>
           </Flex>
           <Flex style={{ flexWrap: "wrap", justifyContent: "space-between" }}>
-            {data?.authorizedUser.boards.map((board) => (
+            {data?.authorizedUser?.boards?.map((board) => (
               <Board key={board.id} board={board} />
             ))}
           </Flex>
