@@ -11,7 +11,7 @@ import {
   InputGroup,
 } from "../components/common";
 import Navigation from "../components/Navigation";
-import { ALL_BOARDS } from "../graphql/query";
+import { USER_BOARD } from "../graphql/query";
 import { Container } from "./Board";
 import * as Gql from "../gqlTypes";
 import Board from "../components/Board";
@@ -25,7 +25,7 @@ import useUser from "../hooks/useUser";
 
 const Home = () => {
   const theme = useTheme();
-  const { data } = useQuery<{ allBoards: Gql.Board[] }>(ALL_BOARDS);
+  const { data } = useQuery<{ authorizedUser: Gql.User }>(USER_BOARD);
   const [visible, setVisibility] = useVisibility();
 
   return (
@@ -64,7 +64,7 @@ const Home = () => {
             </Button.IconColored>
           </Flex>
           <Flex style={{ flexWrap: "wrap", justifyContent: "space-between" }}>
-            {data?.allBoards.map((board) => (
+            {data?.authorizedUser.boards.map((board) => (
               <Board key={board.id} board={board} />
             ))}
           </Flex>
@@ -101,7 +101,7 @@ const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
   const [createBoard] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
     CREATE_BOARD,
     {
-      refetchQueries: [{ query: ALL_BOARDS }],
+      refetchQueries: [{ query: USER_BOARD }],
     }
   );
 

@@ -135,17 +135,19 @@ export const FRIENDS_NOT_IN_BOARD = gql`
   }
 `;
 
-export const ALL_BOARDS = gql`
-  query ALL_BOARDS {
-    allBoards {
-      id
-      coverId
-      title
-      members {
-        user {
-          avatar
-          id
-          username
+export const USER_BOARD = gql`
+  query USER_BOARD {
+    authorizedUser {
+      boards {
+        id
+        coverId
+        title
+        members {
+          user {
+            avatar
+            id
+            username
+          }
         }
       }
     }

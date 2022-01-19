@@ -7,7 +7,7 @@
     "start": "node build",
     "dev": "ts-node-dev index.ts",
     "build:client": "cd ./client && yarn install && yarn build",
-    "build": "yarn build:client && pwd && cross-env NODE_ENV=production tsc"
+    "build": "yarn build:client && cross-env NODE_ENV=production tsc"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
