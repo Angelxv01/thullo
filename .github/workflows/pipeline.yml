@@ -29,9 +29,9 @@ jobs:
           heroku_app_name: "angelxv-thullo" #Must be unique in Heroku
           heroku_email: "angeloxv@outlook.it"
         env:
-          APOLLO_KEY: ${{secrets.APOLLO_KEY}}
-          APOLLO_GRAPH_REF: ${{secrets.APOLLO_GRAPH_REF}}
-          MONGODB: ${{secrets.MONGODB}}
-          SECRET: ${{secrets.SECRET}}
-          SALT_ROUND: ${{secrets.SALT_ROUND}}
-          REACT_APP_UNSPLASH_API: ${{secrets.REACT_APP_UNSPLASH_API}}
+          HD_APOLLO_KEY: ${{secrets.APOLLO_KEY}}
+          HD_APOLLO_GRAPH_REF: ${{secrets.APOLLO_GRAPH_REF}}
+          HD_MONGODB: ${{secrets.MONGODB}}
+          HD_SECRET: ${{secrets.SECRET}}
+          HD_SALT_ROUND: ${{secrets.SALT_ROUND}}
+          HD_REACT_APP_UNSPLASH_API: ${{secrets.REACT_APP_UNSPLASH_API}}
