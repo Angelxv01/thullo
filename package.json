@@ -31,5 +31,8 @@
     "ts-node-dev": "^1.1.8"
   },
   "module": "esnext",
-  "type": "commonjs"
+  "type": "commonjs",
+  "engines": {
+    "node": "16.10.0"
+  }
 }
