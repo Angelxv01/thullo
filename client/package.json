@@ -19,7 +19,9 @@
     "prettier": "^2.5.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.27.1"
+    "eslint-plugin-react": "^7.27.1",
+    "@typescript-eslint/parser": "^5.7.0",
+    "@typescript-eslint/eslint-plugin": "^5.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -55,9 +57,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/apollo-upload-client": "^14.1.0",
     "@types/react-beautiful-dnd": "^13.1.2",
-    "@types/styled-components": "^5.1.18",
-    "@typescript-eslint/eslint-plugin": "^5.7.0",
-    "@typescript-eslint/parser": "^5.7.0"
+    "@types/styled-components": "^5.1.18"
   },
   "proxy": "http://localhost:4000/"
 }
