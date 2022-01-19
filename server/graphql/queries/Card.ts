@@ -4,7 +4,6 @@ import { Context } from "../../..";
 import { Board, Card } from "../../models";
 import Label from "../../models/Label";
 import { promises } from "fs";
-import { UPLOAD_URL } from "../../utils/config";
 
 interface FindCardInput {
   keyword: string;
@@ -18,7 +17,6 @@ const typeDefs = gql`
     card(id: ID!): Card
     labels: [Label!]!
     findCard(data: FindCardInput): [Card!]!
-    getAllAttachments: [Attachment]
   }
 `;
 
@@ -47,9 +45,6 @@ const resolvers = {
       return cards;
     },
     labels: async () => Label.find(),
-    getAllAttachments: () => {
-      console.log(UPLOAD_URL);
-    },
   },
 };
 
