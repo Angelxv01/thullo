@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
-import { MONGODB, PORT, SECRET, UPLOAD_URL } from "./server/utils/config";
+import { MONGODB, PORT, SECRET } from "./server/utils/config";
 import schema from "./server/graphql/schema";
 import User from "./server/models/User";
 import { UserDocument } from "./server/types";
@@ -51,7 +51,7 @@ async function startServer() {
   app.use(express.json());
   app.post("/download", (req: Request<{}, {}, { path: string }>, res) => {
     // console.log(req.body);
-    const path = join(UPLOAD_URL.href, "public", req.body.path);
+    const path = join(process.cwd(), "public", req.body.path);
     if (existsSync(path)) return res.download(path, req.body.path);
     return res.status(400);
   });

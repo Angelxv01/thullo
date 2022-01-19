@@ -10,5 +10,3 @@ export const MONGODB =
   process.env.NODE_ENV === "test"
     ? process.env.MONGODB_TEST
     : process.env.MONGODB;
-
-export const UPLOAD_URL = new URL(join(process.cwd()));
