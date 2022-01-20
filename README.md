@@ -1,16 +1,16 @@
 <h1 align="center">Thullo</h1>
 
-<!--<div align="center">
+<div align="center">
    Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
 </div>
 
 <div align="center">
   <h3>
-    <a href="https://{your-demo-link.your-domain}">
+    <a href="https://angelxv-thullo.herokuapp.com/">
       Demo
     </a>
     <span> | </span>
-    <a href="https://{your-url-to-the-solution}">
+    <a href="https://github.com/Angelxv01/thullo">
       Solution
     </a>
     <span> | </span>
@@ -19,7 +19,7 @@
     </a>
   </h3>
 </div>
--->
+
 <!-- TABLE OF CONTENTS -->
 
 ## Table of Contents
@@ -35,9 +35,11 @@
 
 ## Overview
 
-<img src="./.github/assets/home.jpeg" />
-
-At the moment the demo is not available.
+<img src="./.github/assets/showcase/login.jpeg" />
+<img src="./.github/assets/showcase/home.jpeg" />
+<img src="./.github/assets/showcase/board.jpeg" />
+<img src="./.github/assets/showcase/functions.jpeg" />
+<img src="./.github/assets/showcase/card.jpeg" />
 
 This is the first time I build a complex application like this and I got to admit, I struggled a lot. 
 The main goal was to learn as much as possible: I experiment a lot. This means I had to find my way out, there's not a *wrong* way of doing but the only way I found. 
@@ -51,46 +53,65 @@ I've learned how to communicate effectively to myself and potentially to others,
 
 ### Built With
 
-##### Whole project
+#### Whole project
 
 - [Typescript](https://www.typescriptlang.org/)
 - [Apollo GraphQL](https://www.apollographql.com/docs/)
 
-##### Frontend
+#### Frontend
 
 - [React(Typescript)](https://reactjs.org/)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 
-##### Backend
+#### Backend
 
 - [Mongoose](https://mongoosejs.com/)
 - [dataloader](https://github.com/graphql/dataloader)
 
 ## Features
 
-<!-- List the features of your application or follow the template. Don't share the figma file here :) -->
-
 This application/site was created as a submission to a [DevChallenges](https://devchallenges.io/challenges) challenge. The [challenge](https://devchallenges.io/challenges/wP0LbGgEeKhpFHUpPpDh) was to build an application to complete the given user stories.
 
 Login to the application and and get started with your ideas! You can "easily" (UX and accessibility not considered at the moment) jump in and create and organize you're ideas: create a board, add lists and put some ideas on the board!
 
-Add friends to the board, play with them, add bright and colorful images to your ideas, tag your ideas and comment on your friends'. 
+Add friends to the board, play with them, add bright and colorful images to your ideas, tag your ideas and comment on your friends'.
+
+At the moment I didn't create a registration and user settings.
 
 ## How To Use
 
-<!-- Example: -->
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+**Start in dev mode**
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/your-user-name/your-project-name
+$ git clone https://github.com/Angelxv01/thullo.git
 
-# Install dependencies
-$ npm install
+# Install the server
+$ yarn install
 
-# Run the app
-$ npm start
+# Run the server
+$ yarn dev
+
+# Install the client in another terminal 
+$ cd client && yarn install
+
+# Run the client
+$ yarn start
+```
+
+**Start in production**
+
+```bash
+# Install the dependencies
+$ yarn install
+
+# Create builds
+$ yarn build
+
+# Start the application
+$ yarn start
 ```
 
 ## Acknowledgements
