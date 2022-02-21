@@ -104,14 +104,6 @@ export const CARD = gql`
   }
 `;
 
-export const FILE = gql`
-  query {
-    getAllAttachments {
-      title
-    }
-  }
-`;
-
 export interface Data {
   board: Gql.Board;
   authorizedUser: Gql.User;
