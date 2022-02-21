@@ -140,14 +140,13 @@ export const USER_BOARD = gql`
         title
         members {
           user {
-            avatar
-            id
-            username
+            ...USER_INFO
           }
         }
       }
     }
   }
+  ${USER_INFO}
 `;
 
 export const ME = gql`
