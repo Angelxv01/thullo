@@ -2,3 +2,4 @@ public
 node_modules
 .env
 build
+heroku_credentials.txt

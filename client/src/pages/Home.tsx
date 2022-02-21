@@ -4,6 +4,7 @@ import styled, { useTheme } from "styled-components";
 import {
   Button,
   Flex,
+  Grid,
   Flow,
   Icon,
   Text,
@@ -63,11 +64,16 @@ const Home = () => {
               Add
             </Button.IconColored>
           </Flex>
-          <Flex style={{ flexWrap: "wrap", justifyContent: "space-between" }}>
+          <Grid
+            style={{
+              gridTemplateColumns: "repeat(4, 1fr)",
+              justifyItems: "center",
+            }}
+          >
             {data?.authorizedUser?.boards?.map((board) => (
               <Board key={board.id} board={board} />
             ))}
-          </Flex>
+          </Grid>
         </Flow>
       </Container>
       {visible && <CreateBoardModal setVisibility={setVisibility} />}
