@@ -48,7 +48,6 @@ const Navigation = () => {
       },
     });
 
-  // if (!ctx || !ctx.data) return null;
   return (
     <StyledNavigation>
       <Logo className="navigation-logo" onClick={() => navigate("/")} />

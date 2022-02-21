@@ -145,9 +145,6 @@ export const ME = gql`
   query ME {
     authorizedUser {
       ...USER_INFO
-      friends {
-        ...USER_INFO
-      }
     }
   }
   ${USER_INFO}
