@@ -6,9 +6,6 @@ export const MASTER = gql`
   query MASTER($id: ID!) {
     authorizedUser {
       ...USER_INFO
-      friends {
-        ...USER_INFO
-      }
     }
     board(id: $id) {
       title
