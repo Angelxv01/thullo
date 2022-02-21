@@ -66,9 +66,7 @@ export const CARD = gql`
         name
       }
       members {
-        username
-        avatar
-        id
+        ...USER_INFO
       }
       labels {
         id
@@ -77,9 +75,7 @@ export const CARD = gql`
       }
       comments {
         user {
-          username
-          id
-          avatar
+          ...USER_INFO
         }
         id
         text
@@ -93,12 +89,11 @@ export const CARD = gql`
         coverId
       }
       author {
-        id
-        avatar
-        username
+        ...USER_INFO
       }
     }
   }
+  ${USER_INFO}
 `;
 
 export interface Data {
@@ -113,11 +108,10 @@ export interface Var {
 export const FRIENDS_NOT_IN_BOARD = gql`
   query FRIENDS_NOT_IN_BOARD($id: ID) {
     friendsNotInBoard(id: $id) {
-      id
-      username
-      avatar
+      ...USER_INFO
     }
   }
+  ${USER_INFO}
 `;
 
 export const USER_BOARD = gql`
