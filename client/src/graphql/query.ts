@@ -1,16 +1,13 @@
 import { gql } from "@apollo/client";
 import * as Gql from "../gqlTypes";
+import { USER_INFO } from "./fragment";
 
 export const MASTER = gql`
   query MASTER($id: ID!) {
     authorizedUser {
-      id
-      avatar
-      username
+      ...USER_INFO
       friends {
-        username
-        id
-        avatar
+        ...USER_INFO
       }
     }
     board(id: $id) {
@@ -50,13 +47,12 @@ export const MASTER = gql`
       members {
         role
         user {
-          id
-          username
-          avatar
+          ...USER_INFO
         }
       }
     }
   }
+  ${USER_INFO}
 `;
 
 export const CARD = gql`
@@ -157,14 +153,11 @@ export const USER_BOARD = gql`
 export const ME = gql`
   query ME {
     authorizedUser {
-      id
-      avatar
-      username
+      ...USER_INFO
       friends {
-        username
-        id
-        avatar
+        ...USER_INFO
       }
     }
   }
+  ${USER_INFO}
 `;
