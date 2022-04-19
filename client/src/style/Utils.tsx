@@ -4,6 +4,13 @@ interface Spacing {
   space?: string;
 }
 
+export const Container = styled.div`
+  min-height: 90vh;
+  border-radius: ${({ theme }) => theme.border.radius[1]};
+  background-color: hsl(${({ theme }) => theme.color.WHITE});
+  display: flex;
+  flex-direction: column;
+`;
 export const Flex = styled.div<Spacing>`
   display: flex;
   gap: ${({ space }) => space || "1rem"};

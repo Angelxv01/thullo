@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graphql/mutation";
 import { saveState } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
+import { Container } from "../style/Utils";
 
 export const LoginContainer = styled(Flow)`
   margin: 10em auto;
@@ -73,7 +74,7 @@ const Login = () => {
 
   const theme = useTheme();
   return (
-    <LoginContainer space="2em">
+    <Container>
       <Logo />
       <Flow className="header" style={{ textAlign: "center", width: "80%" }}>
         <Text
@@ -107,7 +108,7 @@ const Login = () => {
       >
         Login
       </Button.Colored>
-    </LoginContainer>
+    </Container>
   );
 };
 

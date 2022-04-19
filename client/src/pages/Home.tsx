@@ -13,7 +13,7 @@ import {
 } from "../components/common";
 import Navigation from "../components/Navigation";
 import { USER_BOARD } from "../graphql/query";
-import { Container } from "./Board";
+import { Container } from "../style/Utils";
 import * as Gql from "../gqlTypes";
 import Board from "../components/Board";
 import useVisibility from "../hooks/useVisiblity";
