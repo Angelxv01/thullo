@@ -38,11 +38,12 @@ const Card = ({ card, index }: { card: Gql.Card; index: number }) => {
 
               <StatusBar>
                 {/* Avatars */}
-                <Avatars members={card.members}>
+                <>
+                  <Avatars members={card.members}></Avatars>
                   <Button.Squared>
                     <Icon.Add />
                   </Button.Squared>
-                </Avatars>
+                </>
                 {/* InfoLabel */}
                 <Flex space="0.5rem">
                   {card.comments.length > 0 && (

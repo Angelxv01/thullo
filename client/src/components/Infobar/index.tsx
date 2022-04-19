@@ -34,10 +34,8 @@ const Infobar = () => {
             members={ctx.data.board.members.map(
               ({ user }: { user: Gql.User }) => user
             )}
-          >
-            {/* Append this at the end of the 'mapping' */}
-            <InviteFriendModal />
-          </Avatars>
+          />
+          <InviteFriendModal />
         </Flex>
         {/* Right hand side */}
         <Button.Icon onClick={setVisibility}>

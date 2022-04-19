@@ -33,13 +33,14 @@ const Board = ({ board }: { board: Gql.Board }) => {
         {board.members.length < 4 ? (
           <Avatars members={board.members.map((member) => member.user)} />
         ) : (
-          <Avatars
-            members={board.members.slice(0, 3).map((member) => member.user)}
-          >
+          <>
+            <Avatars
+              members={board.members.slice(0, 3).map((member) => member.user)}
+            ></Avatars>
             <Text color="GRAY4" fontFamily={theme.font.family.secondary}>
               + {board.members.length - 3} others
             </Text>
-          </Avatars>
+          </>
         )}
       </StyledBoard>
     </>
