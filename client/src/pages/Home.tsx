@@ -55,7 +55,6 @@ const Home = () => {
             }}
           >
             <Text fontSize={theme.font.size[600]}>All Boards</Text>
-            <div className="text-red-600">Hello</div>
             <Button.IconColored
               color="WHITE"
               style={{ backgroundColor: `hsl(${theme.color.BLUE1})` }}

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import React, { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce/lib";
+import { useDebounce } from "use-debounce";
 import useInput from "../../hooks/useInput";
 import { REACT_APP_UNSPLASH_API } from "../../utils/config";
 import { Absolute, Button, Flow, Icon, InputGroup, Text } from "../common";
