@@ -104,7 +104,6 @@ const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
     Gql.Visibility.PUBLIC
   );
   const user = useUser();
-  if (!user) return null;
   const [createBoard] = useMutation<{ createBoard: Gql.Board }, BoardInput>(
     CREATE_BOARD,
     {
@@ -124,13 +123,15 @@ const CreateBoardModal = ({ setVisibility }: { setVisibility: () => void }) => {
         data: {
           visibility: boardVisibility,
           coverId: cover,
-          members: [user.id],
+          members: [user?.id || ""],
           title: titleController.value,
         },
       },
     });
     setVisibility();
   };
+
+  if (!user) return null;
 
   return (
     <StyledCreateBoardModal>

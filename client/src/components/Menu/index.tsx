@@ -142,6 +142,8 @@ const Description = ({ value }: { value: string }) => {
   };
 
   const onSave = () => {
+    console.log({ text: textAreaController.value, id });
+
     changeDescription({
       variables: {
         boardData: {

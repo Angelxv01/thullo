@@ -25,8 +25,7 @@ export const MASTER = gql`
           id
           title
           members {
-            username
-            avatar
+            ...USER_INFO
           }
           labels {
             id
