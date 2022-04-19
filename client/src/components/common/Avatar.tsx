@@ -2,14 +2,14 @@ import React from "react";
 import { getAbbreviation } from "../../utils/formatting";
 
 const TextAvatar = ({ children }: { children: React.ReactChild }) => (
-  <div className="rounded-lg cursor-pointer bg-gray-400 w-10 aspect-square flex justify-center items-center font-semibold">
+  <div className="rounded-lg cursor-pointer bg-gray-400 w-8 aspect-square flex justify-center items-center font-semibold">
     {children}
   </div>
 );
 
 const ImageAvatar = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
   <img
-    className="rounded-lg object-cover object-center w-10 aspect-square"
+    className="rounded-lg object-cover object-center w-8 aspect-square"
     {...props}
   />
 );
