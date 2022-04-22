@@ -68,33 +68,27 @@ const Login = () => {
         <div className="bg-red-200 text-red-700" hidden={!error}>
           Error: invalid credentials!
         </div>
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
           <div>
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <label htmlFor="username" className="block">
               Username
             </label>
             <input
-              type="email"
-              id="email"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              type="text"
+              id="username"
+              className=""
               placeholder="Username"
               required
             />
           </div>
           <div>
-            <label
-              htmlFor="username"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <label htmlFor="password" className="block">
               Password
             </label>
             <input
-              type="text"
-              id="username"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              type="password"
+              id="password"
+              className=""
               placeholder="Password"
               required
             />
