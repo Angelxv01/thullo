@@ -3,5 +3,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  plugins: [require("@tailwindcss/forms")({ strategy: "base" })],
 };
