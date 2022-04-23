@@ -7,26 +7,15 @@ export interface Color {
   backgroundColor?: string;
 }
 
-export const Colored = styled.button<Color>`
-  cursor: pointer;
-  border-radius: ${({ theme }) => theme.border.radius[1]};
+export const Colored = styled.button.attrs({
+  className: "cursor-pointer rounded-lg text-white text-sm p-0",
+})<Color>`
   background-color: hsl(
     ${({ backgroundColor, theme }) =>
       backgroundColor && theme.color[backgroundColor]
         ? theme.color[backgroundColor]
         : theme.color.BLUE1}
   );
-  color: hsl(${({ theme }) => theme.color.WHITE});
-  border: 0;
-  line-height: ${({ theme }) => theme.lineHeight[0]};
-
-  /* &:hover {
-    background-color: hsl(${({ theme }) => theme.color.WHITE});
-    color: hsl(
-      ${({ color, theme }) =>
-    (color && theme.color[color]) || theme.color.BLUE1}
-    );
-  } */
 `;
 
 export const Outline = styled(Colored)`

@@ -20,10 +20,8 @@ const StyledCommentForm = styled.div`
   border-radius: 12px;
   column-gap: 1em;
 
-  & > .button-colored {
-    padding: 0.5em 1em;
+  &:nth-child(3) {
     grid-area: c;
-    justify-self: end;
   }
 `;
 
@@ -75,8 +73,8 @@ const CommentSection = ({
         />
         <TextArea {...commentController} placeholder="Write a comment..." />
         <Button.Colored
-          className="button-colored"
           onClick={createCommentHandler}
+          style={{ gridArea: "c" }}
         >
           Comment
         </Button.Colored>
