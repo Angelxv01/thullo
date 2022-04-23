@@ -2,7 +2,7 @@ import React from "react";
 import { getAbbreviation } from "../../utils/formatting";
 
 const TextAvatar = ({ children }: { children: React.ReactChild }) => (
-  <div className="rounded-lg cursor-pointer bg-gray-400 w-8 aspect-square flex justify-center items-center font-semibold text-white">
+  <div className="rounded-lg bg-gray-400 w-8 aspect-square flex justify-center items-center font-semibold text-white">
     {children}
   </div>
 );
@@ -14,7 +14,7 @@ const ImageAvatar = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
   />
 );
 
-const Avatar = ({ id, username }: { id?: string; username: string }) => {
+const Avatar = ({ username, id }: { username: string; id?: string }) => {
   if (!id) return <TextAvatar>{getAbbreviation(username)}</TextAvatar>;
   return <ImageAvatar src={`https://source.unsplash.com/${id}/150x150`} />;
 };

@@ -50,65 +50,96 @@ const Navigation = () => {
 
   return (
     <StyledNavigation>
-      <Logo className="navigation-logo" onClick={() => navigate("/")} />
-
-      {/* Board Name + Back to boards */}
-      {id && (
-        <Flex space="1em" className="navigation-info">
-          <Text
-            style={{ outline: 0 }}
-            fontSize={theme.font.size[600]}
-            lineHeight={theme.lineHeight[3]}
-            contentEditable
-            suppressContentEditableWarning
-            onBlur={handleTitleChange}
-          >
-            {ctx?.data?.board.title}
-          </Text>
-          <Separator />
-          <Button.Icon onClick={() => navigate("/")}>
-            <Icon.Apps />
-            <Text>All boards</Text>
-          </Button.Icon>
-        </Flex>
-      )}
-
-      {/* Search bar */}
-      <InputGroup
-        props={{
-          ...searchController,
-          placeholder: "Keyword...",
-        }}
-        wrapper={{
-          className: "navigation-input",
-          style: {
-            justifySelf: "end",
-            gridColumn: "3",
-          },
-        }}
-        width="30em"
-      >
-        <Button.Colored style={{ padding: "0.75em 1.5em" }}>
+      <Logo onClick={() => navigate("/")} />
+      <div className="flex items-center gap-8">
+        <h1
+          className="text-lg focus:outline-none"
+          contentEditable
+          suppressContentEditableWarning
+        >
+          {ctx?.data?.board.title}
+        </h1>
+        <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg inline-flex items-center gap-2 text-gray-900">
+          <Icon.Apps />
+          All Boards
+        </button>
+      </div>
+      <div className="w-96 rounded-lg p-1 text-sm shadow inline-flex justify-self-end">
+        <input
+          type="text"
+          placeholder="Keyword"
+          className="flex-1 border-0 focus:ring-1 rounded-lg px-3 py-1"
+        />
+        <button className="border-2 border-blue-dark px-4 py-1 rounded-lg text-gray-900 font-semibold ml-1 h-full">
           Search
-        </Button.Colored>
-      </InputGroup>
-
-      {/* User */}
+        </button>
+      </div>
       {user && (
-        <Flex space="0.25em" className="navigation-user">
-          <Avatar id={user.avatar || ""} username={user.username || ""} />
-          <Text
-            fontFamily={theme.font.family.secondary}
-            fontWeight="bold"
-            lineHeight={theme.lineHeight[0]}
-          >
-            {user.username}
-          </Text>
-          <Icon.Logout style={{ fontSize: "1.5em" }} onClick={logout} />
-        </Flex>
+        <div className="flex items-center space-x-2">
+          <Avatar id={user.avatar} username={user.username || ""} />
+          <p>{user.username}</p>
+          <Icon.Logout onClick={logout} />
+        </div>
       )}
     </StyledNavigation>
   );
 };
 
+// {/* <StyledNavigation>
+// <Logo className="navigation-logo" onClick={() => navigate("/")} />
+
+// {/* Board Name + Back to boards */}
+// {id && (
+//   <Flex space="1em" className="navigation-info">
+//     <Text
+//       style={{ outline: 0 }}
+//       fontSize={theme.font.size[600]}
+//       lineHeight={theme.lineHeight[3]}
+//       contentEditable
+//       suppressContentEditableWarning
+//       onBlur={handleTitleChange}
+//     >
+//       {ctx?.data?.board.title}
+//     </Text>
+//     <Separator />
+//     <Button.Icon onClick={() => navigate("/")}>
+//       <Icon.Apps />
+//       <Text>All boards</Text>
+//     </Button.Icon>
+//   </Flex>
+// )}
+// {/* Search bar */}
+// <InputGroup
+//   props={{
+//     ...searchController,
+//     placeholder: "Keyword...",
+//   }}
+//   wrapper={{
+//     className: "navigation-input",
+//     style: {
+//       justifySelf: "end",
+//       gridColumn: "3",
+//     },
+//   }}
+//   width="30em"
+// >
+//   <Button.Colored style={{ padding: "0.75em 1.5em" }}>
+//     Search
+//   </Button.Colored>
+// </InputGroup>
+// {/* User */}
+// {user && (
+//   <Flex space="0.25em" className="navigation-user">
+//     <Avatar id={user.avatar || ""} username={user.username || ""} />
+//     <Text
+//       fontFamily={theme.font.family.secondary}
+//       fontWeight="bold"
+//       lineHeight={theme.lineHeight[0]}
+//     >
+//       {user.username}
+//     </Text>
+//     <Icon.Logout style={{ fontSize: "1.5em" }} onClick={logout} />
+//   </Flex>
+// )}
+// </StyledNavigation> */}
 export default Navigation;
