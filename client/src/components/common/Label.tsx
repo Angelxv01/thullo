@@ -1,12 +1,8 @@
 import styled from "styled-components";
 
-interface ILabelStyle {
-  color?: string;
-}
-
 const Label = styled.div.attrs({
   className: "font-accent text-sm rounded-2xl capitalize py-1 px-3",
-})<ILabelStyle>`
+})<{ color?: string }>`
   ${({ theme, color }) => {
     const bgColor =
       color && theme.color[color] ? theme.color[color] : theme.color.BLUE1;
