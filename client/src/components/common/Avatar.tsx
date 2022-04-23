@@ -2,7 +2,7 @@ import React from "react";
 import { getAbbreviation } from "../../utils/formatting";
 
 const TextAvatar = ({ children }: { children: React.ReactChild }) => (
-  <div className="rounded-lg cursor-pointer bg-gray-400 w-8 aspect-square flex justify-center items-center font-semibold">
+  <div className="rounded-lg cursor-pointer bg-gray-400 w-8 aspect-square flex justify-center items-center font-semibold text-white">
     {children}
   </div>
 );
