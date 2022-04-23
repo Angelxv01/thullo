@@ -1,25 +1,10 @@
-import React, { useState } from "react";
-import styled, { useTheme } from "styled-components";
-import { Button, Text, Flow } from "../components/common";
+import React, { FormEvent, useState } from "react";
 import { ReactComponent as Logo } from "../assets/Logo.svg";
 import useInput from "../hooks/useInput";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graphql/mutation";
 import { saveState } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import { Container } from "../style/Utils";
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 1em;
-  align-items: center;
-
-  & input {
-    outline: 0;
-    border: 0;
-  }
-`;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,7 +24,8 @@ const Login = () => {
     { data: { username: string; password: string } }
   >(LOGIN);
 
-  const loginHandler = async () => {
+  const loginHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       const { data, errors } = await login({
         variables: {
@@ -58,23 +44,25 @@ const Login = () => {
     return navigate("/");
   };
 
-  const theme = useTheme();
   return (
     <div className="h-screen grid place-items-center">
-      <div className="w-96 p-8 border-gray-400 border rounded-lg ">
+      <div className="w-96 p-8 rounded-lg shadow-lg shadow-blue-dark/30">
         <Logo />
         <p className="mt-4 text-lg font-semibold font-accent">
           Join thousands of learners from around the world
         </p>
-        <p className="mt-2 font-accent">
+        <p className="mt-2 text-sm font-accent">
           Master web development by making real-life projects. There are
           multiple paths for you to choose
         </p>
-        <div className="bg-red-200 text-red-700" hidden={!error}>
+        <div
+          className="bg-red/5 text-red p-2 rounded-lg text-sm font-semibold border-2 border-red"
+          hidden={!error}
+        >
           Error: invalid credentials!
         </div>
-        <form className="space-y-3 mt-4" onSubmit={(e) => e.preventDefault()}>
-          <div>
+        <form className="mt-2" onSubmit={loginHandler}>
+          <div className="mt-2">
             <label
               htmlFor="username"
               className="block text-sm font-medium font-accent"
@@ -82,14 +70,14 @@ const Login = () => {
               Username
             </label>
             <input
-              type="text"
+              {...usernameController}
               id="username"
               className="border border-gray-400 w-full text-sm py-2 rounded-lg mt-1"
               placeholder="Username"
               required
             />
           </div>
-          <div>
+          <div className="mt-2">
             <label
               htmlFor="password"
               className="block text-sm font-medium font-accent"
@@ -97,7 +85,7 @@ const Login = () => {
               Password
             </label>
             <input
-              type="password"
+              {...passwordController}
               id="password"
               className="border border-gray-400 w-full text-sm py-2 rounded-lg mt-1"
               placeholder="Password"
@@ -106,7 +94,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="bg-blue-dark text-white w-full rounded-lg py-1 font-semibold"
+            className="bg-blue-dark text-white w-full rounded-lg py-1 font-semibold mt-6"
           >
             Log in
           </button>
@@ -115,45 +103,5 @@ const Login = () => {
     </div>
   );
 };
-
-{
-  /* <Container className="h-full flex justify-center items-center">
-  <div className="w-96 space-y-8">
-        <Logo />
-        <Flow className="header" style={{ textAlign: "center", width: "80%" }}>
-          <Text
-            fontSize={theme.font.size[500]}
-            fontFamily={theme.font.family.secondary}
-          >
-            Join thousands of learners from around the world
-          </Text>
-          <Text fontWeight="bold">Login to create your first project!</Text>
-          {error && (
-            <Button.Colored
-              backgroundColor="RED"
-              style={{
-                width: "100%",
-                padding: "0.5em",
-              }}
-            >
-              Invalid credentials
-            </Button.Colored>
-          )}
-        </Flow>
-        <Grid>
-          <Text>Username</Text>
-          <input {...usernameController} placeholder="Username" />
-          <Text>Password</Text>
-          <input {...passwordController} placeholder="Password" />
-        </Grid>
-        <Button.Colored
-          style={{ padding: "0.5em 1em", fontSize: theme.font.size[400] }}
-          onClick={loginHandler}
-        >
-          Login
-        </Button.Colored>
-      </div>
-    </Container> */
-}
 
 export default Login;
