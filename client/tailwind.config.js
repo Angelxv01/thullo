@@ -1,6 +1,10 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    fontFamily: {
+      sans: "Poppins",
+      accent: "Noto Sans",
+    },
     extend: {
       colors: {
         dark: "#000",

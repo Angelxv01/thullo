@@ -60,42 +60,53 @@ const Login = () => {
 
   const theme = useTheme();
   return (
-    <div className="h-full">
-      <div className="w-96 mx-auto">
+    <div className="h-screen grid place-items-center">
+      <div className="w-96 p-8 border-gray-400 border rounded-lg ">
         <Logo />
-        <p>Join thousands of learners from around the world</p>
-        <p>Login to create your first project!</p>
+        <p className="mt-4 text-lg font-semibold font-accent">
+          Join thousands of learners from around the world
+        </p>
+        <p className="mt-2 font-accent">
+          Master web development by making real-life projects. There are
+          multiple paths for you to choose
+        </p>
         <div className="bg-red-200 text-red-700" hidden={!error}>
           Error: invalid credentials!
         </div>
-        <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-3 mt-4" onSubmit={(e) => e.preventDefault()}>
           <div>
-            <label htmlFor="username" className="block">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium font-accent"
+            >
               Username
             </label>
             <input
               type="text"
               id="username"
-              className=""
+              className="border border-gray-400 w-full text-sm py-2 rounded-lg mt-1"
               placeholder="Username"
               required
             />
           </div>
           <div>
-            <label htmlFor="password" className="block">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium font-accent"
+            >
               Password
             </label>
             <input
               type="password"
               id="password"
-              className=""
+              className="border border-gray-400 w-full text-sm py-2 rounded-lg mt-1"
               placeholder="Password"
               required
             />
           </div>
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full"
+            className="bg-blue-dark text-white w-full rounded-lg py-1 font-semibold"
           >
             Log in
           </button>
