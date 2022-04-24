@@ -6,6 +6,11 @@ module.exports = {
       accent: "Noto Sans",
     },
     extend: {
+      fontSize: {
+        xs: ".625rem",
+        sm: ".75rem",
+        tiny: ".875rem",
+      },
       colors: {
         dark: "#000",
         white: "#FFF",
