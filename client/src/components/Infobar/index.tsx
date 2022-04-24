@@ -1,18 +1,24 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Data, MASTER, Var } from "../../graphql/query";
+import { Data, FRIENDS_NOT_IN_BOARD, MASTER, Var } from "../../graphql/query";
 import { Button, Flex, Icon, Relative, Text } from "../common";
-
+import { Menu } from "@headlessui/react";
 import Avatars from "../Avatars";
 import StyledInfobar from "./StyledInfobar";
 import * as Gql from "../../gqlTypes";
-import Menu from "../Menu";
+// import Menu from "../Menu";
 import useVisibility from "../../hooks/useVisiblity";
 import InviteFriendModal from "./InviteFriendModal";
 import VisibilityModal from "./VisibilityModal";
 import { useParams } from "react-router-dom";
 import VisibilityCard from "../VisibilityCard";
-import { BoardInput, CHANGE_VISIBILITY } from "../../graphql/mutation";
+import {
+  BoardInput,
+  CHANGE_VISIBILITY,
+  InviteUserInput,
+  INVITE_USER,
+} from "../../graphql/mutation";
+import InviteFriend from "../InviteFriend";
 
 const Infobar = () => {
   const { id } = useParams();
@@ -40,6 +46,30 @@ const Infobar = () => {
   };
 
   const [visible, setVisible] = useVisibility();
+
+  const [inviteUser] = useMutation<{ inviteUser: Gql.Board }, InviteUserInput>(
+    INVITE_USER,
+    {
+      refetchQueries: [
+        { query: MASTER, variables: { id } },
+        {
+          query: FRIENDS_NOT_IN_BOARD,
+          variables: { id },
+        },
+      ],
+    }
+  );
+
+  const inviteUserHandler = (selected: string[]) => {
+    inviteUser({
+      variables: {
+        data: {
+          userId: selected,
+          boardId: id,
+        },
+      },
+    });
+  };
 
   if (!ctx.data) return null;
 
@@ -86,7 +116,24 @@ const Infobar = () => {
             ({ user }: { user: Gql.User }) => user
           )}
         />
-        <Icon.Add className="material-icons place-items-center aspect-square h-8 border-2 border-blue-dark rounded-lg !text-xl text-center cursor-pointer" />
+
+        <div className="relative">
+          <Icon.Add className="material-icons place-items-center aspect-square h-8 border-2 border-blue-dark rounded-lg !text-xl text-center cursor-pointer" />
+          <div className="absolute bg-white z-10 mt-4 shadow-lg px-3 py-2 rounded-lg">
+            <p>Invite to Board</p>
+            <p>Search users you want to invite to</p>
+            <div className="max-w-sm rounded-lg p-1 text-sm shadow inline-flex">
+              <input
+                type="text"
+                placeholder="Search"
+                className="flex-1 border-0 focus:ring-blue-dark focus:ring-1 rounded-lg px-3 py-1"
+              />
+              <button className="border-2 border-blue-dark px-4 py-1 rounded-lg text-gray-900 font-semibold ml-1 h-full">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg hidden xl:inline-flex items-center gap-2 text-gray-900">
         <Icon.MoreHoriz className="material-icons !text-xl !leading-3" />

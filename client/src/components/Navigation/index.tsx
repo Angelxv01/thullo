@@ -64,7 +64,7 @@ const Navigation = () => {
           </button>
         </div>
       )}
-      <div className="hidden w-96 rounded-lg p-1 text-sm shadow xl:inline-flex justify-self-end col-span-3 col-start-8">
+      <div className="hidden max-w-sm rounded-lg p-1 text-sm shadow xl:inline-flex justify-self-end col-span-3 col-start-8">
         <input
           {...searchController}
           placeholder="Keyword"
