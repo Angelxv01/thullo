@@ -77,12 +77,12 @@ const Navigation = () => {
       {user && (
         <div className="flex items-center col-span-2 justify-self-end">
           <Avatar id={user.avatar} username={user.username || ""} />
-          <p className="font-accent font-semibold text-sm ml-2">
+          <p className="font-accent font-semibold text-tiny ml-2">
             {user.username}
           </p>
           <Icon.Logout
             onClick={logout}
-            className="!text-xl material-icons ml-4 cursor-pointer"
+            className="material-icons !text-xl ml-4 cursor-pointer"
           />
         </div>
       )}

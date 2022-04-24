@@ -46,48 +46,42 @@ const Login = () => {
 
   return (
     <div className="h-screen grid place-items-center">
-      <div className="w-96 p-8 rounded-lg shadow-lg shadow-blue-dark/30">
+      <div className="w-96 p-8 rounded-lg shadow-lg">
         <Logo />
         <p className="mt-4 text-lg font-semibold font-accent">
           Join thousands of learners from around the world
         </p>
-        <p className="mt-2 text-sm font-accent">
+        <p className="mt-2 text-tiny font-accent">
           Master web development by making real-life projects. There are
           multiple paths for you to choose
         </p>
         <div
-          className="bg-red/5 text-red p-2 rounded-lg text-sm font-semibold border-2 border-red"
+          className="bg-red/5 text-red p-2 rounded-lg text-tiny font-semibold border-2 border-red"
           hidden={!error}
         >
           Error: invalid credentials!
         </div>
         <form className="mt-2" onSubmit={loginHandler}>
           <div className="mt-2">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium font-accent"
-            >
+            <label htmlFor="username" className="block text-tiny  font-accent">
               Username
             </label>
             <input
               {...usernameController}
               id="username"
-              className="border border-gray-400 w-full text-sm py-2 rounded-lg mt-1"
+              className="border border-gray-400 w-full text-tiny py-2 rounded-lg mt-1"
               placeholder="Username"
               required
             />
           </div>
           <div className="mt-2">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium font-accent"
-            >
+            <label htmlFor="password" className="block text-tiny  font-accent">
               Password
             </label>
             <input
               {...passwordController}
               id="password"
-              className="border border-gray-400 w-full text-sm py-2 rounded-lg mt-1"
+              className="border border-gray-400 w-full text-tiny py-2 rounded-lg mt-1"
               placeholder="Password"
               required
             />
