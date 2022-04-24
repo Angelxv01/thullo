@@ -1,17 +1,11 @@
-import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Data, FRIENDS_NOT_IN_BOARD, MASTER, Var } from "../../graphql/query";
-import { Button, Flex, Icon, Relative, Text } from "../common";
-import { Menu } from "@headlessui/react";
+import { Icon } from "../common";
 import Avatars from "../Avatars";
-import StyledInfobar from "./StyledInfobar";
 import * as Gql from "../../gqlTypes";
 // import Menu from "../Menu";
 import useVisibility from "../../hooks/useVisiblity";
-import InviteFriendModal from "./InviteFriendModal";
-import VisibilityModal from "./VisibilityModal";
 import { useParams } from "react-router-dom";
-import VisibilityCard from "../VisibilityCard";
 import {
   BoardInput,
   CHANGE_VISIBILITY,
@@ -79,7 +73,7 @@ const Infobar = () => {
     <div className="relative inline-flex items-center py-4 px-8 justify-between">
       <div className="flex items-center space-x-4">
         <div className="relative">
-          <TestButton onClick={setVisible}>
+          <TestButton onClick={setVisible} onBlur={setVisible}>
             {boardVisibility === Gql.Visibility.PRIVATE ? (
               <Icon.Lock />
             ) : (
@@ -118,6 +112,7 @@ const Infobar = () => {
 
         <div className="relative">
           <Icon.Add
+            onBlur={setAddFriendVisible}
             onClick={setAddFriendVisible}
             className="material-icons place-items-center aspect-square h-8 border-2 border-blue-dark rounded-lg !text-xl text-center cursor-pointer"
           />
@@ -131,25 +126,4 @@ const Infobar = () => {
     </div>
   );
 };
-
-// {/* <Relative>
-//       <StyledInfobar>
-//         {/* Left hand side */}
-//         <Flex>
-//           <VisibilityModal visibility={ctx.data.board.visibility} />
-//           <Avatars
-//             members={ctx.data.board.members.map(
-//               ({ user }: { user: Gql.User }) => user
-//             )}
-//           />
-//           <InviteFriendModal />
-//         </Flex>
-//         {/* Right hand side */}
-//         <Button.Icon onClick={setVisibility}>
-//           <Icon.MoreHoriz />
-//           <Text>Show Menu</Text>
-//         </Button.Icon>
-//       </StyledInfobar>
-//       {visibility && <Menu toggle={setVisibility} />}
-//     </Relative> */}
 export default Infobar;
