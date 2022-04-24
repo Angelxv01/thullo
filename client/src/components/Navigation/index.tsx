@@ -52,14 +52,16 @@ const Navigation = () => {
     <div className="grid shadow-lg py-4 px-8 gap-12 items-center grid-cols-12">
       <Logo className="cursor-pointer" onClick={() => navigate("/")} />
       {id && (
-        <div className="flex items-center gap-8 col-span-3">
+        <div className="flex items-center gap-6 col-span-3">
           <h1
             className="text-lg focus:outline-none"
+            onBlur={handleTitleChange}
             contentEditable
             suppressContentEditableWarning
           >
             {ctx?.data?.board.title}
           </h1>
+          <hr className="w-px h-8 bg-gray-300" />
           <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg inline-flex items-center gap-2 text-gray-900">
             <Icon.Apps />
             All Boards
@@ -68,7 +70,7 @@ const Navigation = () => {
       )}
       <div className="w-96 rounded-lg p-1 text-sm shadow inline-flex justify-self-end col-span-3 col-start-8">
         <input
-          type="text"
+          {...searchController}
           placeholder="Keyword"
           className="flex-1 border-0 focus:ring-blue-dark focus:ring-1 rounded-lg px-3 py-1"
         />
