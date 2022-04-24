@@ -9,6 +9,7 @@ import { BoardInput, CHANGE_TITLE } from "../../graphql/mutation";
 import { useNavigate, useParams } from "react-router-dom";
 import { removeState } from "../../utils/localStorage";
 import useUser from "../../hooks/useUser";
+import { Button } from "../../test/Button";
 
 const Navigation = () => {
   const { id } = useParams();
@@ -58,21 +59,19 @@ const Navigation = () => {
             {ctx?.data?.board.title}
           </h1>
           <hr className="w-px h-8 bg-gray-300" />
-          <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg inline-flex items-center gap-2 text-gray-900">
+          <Button>
             <Icon.Apps />
             All Boards
-          </button>
+          </Button>
         </div>
       )}
-      <div className="hidden max-w-sm rounded-lg p-1 text-sm shadow xl:inline-flex justify-self-end col-span-3 col-start-8">
+      <div className="hidden max-w-sm rounded-lg p-1 text-sm shadow xl:inline-flex justify-self-end col-span-3 col-start-8 space-x-1">
         <input
           {...searchController}
           placeholder="Keyword"
           className="flex-1 border-0 focus:ring-blue-dark focus:ring-1 rounded-lg px-3 py-1"
         />
-        <button className="border-2 border-blue-dark px-4 py-1 rounded-lg text-gray-900 font-semibold ml-1 h-full">
-          Search
-        </button>
+        <Button>Search</Button>
       </div>
       {user && (
         <div className="flex items-center col-span-2 justify-self-end">

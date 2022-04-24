@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useTheme } from "styled-components";
-import { InputGroup, Flow, Text, Button, Icon, Flex } from "../common";
+import { useEffect, useState } from "react";
 import User from "../User";
-import StyledFriendFlow from "./StyledFriendFlow";
 import * as Gql from "../../gqlTypes";
 import { useLazyQuery } from "@apollo/client";
 import { Var, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
 import { useParams } from "react-router-dom";
+import { Button as TestButton } from "../../test/Button";
 
 const InviteFriend = ({ action }: { action: (ids: string[]) => void }) => {
   const { id } = useParams();
   if (!id) return null;
-  const theme = useTheme();
 
   const [selected, setSelected] = useState<string[]>([]);
   const [getFriends, { data, loading, error }] = useLazyQuery<
@@ -38,41 +35,34 @@ const InviteFriend = ({ action }: { action: (ids: string[]) => void }) => {
 
   if (!data || !data.friendsNotInBoard || loading || error) return null;
   return (
-    <Flow space="1em" style={{ minWidth: "20em" }}>
-      <Flow space="1px">
-        <Text color="GRAY2">Invite to Board</Text>
-        <Text color="GRAY3" fontFamily={theme.font.family.secondary}>
-          Search users you want to invite to
-        </Text>
-      </Flow>
-      <InputGroup props={{ placeholder: "User..." }} width="100%">
-        <Button.Squared>
-          <Icon.Search />
-        </Button.Squared>
-      </InputGroup>
-      <StyledFriendFlow>
+    <div className="absolute bg-white z-10 mt-4 shadow-lg px-3 py-2 rounded-lg">
+      <div>
+        <p>Invite to Board</p>
+        <p>Search users you want to invite to</p>
+      </div>
+      <div className="max-w-sm rounded-lg p-1 text-sm shadow inline-flex space-x-1 mt-4">
+        <input
+          type="text"
+          placeholder="Search"
+          className="flex-1 border-0 focus:ring-blue-dark focus:ring-1 rounded-lg px-3 py-1"
+        />
+        <TestButton>Search</TestButton>
+      </div>
+      <div className="rounded-lg border-gray-300 border-2 my-4 py-2 px-1">
         {data.friendsNotInBoard.length === 0 && (
-          <Text>All your friends are here!</Text>
+          <p>All your friends are here!</p>
         )}
         {data.friendsNotInBoard.map((friend) => (
-          <Flex key={friend.id}>
-            <User
-              user={friend}
-              selected={selected.indexOf(friend.id) > -1}
-              onClick={() => handleSelectUser(friend.id)}
-            />
-          </Flex>
+          <User
+            key={friend.id}
+            user={friend}
+            selected={selected.indexOf(friend.id) > -1}
+            onClick={() => handleSelectUser(friend.id)}
+          />
         ))}
-      </StyledFriendFlow>
-      <Flow style={{ textAlign: "center", marginTop: "2em" }}>
-        <Button.Colored
-          style={{ padding: "0.75em 1em" }}
-          onClick={clickHandler}
-        >
-          Invite
-        </Button.Colored>
-      </Flow>
-    </Flow>
+      </div>
+      <TestButton onClick={clickHandler}>Invite</TestButton>
+    </div>
   );
 };
 
