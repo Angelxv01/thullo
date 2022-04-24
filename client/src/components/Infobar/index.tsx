@@ -19,6 +19,7 @@ import {
   INVITE_USER,
 } from "../../graphql/mutation";
 import InviteFriend from "../InviteFriend";
+import { Button as TestButton } from "../../test/Button";
 
 const Infobar = () => {
   const { id } = useParams();
@@ -135,10 +136,10 @@ const Infobar = () => {
           </div>
         </div>
       </div>
-      <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg hidden xl:inline-flex items-center gap-2 text-gray-900">
+      <TestButton>
         <Icon.MoreHoriz className="material-icons !text-xl !leading-3" />
         Menu
-      </button>
+      </TestButton>
     </div>
   );
 };
