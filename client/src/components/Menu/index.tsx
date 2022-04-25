@@ -1,17 +1,7 @@
-import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import styled, { css, useTheme } from "styled-components";
 import { Data, Var, MASTER, FRIENDS_NOT_IN_BOARD } from "../../graphql/query";
-import {
-  Button,
-  Flex,
-  Icon,
-  Absolute,
-  Text,
-  Flow,
-  Avatar,
-  TextArea,
-} from "../common";
+import { Button, Flex, Icon, Text, Flow, Avatar, TextArea } from "../common";
 import InfoLabel from "../common/InfoLabel";
 import * as Gql from "../../gqlTypes";
 import useTextArea from "../../hooks/useTextArea";

@@ -3,7 +3,7 @@ import { Data, FRIENDS_NOT_IN_BOARD, MASTER, Var } from "../../graphql/query";
 import { Icon } from "../common";
 import Avatars from "../Avatars";
 import * as Gql from "../../gqlTypes";
-// import Menu from "../Menu";
+import Menu from "../Menu";
 import useVisibility from "../../hooks/useVisiblity";
 import { useParams } from "react-router-dom";
 import {
@@ -42,6 +42,7 @@ const Infobar = () => {
 
   const [visible, setVisible] = useVisibility();
   const [addFriendVisible, setAddFriendVisible] = useVisibility();
+  const [menuVisible, setMenuVisible] = useVisibility();
 
   const [inviteUser] = useMutation<{ inviteUser: Gql.Board }, InviteUserInput>(
     INVITE_USER,
@@ -117,10 +118,13 @@ const Infobar = () => {
           {addFriendVisible && <InviteFriend action={inviteUserHandler} />}
         </div>
       </div>
-      <TestButton>
-        <Icon.MoreHoriz className="material-icons !text-xl !leading-3" />
-        Menu
-      </TestButton>
+      <div className="relative">
+        <TestButton onClick={setMenuVisible}>
+          <Icon.MoreHoriz className="material-icons !text-xl !leading-3" />
+          Menu
+        </TestButton>
+        {menuVisible && <Menu toggle={setMenuVisible} />}
+      </div>
     </div>
   );
 };
