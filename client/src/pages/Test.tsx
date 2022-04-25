@@ -21,8 +21,8 @@ const Test = () => {
       </div>
       {/* Colors */}
       <section>
-        <h2>Colors</h2>
-        <div className="flex flex-wrap gap-4">
+        <Heading as="h2">Colors</Heading>
+        <div className="flex flex-wrap gap-4 mt-2">
           <div className="w-64 shadow-lg">
             <div className="bg-dark w-full h-24"></div>
             <div className="py-2 px-3">
@@ -90,23 +90,13 @@ const Test = () => {
       </section>
       {/* Typography */}
       <section>
-        <h2>Typography</h2>
-        <div className="space-y-4">
-          <div>
-            <Heading className="text-blue-dark">Heading</Heading>
-          </div>
-          <div>
-            <Title>Title</Title>
-          </div>
-          <div>
-            <Accent>Accent</Accent>
-          </div>
-          <div>
-            <Label>Label</Label>
-          </div>
-          <div>
-            <Body>Body</Body>
-          </div>
+        <Heading as="h2">Typography</Heading>
+        <div className="space-y-1 mt-2">
+          <Heading className="text-blue-dark">Heading</Heading>
+          <Title>Title</Title>
+          <Accent>Accent</Accent>
+          <Label>Label</Label>
+          <Body>Body</Body>
         </div>
       </section>
       {/* Buttons */}
