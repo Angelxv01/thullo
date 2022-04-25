@@ -73,7 +73,7 @@ const Infobar = () => {
     <div className="relative inline-flex items-center py-4 px-8 justify-between">
       <div className="flex items-center space-x-4">
         <div className="relative">
-          <TestButton onClick={setVisible} onBlur={setVisible}>
+          <TestButton onClick={setVisible}>
             {boardVisibility === Gql.Visibility.PRIVATE ? (
               <Icon.Lock />
             ) : (
@@ -109,10 +109,8 @@ const Infobar = () => {
             ({ user }: { user: Gql.User }) => user
           )}
         />
-
         <div className="relative">
           <Icon.Add
-            onBlur={setAddFriendVisible}
             onClick={setAddFriendVisible}
             className="material-icons place-items-center aspect-square h-8 border-2 border-blue-dark rounded-lg !text-xl text-center cursor-pointer"
           />

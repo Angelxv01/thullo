@@ -1,7 +1,5 @@
-import React from "react";
-import { Avatar, Flex, Text } from "../common";
+import { Avatar } from "../common";
 import * as Gql from "../../gqlTypes";
-import { useTheme } from "styled-components";
 
 const User = ({
   user,
@@ -12,26 +10,13 @@ const User = ({
   selected?: boolean;
   onClick?: () => void;
 }) => {
-  const theme = useTheme();
-
-  const base = {
-    alignItems: "center",
-    padding: "0.5em",
-    width: "100%",
-    borderRadius: theme.border.radius[1],
-  };
-  const style = selected
-    ? {
-        ...base,
-        backgroundColor: `hsl(${theme.color.BLUE1})`,
-        color: `hsl(${theme.color.WHITE})`,
-      }
-    : base;
+  const baseClass = "rounded-lg flex gap-2 items-center p-2 cursor-pointer";
+  const selectedStyle = selected ? "bg-blue-dark text-white" : "";
   return (
-    <Flex space="0.75em" style={style} onClick={onClick}>
+    <div onClick={onClick} className={`${baseClass} ${selectedStyle}`}>
       <Avatar id={user.avatar} username={user.username} />
-      <Text>{user.username}</Text>
-    </Flex>
+      <p className="text-tiny">{user.username}</p>
+    </div>
   );
 };
 

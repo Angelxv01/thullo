@@ -15,6 +15,7 @@ const Navigation = () => {
   const { id } = useParams();
   const apolloClient = useApolloClient();
   const navigate = useNavigate();
+  const backToHome = () => navigate("/");
   const ctx = id
     ? useQuery<Data, Var>(MASTER, {
         fetchPolicy: "cache-and-network",
@@ -47,7 +48,7 @@ const Navigation = () => {
 
   return (
     <div className="flex justify-between xl:grid shadow-lg py-4 px-8 xl:gap-8 items-center xl:grid-cols-12">
-      <Logo className="cursor-pointer" onClick={() => navigate("/")} />
+      <Logo className="cursor-pointer" onClick={backToHome} />
       {id && (
         <div className="hidden lg:flex items-center gap-6 col-start-3 col-span-4">
           <h1
@@ -59,7 +60,7 @@ const Navigation = () => {
             {ctx?.data?.board.title}
           </h1>
           <hr className="w-px h-8 bg-gray-300" />
-          <Button>
+          <Button onClick={backToHome}>
             <Icon.Apps />
             All Boards
           </Button>
