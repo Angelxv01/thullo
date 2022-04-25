@@ -100,6 +100,22 @@ const Test = () => {
         </div>
       </section>
       {/* Buttons */}
+      <section>
+        <Heading as="h2">Buttons</Heading>
+        <div>
+          <div className="">
+            <Title as="h3">Normal</Title>
+            <div className="flex gap-4 items-center mt-2">
+              <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg items-center gap-2 text-gray-900 hover:bg-blue-dark hover:text-white animation ease-in-out duration-300 active:bg-blue-600 active:border-blue-600 font-medium capitalize hover:shadow-md hover:shadow-blue-dark/30 active:shadow-blue-dark/50">
+                Fully functional
+              </button>
+              <button className="text-sm border-2 border-blue-dark py-1 px-3 rounded-lg items-center gap-2 bg-blue-dark text-white font-medium capitalize shadow-md shadow-blue-dark/30">
+                Hover
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Forms */}
       {/* Labels */}
     </div>
