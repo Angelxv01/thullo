@@ -5,6 +5,7 @@ import Board from "./pages/Board";
 import Login from "./pages/Login";
 import { useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
+import Test from "./pages/Test";
 
 const App = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path=":id" element={<Board />} />
+      <Route path="test" element={<Test />} />
     </Routes>
   );
 };
