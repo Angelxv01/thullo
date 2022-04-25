@@ -1,3 +1,17 @@
+import styled from "styled-components";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const createStyled = (element: any, base: string) =>
+  styled(element).attrs((props) => ({
+    className: base + " " + props.className,
+  }))``;
+
+const Heading = createStyled("p", "font-sans text-lg font-semibold");
+const Title = createStyled("p", "font-accent text-base font-semibold");
+const Accent = createStyled("p", "font-sans text-base font-semibold");
+const Label = createStyled("p", "font-accent text-base font-normal");
+const Body = createStyled("p", "font-sans text-tiny font-normal");
+
 const Test = () => {
   return (
     <div className="m-4 p-2 space-y-6">
@@ -77,20 +91,22 @@ const Test = () => {
       {/* Typography */}
       <section>
         <h2>Typography</h2>
-        <div>
-          <p className="font-sans text-lg font-semibold">Heading</p>
-        </div>
-        <div>
-          <p className="font-accent text-base font-semibold">Title</p>
-        </div>
-        <div>
-          <p className="font-sans text-base font-semibold">Accent</p>
-        </div>
-        <div>
-          <p className="font-accent text-base font-normal">Label</p>
-        </div>
-        <div>
-          <p className="font-sans text-tiny font-normal">Body</p>
+        <div className="space-y-4">
+          <div>
+            <Heading className="text-blue-dark">Heading</Heading>
+          </div>
+          <div>
+            <Title>Title</Title>
+          </div>
+          <div>
+            <Accent>Accent</Accent>
+          </div>
+          <div>
+            <Label>Label</Label>
+          </div>
+          <div>
+            <Body>Body</Body>
+          </div>
         </div>
       </section>
       {/* Buttons */}
