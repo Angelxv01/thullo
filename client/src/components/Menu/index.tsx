@@ -26,31 +26,14 @@ import useContent from "../../hooks/useContent";
 import { formatDate } from "../../utils/formatting";
 import { useParams } from "react-router-dom";
 
-const StyledMenu = styled(Flow)`
-  justify-content: space-between;
-  align-items: center;
-  padding: 2em 1.5em;
-  margin-bottom: 1em;
-  max-height: 85vh;
-  overflow-y: scroll;
-  border-radius: ${({ theme }) => theme.border.radius[2]};
-`;
+const StyledMenu = styled.div.attrs({
+  className: "py-8 px-6 rounded-lg space-y-4",
+})``;
 
-const StyledMenuWrapper = styled(Absolute)`
-  width: 33%;
-  top: 0;
-  right: 0;
-  z-index: ${({ theme }) => theme.z.MENU};
-  border: 1px solid #e0e0e0;
-  background-color: hsl(${({ theme }) => theme.color.WHITE});
-  border-radius: ${({ theme }) => theme.border.radius[2]};
-`;
-
-const StyledSeparator = styled.hr`
-  border: 0;
-  height: ${({ theme }) => theme.font.size[1]};
-  background-color: hsl(${({ theme }) => theme.color.GRAY5});
-`;
+const StyledMenuWrapper = styled.div.attrs({
+  className:
+    "w-96 shadow-lg right-0 mt-2 border border-gray-300 rounded-lg bg-white absolute",
+})``;
 
 const EditTextArea = css`
   border: 1px solid #bdbdbd;
@@ -80,9 +63,12 @@ const Menu = ({ toggle }: { toggle: () => void }) => {
       <StyledMenu>
         <Flex style={{ justifyContent: "space-between", alignItems: "center" }}>
           <Text fontWeight="600">{ctx.data?.board.title}</Text>
-          <Icon.Close onClick={toggle} />
+          <Icon.Close
+            className="material-icons !text-xl cursor-pointer text-red font-bold"
+            onClick={toggle}
+          />
         </Flex>
-        <StyledSeparator />
+        <hr className="w-full h-px bg-gray-300" />
         <Flow>
           <MadeBy owner={owner as Gql.Member} date={date} />
           <Description
@@ -146,7 +132,7 @@ const Description = ({ value }: { value: string }) => {
 
     changeDescription({
       variables: {
-        boardData: {
+        data: {
           description: textAreaController.value,
           id,
         },
@@ -241,27 +227,29 @@ const Team = () => {
       <InfoLabel text="Team">
         <Icon.Description />
       </InfoLabel>
-      {ctx.data?.board.members.map((member) => (
-        <Flex
-          key={member.user.id}
-          style={{ justifyContent: "space-between", alignItems: "center" }}
-        >
-          <User user={member.user} />
-          {member.role === "MEMBER" && isAdmin ? (
-            <Button.Outline
-              color="RED"
-              style={{ padding: "0.33em 0.75em" }}
-              onClick={() => deleteUserHandler(member.user.id)}
-            >
-              <Text fontSize={theme.font.size[200]}>Remove</Text>
-            </Button.Outline>
-          ) : (
-            <Text fontSize={theme.font.size[200]} color="GRAY4">
-              {member.role}
-            </Text>
-          )}
-        </Flex>
-      ))}
+      <div>
+        {ctx.data?.board.members.map((member) => (
+          <div
+            key={member.user.id}
+            className="flex items-center justify-between"
+          >
+            <User user={member.user} />
+            {member.role === "MEMBER" && isAdmin ? (
+              <Button.Outline
+                color="RED"
+                style={{ padding: "0.33em 0.75em" }}
+                onClick={() => deleteUserHandler(member.user.id)}
+              >
+                <Text fontSize={theme.font.size[200]}>Remove</Text>
+              </Button.Outline>
+            ) : (
+              <Text fontSize={theme.font.size[200]} color="GRAY4">
+                {member.role}
+              </Text>
+            )}
+          </div>
+        ))}
+      </div>
     </Flow>
   );
 };
