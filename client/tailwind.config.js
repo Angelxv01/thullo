@@ -3,7 +3,12 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["'Poppins'", "sans-serif"],
-      accent: "Noto Sans",
+      accent: ["Noto Sans", "sans-serif"],
+    },
+    extends: {
+      fontSize: {
+        "2xs": "0.675rem",
+      },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-var-requires
