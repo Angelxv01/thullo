@@ -1,3 +1,5 @@
-const Test = () => <div>This is a test</div>;
+const Test = () => {
+  return <div className="px-8 py-4">Design System</div>;
+};
 
 export default Test;
